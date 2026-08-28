@@ -1,0 +1,64 @@
+---
+interface Props {
+	/** Real descriptive Thai alt text. Stays correct once a real image is dropped in. */
+	alt: string;
+	/** Small visible Thai label telling the owner what image belongs here. */
+	label: string;
+	/** CSS aspect-ratio value, e.g. "16 / 10". */
+	ratio?: string;
+}
+
+const { alt, label, ratio = "16 / 10" } = Astro.props;
+
+// Neutral 1x1 placeholder. Kept free of "#" so the data URI never truncates.
+const src =
+	"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E";
+---
+
+<figure class="ph" style={`--ph-ratio: ${ratio}`}>
+	<img src={src} alt={alt} loading="lazy" decoding="async" />
+	<figcaption aria-hidden="true">{label}</figcaption>
+</figure>
+
+<style>
+	.ph {
+		position: relative;
+		margin: 0;
+		border: 1px solid var(--rule);
+		background: var(--tint);
+	}
+
+	.ph img {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: var(--ph-ratio, 16 / 10);
+		object-fit: cover;
+	}
+
+	/* The label is guidance for the placeholder only. Once a real image is
+	   dropped into src, it clears itself so no editing of markup is needed. */
+	.ph:not(:has(img[src^="data:"])) {
+		border-color: transparent;
+		background: transparent;
+	}
+
+	.ph:not(:has(img[src^="data:"])) figcaption {
+		display: none;
+	}
+
+	.ph figcaption {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		text-align: center;
+		font-size: 0.8125rem;
+		line-height: 1.6;
+		color: var(--muted);
+		letter-spacing: 0;
+		pointer-events: none;
+	}
+</style>

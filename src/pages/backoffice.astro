@@ -1,0 +1,322 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ImagePlaceholder from "../components/ImagePlaceholder.astro";
+import Icon from "../components/Icon.astro";
+import LineButton from "../components/LineButton.astro";
+import { useCases, backofficeFaq } from "../data/backoffice";
+import { protectThai } from "../utils/thai";
+
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: backofficeFaq.map((item) => ({
+		"@type": "Question",
+		name: item.q,
+		acceptedAnswer: { "@type": "Answer", text: item.a },
+	})),
+};
+
+const breadcrumb = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{
+			"@type": "ListItem",
+			position: 1,
+			name: "หน้าแรก",
+			item: new URL("/", Astro.site).href,
+		},
+		{
+			"@type": "ListItem",
+			position: 2,
+			name: "รับทำระบบหลังบ้าน",
+			item: new URL("/backoffice/", Astro.site).href,
+		},
+	],
+};
+---
+
+<Layout
+	title="รับทำระบบหลังบ้านตามการทำงานจริง | Pooh"
+	description="รับทำระบบหลังบ้านสำหรับธุรกิจ จัดการออเดอร์ สต๊อก ข้อมูลลูกค้า และงานภายในทีมให้อยู่ที่เดียว ออกแบบตามวิธีทำงานจริง รับปรึกษาก่อนสร้างได้ ทักไลน์ bobroach"
+	schema={[faqSchema, breadcrumb]}
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<p class="label">ระบบหลังบ้าน</p>
+			<h1>รับทำระบบหลังบ้านตามการทำงานจริงของธุรกิจ</h1>
+			<p class="lede">
+				<strong
+					>ระบบหลังบ้านคือที่เดียวที่ทีมใช้จัดการ<span class="nb">ออเดอร์</span> สต๊อก ข้อมูลลูกค้า และงานภายใน</strong
+				> ผมออกแบบให้ตรงกับวิธีที่ธุรกิจคุณทำงานอยู่จริง ไม่ใช่บังคับให้ทีมเปลี่ยนวิธีทำงานตามระบบ
+			</p>
+			<div class="actions">
+				<LineButton size="lg" label="เล่างานหลังบ้านให้ผมฟัง" />
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell narrow">
+			<div class="prose reveal">
+				<p>
+					ธุรกิจส่วนใหญ่เริ่มจากไฟล์กับ<span class="nb">แชท</span>ก่อนเสมอ และวิธีนั้นก็พอไหวตอนงานยังน้อย
+					พอ<span class="nb">ออเดอร์</span>เยอะขึ้น คนในทีมมากขึ้น
+					สิ่งที่เคยจดไว้ในไฟล์เดียวก็เริ่มกระจายไปหลายที่ จนไม่มีใครแน่ใจว่าอันไหนคือข้อมูลล่าสุด
+				</p>
+				<p>
+					<strong>งานของระบบหลังบ้านคือทำให้เหลือที่เดียว</strong>
+					ทุกคนเปิดดูแล้วเห็นตรงกัน รู้ว่าใครทำอะไรถึงไหน
+					และเจ้าของเปิดดูสรุปได้เองโดยไม่ต้องรอใครรวมไฟล์ให้
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section band-tint">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">งานที่มักจะเอามาให้ช่วย</p>
+				<h2>ปัญหาหน้างานที่ระบบหลังบ้านช่วยได้</h2>
+			</div>
+
+			<ol class="cases">
+				{
+					useCases.map((item, i) => (
+						<li class:list={["case", "reveal", `reveal-d${i % 3}`]}>
+							<span class="case-n" aria-hidden="true">
+								{String(i + 1).padStart(2, "0")}
+							</span>
+							<div class="case-body">
+								<h3>{protectThai(item.title)}</h3>
+								<p>{protectThai(item.body)}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<div class="split">
+				<div class="split-media reveal">
+					<ImagePlaceholder
+						alt="ภาพหน้าจอระบบหลังบ้านที่ทีมใช้ดูออเดอร์และสต๊อกร่วมกัน"
+						label="ภาพหน้าจอระบบหลังบ้านตัวอย่าง"
+						ratio="4 / 3"
+					/>
+				</div>
+				<div class="split-text reveal reveal-d1">
+					<p class="label">เริ่มจากปรึกษาก่อนก็ได้</p>
+					<h2>เปลี่ยนเทคโนโลยีใหม่ ให้กลายเป็นวิธีทำงานที่ดีกว่า</h2>
+					<p>
+						ไม่ว่าจะเป็นซอฟต์แวร์ ระบบอัตโนมัติ หรือ AI
+						ผมเชื่อว่าคุณค่าไม่ได้อยู่ที่เครื่องมือ แต่อยู่ที่การเลือกใช้ให้ถูกจุด
+						และทำให้เกิดผลกับธุรกิจจริง
+					</p>
+					<p>
+						หลายเจ้าที่ทักมายังไม่รู้ว่าต้องการระบบแบบไหน หรือควรทำตอนนี้เลยหรือยัง
+						ผมรับปรึกษาก่อนสร้างด้วยครับ ช่วยดูว่างานตรงไหนควรทำเป็นระบบ
+						ตรงไหนยังใช้วิธีเดิมไปก่อนได้ และถ้าทำ ควรเริ่มจากส่วนไหนให้เห็นผลเร็วที่สุด
+					</p>
+					<p>
+						ถ้ามีระบบอยู่แล้วแต่ไปต่อไม่ถูก หรืออยากได้คนกลางช่วยคุยกับทีมพัฒนาให้เข้าใจตรงกัน
+						ผมเป็นที่ปรึกษาให้ได้เหมือนกัน
+						<a href="/fix-ai-website">ถ้าเป็นของที่สร้างด้วย AI ไว้ ดูแนวทางตรงนี้</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section band-cream">
+		<div class="shell narrow">
+			<div class="section-head reveal">
+				<p class="label">คำถามที่เจอบ่อย</p>
+				<h2>เรื่องที่คนถามก่อนเริ่มทำระบบ</h2>
+			</div>
+
+			<div class="faq">
+				{
+					backofficeFaq.map((item, i) => (
+						<details class:list={["faq-item", "reveal", `reveal-d${i % 3}`]}>
+							<summary>
+								<span class="faq-q">{protectThai(item.q)}</span>
+								<span class="faq-sign" aria-hidden="true" />
+							</summary>
+							<p class="faq-a">{protectThai(item.a)}</p>
+						</details>
+					))
+				}
+			</div>
+
+			<p class="more reveal">
+				อยากรู้ว่างานแบบนี้ใช้งบประมาณเท่าไร <a href="/budget-factors"
+					>ดูว่ามีอะไรบ้างที่ทำให้งบต่างกัน</a
+				>
+			</p>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="shell band-inner reveal">
+			<p class="label">เริ่มจากเล่าให้ฟัง</p>
+			<h2>เล่าว่าทีมทำงานยังไงอยู่ ผมช่วยดูให้ว่าควรเริ่มตรงไหน</h2>
+			<p class="lede">
+				ไม่ต้องเตรียมสเปกมาก่อนครับ เล่าว่าวันนี้ใครทำอะไร ติดตรงไหนบ่อยที่สุด
+				แค่นั้นก็พอให้เห็นภาพแล้ว
+			</p>
+			<div class="actions">
+				<LineButton size="lg" label="เล่างานหลังบ้านให้ผมฟัง" />
+				<a class="cta-quiet" href="/work">
+					ดูผลงานที่ผ่านมา
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.narrow {
+		max-width: 48rem;
+	}
+
+	.prose {
+		display: grid;
+		gap: 1.125rem;
+		font-size: 1.0625rem;
+	}
+
+	.prose p {
+		color: var(--muted);
+		max-width: 33rem;
+	}
+
+	.prose strong,
+	.page-head .lede strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	.page-head .actions {
+		margin-top: 0.75rem;
+	}
+
+	/* ---- use cases ---- */
+
+	.cases {
+		display: grid;
+		gap: 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.case {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 0 1rem;
+		align-items: start;
+		min-width: 0;
+		padding: 1.25rem;
+		border-radius: var(--radius);
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		box-shadow: var(--shadow-sm);
+		transition:
+			transform 200ms ease,
+			box-shadow 200ms ease;
+	}
+
+	@media (hover: hover) {
+		.case:hover {
+			transform: translateY(-3px);
+			box-shadow: var(--shadow-md);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.case {
+			transition: none;
+		}
+
+		.case:hover {
+			transform: none;
+		}
+	}
+
+	.case-n {
+		font-family: var(--font-head);
+		font-weight: 600;
+		font-size: 0.9375rem;
+		color: var(--honey-ink);
+		font-variant-numeric: tabular-nums;
+		min-width: 1.75rem;
+	}
+
+	.case-body {
+		display: grid;
+		gap: 0.25rem;
+		min-width: 0;
+	}
+
+	.case-body h3 {
+		font-size: 1rem;
+		font-weight: 600;
+	}
+
+	.case-body p {
+		color: var(--muted);
+		font-size: 0.9375rem;
+		max-width: 32rem;
+	}
+
+	@media (min-width: 48em) {
+		.cases {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.25rem;
+		}
+
+		.case {
+			padding: 1.5rem;
+		}
+	}
+
+	/* ---- consulting split ---- */
+
+	.split {
+		display: grid;
+		gap: 2rem;
+	}
+
+	.split-media,
+	.split-text {
+		min-width: 0;
+	}
+
+	.split-text {
+		display: grid;
+		gap: 0.75rem;
+		align-content: center;
+	}
+
+	.split-text h2 {
+		font-size: var(--fs-h2);
+	}
+
+	.split-text p {
+		color: var(--muted);
+		max-width: 33rem;
+	}
+
+	@media (min-width: 48em) {
+		.split {
+			grid-template-columns: 1fr 1.1fr;
+			gap: 3rem;
+			align-items: center;
+		}
+	}
+</style>

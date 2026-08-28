@@ -1,0 +1,110 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import LineButton from "../components/LineButton.astro";
+---
+
+<Layout
+	title="ไม่พบหน้านี้ | Pooh"
+	description="ไม่พบหน้าที่คุณกำลังหา กลับไปหน้าแรกหรือทักไลน์มาถามได้เลย"
+	noindex
+>
+	<section class="nf">
+		<div class="shell nf-inner">
+			<img
+				class="nf-bear"
+				src="/brand/pooh-mark.svg"
+				alt=""
+				width="1024"
+				height="1024"
+				aria-hidden="true"
+			/>
+			<p class="label">ไม่พบหน้านี้</p>
+			<h1>หน้าที่หากันอยู่ไม่มีแล้วครับ</h1>
+			<p class="lede">
+				อาจจะย้ายที่ไปแล้วหรือพิมพ์ลิงก์คลาดไปนิดหน่อย
+				กลับไปหน้าแรกได้เลย หรือถ้าอยากถามอะไรก็ทักมาได้ครับ
+			</p>
+			<div class="actions">
+				<LineButton size="lg" />
+				<a class="cta-quiet" href="/">
+					กลับหน้าแรก
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+			<nav class="nf-links" aria-label="ลิงก์ที่อาจกำลังหา">
+				<p class="nf-links-label">หรือลองดูหน้าเหล่านี้</p>
+				<ul>
+					<li><a href="/work">ผลงาน</a></li>
+					<li><a href="/contact">ติดต่อ</a></li>
+				</ul>
+			</nav>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.nf-inner {
+		display: grid;
+		gap: 1.25rem;
+		justify-items: start;
+		max-width: 40rem;
+		padding-block: 3.5rem 4rem;
+	}
+
+	/* The one playful moment on the site. Sits on the plain cream page, never
+	   on a honey-tinted surface. */
+	.nf-bear {
+		display: block;
+		width: 5.5rem;
+		height: 5.5rem;
+	}
+
+	.nf h1 {
+		font-size: var(--fs-h1);
+		text-wrap: balance;
+	}
+
+	.nf .actions {
+		margin-top: 0.5rem;
+	}
+
+	.nf-links {
+		margin-top: 1.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--rule);
+		width: 100%;
+	}
+
+	.nf-links-label {
+		color: var(--muted);
+		font-size: 0.875rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.nf-links ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.25rem;
+	}
+
+	.nf-links a {
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: 0.9375rem;
+	}
+
+	@media (pointer: coarse) {
+		.nf-links a {
+			min-height: 44px;
+			display: inline-flex;
+			align-items: center;
+		}
+	}
+
+	@media (min-width: 48em) {
+		.nf-inner {
+			padding-block: 5rem 5.5rem;
+		}
+	}
+</style>

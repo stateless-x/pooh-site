@@ -1,0 +1,9 @@
+# Everything is open to every crawler on purpose, AI assistants and answer
+# engines included: being quotable in an AI answer is a goal for this site, not
+# a risk. Do not add AI-specific Disallow rules without deciding that first.
+User-agent: *
+Allow: /
+
+# TODO (owner, before deploy): replace REPLACE-WITH-DOMAIN.example with the
+# real domain here and in `site` in astro.config.mjs.
+Sitemap: https://REPLACE-WITH-DOMAIN.example/sitemap-index.xml

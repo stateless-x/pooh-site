@@ -1,0 +1,1613 @@
+---
+import LineButton from "../components/LineButton.astro";
+import { SITE_NAME, PERSON_NAME, IDENTITY_PHRASE } from "../../site.config.mjs";
+
+interface Props {
+	title: string;
+	description: string;
+	/** Extra structured data for this page, serialised into JSON-LD. */
+	schema?: Record<string, unknown> | Record<string, unknown>[];
+	/** Keep the page out of search results (used by 404). */
+	noindex?: boolean;
+}
+
+const { title, description, schema, noindex = false } = Astro.props;
+
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+
+// Every absolute URL derives from `site` in astro.config.mjs, which currently
+// holds a placeholder the owner must replace before deploy.
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL("/og.png", Astro.site);
+
+const schemaBlocks = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+
+// Header nav carries the two priority service pages. Labels are the shortest
+// form that still names the destination.
+//
+// หน้าแรก is deliberately absent: five items wrapped to two rows at 320 and 375
+// (measured), and dropping a destination would have been worse than dropping a
+// link the logo already provides. The logo carries aria-label "Pooh หน้าแรก",
+// so home stays reachable and named for assistive tech.
+const nav = [
+	{ href: "/backoffice", label: "ระบบหลังบ้าน" },
+	{ href: "/budget-factors", label: "งบประมาณ" },
+	{ href: "/work", label: "ผลงาน" },
+	{ href: "/contact", label: "ติดต่อ" },
+];
+
+// The footer still lists home explicitly, where there is room for it.
+const footNav = [
+	{ href: "/", label: "หน้าแรก" },
+	...nav,
+	{ href: "/fix-ai-website", label: "รับแก้เว็บที่สร้างด้วย AI" },
+];
+
+---
+
+<html lang="th">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		{/* Full icon set. The SVG leads for modern browsers; the .ico carries
+		    the legacy sizes; the PNGs cover Android and iOS home screens. */}
+		<link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
+		<link rel="icon" href="/brand/favicon.ico" sizes="any" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/brand/favicon-16.png" />
+		<link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		{noindex && <meta name="robots" content="noindex, follow" />}
+		{/* Matches the page background so browser chrome blends in. The
+		    manifest keeps honey as the brand theme colour. */}
+		<meta name="theme-color" content="#FFF9ED" />
+		<link rel="canonical" href={canonical.href} />
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="th_TH" />
+		<meta property="og:site_name" content={SITE_NAME} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical.href} />
+		{/* TODO (owner): add a 1200x630 image at public/og.png. */}
+		<meta property="og:image" content={ogImage.href} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content={`${PERSON_NAME} ${IDENTITY_PHRASE} รับทำเว็บไซต์และระบบสำหรับธุรกิจ`} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="generator" content={Astro.generator} />
+		{
+			schemaBlocks.map((block) => (
+				<script
+					type="application/ld+json"
+					is:inline
+					set:html={JSON.stringify(block)}
+				/>
+			))
+		}
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Mitr:wght@500;600&family=IBM+Plex+Sans+Thai+Looped:wght@400;500&display=swap"
+		/>
+		{/* Marks that JS is available, so the reveal's hidden start state only
+		    ever applies when something can actually reveal it again. */}
+		<script is:inline>
+			document.documentElement.classList.add("js");
+		</script>
+	</head>
+	<body>
+		<a class="skip" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+		<header class="site-head">
+			<div class="shell head-inner">
+				{/* Lockup at 44px tall renders 110px wide, clearing the brand's
+				    100px minimum. Below 26em the header is too tight for that, so
+				    the mark alone is used, per the same rule. */}
+				<a class="site-logo-link" href="/" aria-label="Pooh หน้าแรก">
+					<img
+						class="site-logo site-logo-lockup"
+						src="/brand/pooh-lockup-horizontal.svg"
+						alt="Pooh"
+						width="600"
+						height="240"
+					/>
+					<img
+						class="site-logo site-logo-mark"
+						src="/brand/pooh-mark.svg"
+						alt="Pooh"
+						width="1024"
+						height="1024"
+					/>
+				</a>
+				{/* Inline nav is the DEFAULT and the no-JS fallback: without the
+				    js class it simply renders as a normal row at every width, which
+				    keeps the existing no-JS guarantee with no checkbox hack. The
+				    drawer only takes over once JS has marked the document. */}
+				<nav class="nav-inline" aria-label="เมนูหลัก">
+					<ul>
+						{
+							nav.map((item) => (
+								<li>
+									<a
+										href={item.href}
+										aria-current={path === item.href ? "page" : undefined}
+									>
+										{item.label}
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</nav>
+
+				<button
+					class="nav-toggle"
+					type="button"
+					aria-expanded="false"
+					aria-controls="nav-drawer"
+					aria-label="เปิดเมนู"
+				>
+					<svg
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.75"
+						stroke-linecap="round"
+						aria-hidden="true"
+						focusable="false"
+					>
+						<path d="M3.75 6.75h16.5" />
+						<path d="M3.75 12h16.5" />
+						<path d="M3.75 17.25h16.5" />
+					</svg>
+				</button>
+			</div>
+		</header>
+
+		<div class="nav-overlay" hidden></div>
+
+		<div class="nav-drawer" id="nav-drawer" hidden>
+			<div class="drawer-head">
+				<a class="drawer-brand" href="/" aria-label={`${SITE_NAME} หน้าแรก`}>
+					<img
+						class="drawer-bear"
+						src="/brand/pooh-mark.svg"
+						alt=""
+						width="1024"
+						height="1024"
+						aria-hidden="true"
+					/>
+					<img
+						class="drawer-wordmark"
+						src="/brand/pooh-wordmark.svg"
+						alt={SITE_NAME}
+						width="2258"
+						height="1116"
+					/>
+				</a>
+				<button class="drawer-close" type="button" aria-label="ปิดเมนู">
+					<svg
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.75"
+						stroke-linecap="round"
+						aria-hidden="true"
+						focusable="false"
+					>
+						<path d="M6 6l12 12" />
+						<path d="M18 6L6 18" />
+					</svg>
+				</button>
+			</div>
+
+			<nav class="drawer-nav" aria-label="เมนูในลิ้นชัก">
+				<ul>
+					<li>
+						<a href="/" aria-current={path === "/" ? "page" : undefined}>หน้าแรก</a>
+					</li>
+					{
+						footNav.slice(1).map((item) => (
+							<li>
+								<a
+									href={item.href}
+									aria-current={path === item.href ? "page" : undefined}
+								>
+									{item.label}
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</nav>
+
+			<div class="drawer-foot">
+				<LineButton />
+			</div>
+		</div>
+
+		<main id="main">
+			<slot />
+		</main>
+
+		<footer class="site-foot">
+			<div class="shell foot-inner">
+				<div class="foot-brand">
+					{/* The real wordmark outlines, not live text: the header lockup
+					    uses these same Avenir-derived letterforms, and Mitr 600 next to
+					    them read as two different brands. Inlined so fill can follow
+					    currentColor for the cream-on-cocoa footer. Mark-to-wordmark gap
+					    and relative height match the lockup's own geometry. */}
+					<p class="foot-mark">
+						<img
+							class="foot-bear"
+							src="/brand/pooh-mark.svg"
+							alt=""
+							width="1024"
+							height="1024"
+							aria-hidden="true"
+						/>
+						<svg
+							class="foot-wordmark"
+							viewBox="0 0 2258 1116"
+							role="img"
+							aria-label="pooh"
+							focusable="false"
+						>
+							<path fill="currentColor" d="M463.00 558.00Q463.00 519.00 450.50 485.00Q438.00 451.00 415.00 426.00Q392.00 401.00 359.50 386.50Q327.00 372.00 286.00 372.00Q245.00 372.00 211.00 386.50Q177.00 401.00 152.00 426.00Q127.00 451.00 113.00 485.00Q99.00 519.00 99.00 558.00Q99.00 597.00 113.00 631.00Q127.00 665.00 152.00 690.00Q177.00 715.00 211.00 729.50Q245.00 744.00 286.00 744.00Q327.00 744.00 359.50 729.50Q392.00 715.00 415.00 690.00Q438.00 665.00 450.50 631.00Q463.00 597.00 463.00 558.00ZM36.00 324.00L102.00 324.00L102.00 402.00L104.00 402.00Q120.00 378.00 142.00 361.00Q164.00 344.00 188.00 333.00Q212.00 322.00 237.50 317.00Q263.00 312.00 286.00 312.00Q341.00 312.00 386.50 330.50Q432.00 349.00 465.00 382.00Q498.00 415.00 516.50 460.00Q535.00 505.00 535.00 558.00Q535.00 611.00 516.50 656.00Q498.00 701.00 465.00 734.00Q432.00 767.00 386.50 785.50Q341.00 804.00 286.00 804.00Q263.00 804.00 237.50 799.00Q212.00 794.00 188.00 783.00Q164.00 772.00 142.00 755.00Q120.00 738.00 104.00 714.00L102.00 714.00L102.00 1080.00L36.00 1080.00ZM1044.00 558.00Q1044.00 519.00 1031.50 485.00Q1019.00 451.00 996.00 426.00Q973.00 401.00 940.50 386.50Q908.00 372.00 867.00 372.00Q826.00 372.00 793.50 386.50Q761.00 401.00 738.50 426.00Q716.00 451.00 703.50 485.00Q691.00 519.00 691.00 558.00Q691.00 597.00 703.50 631.00Q716.00 665.00 738.50 690.00Q761.00 715.00 793.50 729.50Q826.00 744.00 867.00 744.00Q908.00 744.00 940.50 729.50Q973.00 715.00 996.00 690.00Q1019.00 665.00 1031.50 631.00Q1044.00 597.00 1044.00 558.00ZM1116.00 558.00Q1116.00 611.00 1097.50 656.00Q1079.00 701.00 1046.00 734.00Q1013.00 767.00 967.50 785.50Q922.00 804.00 867.00 804.00Q813.00 804.00 767.50 785.50Q722.00 767.00 689.00 734.00Q656.00 701.00 637.50 656.00Q619.00 611.00 619.00 558.00Q619.00 505.00 637.50 460.00Q656.00 415.00 689.00 382.00Q722.00 349.00 767.50 330.50Q813.00 312.00 867.00 312.00Q922.00 312.00 967.50 330.50Q1013.00 349.00 1046.00 382.00Q1079.00 415.00 1097.50 460.00Q1116.00 505.00 1116.00 558.00ZM1633.00 558.00Q1633.00 519.00 1620.50 485.00Q1608.00 451.00 1585.00 426.00Q1562.00 401.00 1529.50 386.50Q1497.00 372.00 1456.00 372.00Q1415.00 372.00 1382.50 386.50Q1350.00 401.00 1327.50 426.00Q1305.00 451.00 1292.50 485.00Q1280.00 519.00 1280.00 558.00Q1280.00 597.00 1292.50 631.00Q1305.00 665.00 1327.50 690.00Q1350.00 715.00 1382.50 729.50Q1415.00 744.00 1456.00 744.00Q1497.00 744.00 1529.50 729.50Q1562.00 715.00 1585.00 690.00Q1608.00 665.00 1620.50 631.00Q1633.00 597.00 1633.00 558.00ZM1705.00 558.00Q1705.00 611.00 1686.50 656.00Q1668.00 701.00 1635.00 734.00Q1602.00 767.00 1556.50 785.50Q1511.00 804.00 1456.00 804.00Q1402.00 804.00 1356.50 785.50Q1311.00 767.00 1278.00 734.00Q1245.00 701.00 1226.50 656.00Q1208.00 611.00 1208.00 558.00Q1208.00 505.00 1226.50 460.00Q1245.00 415.00 1278.00 382.00Q1311.00 349.00 1356.50 330.50Q1402.00 312.00 1456.00 312.00Q1511.00 312.00 1556.50 330.50Q1602.00 349.00 1635.00 382.00Q1668.00 415.00 1686.50 460.00Q1705.00 505.00 1705.00 558.00ZM1821.00 36.00L1887.00 36.00L1887.00 399.00L1889.00 399.00Q1900.00 380.00 1917.00 364.00Q1934.00 348.00 1955.00 336.50Q1976.00 325.00 1999.50 318.50Q2023.00 312.00 2046.00 312.00Q2136.00 312.00 2179.00 359.50Q2222.00 407.00 2222.00 495.00L2222.00 792.00L2156.00 792.00L2156.00 533.00Q2156.00 455.00 2129.00 413.50Q2102.00 372.00 2029.00 372.00Q2024.00 372.00 2001.00 376.00Q1978.00 380.00 1952.50 398.00Q1927.00 416.00 1907.00 452.00Q1887.00 488.00 1887.00 552.00L1887.00 792.00L1821.00 792.00Z" />
+						</svg>
+					</p>
+					<p class="foot-note">
+						รับงานอิสระ ออกแบบและพัฒนาเว็บไซต์และระบบสำหรับธุรกิจ
+					</p>
+					<nav class="foot-nav" aria-label="เมนูท้ายหน้า">
+						<ul>
+							{
+								footNav.map((item) => (
+									<li>
+										<a href={item.href}>{item.label}</a>
+									</li>
+								))
+							}
+						</ul>
+					</nav>
+				</div>
+				<div class="foot-cta">
+					<p class="foot-cta-label">คุยกันได้เลยครับ</p>
+					<LineButton />
+					<p class="foot-note">ไลน์ส่วนตัว ตอบเองทุกข้อความ</p>
+				</div>
+			</div>
+		</footer>
+
+		<script is:inline>
+			(function () {
+				var els = document.querySelectorAll(".reveal");
+				if (!els.length) return;
+
+				var reduced =
+					window.matchMedia &&
+					window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+				// Reduced motion or no observer support: show everything at once.
+				if (reduced || !("IntersectionObserver" in window)) {
+					for (var i = 0; i < els.length; i++) els[i].classList.add("is-in");
+					return;
+				}
+
+				// Above-the-fold elements are revealed on a timer rather than by the
+				// observer. The observer fires almost immediately for them, which can
+				// coalesce with first paint so the browser never sees a start state to
+				// transition FROM. Two frames guarantee the initial style is committed
+				// first, so the hero actually animates in (highlight sweep included).
+				var eager = document.querySelectorAll(".reveal-eager");
+
+				requestAnimationFrame(function () {
+					requestAnimationFrame(function () {
+						for (var i = 0; i < eager.length; i++) {
+							eager[i].classList.add("is-in");
+						}
+					});
+				});
+
+				var io = new IntersectionObserver(
+					function (entries) {
+						entries.forEach(function (entry) {
+							if (!entry.isIntersecting) return;
+							entry.target.classList.add("is-in");
+							io.unobserve(entry.target);
+						});
+					},
+					{ rootMargin: "0px 0px -8% 0px", threshold: 0.06 }
+				);
+
+				els.forEach(function (el) {
+					if (el.classList.contains("reveal-eager")) return;
+					io.observe(el);
+				});
+			})();
+		</script>
+
+		<script is:inline>
+			(function () {
+				var toggle = document.querySelector(".nav-toggle");
+				var drawer = document.getElementById("nav-drawer");
+				var overlay = document.querySelector(".nav-overlay");
+				var closeBtn = document.querySelector(".drawer-close");
+				if (!toggle || !drawer || !overlay) return;
+
+				var lastFocused = null;
+
+				function focusables() {
+					return drawer.querySelectorAll("a[href], button:not([disabled])");
+				}
+
+				function open() {
+					lastFocused = document.activeElement;
+					// Unhide first so the transition has a frame to run from.
+					drawer.hidden = false;
+					overlay.hidden = false;
+					requestAnimationFrame(function () {
+						requestAnimationFrame(function () {
+							drawer.classList.add("is-open");
+							overlay.classList.add("is-open");
+						});
+					});
+					toggle.setAttribute("aria-expanded", "true");
+					document.documentElement.style.overflow = "hidden";
+					// Focus only after the unhide has committed: focusing an element
+					// that is still display:none silently does nothing.
+					requestAnimationFrame(function () {
+						var f = focusables();
+						if (f.length) f[0].focus();
+					});
+				}
+
+				function close() {
+					drawer.classList.remove("is-open");
+					overlay.classList.remove("is-open");
+					toggle.setAttribute("aria-expanded", "false");
+					document.documentElement.style.overflow = "";
+
+					var reduced =
+						window.matchMedia &&
+						window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+					function finish() {
+						drawer.hidden = true;
+						overlay.hidden = true;
+					}
+					// Wait for the slide-out before hiding, unless motion is reduced.
+					if (reduced) finish();
+					else window.setTimeout(finish, 300);
+
+					// Return focus to whatever opened the drawer, so keyboard users
+					// land back where they were rather than at the top of the page.
+					if (lastFocused && lastFocused.focus) {
+						lastFocused.focus();
+					} else {
+						toggle.focus();
+					}
+				}
+
+				toggle.addEventListener("click", open);
+				overlay.addEventListener("click", close);
+				if (closeBtn) closeBtn.addEventListener("click", close);
+
+				document.addEventListener("keydown", function (e) {
+					if (drawer.hidden) return;
+					if (e.key === "Escape") {
+						close();
+						return;
+					}
+					if (e.key !== "Tab") return;
+					// Focus trap: cycle within the drawer while it is open.
+					var f = focusables();
+					if (!f.length) return;
+					var first = f[0];
+					var last = f[f.length - 1];
+					if (e.shiftKey && document.activeElement === first) {
+						e.preventDefault();
+						last.focus();
+					} else if (!e.shiftKey && document.activeElement === last) {
+						e.preventDefault();
+						first.focus();
+					}
+				});
+
+				// A resize into desktop territory should not leave the drawer open.
+				window.addEventListener("resize", function () {
+					if (!drawer.hidden && window.innerWidth >= 1024) close();
+				});
+			})();
+		</script>
+
+		<style is:global>
+			:root {
+				/* ---- v3 Pooh brand ----
+				   Every hex below is lifted from the mark's SVG source, not
+				   sampled by eye: honey #F3B21A, cream #FFF9ED, charcoal
+				   #282722, scarf #D92731 / #B91F29. */
+
+				/* Surfaces */
+				--cream: #fff9ed;
+				--paper: #fff9ed;
+				--warm: #fdf0d2;
+				--cocoa: #33241a;
+
+				/* Ink. Warmed toward cocoa but still 15.05:1 on cream. */
+				--ink: #2a211a;
+				--muted: #6b5d4f;
+
+				/* Honey is DECORATIVE ONLY. As text on a light surface it is
+				   1.79:1, so anything that carries words uses --honey-ink. */
+				--honey: #f3b21a;
+				--honey-ink: #8f6207;
+
+				/* Scarf red, small doses. Same split: --scarf-ink for text. */
+				--scarf: #d92731;
+				--scarf-ink: #a81b24;
+
+				/* Roles kept from the previous architecture so usage sites did
+				   not have to churn. --accent is now the cocoa surface/text
+				   colour; decorative accents point at honey explicitly. */
+				--accent: #33241a;
+
+				--rule: rgba(42, 33, 26, 0.14);
+				--rule-soft: rgba(42, 33, 26, 0.08);
+				--tint: rgba(243, 178, 26, 0.06);
+				--tint-strong: rgba(243, 178, 26, 0.18);
+				--tint-honey: rgba(243, 178, 26, 0.1);
+				--tint-scarf: rgba(217, 39, 49, 0.1);
+
+				/* LINE brand green, on LINE buttons only.
+				   --line-green is the recognisable brand hex, kept for the bubble
+				   mark. --line-fill is the darkest-recognisable green that lets a
+				   white label clear AA at normal text size (4.51:1); the old
+				   #06C755 fill measured 2.26:1 and is no longer used as a
+				   background behind text. Hover goes darker, never lighter. */
+				--line-green: #06c755;
+				--line-fill: #04893f;
+				--line-fill-dark: #037a37;
+
+				--shadow-sm: 0 1px 2px rgba(42, 33, 26, 0.05),
+					0 4px 12px rgba(42, 33, 26, 0.05);
+				--shadow-md: 0 2px 4px rgba(42, 33, 26, 0.06),
+					0 12px 28px rgba(42, 33, 26, 0.1);
+				--shell: 68rem;
+				--radius: 14px;
+				/* Type scale. Mitr is wider and heavier than Anuphan, so the
+				   display size is pulled back slightly to hold the same measure. */
+				--fs-display: clamp(1.75rem, 1.25rem + 2.5vw, 3.125rem);
+				--fs-h1: clamp(1.625rem, 1.2rem + 2vw, 2.5rem);
+				--fs-h2: clamp(1.375rem, 1.15rem + 1.2vw, 1.875rem);
+				--fs-h2-lg: clamp(1.375rem, 1.1rem + 1.4vw, 2rem);
+				--fs-h3: 1.125rem;
+				--lh-display: 1.4;
+				/* Mitr for headings (500/600). Thai-capable fallback after it, not
+				   just a Latin face, so a failed webfont still sets Thai correctly. */
+				--font-head: "Mitr", "Noto Sans Thai", "Helvetica Neue", sans-serif;
+				--font-body: "IBM Plex Sans Thai Looped", "Noto Sans Thai",
+					"Helvetica Neue", sans-serif;
+			}
+
+			*,
+			*::before,
+			*::after {
+				box-sizing: border-box;
+			}
+
+			html {
+				-webkit-text-size-adjust: 100%;
+			}
+
+			body {
+				margin: 0;
+				background: var(--paper);
+				color: var(--ink);
+				font-family: var(--font-body);
+				font-weight: 400;
+				font-size: 1rem;
+				line-height: 1.78;
+				-webkit-font-smoothing: antialiased;
+			}
+
+			h1,
+			h2,
+			h3 {
+				font-family: var(--font-head);
+				font-weight: 600;
+				line-height: 1.35;
+				margin: 0;
+				/* No negative tracking: it has no justification in Thai and
+				   crowds vowel and tone marks against their base consonants. */
+				letter-spacing: 0;
+			}
+
+			p {
+				margin: 0;
+			}
+
+			ul {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+
+			a {
+				color: var(--accent);
+				text-decoration-thickness: 1px;
+				text-underline-offset: 0.28em;
+			}
+
+			img {
+				max-width: 100%;
+			}
+
+			.shell {
+				width: 100%;
+				max-width: var(--shell);
+				margin: 0 auto;
+				padding-inline: 1.375rem;
+			}
+
+			@media (min-width: 48em) {
+				.shell {
+					padding-inline: 2.5rem;
+				}
+			}
+
+			.skip {
+				position: absolute;
+				left: -9999px;
+				top: 0;
+			}
+
+			/* ---- focus system ----
+			   One visible treatment everywhere, keyboard-only via :focus-visible.
+			   Cocoa ring on light surfaces, honey ring on dark ones; both clear
+			   the 3:1 non-text contrast floor against their backgrounds. */
+			:where(a, button, summary, [tabindex]):focus-visible {
+				outline: 2px solid var(--cocoa);
+				outline-offset: 3px;
+				border-radius: 4px;
+			}
+
+			.site-foot :where(a, button, summary):focus-visible,
+			.band :where(a, button, summary):focus-visible,
+			.line-btn:focus-visible {
+				outline-color: var(--honey);
+			}
+
+			/* The LINE button carries its own radius, so match it. */
+			.line-btn:focus-visible {
+				border-radius: 12px;
+			}
+
+			.skip:focus {
+				left: 1rem;
+				top: 1rem;
+				z-index: 5;
+				background: var(--paper);
+				padding: 0.5rem 0.875rem;
+				border: 1px solid var(--accent);
+			}
+
+			/* ---- scroll reveal ----
+			   Double-gated on purpose: the hidden start state applies only when
+			   JS is present AND the visitor has not asked for reduced motion.
+			   Without JS, or with reduced motion, content is simply visible.
+			   Only opacity and transform animate, never display/visibility, so
+			   text stays measurable for the line-break audit. */
+			@media (prefers-reduced-motion: no-preference) {
+				html.js .reveal {
+					opacity: 0;
+					transform: translateY(14px);
+					transition:
+						opacity 620ms cubic-bezier(0.22, 0.61, 0.36, 1),
+						transform 620ms cubic-bezier(0.22, 0.61, 0.36, 1);
+				}
+
+				html.js .reveal.is-in {
+					opacity: 1;
+					transform: none;
+				}
+
+				html.js .reveal-d0 {
+					transition-delay: 0ms;
+				}
+
+				html.js .reveal-d1 {
+					transition-delay: 90ms;
+				}
+
+				html.js .reveal-d2 {
+					transition-delay: 180ms;
+				}
+
+				html.js .reveal-d3 {
+					transition-delay: 270ms;
+				}
+			}
+
+			/* ---- section label with an accent mark ---- */
+
+			/* Minimal tracking: wide letter-spacing detaches Thai vowel and tone
+			   marks from their base consonants, which is the loudest sign a Thai
+			   page was designed by someone who does not read it. */
+			.label {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				font-family: var(--font-head);
+				font-weight: 500;
+				font-size: 0.8125rem;
+				letter-spacing: 0;
+				color: var(--honey-ink);
+				margin: 0;
+			}
+
+			.label::before {
+				content: "";
+				width: 1.5rem;
+				height: 2px;
+				border-radius: 2px;
+				background: var(--honey);
+				opacity: 1;
+				flex: none;
+			}
+
+			/* Thai loanwords have no dictionary entry for line breaking, so a
+			   browser may split them mid-word. Wrap those in .nb where they sit
+			   inside a run of text that can wrap. */
+			.nb {
+				white-space: nowrap;
+			}
+
+			/* ---- touch targets ----
+			   Text links sit well under 44px on their own; on touch pointers
+			   they get a real hit area without changing the visual design. */
+			@media (pointer: coarse) {
+				.site-head nav a,
+				.foot-nav a,
+				.work-link,
+				.more a {
+					min-height: 44px;
+					display: inline-flex;
+					align-items: center;
+				}
+			}
+
+			/* ---- icon chip ---- */
+
+			.chip {
+				display: grid;
+				place-items: center;
+				width: 3.25rem;
+				height: 3.25rem;
+				border-radius: var(--radius);
+				background: var(--tint-strong);
+				color: var(--accent);
+				flex: none;
+				transition:
+					transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1),
+					background-color 260ms ease;
+			}
+
+			/* Gentle tilt and lift when the card it belongs to is hovered. */
+			@media (hover: hover) {
+				.offer:hover .chip,
+				.step:hover .chip,
+				.trust-item:hover .chip {
+					transform: rotate(-4deg) scale(1.06);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.chip {
+					transition: none;
+				}
+
+				.offer:hover .chip,
+				.step:hover .chip,
+				.trust-item:hover .chip {
+					transform: none;
+				}
+			}
+
+			/* The -ink variants, not the decorative tones: at 1.75 stroke the
+			   lighter amber read as washed out next to the green chips. These
+			   even the set to 5.58 / 6.20 / 7.85 against their own tints. */
+			.chip.is-amber {
+				background: var(--tint-honey);
+				color: var(--honey-ink);
+			}
+
+			.chip.is-clay {
+				background: var(--tint-scarf);
+				color: var(--scarf-ink);
+			}
+
+			/* ---- header ---- */
+
+			.site-head {
+				border-bottom: 1px solid var(--rule);
+				background: var(--paper);
+				position: sticky;
+				top: 0;
+				z-index: 10;
+			}
+
+			.head-inner {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: baseline;
+				justify-content: space-between;
+				gap: 0.5rem 1.5rem;
+				padding-block: 1.125rem;
+			}
+
+			/* ---- logo ----
+			   Never stretched: height is set and width follows from the
+			   intrinsic ratio. The lockup is 600x240, so 44px tall = 110px
+			   wide, above the 100px floor the brand rules set for the lockup. */
+			.site-logo-link {
+				display: inline-flex;
+				align-items: center;
+				text-decoration: none;
+				/* Clear space of roughly one glasses-lens width. */
+				padding: 0.25rem 0.5rem 0.25rem 0;
+			}
+
+			.site-logo {
+				display: block;
+				width: auto;
+			}
+
+			.site-logo-lockup {
+				height: 44px;
+			}
+
+			.site-logo-mark {
+				height: 44px;
+				display: none;
+			}
+
+			/* The lockup renders 110px wide, which fits beside the nav down to
+			   about 360px. Below that the header gets tight, so the mark stands
+			   alone rather than shrinking the lockup under its 100px floor. */
+			@media (max-width: 22.4em) {
+				.site-logo-lockup {
+					display: none;
+				}
+
+				.site-logo-mark {
+					display: block;
+				}
+			}
+
+			/* Four Thai labels on one row at 320 needs a tighter gap and a
+			   slightly smaller size than the desktop treatment. Measured: at
+			   1.25rem/0.9375rem the last item wrapped to its own line. */
+			.site-head nav ul {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.875rem;
+			}
+
+			.site-head nav a {
+				position: relative;
+				font-size: 0.9375rem;
+				color: var(--muted);
+				text-decoration: none;
+				padding-bottom: 0.25rem;
+			}
+
+			/* Placed after the base rule on purpose: same specificity, so source
+			   order decides. Four Thai labels need ~295px at the default size,
+			   and the 320 shell only offers 276px. */
+			@media (max-width: 22.4em) {
+				.site-head nav ul {
+					gap: 0.625rem;
+				}
+
+				.site-head nav a {
+					font-size: 0.8125rem;
+				}
+			}
+
+			/* Animated underline, grown from the left. */
+			.site-head nav a::after {
+				content: "";
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				height: 2px;
+				width: 100%;
+				border-radius: 2px;
+				background: var(--accent);
+				transform: scaleX(0);
+				transform-origin: left;
+				transition: transform 260ms ease;
+			}
+
+			.site-head nav a:hover {
+				color: var(--ink);
+			}
+
+			@media (hover: hover) {
+				.site-head nav a:hover::after {
+					transform: scaleX(1);
+				}
+			}
+
+			.site-head nav a[aria-current="page"] {
+				color: var(--accent);
+			}
+
+			.site-head nav a[aria-current="page"]::after {
+				transform: scaleX(1);
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.site-head nav a::after {
+					transition: none;
+				}
+			}
+
+			@media (min-width: 48em) {
+				.head-inner {
+					padding-block: 1.5rem;
+				}
+
+				.site-head nav ul {
+					gap: 2rem;
+				}
+			}
+
+			/* ---- mobile drawer ----
+			   The inline nav is the default so no-JS users always have working
+			   navigation. Only html.js swaps in the toggle + drawer below 64em. */
+			.nav-toggle,
+			.nav-drawer,
+			.nav-overlay {
+				display: none;
+			}
+
+			@media (max-width: 63.99em) {
+				html.js .nav-inline {
+					display: none;
+				}
+
+				html.js .nav-toggle {
+					display: grid;
+					place-items: center;
+					width: 44px;
+					height: 44px;
+					margin-right: -0.5rem;
+					padding: 0;
+					border: 0;
+					border-radius: 10px;
+					background: transparent;
+					color: var(--ink);
+					cursor: pointer;
+				}
+
+				html.js .nav-toggle svg {
+					width: 24px;
+					height: 24px;
+				}
+
+				html.js .nav-overlay {
+					display: block;
+					position: fixed;
+					inset: 0;
+					z-index: 40;
+					background: rgba(42, 33, 26, 0.45);
+					opacity: 0;
+					transition: opacity 260ms ease-out;
+				}
+
+				html.js .nav-overlay.is-open {
+					opacity: 1;
+				}
+
+				html.js .nav-drawer {
+					display: flex;
+					flex-direction: column;
+					gap: 1.5rem;
+					position: fixed;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					z-index: 50;
+					width: min(19rem, 82vw);
+					padding: 1.25rem 1.375rem 1.75rem;
+					background: var(--cream);
+					border-left: 1px solid var(--rule);
+					box-shadow: var(--shadow-md);
+					/* Short viewports: the drawer scrolls rather than clipping. */
+					overflow-y: auto;
+					overscroll-behavior: contain;
+					transform: translateX(100%);
+					transition: transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
+				}
+
+				html.js .nav-drawer.is-open {
+					transform: translateX(0);
+				}
+
+				/* Reduced motion: appear and disappear, never slide. */
+				@media (prefers-reduced-motion: reduce) {
+					html.js .nav-drawer,
+					html.js .nav-overlay {
+						transition: none;
+					}
+				}
+			}
+
+			.drawer-head {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 1rem;
+			}
+
+			/* Brand lockup rebuilt at drawer scale, on cream, never on honey. */
+			.drawer-brand {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.3125rem;
+				text-decoration: none;
+			}
+
+			.drawer-bear {
+				display: block;
+				width: 2.25rem;
+				height: 2.25rem;
+				flex: none;
+			}
+
+			.drawer-wordmark {
+				display: block;
+				height: 1.6875rem;
+				width: auto;
+			}
+
+			.drawer-close {
+				display: grid;
+				place-items: center;
+				width: 44px;
+				height: 44px;
+				margin-right: -0.5rem;
+				padding: 0;
+				border: 0;
+				border-radius: 10px;
+				background: transparent;
+				color: var(--ink);
+				cursor: pointer;
+			}
+
+			.drawer-close svg {
+				width: 22px;
+				height: 22px;
+			}
+
+			.drawer-nav ul {
+				display: grid;
+				gap: 0.125rem;
+			}
+
+			.drawer-nav a {
+				display: flex;
+				align-items: center;
+				min-height: 48px;
+				padding: 0.25rem 0.5rem;
+				border-radius: 10px;
+				font-family: var(--font-head);
+				font-weight: 500;
+				font-size: 1.0625rem;
+				color: var(--ink);
+				text-decoration: none;
+			}
+
+			.drawer-nav a[aria-current="page"] {
+				background: var(--tint-strong);
+				color: var(--cocoa);
+			}
+
+			.drawer-foot {
+				margin-top: auto;
+				padding-top: 0.5rem;
+			}
+
+			/* ---- footer: dark green band ---- */
+
+			/* No top margin: when a green .band ends main, a beige gap between it
+			   and the green footer read as two disconnected slabs. Flush, with a
+			   hairline divider, they close the page as one block. Pages that end
+			   on cream simply meet the footer directly, which is normal. */
+			.site-foot {
+				margin-top: 0;
+				background: var(--cocoa);
+				color: rgba(255, 249, 237, 0.82);
+				border-top: 1px solid rgba(255, 249, 237, 0.18);
+			}
+
+			/* When the page carries a full CTA band, the footer's own LINE button
+			   is a third identical call to action in one screen. Deliberately not
+			   :last-child: the SEO zone sits after the band on the home page, and
+			   the redundancy argument holds regardless of what follows.
+			   Without :has() support both simply show, which is not a defect. */
+			main:has(> section.band) + .site-foot .foot-cta {
+				display: none;
+			}
+
+			.foot-inner {
+				display: grid;
+				gap: 2.5rem;
+				padding-block: 3rem 3.5rem;
+			}
+
+			.foot-mark {
+				display: flex;
+				align-items: center;
+				/* 0.1389 x mark size, matching the lockup's own spacing. */
+				gap: 0.3125rem;
+				line-height: 1;
+				color: var(--cream);
+			}
+
+			/* 0.7551 x mark size, again from the lockup geometry. */
+			.foot-wordmark {
+				display: block;
+				height: 1.6875rem;
+				width: auto;
+			}
+
+			/* The mark sits on cocoa, never on a honey-adjacent surface. */
+			.foot-bear {
+				display: block;
+				width: 2.25rem;
+				height: 2.25rem;
+				flex: none;
+			}
+
+			.foot-note {
+				color: rgba(255, 249, 237, 0.72);
+				font-size: 0.875rem;
+				max-width: 26rem;
+			}
+
+			.foot-nav {
+				margin-top: 1.25rem;
+			}
+
+			.foot-nav ul {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 1.25rem;
+			}
+
+			.foot-nav a {
+				color: rgba(255, 249, 237, 0.86);
+				font-size: 0.9375rem;
+				text-decoration: none;
+				border-bottom: 1px solid rgba(255, 249, 237, 0.28);
+				padding-bottom: 0.125rem;
+			}
+
+			.foot-nav a:hover {
+				color: #fff;
+				border-bottom-color: #fff;
+			}
+
+			.foot-cta {
+				display: grid;
+				gap: 0.875rem;
+				justify-items: start;
+				align-content: start;
+			}
+
+			.foot-cta-label {
+				font-family: var(--font-head);
+				font-weight: 500;
+				font-size: 1rem;
+				color: #fff;
+			}
+
+			@media (min-width: 48em) {
+				.foot-inner {
+					grid-template-columns: 1fr auto;
+					gap: 3.5rem;
+					padding-block: 4rem 4.5rem;
+				}
+
+				/* With the CTA column hidden the row would otherwise keep an empty
+				   auto track. */
+				main:has(> section.band)
+					+ .site-foot
+					.foot-inner {
+					grid-template-columns: 1fr;
+				}
+			}
+
+			/* ---- section bands ---- */
+
+			.section {
+				padding-block: 3.5rem;
+			}
+
+			@media (min-width: 48em) {
+				.section {
+					padding-block: 5.5rem;
+				}
+			}
+
+			/* Full-bleed colour comes from the section's own background with the
+			   shell inside. Never 100vw: that counts the scrollbar and brings
+			   back horizontal scroll. */
+			/* --paper and --cream are the same value in this palette, so the
+			   warmer honey-washed tone carries the alternation instead. */
+			.band-cream {
+				background: var(--warm);
+			}
+
+			.band-tint {
+				background: var(--tint);
+			}
+
+			.section-head {
+				display: grid;
+				gap: 0.75rem;
+				max-width: 42rem;
+				margin-bottom: 2.5rem;
+			}
+
+			.section-head h2 {
+				font-size: var(--fs-h2);
+			}
+
+			.lede {
+				color: var(--muted);
+				max-width: 34rem;
+			}
+
+			/* ---- buttons ---- */
+
+			.cta-quiet {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				font-family: var(--font-head);
+				font-weight: 500;
+				font-size: 1rem;
+				line-height: 1.4;
+				padding: 0.8125rem 1.375rem;
+				border-radius: 12px;
+				background: var(--paper);
+				color: var(--accent);
+				text-decoration: none;
+				border: 1px solid var(--rule);
+				transition:
+					transform 180ms ease,
+					box-shadow 180ms ease,
+					border-color 180ms ease;
+			}
+
+			@media (hover: hover) {
+				.cta-quiet:hover {
+					border-color: var(--accent);
+					transform: translateY(-2px);
+					box-shadow: var(--shadow-sm);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.cta-quiet {
+					transition: none;
+				}
+
+				.cta-quiet:hover {
+					transform: none;
+				}
+			}
+
+			.actions {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 0.75rem;
+			}
+
+			/* ---- inner page header ---- */
+
+			.page-head-inner {
+				display: grid;
+				gap: 1rem;
+				padding-block: 3rem 3.5rem;
+				max-width: 44rem;
+			}
+
+			.page-head h1 {
+				font-size: var(--fs-h1);
+				text-wrap: balance;
+			}
+
+			@media (min-width: 48em) {
+				.page-head-inner {
+					padding-block: 4.5rem 5rem;
+				}
+			}
+
+			/* ---- numbered steps, shared by / and /contact ---- */
+
+			.steps {
+				display: grid;
+				gap: 1rem;
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+
+			.step {
+				display: grid;
+				/* minmax(0,1fr) so the text column can shrink below its
+				   min-content width; a bare 1fr floors at min-content and any
+				   unbreakable run pushes the card past the viewport. */
+				grid-template-columns: auto minmax(0, 1fr);
+				gap: 0 1rem;
+				align-items: start;
+				padding: 1.25rem;
+				border-radius: var(--radius);
+				background: var(--paper);
+				border: 1px solid var(--rule-soft);
+				box-shadow: var(--shadow-sm);
+				transition:
+					transform 200ms ease,
+					box-shadow 200ms ease;
+			}
+
+			@media (hover: hover) {
+				.step:hover {
+					transform: translateY(-3px);
+					box-shadow: var(--shadow-md);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.step {
+					transition: none;
+				}
+
+				.step:hover {
+					transform: none;
+				}
+			}
+
+			.step-mark {
+				display: grid;
+				grid-template-columns: auto auto;
+				align-items: center;
+				gap: 0.625rem;
+			}
+
+			/* No opacity: accent at 0.7 measured 4.10:1, under AA. Full accent on
+			   the card background is 9.08:1. */
+			.step-n {
+				font-family: var(--font-head);
+				font-weight: 600;
+				font-size: 0.8125rem;
+				letter-spacing: 0;
+				color: var(--honey-ink);
+				font-variant-numeric: tabular-nums;
+			}
+
+			.step-body {
+				display: grid;
+				gap: 0.375rem;
+				min-width: 0;
+			}
+
+			.step-body h3 {
+				font-size: 1.0625rem;
+				font-weight: 600;
+			}
+
+			.step-body p {
+				color: var(--muted);
+				font-size: 0.9375rem;
+				max-width: 38rem;
+			}
+
+			@media (min-width: 48em) {
+				.steps {
+					grid-template-columns: repeat(2, 1fr);
+					gap: 1.25rem;
+				}
+
+				.step {
+					padding: 1.75rem;
+				}
+			}
+
+			/* ---- closing note under a section ---- */
+
+			.more {
+				margin-top: 2.5rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid var(--rule);
+				color: var(--muted);
+				font-size: 0.9375rem;
+			}
+
+			/* ---- FAQ accordion (shared by /contact and /fix-ai-website) ----
+			   Native details/summary: opens without JS. One pattern site-wide;
+			   an earlier flat-article variant on /fix-ai-website also broke the
+			   heading outline with sibling h2s under the section h2. */
+			.faq {
+				display: grid;
+				gap: 0.75rem;
+			}
+
+			.faq-item {
+				border-radius: var(--radius);
+				background: var(--paper);
+				border: 1px solid var(--rule-soft);
+				box-shadow: var(--shadow-sm);
+				overflow: hidden;
+			}
+
+			.faq-item summary {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 1rem;
+				min-height: 44px;
+				padding: 1rem 1.25rem;
+				cursor: pointer;
+				list-style: none;
+				font-family: var(--font-head);
+				font-weight: 500;
+				font-size: 1rem;
+				color: var(--ink);
+			}
+
+			.faq-item summary::-webkit-details-marker {
+				display: none;
+			}
+
+			.faq-q {
+				flex: 1;
+				min-width: 0;
+			}
+
+			/* Plus turning into a minus, drawn in CSS rather than as a glyph. */
+			.faq-sign {
+				position: relative;
+				width: 1rem;
+				height: 1rem;
+				flex: none;
+			}
+
+			.faq-sign::before,
+			.faq-sign::after {
+				content: "";
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				width: 0.875rem;
+				height: 2px;
+				border-radius: 2px;
+				background: var(--accent);
+				transform: translate(-50%, -50%);
+				transition: transform 240ms ease;
+			}
+
+			.faq-item[open] .faq-sign::after {
+				transform: translate(-50%, -50%) rotate(0deg);
+			}
+
+			.faq-sign::after {
+				transform: translate(-50%, -50%) rotate(90deg);
+			}
+
+			/* Thai reads comfortably on a shorter measure than Latin. */
+			.faq-a {
+				padding: 0 1.25rem 1.25rem;
+				color: var(--muted);
+				font-size: 0.9375rem;
+				max-width: 32rem;
+			}
+
+			@media (hover: hover) {
+				.faq-item summary:hover {
+					background: var(--tint);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.faq-sign::before,
+				.faq-sign::after {
+					transition: none;
+				}
+			}
+
+			@media (min-width: 48em) {
+				.faq-item summary {
+					padding: 1.125rem 1.5rem;
+					font-size: 1.0625rem;
+				}
+
+				.faq-a {
+					padding: 0 1.5rem 1.5rem;
+				}
+			}
+
+			/* ---- work cards ---- */
+
+			.work-list {
+				display: grid;
+				gap: 1.75rem;
+			}
+
+			.work-item {
+				display: grid;
+				gap: 1rem;
+				align-content: start;
+				padding: 1rem;
+				border-radius: var(--radius);
+				background: var(--paper);
+				border: 1px solid var(--rule-soft);
+				box-shadow: var(--shadow-sm);
+				transition:
+					transform 220ms ease,
+					box-shadow 220ms ease;
+			}
+
+			@media (hover: hover) {
+				.work-item:hover {
+					transform: translateY(-4px);
+					box-shadow: var(--shadow-md);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.work-item {
+					transition: none;
+				}
+
+				.work-item:hover {
+					transform: none;
+				}
+			}
+
+			.work-item h3 {
+				font-size: 1.1875rem;
+				font-weight: 600;
+				overflow-wrap: anywhere;
+			}
+
+			.work-item p {
+				color: var(--muted);
+				font-size: 0.9375rem;
+			}
+
+			/* Coloured kind tag, one tint per project. */
+			.tag {
+				display: inline-flex;
+				align-items: center;
+				align-self: start;
+				padding: 0.3125rem 0.75rem;
+				border-radius: 999px;
+				font-family: var(--font-head);
+				font-weight: 500;
+				font-size: 0.75rem;
+				letter-spacing: 0;
+				background: var(--tint-strong);
+				color: var(--accent);
+			}
+
+			.tag.is-amber {
+				background: var(--tint-honey);
+				color: var(--honey-ink);
+			}
+
+			.tag.is-clay {
+				background: var(--tint-scarf);
+				color: var(--scarf-ink);
+			}
+
+			.work-link {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.4375rem;
+				align-self: start;
+				font-family: var(--font-head);
+				font-weight: 500;
+				font-size: 0.9375rem;
+				text-decoration: none;
+				overflow-wrap: anywhere;
+				border-bottom: 1px solid transparent;
+				padding-bottom: 0.0625rem;
+			}
+
+			.work-link:hover {
+				border-bottom-color: var(--accent);
+			}
+
+			.work-link .icon {
+				transition: transform 200ms ease;
+			}
+
+			@media (hover: hover) {
+				.work-item:hover .work-link .icon {
+					transform: translate(2px, -2px);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.work-link .icon {
+					transition: none;
+				}
+			}
+
+			/* ---- contact band, shared ---- */
+
+			.band {
+				background: var(--cocoa);
+				color: rgba(255, 249, 237, 0.86);
+			}
+
+			.band-inner {
+				display: grid;
+				gap: 1.25rem;
+				padding-block: 3.25rem;
+				max-width: 42rem;
+			}
+
+			.band-inner h2 {
+				font-size: var(--fs-h2);
+				color: #fff;
+			}
+
+			.band-inner .label {
+				color: rgba(255, 249, 237, 0.86);
+			}
+
+			.band-inner .label::before {
+				background: rgba(255, 249, 237, 0.7);
+			}
+
+			.band-inner .lede {
+				color: rgba(255, 249, 237, 0.78);
+			}
+
+			.band-inner .actions {
+				margin-top: 0.5rem;
+			}
+
+			.band-inner .cta-quiet {
+				background: transparent;
+				color: #fff;
+				border-color: rgba(255, 249, 237, 0.42);
+			}
+
+			@media (hover: hover) {
+				.band-inner .cta-quiet:hover {
+					border-color: #fff;
+					background: rgba(255, 249, 237, 0.08);
+				}
+			}
+
+			@media (min-width: 48em) {
+				.band-inner {
+					padding-block: 4.5rem;
+				}
+			}
+		</style>
+	</body>
+</html>

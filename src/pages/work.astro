@@ -1,0 +1,223 @@
+---
+import Layout from "../layouts/Layout.astro";
+import BrowserFrame from "../components/BrowserFrame.astro";
+import Icon from "../components/Icon.astro";
+import LineButton from "../components/LineButton.astro";
+import { works } from "../data/works";
+import { protectThai } from "../utils/thai";
+
+// pawjai.co is the one product he built and owns, so it leads the page as a
+// featured card. The remaining four keep the alternating layout. (The home
+// teaser order is deliberately different: SME work first there.)
+const featuredWork = works.find((w) => w.name === "pawjai.co")!;
+const otherWork = works.filter((w) => w !== featuredWork);
+
+const breadcrumb = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{
+			"@type": "ListItem",
+			position: 1,
+			name: "หน้าแรก",
+			item: new URL("/", Astro.site).href,
+		},
+		{
+			"@type": "ListItem",
+			position: 2,
+			name: "ผลงาน",
+			item: new URL("/work/", Astro.site).href,
+		},
+	],
+};
+---
+
+<Layout
+	title="ผลงานเว็บไซต์และระบบที่เปิดใช้งานจริง | Pooh"
+	description="ดูตัวอย่างเว็บไซต์ธุรกิจและโปรดักต์ที่ภูรินท์ออกแบบและพัฒนาเอง ทั้ง pawjai.co สายมู.com และ valasauna.com ทุกงานเปิดใช้จริงอยู่ อยากได้แบบไหนทักไลน์มาคุยได้"
+	schema={breadcrumb}
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<p class="label">ผลงาน</p>
+			<h1>งานที่ทำแล้วเปิดใช้อยู่จริง</h1>
+			<p class="lede">
+				เลือกมาบางส่วนที่เล่าได้ชัดที่สุด มีทั้ง<span class="nb">โปรดักต์</span
+				>ที่ผมทำเองและงานที่ทำให้ลูกค้า
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<article class="work-item featured reveal">
+				<div class="featured-media">
+					<BrowserFrame
+						domain={featuredWork.name}
+						alt={featuredWork.alt}
+						label={featuredWork.label}
+						ratio="16 / 9"
+					/>
+				</div>
+				<div class="featured-text">
+					<span class="tag is-amber">โปรดักต์ที่ผมสร้างเอง</span>
+					<h2>{featuredWork.name}</h2>
+					<p>{protectThai(featuredWork.long)}</p>
+					<a class="work-link" href={featuredWork.url}>
+						เปิดดูเว็บไซต์
+						<Icon name="external" size={16} />
+					</a>
+				</div>
+			</article>
+
+			<div class="work-list full">
+				{
+					otherWork.map((w, i) => (
+						<article class:list={["work-item", "wide", "reveal", `reveal-d${i % 2}`]}>
+							<div class="wide-media">
+								<BrowserFrame
+									domain={w.name}
+									alt={w.alt}
+									label={w.label}
+									ratio="16 / 9"
+								/>
+							</div>
+							<div class="wide-text">
+								<span class:list={["tag", `is-${w.tint}`]}>{protectThai(w.kind)}</span>
+								<h2>{w.name}</h2>
+								<p>{protectThai(w.long)}</p>
+								<a class="work-link" href={w.url}>
+									เปิดดูเว็บไซต์
+									<Icon name="external" size={16} />
+								</a>
+							</div>
+						</article>
+					))
+				}
+			</div>
+
+			<p class="more reveal">
+				และมีงานอื่นที่เล่าให้ฟังได้เมื่อทักมาคุย
+				อยากได้เว็บแบบไหน <a href="/contact">บอกผมได้ในหน้าติดต่อ</a>
+				หรือถ้าเริ่มทำเองด้วย AI ไว้แล้ว <a href="/fix-ai-website"
+					>ดูวิธีที่ผมรับแก้และสานต่อให้</a
+				>
+			</p>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="shell band-inner reveal">
+			<p class="label">ติดต่อ</p>
+			<h2>อยากเห็นตัวอย่างที่ใกล้เคียงกับงานของคุณไหม</h2>
+			<p class="lede">
+				ทักมาบอกได้ว่าทำธุรกิจอะไร ผมจะเลือกงานที่ใกล้เคียงมาเล่าให้ฟังครับ
+			</p>
+			<div class="actions">
+				<LineButton size="lg" label="ทักไลน์เล่างานที่อยากทำ" />
+				<a class="cta-quiet" href="/contact">
+					ดูวิธีติดต่อ
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	/* Featured card: larger media, its own tag, sits above the alternating set. */
+	.featured {
+		display: grid;
+		gap: 1.25rem;
+		padding: 1.25rem;
+		margin-bottom: 2.5rem;
+		border-color: rgba(243, 178, 26, 0.4);
+		box-shadow: var(--shadow-md);
+	}
+
+	.featured-media {
+		min-width: 0;
+	}
+
+	.featured-text {
+		display: grid;
+		gap: 0.625rem;
+		align-content: center;
+		/* start, not stretch: the tag chip and link should hug their text
+		   rather than spanning the column. */
+		justify-items: start;
+		min-width: 0;
+	}
+
+	.featured-text h2 {
+		font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
+		font-weight: 600;
+		overflow-wrap: anywhere;
+	}
+
+	.featured-text p {
+		color: var(--muted);
+		max-width: 32rem;
+	}
+
+	.featured-text .work-link {
+		margin-top: 0.375rem;
+	}
+
+	@media (min-width: 48em) {
+		.featured {
+			grid-template-columns: 1.35fr 1fr;
+			gap: 2.5rem;
+			padding: 1.75rem;
+			margin-bottom: 3.5rem;
+		}
+	}
+
+	.full {
+		gap: 2rem;
+	}
+
+	.wide {
+		gap: 1.25rem;
+		padding: 1.25rem;
+	}
+
+	.wide-text {
+		display: grid;
+		gap: 0.625rem;
+		align-content: start;
+	}
+
+	.wide-text h2 {
+		font-size: clamp(1.3125rem, 1.15rem + 0.8vw, 1.75rem);
+		font-weight: 600;
+		overflow-wrap: anywhere;
+	}
+
+	.wide-text p {
+		color: var(--muted);
+		max-width: 34rem;
+	}
+
+	.wide-text .work-link {
+		margin-top: 0.375rem;
+	}
+
+	@media (min-width: 48em) {
+		.wide {
+			grid-template-columns: 1.15fr 1fr;
+			gap: 2.25rem;
+			align-items: center;
+			padding: 1.5rem;
+		}
+
+		.full {
+			gap: 2.5rem;
+		}
+	}
+
+	/* Slightly more air than the shared .more, to match the taller cards. */
+	.more {
+		margin-top: 3rem;
+	}
+</style>

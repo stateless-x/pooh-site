@@ -1,0 +1,272 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import LineButton from "../components/LineButton.astro";
+import { fixAiFaq, checklist } from "../data/fix-ai";
+import { protectThai } from "../utils/thai";
+
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: fixAiFaq.map((item) => ({
+		"@type": "Question",
+		name: item.q,
+		acceptedAnswer: { "@type": "Answer", text: item.a },
+	})),
+};
+
+const breadcrumb = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{
+			"@type": "ListItem",
+			position: 1,
+			name: "หน้าแรก",
+			item: new URL("/", Astro.site).href,
+		},
+		{
+			"@type": "ListItem",
+			position: 2,
+			name: "รับแก้เว็บที่สร้างด้วย AI",
+			item: new URL("/fix-ai-website/", Astro.site).href,
+		},
+	],
+};
+---
+
+<Layout
+	title="รับแก้และสานต่อเว็บที่สร้างด้วย AI | Pooh"
+	description="สร้างเว็บด้วย AI แล้วไปต่อไม่ไหว ผมรับแก้เว็บที่สร้างด้วย AI และสานต่อให้เปิดใช้จริงได้ ไม่ต้องรื้อเริ่มใหม่ ประเมินให้ก่อนว่าเก็บอะไรต่อได้ ทักไลน์ bobroach"
+	schema={[faqSchema, breadcrumb]}
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<p class="label">สำหรับคนที่ลองสร้างเองด้วย AI</p>
+			<h1>รับแก้เว็บที่สร้างด้วย AI และสานต่อให้ใช้งานได้จริง</h1>
+			<p class="lede">
+				<strong
+					>ถ้าคุณให้ AI สร้างเว็บหรือระบบขึ้นมาแล้วไปต่อไม่ไหว ผมรับดูให้ตั้งแต่ต้น</strong
+				> ว่าของที่มีอยู่เก็บต่อได้แค่ไหน ต้องแก้อะไรเพิ่ม แล้วลงมือทำให้จนเปิดใช้กับลูกค้าจริงได้
+				โดยไม่ต้องรื้อทิ้งเริ่มใหม่จากศูนย์
+			</p>
+			<div class="actions">
+				<LineButton size="lg" label="ส่งของที่ทำค้างไว้มาคุยกัน" />
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell narrow">
+			<div class="prose reveal">
+				<p>
+					ทุกวันนี้เครื่องมือ AI เก่งพอที่จะสร้างเว็บทั้งหน้าให้ได้ในเวลาไม่กี่ชั่วโมง
+					คนทำธุรกิจจำนวนมากเลยลองทำเองก่อน ผมว่าเป็นเรื่องดีครับ
+					เพราะทำให้เห็นภาพเร็วว่าอยากได้อะไร และประหยัดเวลาคุยกันไปได้เยอะ
+				</p>
+				<p>
+					ปัญหามักไม่ได้อยู่ที่หน้าตา แต่อยู่ที่ส่วนที่มองไม่เห็น
+					พอเริ่มมีลูกค้าใช้จริง ระบบที่ไม่มีพื้นฐานทางวิศวกรรมรองรับจะเริ่มส่งสัญญาณ
+					เช่น แก้ตรงหนึ่งแล้วอีกตรงพังตาม ข้อมูลลูกค้าเก็บไว้ในที่ที่ไม่ควรเก็บ
+					หรือไม่มีใครอธิบายได้ว่าข้างในทำงานยังไง
+					<strong>งานที่เหมือนใกล้เสร็จเต็มที จึงกลายเป็นงานที่ไปต่อไม่ได้</strong>
+				</p>
+				<p>
+					ผมใช้ AI ทำงานทุกวันเหมือนกันครับ เลยไม่ได้มองว่าการเริ่มจาก AI เป็นเรื่องผิด
+					สิ่งที่ผมเพิ่มเข้าไปคือพื้นฐานที่ทำให้ของชิ้นนั้นอยู่ได้นาน ทั้งโครงสร้าง
+					ความปลอดภัย และการดูแลต่อเมื่อธุรกิจโตขึ้น
+					อ่านที่มาของแนวคิดนี้ได้ที่ <a href="/">หน้าแรกของผม</a>
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section band-tint">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">เช็กลิสต์ของภูรินท์</p>
+				<h2>เว็บที่ AI สร้าง พร้อมใช้งานจริงหรือยัง</h2>
+				<p class="lede">
+					นี่คือแปดข้อที่ผมใช้ตรวจงานทุกชิ้นก่อนบอกว่าเปิดให้ลูกค้าใช้ได้
+					ลองไล่ดูเองก่อนก็ได้ครับ ถ้าตอบว่าไม่แน่ใจตั้งแต่สองข้อขึ้นไป ทักมาคุยกันได้
+				</p>
+			</div>
+
+			<ol class="checklist">
+				{
+					checklist.map((item, i) => (
+						<li class:list={["check", "reveal", `reveal-d${i % 3}`]}>
+							<span class="check-n" aria-hidden="true">
+								{String(i + 1).padStart(2, "0")}
+							</span>
+							<div class="check-body">
+								<h3>{protectThai(item.title)}</h3>
+								<p>{protectThai(item.body)}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell narrow">
+			<div class="section-head reveal">
+				<p class="label">คำถามที่เจอบ่อย</p>
+				<h2>เรื่องที่คนถามก่อนส่งงานมาให้ดู</h2>
+			</div>
+
+			<div class="faq">
+				{
+					fixAiFaq.map((item, i) => (
+						<details class:list={["faq-item", "reveal", `reveal-d${i % 3}`]}>
+							<summary>
+								<span class="faq-q">{protectThai(item.q)}</span>
+								<span class="faq-sign" aria-hidden="true" />
+							</summary>
+							<p class="faq-a">{protectThai(item.a)}</p>
+						</details>
+					))
+				}
+			</div>
+
+			<p class="more reveal">
+				มีคำถามอื่นอีก ดู<a href="/contact">คำถามที่เจอบ่อยทั้งหมดในหน้าติดต่อ</a>
+				หรือทักมาถามตรง ๆ ได้เลยครับ
+			</p>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="shell band-inner reveal">
+			<p class="label">ส่งมาให้ดูก่อน</p>
+			<h2>ส่งลิงก์ของที่ทำค้างไว้มา ผมดูให้ว่าไปต่อยังไงดี</h2>
+			<p class="lede">
+				ไม่ต้องเก็บกวาดอะไรก่อนส่ง สภาพจริงเป็นแบบไหนส่งมาแบบนั้นได้เลย
+				ผมดูแล้วบอกกลับไปตรง ๆ ว่าเก็บอะไรต่อได้บ้าง และควรเริ่มจากตรงไหนครับ
+			</p>
+			<div class="actions">
+				<LineButton size="lg" label="ส่งของที่ทำค้างไว้มาคุยกัน" />
+				<a class="cta-quiet" href="/work">
+					ดูผลงานที่ผ่านมา
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.narrow {
+		max-width: 48rem;
+	}
+
+	.prose {
+		display: grid;
+		gap: 1.125rem;
+		font-size: 1.0625rem;
+	}
+
+	.prose p {
+		color: var(--muted);
+	}
+
+	.prose strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	.page-head .lede strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	.page-head .actions {
+		margin-top: 0.75rem;
+	}
+
+	/* ---- checklist ---- */
+
+	.checklist {
+		display: grid;
+		gap: 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.check {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 0 1rem;
+		align-items: start;
+		min-width: 0;
+		padding: 1.25rem;
+		border-radius: var(--radius);
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		box-shadow: var(--shadow-sm);
+		transition:
+			transform 200ms ease,
+			box-shadow 200ms ease;
+	}
+
+	@media (hover: hover) {
+		.check:hover {
+			transform: translateY(-3px);
+			box-shadow: var(--shadow-md);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.check {
+			transition: none;
+		}
+
+		.check:hover {
+			transform: none;
+		}
+	}
+
+	.check-n {
+		font-family: var(--font-head);
+		font-weight: 600;
+		font-size: 0.9375rem;
+		color: var(--honey-ink);
+		font-variant-numeric: tabular-nums;
+		min-width: 1.75rem;
+	}
+
+	.check-body {
+		display: grid;
+		gap: 0.25rem;
+		min-width: 0;
+	}
+
+	.check-body h3 {
+		font-size: 1rem;
+		font-weight: 600;
+	}
+
+	.check-body p {
+		color: var(--muted);
+		font-size: 0.9375rem;
+	}
+
+	@media (min-width: 48em) {
+		.checklist {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.25rem;
+		}
+
+		.check {
+			padding: 1.5rem;
+		}
+	}
+
+
+
+
+
+</style>

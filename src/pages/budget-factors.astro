@@ -1,0 +1,210 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import LineButton from "../components/LineButton.astro";
+import { factors, budgetFaq } from "../data/budget";
+import { protectThai } from "../utils/thai";
+
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: budgetFaq.map((item) => ({
+		"@type": "Question",
+		name: item.q,
+		acceptedAnswer: { "@type": "Answer", text: item.a },
+	})),
+};
+
+const breadcrumb = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{
+			"@type": "ListItem",
+			position: 1,
+			name: "หน้าแรก",
+			item: new URL("/", Astro.site).href,
+		},
+		{
+			"@type": "ListItem",
+			position: 2,
+			name: "งบประมาณขึ้นกับอะไรบ้าง",
+			item: new URL("/budget-factors/", Astro.site).href,
+		},
+	],
+};
+---
+
+<Layout
+	title="ทำเว็บไซต์หรือระบบ ใช้งบเท่าไหร่ | Pooh"
+	description="ทำเว็บไซต์หรือระบบใช้งบเท่าไหร่ ตอบตรง ๆ ว่าขึ้นกับขอบเขตงาน งานเล็กเริ่มหลักพัน ระบบใหญ่ขยับหลักหมื่นหลักแสน พร้อมหกปัจจัยที่ทำให้งบต่างกัน ประเมินฟรี"
+	schema={[faqSchema, breadcrumb]}
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<p class="label">งบประมาณ</p>
+			<h1>ทำเว็บไซต์หรือระบบ ใช้งบเท่าไหร่ ขึ้นกับอะไรบ้าง</h1>
+			<p class="lede">
+				<strong>ตอบตรง ๆ ว่าช่วงราคาในตลาดกว้างมาก</strong>
+				เพราะคำว่าเว็บหรือระบบครอบคลุมงานตั้งแต่หน้าเดียวจบไปจนถึงระบบที่ทั้งบริษัทใช้
+				หน้านี้อธิบายว่าอะไรบ้างที่ทำให้ตัวเลขต่างกัน เพื่อให้คุยกันได้ตรงเรื่องขึ้น
+				งานเล็ก ๆ เริ่มได้ตั้งแต่หลักพัน ส่วนระบบที่ใหญ่ขึ้นก็ขยับไปหลักหมื่นหลักแสนตามขนาดงาน
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">หกเรื่องที่มีผลกับงบ</p>
+				<h2>อะไรบ้างที่ทำให้งานสองชิ้นราคาไม่เท่ากัน</h2>
+			</div>
+
+			<ol class="factors">
+				{
+					factors.map((item, i) => (
+						<li class:list={["factor", "reveal", `reveal-d${i % 3}`]}>
+							<span class="factor-n" aria-hidden="true">
+								{String(i + 1).padStart(2, "0")}
+							</span>
+							<div class="factor-body">
+								<h3>{protectThai(item.title)}</h3>
+								<p>{protectThai(item.body)}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell narrow">
+			<div class="section-head reveal">
+				<p class="label">คำถามที่เจอบ่อย</p>
+				<h2>เรื่องงบที่คนถามมาบ่อยที่สุด</h2>
+			</div>
+
+			<div class="faq">
+				{
+					budgetFaq.map((item, i) => (
+						<details class:list={["faq-item", "reveal", `reveal-d${i % 3}`]}>
+							<summary>
+								<span class="faq-q">{protectThai(item.q)}</span>
+								<span class="faq-sign" aria-hidden="true" />
+							</summary>
+							<p class="faq-a">{protectThai(item.a)}</p>
+						</details>
+					))
+				}
+			</div>
+
+			<p class="more reveal">
+				อยากเห็นว่างานระบบหลังบ้านทำอะไรได้บ้าง <a href="/backoffice"
+					>ดูหน้าระบบหลังบ้าน</a
+				> หรือ<a href="/work">ดูผลงานที่ผ่านมา</a>
+			</p>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="shell band-inner reveal">
+			<p class="label">ประเมินให้ก่อนได้</p>
+			<h2>เล่ามาก่อนว่าอยากได้อะไร ผมประเมินให้ฟรี</h2>
+			<p class="lede">
+				ราคาของแต่ละงานขึ้นกับขอบเขตจริง ไม่ต้องเดาเอง เล่ามาว่าธุรกิจทำอะไรและอยากได้อะไร
+				ผมจะบอกกลับว่างานประมาณไหนและมีทางไหนที่ประหยัดกว่าบ้าง ประเมินเบื้องต้นไม่มี<span class="nb">ค่าใช้จ่าย</span>และไม่มีข้อผูกมัด
+			</p>
+			<div class="actions">
+				<LineButton size="lg" label="เล่างานให้ผมประเมินให้" />
+				<a class="cta-quiet" href="/contact">
+					ดูวิธีติดต่อ
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.narrow {
+		max-width: 48rem;
+	}
+
+	.page-head .lede strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	/* ---- factors ---- */
+
+	.factors {
+		display: grid;
+		gap: 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.factor {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 0 1rem;
+		align-items: start;
+		min-width: 0;
+		padding: 1.25rem;
+		border-radius: var(--radius);
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.factor-n {
+		font-family: var(--font-head);
+		font-weight: 600;
+		font-size: 0.9375rem;
+		color: var(--honey-ink);
+		font-variant-numeric: tabular-nums;
+		min-width: 1.75rem;
+	}
+
+	.factor-body {
+		display: grid;
+		gap: 0.25rem;
+		min-width: 0;
+	}
+
+	.factor-body h3 {
+		font-size: 1rem;
+		font-weight: 600;
+	}
+
+	.factor-body p {
+		color: var(--muted);
+		font-size: 0.9375rem;
+		max-width: 32rem;
+	}
+
+	@media (min-width: 48em) {
+		.factors {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.25rem;
+		}
+
+		.factor {
+			padding: 1.5rem;
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+	@media (min-width: 48em) {
+	}
+</style>

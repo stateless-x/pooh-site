@@ -1,0 +1,246 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ImagePlaceholder from "../components/ImagePlaceholder.astro";
+import Icon from "../components/Icon.astro";
+import LineButton from "../components/LineButton.astro";
+import { faq } from "../data/faq";
+import { protectThai } from "../utils/thai";
+
+const points = [
+	{
+		n: "01",
+		icon: "storefront",
+		title: "ทำธุรกิจอะไร",
+		body: "เล่าสั้น ๆ ว่าขายอะไรหรือให้บริการอะไร ลูกค้าเป็นใคร แค่ไม่กี่บรรทัดก็พอครับ",
+	},
+	{
+		n: "02",
+		icon: "help",
+		title: "อยากให้ช่วยเรื่องไหน",
+		body: "จะเป็นเว็บใหม่ เว็บเดิมที่อยากปรับ หรือแค่งานที่ตอนนี้ทำมือแล้วเริ่มไม่ไหว บอกมาได้เลย",
+	},
+	{
+		n: "03",
+		icon: "clock",
+		title: "มีกรอบเวลาไหม",
+		body: "ถ้ามีวันที่ต้องใช้งานอยู่แล้วบอกไว้ด้วย จะได้ดูว่าทันหรือไม่ตั้งแต่แรก",
+	},
+] as const;
+
+// FAQPage is generated from the same array the visible list renders, so the
+// two can never drift apart.
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: faq.map((item) => ({
+		"@type": "Question",
+		name: item.q,
+		acceptedAnswer: { "@type": "Answer", text: item.a },
+	})),
+};
+
+const breadcrumb = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{
+			"@type": "ListItem",
+			position: 1,
+			name: "หน้าแรก",
+			item: new URL("/", Astro.site).href,
+		},
+		{
+			"@type": "ListItem",
+			position: 2,
+			name: "ติดต่อ",
+			item: new URL("/contact/", Astro.site).href,
+		},
+	],
+};
+---
+
+<Layout
+	title="จ้างทำเว็บไซต์ เริ่มจากทักไลน์มาคุยก่อน | Pooh"
+	description="อยากจ้างทำเว็บไซต์หรือระบบหลังบ้าน เริ่มจากทักไลน์ไอดี bobroach มาเล่าให้ฟังก่อนได้เลย ไลน์ส่วนตัวของภูรินท์ ตอบเองทุกข้อความ ยังไม่ต้องตัดสินใจอะไร"
+	schema={[faqSchema, breadcrumb]}
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<p class="label">ติดต่อ</p>
+			<h1>ทักมาคุยก่อนได้ ยังไม่ต้องตัดสินใจอะไร</h1>
+			<p class="lede">
+				ถ้ายังไม่แน่ใจว่าอยากได้อะไร ทักมาเล่าให้ฟังก่อนก็ได้ครับ
+				ผมช่วยดูให้ว่าควรเริ่มจากตรงไหน
+			</p>
+		</div>
+	</section>
+
+	<section class="card-wrap">
+		<div class="shell">
+			<div class="line-card reveal reveal-eager">
+				<div class="line-main">
+					<p class="label">ไลน์ไอดี</p>
+					<p class="line-id">bobroach</p>
+					<p class="line-note">ไลน์ส่วนตัว ตอบเองทุกข้อความ ไม่มีทีมขายมาตอบแทน</p>
+					<LineButton size="lg" />
+					<p class="line-hint">หรือค้นหาไอดี bobroach ในแอปไลน์แล้วกดเพิ่มเพื่อน</p>
+				</div>
+				<div class="line-qr">
+					<ImagePlaceholder
+						alt="คิวอาร์โค้ดสำหรับเพิ่มเพื่อนไลน์ bobroach"
+						label="คิวอาร์โค้ดไลน์"
+						ratio="1 / 1"
+					/>
+					<p class="qr-hint">สแกนเพื่อเพิ่มเพื่อน</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">ทักมาแล้วเล่าอะไรดี</p>
+				<h2>บอกสามอย่างนี้มา จะได้เริ่มคุยกันตรงจุดตั้งแต่ข้อความแรก</h2>
+			</div>
+
+			<ol class="steps">
+				{
+					points.map((p, i) => (
+						<li class:list={["step", "reveal", `reveal-d${i}`]}>
+							<span class="chip">
+								<Icon name={p.icon} size={28} />
+							</span>
+							<div class="step-body">
+								<p class="step-n">ข้อ {p.n}</p>
+								<h3>{p.title}</h3>
+								<p>{p.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+
+			<p class="more reveal">
+				อยากรู้ว่าอะไรทำให้งบต่างกันบ้าง <a href="/budget-factors"
+					>ดูปัจจัยที่มีผลกับงบประมาณ</a
+				>
+			</p>
+
+			<p class="closing reveal">
+				ไม่ต้องเตรียมอะไรให้พร้อมก็ได้ครับ พิมพ์มาเท่าที่นึกออก
+				ที่เหลือค่อยคุยกันต่อในไลน์
+			</p>
+		</div>
+	</section>
+
+	<section class="section band-cream">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">คำถามที่เจอบ่อย</p>
+				<h2>เรื่องที่หลายคนสงสัยก่อนเริ่มงาน</h2>
+			</div>
+
+			<div class="faq">
+				{
+					faq.map((item, i) => (
+						<details class:list={["faq-item", "reveal", `reveal-d${i % 3}`]}>
+							<summary>
+								<span class="faq-q">{protectThai(item.q)}</span>
+								<span class="faq-sign" aria-hidden="true" />
+							</summary>
+							<p class="faq-a">{protectThai(item.a)}</p>
+						</details>
+					))
+				}
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.card-wrap {
+		padding-top: 2.5rem;
+	}
+
+	/* Three checklist cards in a 2-column grid left a lopsided empty cell, so
+	   they go three across once there is room. */
+	@media (min-width: 64em) {
+		.steps {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.line-card {
+		display: grid;
+		gap: 2rem;
+		padding: 1.75rem 1.5rem 2rem;
+		border-radius: 18px;
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		box-shadow: var(--shadow-md);
+	}
+
+	.line-main {
+		display: grid;
+		gap: 0.875rem;
+		justify-items: start;
+		align-content: start;
+	}
+
+	.line-id {
+		font-family: var(--font-head);
+		font-weight: 600;
+		font-size: clamp(2.25rem, 1.6rem + 3.2vw, 3.5rem);
+		line-height: 1.15;
+		letter-spacing: 0.01em;
+		color: var(--ink);
+		overflow-wrap: anywhere;
+	}
+
+	.line-note {
+		color: var(--muted);
+		font-size: 0.9375rem;
+	}
+
+	.line-hint {
+		color: var(--muted);
+		font-size: 0.8125rem;
+	}
+
+	.line-qr {
+		display: grid;
+		gap: 0.625rem;
+		justify-items: center;
+		align-content: start;
+		max-width: 15rem;
+	}
+
+	.line-qr :global(.ph) {
+		width: 100%;
+		border-radius: 12px;
+		overflow: hidden;
+	}
+
+	.qr-hint {
+		color: var(--muted);
+		font-size: 0.8125rem;
+	}
+
+	@media (min-width: 48em) {
+		.line-card {
+			grid-template-columns: 1fr auto;
+			gap: 3rem;
+			align-items: center;
+			padding: 2.5rem 2.75rem;
+		}
+	}
+
+	.closing {
+		margin-top: 2.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--rule);
+		color: var(--muted);
+		max-width: 34rem;
+	}
+</style>

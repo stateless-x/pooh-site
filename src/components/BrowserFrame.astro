@@ -1,0 +1,88 @@
+---
+import ImagePlaceholder from "./ImagePlaceholder.astro";
+
+/**
+ * Wraps a screenshot placeholder in a browser-window chrome so portfolio work
+ * reads as a real shipped site rather than a grey box.
+ *
+ * The chrome is decorative: the domain is already in the card heading and the
+ * link, so the whole bar is hidden from assistive tech to avoid repeating it.
+ */
+interface Props {
+	/** Domain shown in the address bar, e.g. "pawjai.co". */
+	domain: string;
+	alt: string;
+	label: string;
+	ratio?: string;
+}
+
+const { domain, alt, label, ratio = "16 / 10" } = Astro.props;
+---
+
+<div class="frame">
+	<div class="bar" aria-hidden="true">
+		<span class="dots">
+			<span></span><span></span><span></span>
+		</span>
+		<span class="url">{domain}</span>
+	</div>
+	<div class="shot">
+		<ImagePlaceholder alt={alt} label={label} ratio={ratio} />
+	</div>
+</div>
+
+<style>
+	.frame {
+		border: 1px solid var(--rule);
+		border-radius: 14px;
+		overflow: hidden;
+		background: var(--paper);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.bar {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.625rem 0.875rem;
+		background: var(--cream);
+		border-bottom: 1px solid var(--rule-soft);
+		/* Let the URL pill shrink instead of forcing the row wider than 320px. */
+		min-width: 0;
+	}
+
+	.dots {
+		display: flex;
+		gap: 0.3125rem;
+		flex: none;
+	}
+
+	.dots span {
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 50%;
+		background: rgba(42, 33, 26, 0.16);
+	}
+
+	.url {
+		flex: 1;
+		/* Without this a long domain refuses to shrink and overflows the card. */
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		padding: 0.1875rem 0.625rem;
+		border-radius: 999px;
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		font-size: 0.75rem;
+		color: var(--muted);
+		letter-spacing: 0.01em;
+	}
+
+	/* The placeholder supplies its own border; inside the frame it would double. */
+	.shot :global(.ph) {
+		border: 0;
+		border-radius: 0;
+	}
+</style>

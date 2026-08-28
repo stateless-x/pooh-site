@@ -1,0 +1,924 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ImagePlaceholder from "../components/ImagePlaceholder.astro";
+import BrowserFrame from "../components/BrowserFrame.astro";
+import Icon from "../components/Icon.astro";
+import LineButton from "../components/LineButton.astro";
+import { works } from "../data/works";
+import { protectThai } from "../utils/thai";
+import { PERSON_NAME, PERSON_TITLE, GITHUB_URL, LINE_URL, LINE_ID } from "../../site.config.mjs";
+
+// The home teaser shows three, in the order set by their teaser rank; /work
+// carries the full set.
+const featured = works
+	.filter((w) => w.teaser)
+	.sort((a, b) => a.teaser! - b.teaser!);
+
+const offers = [
+	{
+		// The lowest-risk rung on the ladder: ปรึกษา -> สร้าง -> ดูแลต่อ.
+		icon: "help",
+		tint: "is-amber",
+		title: "ปรึกษาด้านเทคโนโลยีและระบบ",
+		body: "ยังไม่ต้องจ้างทำก็คุยได้ ช่วยดูว่าควรเริ่มตรงไหนและอะไรยังไม่ต้องทำตอนนี้",
+	},
+	{
+		icon: "flow",
+		tint: "is-clay",
+		title: "ระบบสำหรับงานหลังบ้าน",
+		body: "รวมงานที่กระจายอยู่ในไฟล์และแชท ให้เหลือที่เดียวที่ทีมใช้ร่วมกัน",
+		href: "/backoffice",
+		linkLabel: "ดูรายละเอียดระบบหลังบ้าน",
+	},
+	{
+		icon: "storefront",
+		tint: "",
+		title: "เว็บไซต์ธุรกิจ",
+		body: "ลูกค้าเข้าใจว่าคุณทำอะไรภายในไม่กี่วินาที และติดต่อกลับได้ง่าย",
+	},
+	{
+		icon: "care",
+		tint: "",
+		title: "ดูแลและต่อยอด",
+		body: "ส่งงานแล้วไม่ทิ้งงาน ปรับแก้และต่อยอดได้ตามที่ธุรกิจโตขึ้น",
+	},
+] as const;
+
+const steps = [
+	{
+		n: "01",
+		icon: "listen",
+		title: "ฟังปัญหาก่อน",
+		body: "ถามก่อนว่าติดขัดตรงไหน ยังไม่รีบเสนอวิธีทำ",
+	},
+	{
+		n: "02",
+		icon: "scope",
+		title: "สรุปขอบเขตให้ชัด",
+		body: "เขียนเป็นข้อ ๆ ว่าทำอะไรบ้างและใช้เวลาเท่าไร ตกลงกันก่อนลงมือ",
+	},
+	{
+		n: "03",
+		icon: "updates",
+		title: "อัปเดตเป็นระยะ",
+		body: "เห็นงานจริงเป็นช่วง ๆ ไม่ต้องรอจนจบถึงจะได้ดู",
+	},
+	{
+		n: "04",
+		icon: "deliver",
+		title: "ส่งมอบพร้อมใช้จริง",
+		body: "ส่งงานที่เปิดใช้ได้ทันที พร้อมวิธีดูแลต่อ",
+	},
+] as const;
+
+// Only facts already stated on the page. No years, counts, or ratings.
+const personSchema = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: PERSON_NAME,
+	// The person is ภูรินท์; Pooh is the nickname and the site's name.
+	alternateName: "Pooh",
+	// Matches the visible hero chip exactly, so chip, schema, and spec agree.
+	jobTitle: PERSON_TITLE,
+	// Mirrors the visible canonical entity paragraph in the About strip.
+	description:
+		"ภูรินท์ (Pooh) คือนักพัฒนาเทคโนโลยีเพื่อธุรกิจ รับทำเว็บไซต์ธุรกิจ ระบบหลังบ้าน และรับปรึกษาด้านเทคโนโลยี มีประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี จบวิศวกรรมคอมพิวเตอร์จาก Mahidol University International College ปัจจุบันเป็นผู้ก่อตั้งและผู้พัฒนาหลักของ pawjai.co ควบคู่กับงานอิสระ อยู่กรุงเทพและทำงานร่วมกับลูกค้าได้ทั่วประเทศ ใช้ AI ช่วยให้งานเร็วขึ้นบนพื้นฐานวิศวกรรมที่ดูแลต่อได้ ติดต่อทางไลน์ bobroach",
+	url: new URL("/", Astro.site).href,
+	alumniOf: {
+		"@type": "CollegeOrUniversity",
+		name: "Mahidol University International College",
+	},
+	address: {
+		"@type": "PostalAddress",
+		addressLocality: "Bangkok",
+		addressCountry: "TH",
+	},
+	// Founder relationship to the SaaS he runs, stated as a real entity so the
+	// project and the person are linkable rather than only named in prose.
+	worksFor: {
+		"@type": "Organization",
+		name: "pawjai.co",
+		url: "https://pawjai.co",
+	},
+	knowsAbout: [
+		"รับทำเว็บไซต์ธุรกิจ",
+		"ระบบหลังบ้านสำหรับธุรกิจ",
+		"รับแก้เว็บที่สร้างด้วย AI",
+	],
+	// URL normalises the Thai IDN to its xn-- form, which is what consumers of
+	// structured data expect. Visible hrefs stay in readable Thai.
+	sameAs: [
+		...works.map((w) => new URL(w.url).href),
+		GITHUB_URL,
+	],
+};
+---
+
+<Layout
+	title="รับทำระบบหลังบ้านและเว็บไซต์ธุรกิจ | Pooh"
+	description="รับทำระบบหลังบ้านและเว็บไซต์ธุรกิจ พร้อมรับปรึกษาด้านเทคโนโลยีสำหรับ SME โดยภูรินท์ ประสบการณ์กว่า 7 ปี ส่งมอบพร้อมใช้จริงและดูแลต่อ ทักไลน์ bobroach"
+	schema={personSchema}
+>
+	<section class="hero">
+		<div class="shell hero-inner">
+			<div class="hero-copy reveal reveal-eager">
+				<div class="hero-badges">
+					<p class="greet">
+						<img
+							class="greet-bear"
+							src="/brand/pooh-mark.svg"
+							alt=""
+							width="1024"
+							height="1024"
+							aria-hidden="true"
+						/>สวัสดีครับ ผมภูรินท์
+					</p>
+					<p class="ident" lang="en">Business Technology<wbr /> Engineer</p>
+				</div>
+				<h1>
+					<span class="h1-kicker">รับทำระบบหลังบ้านและเว็บไซต์ธุรกิจ</span>
+					<span class="h1-display"
+						>เปลี่ยนงานที่กระจัดกระจายและ<span class="nb">ไอเดีย</span>ในหัว ให้กลายเป็นเว็บไซต์และระบบที่<span
+							class="mark">ใช้งานได้จริง</span
+						></span
+					>
+				</h1>
+				{/* The AI-augmented tagline moved here from above the H1: the
+				    pre-headline stack was three rows deep before the message arrived. */}
+				<p class="hero-sub">
+					ใช้ AI ให้ได้ความเร็ว บนพื้นฐานวิศวกรรมที่ดูแลต่อได้จริง
+					ประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี ปัจจุบันรับงานอิสระและพัฒนา<span class="nb"
+						>โปรดักต์</span
+					>ของตัวเอง
+				</p>
+				<div class="actions">
+					<LineButton size="lg" />
+					<a class="cta-quiet" href="/work">
+						ดูผลงาน
+						<Icon name="arrow" size={18} />
+					</a>
+				</div>
+			</div>
+
+			<div class="hero-photo reveal reveal-d1 reveal-eager">
+				<div class="photo-frame">
+					<ImagePlaceholder
+						alt="รูปถ่ายของภูรินท์"
+						label="รูปถ่ายของภูรินท์ ยิ้มรับกล้อง"
+						ratio="4 / 5"
+					/>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="trust">
+		<div class="shell">
+			<ul class="trust-list">
+				<li class="trust-item reveal">
+					<span class="chip"><Icon name="badge" size={28} /></span>
+					<p>ประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี</p>
+				</li>
+				<li class="trust-item reveal reveal-d1">
+					<span class="chip is-amber"><Icon name="spark" size={28} /></span>
+					<p>ผู้ก่อตั้ง <span class="nb">pawjai.co</span> ที่เปิดใช้งานจริง</p>
+				</li>
+				<li class="trust-item reveal reveal-d2">
+					<span class="chip is-clay"><Icon name="plainwords" size={28} /></span>
+					<p>อธิบายด้วยภาษาที่คนทำธุรกิจเข้าใจ</p>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+	<section class="section band-tint">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">สิ่งที่รับทำ</p>
+				<h2>มาดูกันว่าเทคโนโลยีช่วยอะไรธุรกิจคุณได้บ้าง</h2>
+				<p class="lede">
+					ตั้งแต่หน้าร้านออนไลน์ ไปจนถึงงานเบื้องหลังที่ทีมใช้กันเอง
+				</p>
+			</div>
+
+			<div class="offers">
+				{
+					offers.map((o, i) => (
+						<article class:list={["offer", "reveal", `reveal-d${i}`]}>
+							<span class:list={["chip", o.tint]}>
+								<Icon name={o.icon} size={28} />
+							</span>
+							<h3>{o.title}</h3>
+							<p>{o.body}</p>
+							{o.href && (
+								<a class="work-link offer-link" href={o.href}>
+									{o.linkLabel}
+									<Icon name="arrow" size={16} />
+								</a>
+							)}
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="section band-cream wedge">
+		<div class="shell wedge-inner">
+			<div class="wedge-head reveal">
+				<p class="label">สำหรับคนที่ลองให้ AI สร้างเองแล้ว</p>
+				<h2>ให้ AI สร้างให้ทั้งหมด เร็วจริง แต่พอพังแล้วใครแก้</h2>
+			</div>
+
+			<div class="wedge-body reveal reveal-d1">
+				<p class="wedge-lead">
+					ใครก็สั่งให้ AI สร้างเว็บขึ้นมาได้ในไม่กี่ชั่วโมง บางคนเรียกกันว่า <span
+						lang="en">Vibe Coding</span
+					> เห็นผลไวจนรู้สึกว่าใกล้เสร็จ แต่พอมีคนใช้จริงแล้วเริ่มรวน คำถามคือใครแก้ให้
+					ผมใช้ AI ทำงานทุกวันเหมือนกันครับ แต่ใช้แบบวิศวกร
+					คือให้ AI ช่วยเรื่องความเร็ว ส่วนโครงสร้างและความปลอดภัยมาจากประสบการณ์จริง
+					ถ้ามีของทำค้างไว้ ส่งมาให้ผมดูได้เลย ไม่ต้องรื้อทิ้งเริ่มใหม่
+				</p>
+				<div class="wedge-actions">
+					<LineButton size="lg" label="ส่งของที่ทำค้างไว้มาคุยกัน" />
+					<a class="wedge-more" href="/fix-ai-website"
+						>อ่านแนวทางเต็ม ๆ และ<span class="nb">เช็กลิสต์</span> 8 ข้อ</a
+					>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">วิธีทำงาน</p>
+				<h2>ทำงานเป็นขั้นตอน ให้รู้ตลอดว่าตอนนี้ถึงไหน</h2>
+			</div>
+
+			<ol class="steps">
+				{
+					steps.map((s, i) => (
+						<li class:list={["step", "reveal", `reveal-d${i % 2}`]}>
+							<span class="chip">
+								<Icon name={s.icon} size={28} />
+							</span>
+							<div class="step-body">
+								<p class="step-n">ขั้นที่ {s.n}</p>
+								<h3>{s.title}</h3>
+								<p>{s.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<section class="section band-tint">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">ผลงานบางส่วน</p>
+				<h2>ตัวอย่างงานที่ผ่านมา</h2>
+			</div>
+
+			<div class="work-list teaser">
+				{
+					featured.map((w, i) => (
+						<article class:list={["work-item", "reveal", `reveal-d${i}`]}>
+							<BrowserFrame
+								domain={w.name}
+								alt={w.alt}
+								label={w.label}
+								ratio="16 / 10"
+							/>
+							<span class:list={["tag", `is-${w.tint}`]}>{protectThai(w.kind)}</span>
+							<h3>{w.name}</h3>
+							<p>{protectThai(w.short)}</p>
+							<a class="work-link" href={w.url}>
+								เปิดดูเว็บไซต์
+								<Icon name="external" size={16} />
+							</a>
+						</article>
+					))
+				}
+			</div>
+
+			<p class="more reveal">
+				และมีงานอื่นที่เล่าให้ฟังได้เมื่อทักมาคุย <a href="/work">ดูผลงานทั้งหมด</a>
+			</p>
+		</div>
+	</section>
+
+	<section class="section about">
+		<div class="shell about-inner">
+			<p class="label reveal">เกี่ยวกับผม</p>
+			<div class="about-text reveal reveal-d1">
+				<p>
+					ผมภูรินท์ครับ ทำซอฟต์แวร์มากว่า 7 ปี เคยร่วมทีมพัฒนาที่ Agoda มาก่อน
+					ตอนนี้รับงานอิสระควบคู่กับการดูแล<span class="nb">โปรดักต์</span>ของตัวเอง
+				</p>
+				<p>
+					คุณค่าไม่ได้อยู่ที่เครื่องมือ แต่อยู่ที่การเลือกใช้ให้ถูกจุดจนเกิดผลกับธุรกิจจริง
+				</p>
+				<p>
+					งานแบ่งเป็นช่วงให้เห็น<span class="nb">ความคืบหน้า</span>ตลอด และหลังส่งมอบ
+					ของทั้งหมดเป็นของลูกค้า
+					เอาไปให้คนอื่นดูแลต่อได้เสมอครับ
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="shell band-inner reveal">
+			<p class="label">ติดต่อ</p>
+			<h2>มีงานในใจอยู่แล้ว หรือยังคิดไม่ออกก็ทักมาได้</h2>
+			<p class="lede">
+				เล่าคร่าว ๆ ว่าทำธุรกิจอะไรและอยากให้ช่วยเรื่องไหน ผมตอบเองทุกข้อความ
+				ถ้าเรื่องไหนไม่ถนัดจะบอกตรง ๆ ครับ
+			</p>
+			{/* Capacity is a real constraint for a solo developer, so it is stated
+			    plainly. No countdown, no slot counter, nothing invented. */}
+			<p class="band-note">
+				ผมรับงานได้จำนวนจำกัดในแต่ละช่วง เพื่อให้ดูแลทุกงานได้เต็มที่
+			</p>
+			<div class="actions">
+				<LineButton size="lg" />
+				<a class="cta-quiet" href="/contact">
+					ดูวิธีติดต่อ
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+		</div>
+	</section>
+
+	{/* Quiet reference zone. Long keyword-rich prose lives here rather than at
+	    the top of the page, where the owner wanted everything skimmable. The
+	    canonical entity paragraph moved here from the About strip; the Person
+	    JSON-LD description above still mirrors it verbatim. */}
+	<section class="seo-zone" aria-labelledby="seo-zone-heading">
+		<div class="shell seo-inner">
+			<h2 class="label" id="seo-zone-heading">เกี่ยวกับบริการ</h2>
+			<div class="seo-cols">
+				<div class="seo-col">
+					<p>
+						<strong>ภูรินท์ (Pooh) คือนักพัฒนาเทคโนโลยีเพื่อธุรกิจ รับทำเว็บไซต์ธุรกิจและระบบหลังบ้าน</strong>
+						มีประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี จบวิศวกรรมคอมพิวเตอร์จาก Mahidol University
+						International College ปัจจุบันเป็นผู้ก่อตั้งและผู้พัฒนาหลักของ
+						<a href="https://pawjai.co">pawjai.co</a> ควบคู่กับงานอิสระ
+						อยู่กรุงเทพและทำงานร่วมกับลูกค้าได้ทั่วประเทศ ใช้ AI
+						ช่วยให้งานเร็วขึ้นบนพื้นฐานวิศวกรรมที่ดูแลต่อได้ ติดต่อทางไลน์ bobroach
+					</p>
+					<p>
+						<strong>รับทำระบบสำหรับงานหลังบ้าน</strong>
+						เปลี่ยนงานที่กระจายอยู่ในไฟล์และแชท
+						ให้กลายเป็นที่เดียวที่ทีมเปิดดูร่วมกันได้ รู้ว่าใครทำอะไรถึงไหนโดยไม่ต้องไล่ถาม
+						เหมาะกับธุรกิจที่เริ่มโตจนจดใส่กระดาษหรือไฟล์ไม่ไหวแล้ว
+						หลังส่งมอบยังปรับแก้และเพิ่มของใหม่ได้ตามที่ธุรกิจโตขึ้น ไม่ปล่อยให้ค้างอยู่ที่เดิม <a href="/backoffice">ดูรายละเอียดหน้าระบบหลังบ้าน</a>
+					</p>
+				</div>
+				<div class="seo-col">
+					<p>
+						<strong>รับปรึกษาด้านเทคโนโลยีและระบบหลังบ้าน</strong>
+						สำหรับเจ้าของธุรกิจที่ยังไม่แน่ใจว่าควรสร้างอะไรก่อน ทีมที่มีระบบอยู่แล้วแต่ไปต่อไม่ถูก
+						หรือคนที่อยากได้คนกลางช่วยคุยกับทีมพัฒนาให้เข้าใจตรงกัน
+						เป็นที่ปรึกษาระบบหลังบ้านที่พูดภาษาธุรกิจได้ ไม่ต้องจ้างทำก็คุยกันก่อนได้ อยากรู้เรื่องงบ <a href="/budget-factors">ดูว่างบขึ้นกับอะไรบ้าง</a>
+					</p>
+					<p>
+						<strong>รับทำเว็บไซต์ธุรกิจ</strong>
+						สำหรับร้านค้า โรงงาน และกิจการที่อยากให้ลูกค้าเจอและเชื่อถือได้
+						เว็บที่ทำให้คนเข้าใจว่าคุณทำอะไรภายในไม่กี่วินาที เชื่อถือได้จากสิ่งที่เห็น
+						และติดต่อกลับได้ง่ายโดยไม่ต้องหาปุ่มนาน ดูแลตั้งแต่วางโครงหน้าเว็บ
+						เขียนเนื้อหาให้อ่านง่าย ไปจนถึงการเปิดใช้งานจริงบนหน้าจอทุกขนาด
+						ดูตัวอย่างได้ที่<a href="/work">หน้าผลงานที่ผ่านมา</a>
+					</p>
+					<p>
+						<strong>ใช้ AI อย่างมีพื้นฐานวิศวกรรม</strong> ผมใช้ AI ทำงานทุกวัน
+						เลยไม่ได้มองว่าการเริ่มต้นจาก AI เป็นเรื่องผิด
+						สิ่งที่เพิ่มเข้าไปคือโครงสร้าง ความปลอดภัย และการดูแลต่อเมื่อธุรกิจโตขึ้น
+						ถ้าคุณสร้างเว็บด้วย AI ไว้แล้วไปต่อไม่ไหว อ่าน<a href="/fix-ai-website"
+							>แนวทางรับแก้เว็บที่สร้างด้วย AI และ<span class="nb">เช็กลิสต์</span> 8 ข้อ</a
+						> หรือ<a href="/contact">ทักไลน์มาคุยก่อนได้เลย</a>
+					</p>
+				</div>
+			</div>
+			{/* One quiet closing line. A plain text link, deliberately not a third
+			    button: the page already carries two LINE CTAs above this. */}
+			<p class="seo-close">
+				อยากดูตัวอย่างโค้ดของผม ดูได้ที่ <a href={GITHUB_URL}>GitHub</a>
+				อ่านมาถึงตรงนี้แล้วสงสัยอะไรเพิ่ม ทักมาถามได้เลยครับ
+				<a href={LINE_URL}>ทักไลน์ {LINE_ID}</a>
+			</p>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	/* ---- hero ---- */
+
+	.hero-inner {
+		display: grid;
+		gap: 2rem;
+		padding-block: 2.25rem 2.75rem;
+	}
+
+	/* Mobile: the face comes first, then the copy. A 4/5 portrait at full width
+	   filled almost the whole first screen and pushed the headline below the
+	   fold, so on mobile it crops to a shorter landscape frame. */
+	.hero-photo {
+		order: -1;
+	}
+
+	@media (max-width: 47.99em) {
+		.photo-frame :global(.ph img) {
+			aspect-ratio: 3 / 2;
+			max-height: 40vh;
+			object-fit: cover;
+		}
+	}
+
+	@media (min-width: 48em) {
+		.hero-photo {
+			order: 0;
+		}
+	}
+
+	.hero-copy {
+		display: grid;
+		gap: 1.25rem;
+		align-content: start;
+	}
+
+	.greet {
+		display: inline-flex;
+		align-items: center;
+		align-self: start;
+		justify-self: start;
+		gap: 0.5rem;
+		padding: 0.375rem 0.875rem 0.375rem 0.4375rem;
+		border-radius: 999px;
+		/* Cream surface with a honey hairline, NOT a honey tint: the pooh mark
+		   sits inside this chip and the brand rules forbid placing the mark on
+		   a similar honey-yellow background. */
+		background: var(--cream);
+		border: 1px solid rgba(243, 178, 26, 0.55);
+		color: var(--ink);
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: 0.875rem;
+	}
+
+	.greet-bear {
+		display: block;
+		width: 1.375rem;
+		height: 1.375rem;
+		flex: none;
+	}
+
+	.hero-badges {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	/* The English term is the attention-getter; the Thai line below carries
+	   the meaning. Bordered rather than filled so it reads as a credential
+	   next to the softer greeting chip. */
+	.ident {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.375rem 0.875rem;
+		border-radius: 999px;
+		border: 1.5px solid var(--honey);
+		background: var(--tint-honey);
+		color: var(--honey-ink);
+		font-family: var(--font-head);
+		font-weight: 600;
+		font-size: 0.8125rem;
+		letter-spacing: 0;
+		/* Controlled break: the wbr in the markup is the only allowed break
+		   point, so the term never splits mid-word the way anywhere allowed. */
+		overflow-wrap: normal;
+	}
+
+
+	/* Thai display type wants MORE leading, not less: stacked vowels and tone
+	   marks need vertical room, so this matches the global 1.35 rather than
+	   tightening the way a Latin display headline would. */
+	.hero h1 {
+		display: grid;
+		gap: 0.625rem;
+		font-size: var(--fs-display);
+		line-height: var(--lh-display);
+		text-wrap: balance;
+	}
+
+	/* Carries the search phrase inside the h1 while the display line below
+	   carries the emotional message. Styled like a section label so it reads
+	   as a kicker rather than competing with the headline. */
+	.h1-kicker {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		letter-spacing: 0;
+		line-height: 1.5;
+		color: var(--accent);
+	}
+
+	.h1-kicker::before {
+		content: "";
+		width: 1.5rem;
+		height: 2px;
+		border-radius: 2px;
+		background: var(--accent);
+		opacity: 0.5;
+		flex: none;
+	}
+
+	.h1-display {
+		display: block;
+	}
+
+	/* Highlighter sweep. No rotation: that would force inline-block and stop
+	   the phrase wrapping, which risks mid-word Thai breaks. Flat tint, never
+	   a gradient. */
+	.mark {
+		background: var(--tint-strong);
+		border-radius: 6px;
+		padding: 0 0.25rem;
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
+	}
+
+	/* Draw-in: a pseudo-element scales in from the left rather than animating
+	   background-size, which cannot work on a flat colour.
+	   Only from tablet up, and only when the phrase sits on a single line:
+	   a pseudo covers the bounding box, not per-line fragments, so it would
+	   smear across a wrapped phrase. Below 48em the flat tint shows as-is. */
+	@media (min-width: 48em) and (prefers-reduced-motion: no-preference) {
+		:global(html.js) .mark {
+			position: relative;
+			background: transparent;
+			isolation: isolate;
+		}
+
+		:global(html.js) .mark::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			z-index: -1;
+			border-radius: 6px;
+			background: var(--tint-strong);
+			transform: scaleX(0);
+			transform-origin: left center;
+			transition: transform 720ms cubic-bezier(0.22, 0.61, 0.36, 1) 240ms;
+		}
+
+		:global(html.js) .hero-copy.is-in .mark::before {
+			transform: scaleX(1);
+		}
+	}
+
+	.hero-sub {
+		color: var(--muted);
+		font-size: 1.0625rem;
+		max-width: 32rem;
+	}
+
+	.hero .actions {
+		margin-top: 0.5rem;
+	}
+
+	.photo-frame {
+		position: relative;
+		max-width: 22rem;
+	}
+
+	/* Offset accent border sitting behind the portrait. */
+	.photo-frame::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		transform: translate(0.75rem, 0.75rem);
+		border: 1.5px solid var(--accent);
+		border-radius: var(--radius);
+		opacity: 0.32;
+		pointer-events: none;
+	}
+
+	.photo-frame :global(.ph) {
+		position: relative;
+		border-radius: var(--radius);
+		overflow: hidden;
+		box-shadow: var(--shadow-md);
+	}
+
+	@media (min-width: 48em) {
+		.hero-inner {
+			grid-template-columns: 1.15fr 0.85fr;
+			gap: 3.5rem;
+			align-items: center;
+			padding-block: 4rem 4.5rem;
+		}
+
+		.photo-frame {
+			max-width: none;
+			margin-left: auto;
+		}
+	}
+
+	/* ---- trust strip ---- */
+
+	.trust {
+		padding-bottom: 2.5rem;
+	}
+
+	.trust-list {
+		display: grid;
+		gap: 0.875rem;
+		padding: 1.25rem;
+		border-radius: var(--radius);
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.trust-item {
+		display: flex;
+		align-items: center;
+		gap: 0.875rem;
+	}
+
+	.trust-item p {
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: 0.9375rem;
+		line-height: 1.5;
+		min-width: 0;
+	}
+
+	@media (min-width: 48em) {
+		.trust {
+			padding-bottom: 3.5rem;
+		}
+
+		/* Three across from tablet up: at 48em a 2-column grid left the third
+		   item alone in a half-empty row. */
+		.trust-list {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1.5rem 1.75rem;
+			padding: 1.5rem 1.75rem;
+		}
+	}
+
+	/* ---- offers ---- */
+
+	.offers {
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.offer {
+		display: grid;
+		gap: 0.75rem;
+		align-content: start;
+		padding: 1.5rem;
+		border-radius: var(--radius);
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		box-shadow: var(--shadow-sm);
+		transition:
+			transform 220ms ease,
+			box-shadow 220ms ease;
+	}
+
+	@media (hover: hover) {
+		.offer:hover {
+			transform: translateY(-4px);
+			box-shadow: var(--shadow-md);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.offer {
+			transition: none;
+		}
+
+		.offer:hover {
+			transform: none;
+		}
+	}
+
+	/* Only some cards have a page to point at yet, so the link is optional. */
+	.offer-link {
+		margin-top: 0.25rem;
+		font-size: 0.875rem;
+	}
+
+	.offer h3 {
+		font-size: 1.1875rem;
+	}
+
+	.offer p {
+		color: var(--muted);
+		font-size: 0.9375rem;
+	}
+
+	/* Four offers divide evenly, so 2x2 at tablet and 2x2 again at desktop:
+	   four across would squeeze each card under ~240px and crush the Thai
+	   body line. The old full-span-third rule is gone with the 3-card set. */
+	@media (min-width: 48em) {
+		.offers {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.5rem;
+		}
+
+		.offer {
+			padding: 1.75rem;
+		}
+	}
+
+	@media (min-width: 64em) {
+		.offers {
+			gap: 1.75rem;
+		}
+	}
+
+	/* ---- conversion wedge ----
+	   Warm cream band with an amber edge so it reads as the emotional centre
+	   of the page rather than another content section. */
+	/* Colour comes from the shared .band-cream; the amber edges are what make
+	   this the emotional centre rather than another content band. */
+	.wedge {
+		border-top: 1px solid rgba(243, 178, 26, 0.34);
+		border-bottom: 1px solid rgba(243, 178, 26, 0.34);
+	}
+
+	.wedge-head {
+		display: grid;
+		gap: 0.875rem;
+		max-width: 46rem;
+		margin-bottom: 2.25rem;
+	}
+
+	.wedge-head .label {
+		color: var(--honey-ink);
+	}
+
+	.wedge-head .label::before {
+		background: var(--honey);
+	}
+
+	.wedge-head h2 {
+		font-size: var(--fs-h2-lg);
+		text-wrap: balance;
+	}
+
+
+
+
+
+
+
+
+
+
+
+	.wedge-body {
+		display: grid;
+		gap: 1.5rem;
+		max-width: 44rem;
+		min-width: 0;
+	}
+
+	.wedge-lead {
+		color: var(--muted);
+		font-size: 1.0625rem;
+		overflow-wrap: anywhere;
+	}
+
+	.wedge-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.875rem 1.25rem;
+	}
+
+	.wedge-more {
+		font-size: 0.9375rem;
+	}
+
+	/* ---- quiet SEO reference zone ----
+	   Deliberately subordinate: smaller type, muted ink, no cards or icons, so
+	   it reads as reference text under the real page. Muted on paper is 5.30:1,
+	   which clears AA at this size; the quietness comes from scale and spacing,
+	   never from a lighter colour. */
+	.seo-zone {
+		background: var(--paper);
+	}
+
+	.seo-inner {
+		display: grid;
+		gap: 1.25rem;
+		padding-block: 3rem 3.5rem;
+	}
+
+	/* No hairline above: this sits directly under the dark green contact band,
+	   where a 1px rule against that hard edge reads as a rendering artifact.
+	   The heading carries the separation instead. */
+	.seo-zone .label {
+		font-size: 0.75rem;
+	}
+
+	.seo-cols {
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.seo-col {
+		display: grid;
+		gap: 1rem;
+		align-content: start;
+		min-width: 0;
+	}
+
+	.seo-col p {
+		color: var(--muted);
+		font-size: 0.9375rem;
+		line-height: 1.75;
+		max-width: 32rem;
+	}
+
+	.seo-col strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	.band-note {
+		margin-top: -0.25rem;
+		color: rgba(255, 249, 237, 0.72);
+		font-size: 0.875rem;
+		max-width: 30rem;
+	}
+
+	.seo-close {
+		margin-top: 1.75rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid var(--rule-soft);
+		color: var(--muted);
+		font-size: 0.9375rem;
+		max-width: 32rem;
+	}
+
+	@media (min-width: 48em) {
+		.seo-inner {
+			padding-block: 3.5rem 4rem;
+		}
+
+		.seo-cols {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 2.5rem;
+		}
+	}
+
+	/* ---- work teaser ---- */
+
+	@media (min-width: 48em) {
+		.teaser {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.5rem;
+		}
+	}
+
+	@media (min-width: 64em) {
+		.teaser {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	/* ---- about ---- */
+
+	.about-inner {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.about-text {
+		display: grid;
+		gap: 1rem;
+		/* Thai reads comfortably shorter than Latin. */
+		max-width: 33rem;
+		font-size: 1.0625rem;
+	}
+
+	@media (min-width: 48em) {
+		.about-inner {
+			grid-template-columns: 12rem 1fr;
+			gap: 2.5rem;
+		}
+	}
+</style>
