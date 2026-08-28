@@ -1,43 +1,44 @@
-# Astro Starter Kit: Minimal
+# pooh-site
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Thai-language freelance site for ภูรินท์ (Pooh), Business Technology Engineer.
+Static Astro site, seven pages, no client framework. Live domain pending
+(pooh.fyi vs pooh.me) — set once in `site.config.mjs` and `public/robots.txt`.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
+| Command           | Action                                    |
+| :---------------- | :---------------------------------------- |
+| `npm install`     | Install dependencies                      |
+| `npm run dev`     | Dev server at `localhost:4321`            |
+| `npm run build`   | Build to `./dist/` (7 pages + sitemap)    |
+| `npm run preview` | Preview the production build              |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Structure
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+- `site.config.mjs` — single source of truth for site name, URL, LINE ID,
+  GitHub, person identity. Edit here; propagates to canonical/OG/schema/
+  sitemap/llms.txt on build. `public/robots.txt` is the one manual mirror.
+- `src/pages/` — index, backoffice, budget-factors, fix-ai-website, work,
+  contact, 404.
+- `src/data/` — page content (works, FAQs, budget factors) consumed by pages.
+- `src/utils/thai.ts` — Thai loanword line-break protection (U+2060).
+- `public/brand/` — Pooh mark, lockup, wordmark, favicon set.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Docs
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- [docs/site-spec.md](docs/site-spec.md) — the living spec: hard content
+  rules, brand system (v3), page inventory, verification assertions. Read
+  before changing copy or design.
+- [docs/blog-plan.md](docs/blog-plan.md) — planned blog architecture
+  (/blog vs subdomain, Obsidian workflow, CMS options). Not built yet.
+- [docs/visitor-scoring-rubric.md](docs/visitor-scoring-rubric.md) — rubric
+  for customer-persona site scoring.
+- [docs/designer-scoring-rubric.md](docs/designer-scoring-rubric.md) — rubric
+  for design-professional scoring.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Before launch (owner checklist)
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+1. Real photos into the `ImagePlaceholder` slots (swap `src` only), LINE QR,
+   `public/og.png` (1200x630).
+2. Domain into `site.config.mjs` + `public/robots.txt`.
+3. Deploy `dist/` (Cloudflare Pages or similar) with auto-deploy on push.
