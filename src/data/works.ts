@@ -13,8 +13,12 @@ export interface Work {
 	short: string;
 	/** Fuller sentence, used on the work page. */
 	long: string;
-	/** Soft tint for the kind tag chip, so the cards read as distinct. */
-	tint: "green" | "amber" | "clay";
+	/**
+	 * Soft tint for the kind tag chip, so the cards read as distinct.
+	 * "default" renders the base honey-tint `.tag` with no modifier class.
+	 * There is deliberately no green variant: green belongs to LINE only.
+	 */
+	tint: "default" | "amber" | "clay";
 	/**
 	 * Position in the home page teaser (1, 2, 3). Omitted means /work only.
 	 * The home page leads with the two business systems because the buyer is
@@ -32,7 +36,7 @@ export const works: Work[] = [
 		label: "ภาพหน้าจอเว็บไซต์ pawjai.co",
 		short: "แพลตฟอร์มเกี่ยวกับสัตว์เลี้ยงที่พัฒนาและดูแลเองทั้งหมด",
 		long: "แพลตฟอร์มเกี่ยวกับสัตว์เลี้ยงที่ผมพัฒนาและดูแลเองทั้งหมด ตั้งแต่คิดว่าจะทำอะไร ออกแบบหน้าตา ไปจนถึงการปรับปรุงหลังเปิดใช้งาน",
-		tint: "green",
+		tint: "default",
 		teaser: 3,
 	},
 	{
@@ -63,7 +67,7 @@ export const works: Work[] = [
 		label: "ภาพหน้าจอเว็บไซต์ forgio.co",
 		short: "เว็บไซต์ของระบบจัดการงานขาย สต๊อก และการผลิตสำหรับโรงงาน",
 		long: "เว็บไซต์แนะนำระบบจัดการงานขาย สต๊อก และการผลิตสำหรับโรงงานไทย รวมข้อมูลที่เคยกระจายอยู่หลายที่ให้ดูรวมกันได้ในหน้าเดียว",
-		tint: "green",
+		tint: "default",
 		teaser: 1,
 	},
 	{

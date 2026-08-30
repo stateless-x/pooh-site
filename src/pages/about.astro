@@ -130,7 +130,7 @@ const services: { label: string; href: string }[] = [
 					>ภูรินท์ <span class="nb">บุรีวงศ์</span> (คุณพูห์ หรือ Pooh) คือ Business Technology Engineer
 					และ<span class="nb">นักพัฒนา</span>ไทยจากกรุงเทพมหานคร ประเทศไทย</strong
 				> มี<span class="nb">ประสบการณ์</span>พัฒนาซอฟต์แวร์มากกว่า 7 ปี
-				ผู้ก่อตั้งและผู้พัฒนาหลักของ <a href="https://pawjai.co">pawjai.co</a>{" "}
+				ผู้ก่อตั้งและผู้พัฒนาหลักของ <a href="https://pawjai.co" target="_blank" rel="noopener">pawjai.co</a>{" "}
 				รับทำระบบหลังบ้าน เว็บไซต์ธุรกิจ และรับปรึกษาด้านเทคโนโลยีให้ธุรกิจไทย
 				ติดต่อทางไลน์ {LINE_ID}
 			</p>
@@ -233,7 +233,11 @@ const services: { label: string; href: string }[] = [
 				<ul>
 					<li>ไลน์ไอดี {LINE_ID} เป็นไลน์ส่วนตัว ตอบเองทุกข้อความ</li>
 					<li>
-						ดูตัวอย่างโค้ดได้ที่ <a href={GITHUB_URL}>GitHub</a>
+						ดูตัวอย่างโค้ดได้ที่ <a
+							href={GITHUB_URL}
+							target="_blank"
+							rel="noopener">GitHub</a
+						>
 					</li>
 				</ul>
 			</div>
@@ -385,13 +389,13 @@ const services: { label: string; href: string }[] = [
 	.facts dt {
 		font-family: var(--font-head);
 		font-weight: 500;
-		font-size: 0.8125rem;
+		font-size: var(--fs-label);
 		color: var(--honey-ink);
 	}
 
 	.facts dd {
 		margin: 0;
-		font-size: 0.9375rem;
+		font-size: var(--fs-body-sm);
 		min-width: 0;
 	}
 
@@ -417,9 +421,12 @@ const services: { label: string; href: string }[] = [
 		gap: 0.625rem;
 	}
 
+	/* Body step, not subtitle: these head short lists inside a section that
+	   already has its own h2, so they sit deliberately below the card-heading
+	   rung. Weight carries the rank instead of size. */
 	.services h3,
 	.channels h3 {
-		font-size: 1rem;
+		font-size: var(--fs-body);
 		font-weight: 600;
 	}
 
@@ -431,7 +438,7 @@ const services: { label: string; href: string }[] = [
 
 	.services li,
 	.channels li {
-		font-size: 0.9375rem;
+		font-size: var(--fs-body-sm);
 		color: var(--muted);
 		min-width: 0;
 	}
@@ -446,7 +453,7 @@ const services: { label: string; href: string }[] = [
 
 	.en-note p {
 		color: var(--muted);
-		font-size: 0.9375rem;
+		font-size: var(--fs-body-sm);
 		line-height: 1.7;
 		max-width: 36rem;
 	}

@@ -63,7 +63,12 @@ const breadcrumb = {
 					<span class="tag is-amber">โปรดักต์ที่ผมสร้างเอง</span>
 					<h2>{featuredWork.name}</h2>
 					<p>{protectThai(featuredWork.long)}</p>
-					<a class="work-link" href={featuredWork.url}>
+					<a
+						class="work-link"
+						href={featuredWork.url}
+						target="_blank"
+						rel="noopener"
+					>
 						เปิดดูเว็บไซต์
 						<Icon name="external" size={16} />
 					</a>
@@ -86,7 +91,12 @@ const breadcrumb = {
 								<span class:list={["tag", `is-${w.tint}`]}>{protectThai(w.kind)}</span>
 								<h2>{w.name}</h2>
 								<p>{protectThai(w.long)}</p>
-								<a class="work-link" href={w.url}>
+								<a
+									class="work-link"
+									href={w.url}
+									target="_blank"
+									rel="noopener"
+								>
 									เปิดดูเว็บไซต์
 									<Icon name="external" size={16} />
 								</a>
@@ -149,8 +159,13 @@ const breadcrumb = {
 		min-width: 0;
 	}
 
+	/* The documented wider section-head step. Its clamp only pulls ahead of
+	   --fs-h2 above ~500px; below that the two are within a rounding error and
+	   the featured card's rank is carried structurally instead, by the honey
+	   border, the deeper shadow, and the larger 16/9 media. `anywhere` stays
+	   because these headings hold Latin domain names like pscmceramic.com. */
 	.featured-text h2 {
-		font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
+		font-size: var(--fs-h2-lg);
 		font-weight: 600;
 		overflow-wrap: anywhere;
 	}
@@ -189,7 +204,7 @@ const breadcrumb = {
 	}
 
 	.wide-text h2 {
-		font-size: clamp(1.3125rem, 1.15rem + 0.8vw, 1.75rem);
+		font-size: var(--fs-h2);
 		font-weight: 600;
 		overflow-wrap: anywhere;
 	}
