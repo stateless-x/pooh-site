@@ -722,7 +722,7 @@ two columns at 48em, no icons or cards, heading styled as a section label.
 Quietness comes from scale and spacing, never from a lighter colour: muted on
 paper is 5.30:1 and clears AA at this size.
 
-No hairline above it. It meets the dark green contact band, where a 1px rule
+No hairline above it. It meets the cocoa contact band, where a 1px rule
 against that hard edge reads as a rendering artifact; the heading carries the
 separation instead.
 
@@ -817,21 +817,22 @@ none of it gates content visibility without JS.
 
 Checked against actual backgrounds, not assumed:
 
-- Tag chips needed a fix. `--amber` and `--clay` are decorative tones for icons
-  and marks; text on tinted chips uses darker `--amber-ink` / `--clay-ink` so
-  the warm accent survives while the text clears AA.
-- Muted text on paper and on cream, footer text on the green band, and all
+- Tag chips needed a fix. Honey and scarf are decorative tones for icons
+  and marks; text on tinted chips uses darker `--honey-ink` / `--scarf-ink` so
+  the warm accent survives while the text clears AA (5.58 / 6.20 / 7.85
+  against their own tints).
+- Muted text on paper and on cream, footer text on the cocoa band, and all
   headings pass AA.
 
-## Known deviation
+## Known deviation (retired)
 
-LINE's official button is white on `#06C755`, roughly 2.2:1, below WCAG AA. The
-brand colours are kept deliberately: instant recognition of the real LINE button
-is the trust mechanism the owner asked for, and changing the green to pass
-contrast would defeat the point. Note the label does **not** reach WCAG's
-large-text threshold either, so enlarging it would not rescue the ratio; this is
-a real, accepted exception rather than a mitigated one. Revisit only if
-accessibility is ever prioritised over brand recognition here.
+LINE's official button is white on `#06C755`, roughly 2.2:1, below WCAG AA.
+Earlier revisions kept that deviation deliberately for instant recognition of
+the real LINE button. It is retired: see "LINE button contrast" above — the
+fill is now `--line-fill: #04893F` (white label 4.51:1, AA normal), the
+lightest green that clears full AA, so recognition survives without the
+contrast exception. `--line-green` `#06C755` remains only as the brand hex
+token.
 
 ## Audit pipeline
 
