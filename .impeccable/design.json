@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-30T00:00:00.000Z",
+  "title": "Design System: Pooh",
+  "extensions": {
+    "colorMeta": {
+      "honey": {
+        "role": "primary",
+        "displayName": "Signal Honey",
+        "canonical": "#F3B21A",
+        "tonalRamp": ["#2B1E01", "#4B3503", "#6B4B05", "#8F6207", "#B27B0C", "#D69A13", "#F3B21A", "#FBDE9E"]
+      },
+      "honey-ink": {
+        "role": "primary",
+        "displayName": "Spoken Honey",
+        "canonical": "#8F6207",
+        "tonalRamp": ["#221703", "#3A2704", "#523705", "#6B4806", "#8F6207", "#B98211", "#E0A526", "#F5D79A"]
+      },
+      "scarf": {
+        "role": "secondary",
+        "displayName": "Scarf Red",
+        "canonical": "#D92731",
+        "tonalRamp": ["#2C0507", "#4B0A0E", "#6C1017", "#8D1720", "#A81B24", "#C4212B", "#D92731", "#F3A5A9"]
+      },
+      "scarf-ink": {
+        "role": "secondary",
+        "displayName": "Spoken Scarf",
+        "canonical": "#A81B24",
+        "tonalRamp": ["#240406", "#3D080C", "#570D12", "#721219", "#8D1720", "#A81B24", "#CB3B44", "#EFA4A9"]
+      },
+      "line-green": {
+        "role": "tertiary",
+        "displayName": "LINE Green (brand hex, mark only)",
+        "canonical": "#06C755",
+        "tonalRamp": ["#02240F", "#033E1B", "#045A27", "#047233", "#04893F", "#06A94D", "#06C755", "#9CEEBD"]
+      },
+      "line-fill": {
+        "role": "tertiary",
+        "displayName": "LINE Fill",
+        "canonical": "#04893F",
+        "tonalRamp": ["#011C0D", "#023117", "#03471F", "#037A37", "#04893F", "#05A54D", "#06C158", "#A3E9C2"]
+      },
+      "line-fill-dark": {
+        "role": "tertiary",
+        "displayName": "LINE Fill Deep",
+        "canonical": "#037A37",
+        "tonalRamp": ["#01180B", "#022B14", "#023F1D", "#036726", "#037A37", "#049645", "#05B453", "#A0E7BF"]
+      },
+      "cream": {
+        "role": "neutral",
+        "displayName": "Warm Cream",
+        "canonical": "#FFF9ED",
+        "tonalRamp": ["#2A2419", "#48402D", "#675C43", "#8A7D60", "#B0A282", "#D6C9AC", "#F2E8CF", "#FFF9ED"]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Warm Cream (page surface)",
+        "canonical": "#FFF9ED",
+        "tonalRamp": ["#2A2419", "#48402D", "#675C43", "#8A7D60", "#B0A282", "#D6C9AC", "#F2E8CF", "#FFF9ED"]
+      },
+      "warm": {
+        "role": "neutral",
+        "displayName": "Honey Wash",
+        "canonical": "#FDF0D2",
+        "tonalRamp": ["#2B2314", "#493B22", "#6A5731", "#8D7642", "#B39755", "#D8BA76", "#F0DAA8", "#FDF0D2"]
+      },
+      "cocoa": {
+        "role": "neutral",
+        "displayName": "Cocoa",
+        "canonical": "#33241A",
+        "tonalRamp": ["#150E0A", "#241910", "#33241A", "#4E3826", "#6B4E36", "#8D6C50", "#B79880", "#E4D3C2"]
+      },
+      "accent": {
+        "role": "neutral",
+        "displayName": "Cocoa (link and control role)",
+        "canonical": "#33241A",
+        "tonalRamp": ["#150E0A", "#241910", "#33241A", "#4E3826", "#6B4E36", "#8D6C50", "#B79880", "#E4D3C2"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Deep Ink",
+        "canonical": "#2A211A",
+        "tonalRamp": ["#120E0B", "#1E1712", "#2A211A", "#453629", "#63503E", "#86705A", "#B29B84", "#E2D6C7"]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "#6B5D4F",
+        "tonalRamp": ["#1A1611", "#2D261F", "#413830", "#564A40", "#6B5D4F", "#8D7D6D", "#B2A392", "#DDD3C6"]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(42, 33, 26, 0.14)",
+        "tonalRamp": ["rgba(42,33,26,0.04)", "rgba(42,33,26,0.06)", "rgba(42,33,26,0.08)", "rgba(42,33,26,0.10)", "rgba(42,33,26,0.14)", "rgba(42,33,26,0.20)", "rgba(42,33,26,0.30)", "rgba(42,33,26,0.45)"]
+      },
+      "rule-soft": {
+        "role": "neutral",
+        "displayName": "Soft Hairline",
+        "canonical": "rgba(42, 33, 26, 0.08)",
+        "tonalRamp": ["rgba(42,33,26,0.02)", "rgba(42,33,26,0.04)", "rgba(42,33,26,0.06)", "rgba(42,33,26,0.08)", "rgba(42,33,26,0.12)", "rgba(42,33,26,0.18)", "rgba(42,33,26,0.26)", "rgba(42,33,26,0.40)"]
+      },
+      "tint": {
+        "role": "neutral",
+        "displayName": "Honey Tint (band wash)",
+        "canonical": "rgba(243, 178, 26, 0.06)",
+        "tonalRamp": ["rgba(243,178,26,0.03)", "rgba(243,178,26,0.06)", "rgba(243,178,26,0.10)", "rgba(243,178,26,0.14)", "rgba(243,178,26,0.18)", "rgba(243,178,26,0.28)", "rgba(243,178,26,0.45)", "rgba(243,178,26,0.70)"]
+      },
+      "tint-honey": {
+        "role": "neutral",
+        "displayName": "Honey Tint (amber chip)",
+        "canonical": "rgba(243, 178, 26, 0.1)",
+        "tonalRamp": ["rgba(243,178,26,0.03)", "rgba(243,178,26,0.06)", "rgba(243,178,26,0.10)", "rgba(243,178,26,0.14)", "rgba(243,178,26,0.18)", "rgba(243,178,26,0.28)", "rgba(243,178,26,0.45)", "rgba(243,178,26,0.70)"]
+      },
+      "tint-strong": {
+        "role": "neutral",
+        "displayName": "Honey Tint (default chip and sweep)",
+        "canonical": "rgba(243, 178, 26, 0.18)",
+        "tonalRamp": ["rgba(243,178,26,0.03)", "rgba(243,178,26,0.06)", "rgba(243,178,26,0.10)", "rgba(243,178,26,0.14)", "rgba(243,178,26,0.18)", "rgba(243,178,26,0.28)", "rgba(243,178,26,0.45)", "rgba(243,178,26,0.70)"]
+      },
+      "tint-scarf": {
+        "role": "neutral",
+        "displayName": "Scarf Tint",
+        "canonical": "rgba(217, 39, 49, 0.1)",
+        "tonalRamp": ["rgba(217,39,49,0.03)", "rgba(217,39,49,0.06)", "rgba(217,39,49,0.10)", "rgba(217,39,49,0.14)", "rgba(217,39,49,0.18)", "rgba(217,39,49,0.28)", "rgba(217,39,49,0.45)", "rgba(217,39,49,0.70)"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The home hero headline only, carrying the emotional message. Mitr 600, leading 1.4 because Thai display type needs vertical room for stacked marks." },
+      "headline": { "displayName": "Headline", "purpose": "The h1 on every inner page, with text-wrap: balance." },
+      "title": { "displayName": "Title", "purpose": "Section h2 headings and the contact band heading." },
+      "subtitle": { "displayName": "Subtitle", "purpose": "The h3 default; card headings run slightly larger at 1.0625-1.1875rem." },
+      "body": { "displayName": "Body", "purpose": "All running copy at a 1.78 line-height. Measure stays short for Thai: 32-34rem for prose." },
+      "body-small": { "displayName": "Body Small", "purpose": "Card copy, nav and footer links, FAQ answers, and the whole SEO zone." },
+      "label": { "displayName": "Label", "purpose": "Section kickers, hero kicker, step numbers, tags. Always zero tracking, paired with a 1.5rem honey dash." }
+    },
+    "shadows": [
+      { "name": "shadow-sm", "value": "0 1px 2px rgba(42, 33, 26, 0.05), 0 4px 12px rgba(42, 33, 26, 0.05)", "purpose": "Resting paper. Every card, FAQ item, work card, browser frame, and the trust strip at rest." },
+      { "name": "shadow-md", "value": "0 2px 4px rgba(42, 33, 26, 0.06), 0 12px 28px rgba(42, 33, 26, 0.1)", "purpose": "Lifted. The hover state of any liftable card, the hero portrait, and the mobile drawer." },
+      { "name": "line-glow", "value": "0 2px 6px rgba(4, 137, 63, 0.3)", "purpose": "The one coloured shadow in the system, tinted to the LINE button's own green so it reads as a physical control." },
+      { "name": "line-glow-hover", "value": "0 8px 18px rgba(4, 137, 63, 0.34)", "purpose": "The LINE button's hover glow, expanded as the button rises 2px." }
+    ],
+    "motion": [
+      { "name": "ease-signature", "value": "cubic-bezier(0.22, 0.61, 0.36, 1)", "purpose": "The system's signature easing: scroll reveal (620ms), drawer slide (280ms), chip tilt (260ms), highlight sweep (720ms after a 240ms delay)." },
+      { "name": "duration-reveal", "value": "620ms", "purpose": "Scroll reveal fade and 14px rise. Double-gated on html.js plus prefers-reduced-motion: no-preference." },
+      { "name": "duration-sweep", "value": "720ms", "purpose": "Hero highlight draw-in, a flat tint pseudo-element scaling from scaleX(0) to 1, delayed 240ms. Only from 48em up." },
+      { "name": "duration-drawer", "value": "280ms", "purpose": "Mobile drawer slide from the right; the overlay fades at 260ms ease-out." },
+      { "name": "duration-hover", "value": "180ms", "purpose": "Button hover lift and shadow. 200-260ms for cards, nav underline, chip tilt, and the FAQ sign." },
+      { "name": "stagger-d1", "value": "90ms", "purpose": "First stagger step on card grids (.reveal-d1)." },
+      { "name": "stagger-d2", "value": "180ms", "purpose": "Second stagger step (.reveal-d2)." },
+      { "name": "stagger-d3", "value": "270ms", "purpose": "Third stagger step (.reveal-d3)." }
+    ],
+    "breakpoints": [
+      { "name": "lockup-swap", "value": "22.4em" },
+      { "name": "tablet", "value": "48em" },
+      { "name": "drawer-max", "value": "63.99em" },
+      { "name": "desktop", "value": "64em" }
+    ]
+  },
+  "components": [
+    {
+      "name": "LINE Button",
+      "kind": "button",
+      "refersTo": "button-line",
+      "description": "The only filled, coloured control in the system, and the single conversion action on every page.",
+      "html": "<a class=\"ds-btn-line\" href=\"#\"><span class=\"ds-btn-line-mark\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" focusable=\"false\"><path d=\"M12 3.2c-5 0-9 3.2-9 7.2 0 3.6 3 6.6 7.1 7.1.3.06.6.2.7.4.1.2.06.5.03.7l-.1.7c-.04.2-.2.9.7.5s4.9-2.9 6.7-5c1.2-1.3 1.8-2.7 1.8-4.4 0-4-4-7.2-9-7.2Z\" fill=\"currentColor\"></path></svg></span><span class=\"ds-btn-line-label\">ทักไลน์: bobroach</span></a>",
+      "css": ".ds-btn-line { display: inline-flex; align-items: center; gap: 0.625rem; padding: 0.8125rem 1.375rem; border-radius: 12px; background: var(--line-fill, #04893F); color: #fff; font-family: var(--font-head, \"Mitr\", \"Noto Sans Thai\", sans-serif); font-weight: 600; font-size: 1rem; line-height: 1.4; text-decoration: none; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 2px 6px rgba(4,137,63,0.3); transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease; } .ds-btn-line-mark { display: block; width: 1.5rem; height: 1.5rem; color: #fff; } .ds-btn-line-mark svg { display: block; width: 100%; height: 100%; } .ds-btn-line-label { min-width: 0; } .ds-btn-line:hover { background: var(--line-fill-dark, #037A37); transform: translateY(-2px); box-shadow: 0 8px 18px rgba(4,137,63,0.34); } .ds-btn-line:active { transform: translateY(0); } .ds-btn-line:focus-visible { outline: 2px solid var(--cocoa, #33241A); outline-offset: 3px; border-radius: 12px; }"
+    },
+    {
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "The secondary action everywhere: outline on paper, so it never competes with the LINE button.",
+      "html": "<a class=\"ds-btn-quiet\" href=\"#\">ดูผลงาน</a>",
+      "css": ".ds-btn-quiet { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-head, \"Mitr\", \"Noto Sans Thai\", sans-serif); font-weight: 500; font-size: 1rem; line-height: 1.4; padding: 0.8125rem 1.375rem; border-radius: 12px; background: var(--paper, #FFF9ED); color: var(--accent, #33241A); text-decoration: none; border: 1px solid var(--rule, rgba(42,33,26,0.14)); transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease; } .ds-btn-quiet:hover { border-color: var(--accent, #33241A); transform: translateY(-2px); box-shadow: 0 1px 2px rgba(42,33,26,0.05), 0 4px 12px rgba(42,33,26,0.05); } .ds-btn-quiet:focus-visible { outline: 2px solid var(--cocoa, #33241A); outline-offset: 3px; border-radius: 4px; }"
+    },
+    {
+      "name": "Offer Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The system's default surface: paper on paper, separated by a hairline, lifting only on hover.",
+      "html": "<article class=\"ds-card\"><span class=\"ds-chip ds-chip-amber\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"3.75\" width=\"6.5\" height=\"5.5\" rx=\"1.5\"></rect><rect x=\"14.5\" y=\"3.75\" width=\"6.5\" height=\"5.5\" rx=\"1.5\"></rect><rect x=\"8.75\" y=\"14.75\" width=\"6.5\" height=\"5.5\" rx=\"1.5\"></rect><path d=\"M6.25 9.25v2.25a1.5 1.5 0 0 0 1.5 1.5h1.75\"></path><path d=\"M17.75 9.25v2.25a1.5 1.5 0 0 1-1.5 1.5H14.5\"></path><path d=\"M12 13v1.75\"></path></svg></span><h3 class=\"ds-card-title\">ระบบหลังบ้าน</h3><p class=\"ds-card-body\">รวมงานที่กระจัดกระจายให้อยู่ในที่เดียว</p></article>",
+      "css": ".ds-card { display: grid; gap: 0.75rem; align-content: start; padding: 1.5rem; border-radius: 14px; background: var(--paper, #FFF9ED); border: 1px solid var(--rule-soft, rgba(42,33,26,0.08)); box-shadow: 0 1px 2px rgba(42,33,26,0.05), 0 4px 12px rgba(42,33,26,0.05); transition: transform 220ms ease, box-shadow 220ms ease; } .ds-card:hover { transform: translateY(-4px); box-shadow: 0 2px 4px rgba(42,33,26,0.06), 0 12px 28px rgba(42,33,26,0.1); } .ds-card-title { margin: 0; font-family: var(--font-head, \"Mitr\", \"Noto Sans Thai\", sans-serif); font-weight: 600; font-size: 1.1875rem; line-height: 1.35; letter-spacing: 0; color: var(--ink, #2A211A); } .ds-card-body { margin: 0; font-family: var(--font-body, \"IBM Plex Sans Thai Looped\", \"Noto Sans Thai\", sans-serif); font-size: 0.9375rem; line-height: 1.78; color: var(--muted, #6B5D4F); }"
+    },
+    {
+      "name": "Icon Chip",
+      "kind": "chip",
+      "refersTo": "chip-icon",
+      "description": "A 3.25rem rounded square holding one hand-drawn 24px icon, in default, amber, and clay tint variants.",
+      "html": "<span class=\"ds-chip\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"8.5\"></circle><path d=\"M12 7.2V12l3.1 1.9\"></path></svg></span>",
+      "css": ".ds-chip { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: 14px; background: var(--tint-strong, rgba(243,178,26,0.18)); color: var(--accent, #33241A); flex: none; transition: transform 260ms cubic-bezier(0.22,0.61,0.36,1), background-color 260ms ease; } .ds-chip svg { display: block; flex: none; } .ds-chip-amber { background: var(--tint-honey, rgba(243,178,26,0.1)); color: var(--honey-ink, #8F6207); } .ds-chip-clay { background: var(--tint-scarf, rgba(217,39,49,0.1)); color: var(--scarf-ink, #A81B24); } .ds-card:hover .ds-chip { transform: rotate(-4deg) scale(1.06); }"
+    },
+    {
+      "name": "Kind Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "A small pill naming a project's kind, one tint variant per project.",
+      "html": "<span class=\"ds-tag ds-tag-amber\">โปรดักต์ที่ผมสร้างเอง</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; align-self: start; padding: 0.3125rem 0.75rem; border-radius: 999px; font-family: var(--font-head, \"Mitr\", \"Noto Sans Thai\", sans-serif); font-weight: 500; font-size: 0.75rem; letter-spacing: 0; background: var(--tint-strong, rgba(243,178,26,0.18)); color: var(--accent, #33241A); } .ds-tag-amber { background: var(--tint-honey, rgba(243,178,26,0.1)); color: var(--honey-ink, #8F6207); } .ds-tag-clay { background: var(--tint-scarf, rgba(217,39,49,0.1)); color: var(--scarf-ink, #A81B24); }"
+    },
+    {
+      "name": "Section Label",
+      "kind": "custom",
+      "refersTo": "section-label",
+      "description": "The kicker above every section head: a 1.5rem honey dash followed by Mitr 500 at zero tracking in spoken-honey ink.",
+      "html": "<p class=\"ds-label\">สิ่งที่ผมช่วยได้</p>",
+      "css": ".ds-label { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-family: var(--font-head, \"Mitr\", \"Noto Sans Thai\", sans-serif); font-weight: 500; font-size: 0.8125rem; letter-spacing: 0; color: var(--honey-ink, #8F6207); } .ds-label::before { content: \"\"; width: 1.5rem; height: 2px; border-radius: 2px; background: var(--honey, #F3B21A); flex: none; }"
+    },
+    {
+      "name": "Header Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Muted at rest with a cocoa underline that grows from the left on hover and stays expanded on the current page.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\">ระบบหลังบ้าน</a><a href=\"#\" aria-current=\"page\">ผลงาน</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 2rem; } .ds-nav a { position: relative; font-family: var(--font-body, \"IBM Plex Sans Thai Looped\", \"Noto Sans Thai\", sans-serif); font-size: 0.9375rem; color: var(--muted, #6B5D4F); text-decoration: none; padding-bottom: 0.25rem; } .ds-nav a::after { content: \"\"; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; border-radius: 2px; background: var(--accent, #33241A); transform: scaleX(0); transform-origin: left; transition: transform 260ms ease; } .ds-nav a:hover { color: var(--ink, #2A211A); } .ds-nav a:hover::after { transform: scaleX(1); } .ds-nav a[aria-current=\"page\"] { color: var(--accent, #33241A); } .ds-nav a[aria-current=\"page\"]::after { transform: scaleX(1); } .ds-nav a:focus-visible { outline: 2px solid var(--cocoa, #33241A); outline-offset: 3px; border-radius: 4px; }"
+    },
+    {
+      "name": "FAQ Item",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "Native details/summary so it opens without JS, with a plus sign drawn from two CSS bars rather than a glyph.",
+      "html": "<details class=\"ds-faq\"><summary><span class=\"ds-faq-q\">ยังไม่อยากจ้างทำ แค่อยากปรึกษาก่อนได้ไหม</span><span class=\"ds-faq-sign\" aria-hidden=\"true\"></span></summary><div class=\"ds-faq-a\">ได้ครับ คุยกันก่อนได้เลย ไม่มีค่าใช้จ่ายและไม่มีข้อผูกมัด</div></details>",
+      "css": ".ds-faq { border-radius: 14px; background: var(--paper, #FFF9ED); border: 1px solid var(--rule-soft, rgba(42,33,26,0.08)); box-shadow: 0 1px 2px rgba(42,33,26,0.05), 0 4px 12px rgba(42,33,26,0.05); overflow: hidden; } .ds-faq summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; padding: 1rem 1.25rem; cursor: pointer; list-style: none; font-family: var(--font-head, \"Mitr\", \"Noto Sans Thai\", sans-serif); font-weight: 500; font-size: 1rem; color: var(--ink, #2A211A); } .ds-faq summary::-webkit-details-marker { display: none; } .ds-faq summary:hover { background: var(--tint, rgba(243,178,26,0.06)); } .ds-faq summary:focus-visible { outline: 2px solid var(--cocoa, #33241A); outline-offset: 3px; border-radius: 4px; } .ds-faq-q { flex: 1; min-width: 0; } .ds-faq-sign { position: relative; width: 1rem; height: 1rem; flex: none; } .ds-faq-sign::before, .ds-faq-sign::after { content: \"\"; position: absolute; left: 50%; top: 50%; width: 0.875rem; height: 2px; border-radius: 2px; background: var(--accent, #33241A); transform: translate(-50%,-50%); transition: transform 240ms ease; } .ds-faq-sign::after { transform: translate(-50%,-50%) rotate(90deg); } .ds-faq[open] .ds-faq-sign::after { transform: translate(-50%,-50%) rotate(0deg); } .ds-faq-a { padding: 0 1.25rem 1.25rem; font-family: var(--font-body, \"IBM Plex Sans Thai Looped\", \"Noto Sans Thai\", sans-serif); font-size: 0.9375rem; line-height: 1.78; color: var(--muted, #6B5D4F); max-width: 32rem; }"
+    },
+    {
+      "name": "Browser Frame",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "Signature component: browser chrome around a portfolio screenshot so work reads as a shipped site. The whole bar is decorative and hidden from assistive tech.",
+      "html": "<div class=\"ds-frame\"><div class=\"ds-frame-bar\" aria-hidden=\"true\"><span class=\"ds-frame-dots\"><span></span><span></span><span></span></span><span class=\"ds-frame-url\">pawjai.co</span></div><div class=\"ds-frame-shot\"></div></div>",
+      "css": ".ds-frame { border: 1px solid var(--rule, rgba(42,33,26,0.14)); border-radius: 14px; overflow: hidden; background: var(--paper, #FFF9ED); box-shadow: 0 1px 2px rgba(42,33,26,0.05), 0 4px 12px rgba(42,33,26,0.05); } .ds-frame-bar { display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem 0.875rem; background: var(--cream, #FFF9ED); border-bottom: 1px solid var(--rule-soft, rgba(42,33,26,0.08)); min-width: 0; } .ds-frame-dots { display: flex; gap: 0.3125rem; flex: none; } .ds-frame-dots span { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: rgba(42,33,26,0.16); } .ds-frame-url { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0.1875rem 0.625rem; border-radius: 999px; background: var(--paper, #FFF9ED); border: 1px solid var(--rule-soft, rgba(42,33,26,0.08)); font-family: var(--font-body, \"IBM Plex Sans Thai Looped\", sans-serif); font-size: 0.75rem; color: var(--muted, #6B5D4F); letter-spacing: 0.01em; } .ds-frame-shot { aspect-ratio: 16 / 10; background: var(--tint, rgba(243,178,26,0.06)); }"
+    },
+    {
+      "name": "Greeting Chip",
+      "kind": "chip",
+      "refersTo": "chip-greeting",
+      "description": "The hero's bear-mark chip. Cream with a honey hairline, never a honey tint, because the brand mark may not sit on a honey-adjacent ground.",
+      "html": "<p class=\"ds-greet\"><span class=\"ds-greet-bear\" aria-hidden=\"true\"></span>สวัสดีครับ ผมภูรินท์</p>",
+      "css": ".ds-greet { display: inline-flex; align-items: center; gap: 0.5rem; margin: 0; padding: 0.375rem 0.875rem 0.375rem 0.4375rem; border-radius: 999px; background: var(--cream, #FFF9ED); border: 1px solid rgba(243,178,26,0.55); color: var(--ink, #2A211A); font-family: var(--font-head, \"Mitr\", \"Noto Sans Thai\", sans-serif); font-weight: 500; font-size: 0.875rem; } .ds-greet-bear { display: block; width: 1.375rem; height: 1.375rem; flex: none; border-radius: 50%; background: var(--cream, #FFF9ED); border: 1px solid rgba(243,178,26,0.55); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Honey Jar Workshop",
+    "overview": "This is a craftsman's shop with the lights on and the door open. Every colour in the system was lifted directly out of the Pooh bear mark's own SVG source rather than sampled by eye, so the palette is not a theme applied to a logo, it is the logo spread across a page. Cream paper, cocoa ink, a jar of honey used sparingly, and one red scarf. The result is warm and domestic where a developer's site usually goes cold and technical, because the visitor is a Thai business owner deciding whether one human can be trusted with their business, not an engineer evaluating a stack.\n\nThe density is generous and unhurried. Text sits on a short Thai measure, body copy breathes at a 1.78 line-height that most Latin-first systems would consider loose, and sections separate with a lot of vertical air rather than with lines and boxes. Depth is almost entirely absent at rest: cards are flat, held together by hairline borders and the faintest shadow, and lift only when a pointer that can hover actually hovers. Nothing shouts. The one loud object on any page is the LINE button, and it is loud on purpose because it is the only thing the site is asking anyone to do.\n\nThe aesthetic rejects the two easy defaults for this category. There is no cool grey-and-blue SaaS surface, and there is no dark-mode developer aesthetic; this site is warm-light only. It also rejects decorative shortcuts that would cheapen a hand-built impression: no gradients anywhere, no GIFs, no stock icon set. Every icon in the system was drawn by hand on a 24px grid, and the highlighter sweep behind the hero headline is a flat tint that scales in, never a gradient wash.",
+    "keyCharacteristics": [
+      "Warm honey-on-cream light surface, cocoa as the only dark ground",
+      "Flat at rest, lift on hover; hairlines carry structure, not shadows",
+      "Honey is seen and never spoken: decorative at full strength, #8F6207 when it must carry words",
+      "Thai-first typography: generous leading, zero tracking, shorter measure than Latin",
+      "Hand-drawn 24px line icons, 1.75 stroke, no icon package anywhere",
+      "One recognisable green button as the single loud element on any page"
+    ],
+    "rules": [
+      { "name": "The Honey Never Speaks Rule", "body": "#F3B21A on cream measures 1.79:1. It may be a dash, a border, a tint, a sweep, or a focus ring, but the moment it must carry a word it becomes #8F6207. The same split governs scarf red: #D92731 decorates, #A81B24 speaks.", "section": "colors" },
+      { "name": "The Green Belongs to LINE Rule", "body": "Green appears on LINE buttons and nowhere else in the system. It is not an accent, not a success colour, and not available for reuse. Its hover state goes darker, never lighter, so contrast only improves on interaction.", "section": "colors" },
+      { "name": "The Mark Never Sits on Honey Rule", "body": "The bear mark must never be placed on a honey-adjacent background, which is why the hero greeting chip is cream with a honey hairline rather than a honey tint. Every mark's first opaque ancestor background is checked programmatically for this.", "section": "colors" },
+      { "name": "The Zero Tracking Rule", "body": "Small Thai labels carry letter-spacing: 0, never positive. Wide tracking detaches Thai vowel and tone marks from their base consonants, which is the loudest sign a Thai page was designed by someone who does not read Thai. Headings carry no negative tracking either: it has no Thai justification and crowds the marks. The only surviving 0.01em values in the system sit on Latin-only strings.", "section": "typography" },
+      { "name": "The Thai Leading Rule", "body": "Thai display type wants more leading, not less. Body sits at 1.78 and the display line at 1.4, both looser than a Latin equivalent would be, because stacked vowels and tone marks need vertical room. Never tighten display leading below the body-heading value of 1.35.", "section": "typography" },
+      { "name": "The Word Joiner Rule", "body": "Thai has no spaces and browsers break lines with a dictionary that omits loanwords, splitting words mid-syllable. No CSS property fixes this. Hand-written markup uses a .nb span (white-space: nowrap); text from data files passes through protectThai() in src/utils/thai.ts, which interleaves U+2060 WORD JOINER. Apply it only to text rendered for a reader, never to alt, title, meta, or structured data.", "section": "typography" },
+      { "name": "The Shrinkable Column Rule", "body": "Any grid track holding Thai text uses minmax(0, 1fr), never a bare 1fr. A bare 1fr floors at min-content width, and one unbreakable Thai run then pushes the whole card past the viewport.", "section": "layout" },
+      { "name": "The Lift Costs Nothing Rule", "body": "Every hover lift, tilt, and slide is wrapped in both @media (hover: hover) and a prefers-reduced-motion: reduce escape that removes the transition and the transform. A touch device never pays for a hover effect it cannot trigger, and a visitor who asked for less motion never sees one.", "section": "elevation" },
+      { "name": "The Flat Colour Rule", "body": "No gradients anywhere. Where a gradient would be the reflex, the system uses a flat tint instead: the highlight sweep is a solid rgba(243, 178, 26, 0.18) block that scales in from the left rather than an animated background wash.", "section": "shapes" },
+      { "name": "The One Loud Button Rule", "body": "The LINE button is the only filled, coloured control in the system. Every other action is a quiet outline or a text link, so the single thing the site wants a visitor to do is never competing with a second thing that looks equally urgent.", "section": "components" },
+      { "name": "The No-JS Nav Rule", "body": "The inline nav is the default and the fallback: it renders as a normal row at every width, and only html.js hides it in favour of the drawer. Navigation never depends on JavaScript.", "section": "components" }
+    ],
+    "dos": [
+      "Do use #8F6207 for any honey-coloured word and #A81B24 for any red one. Full-strength #F3B21A and #D92731 are for dashes, tints, borders, sweeps, and focus rings only.",
+      "Do keep every hover lift, tilt, and slide behind both @media (hover: hover) and prefers-reduced-motion: reduce.",
+      "Do draw any new icon by hand on the same 24px grid at 1.75 stroke with round caps and joins, in src/components/Icon.astro.",
+      "Do run any Thai string that comes from a data file through protectThai() before rendering it for a reader, and leave alt, title, meta, and JSON-LD strings raw.",
+      "Do keep Thai measures short: roughly 32-34rem for prose, 38rem for step bodies.",
+      "Do use minmax(0, 1fr) for any grid track holding Thai text.",
+      "Do give every image slot the placeholder component with real descriptive Thai alt text.",
+      "Do use the two real breakpoints, 48em and 64em, for anything compositional."
+    ],
+    "donts": [
+      "Don't put #F3B21A behind or on text. On cream it measures 1.79:1.",
+      "Don't use green anywhere except a LINE button, and don't lighten a LINE button on hover.",
+      "Don't place the bear mark on a honey-adjacent background. Use cream with a honey hairline instead.",
+      "Don't add a gradient. The system is flat colour only, including the highlight sweep.",
+      "Don't add positive tracking to small Thai labels or negative tracking to headings. letter-spacing: 0, except on Latin-only strings.",
+      "Don't introduce an icon library, an icon font, or a generic icon set.",
+      "Don't put emoji, em dashes, or en dashes in visible copy.",
+      "Don't put technical vocabulary in visible copy. Outcomes go in plain Thai; the two narrow exceptions are recorded in the site spec.",
+      "Don't add a GIF, an autoplaying animation, or motion that gates content visibility without JS.",
+      "Don't use 100vw for a full-bleed band. Let the section's own background bleed and nest the shell inside."
+    ]
+  }
+}
