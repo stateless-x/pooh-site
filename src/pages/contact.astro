@@ -76,11 +76,17 @@ const breadcrumb = {
 	</section>
 
 	<section class="card-wrap">
-		<div class="shell">
+		<div class="shell narrow">
 			<div class="line-card reveal reveal-eager">
 				<div class="line-main">
 					<p class="label">ไลน์ไอดี</p>
-					<p class="line-id">bobroach</p>
+					<div class="id-row">
+						<p class="line-id" id="line-id">bobroach</p>
+						<button class="copy" type="button" data-copy-id="bobroach" hidden>
+							<span class="copy-label">คัดลอกไอดี</span>
+						</button>
+					</div>
+					<p class="copy-status" role="status" aria-live="polite"></p>
 					<p class="line-note">ไลน์ส่วนตัว ตอบเองทุกข้อความ ไม่มีทีมขายมาตอบแทน</p>
 					<LineButton size="lg" />
 					<p class="line-hint">หรือค้นหาไอดี bobroach ในแอปไลน์แล้วกดเพิ่มเพื่อน</p>
@@ -97,8 +103,8 @@ const breadcrumb = {
 		</div>
 	</section>
 
-	<section class="section">
-		<div class="shell">
+	<section class="section say">
+		<div class="shell narrow">
 			<div class="section-head reveal">
 				<p class="label">ทักมาแล้วเล่าอะไรดี</p>
 				<h2>บอกสามอย่างนี้มา จะได้เริ่มคุยกันตรงจุดตั้งแต่ข้อความแรก</h2>
@@ -109,7 +115,7 @@ const breadcrumb = {
 					points.map((p, i) => (
 						<li class:list={["step", "reveal", `reveal-d${i}`]}>
 							<span class="chip">
-								<Icon name={p.icon} size={28} />
+								<Icon name={p.icon} size={24} />
 							</span>
 							<div class="step-body">
 								<p class="step-n">ข้อ {p.n}</p>
@@ -121,21 +127,21 @@ const breadcrumb = {
 				}
 			</ol>
 
+			<p class="closing reveal">
+				ไม่ต้องเตรียมอะไรให้พร้อมก็ได้ครับ พิมพ์มาเท่าที่นึกออก
+				ที่เหลือค่อยคุยกันต่อในไลน์
+			</p>
+
 			<p class="more reveal">
 				อยากรู้ว่าอะไรทำให้งบต่างกันบ้าง <a href="/budget-factors"
 					>ดูปัจจัยที่มีผลกับงบประมาณ</a
 				>
 			</p>
-
-			<p class="closing reveal">
-				ไม่ต้องเตรียมอะไรให้พร้อมก็ได้ครับ พิมพ์มาเท่าที่นึกออก
-				ที่เหลือค่อยคุยกันต่อในไลน์
-			</p>
 		</div>
 	</section>
 
-	<section class="section band-cream">
-		<div class="shell">
+	<section class="section">
+		<div class="shell narrow">
 			<div class="section-head reveal">
 				<p class="label">คำถามที่เจอบ่อย</p>
 				<h2>เรื่องที่หลายคนสงสัยก่อนเริ่มงาน</h2>
@@ -158,16 +164,58 @@ const breadcrumb = {
 	</section>
 </Layout>
 
+<script>
+	// The copy control is rendered hidden and only unhidden here, so a
+	// visitor without JS never meets a dead button: for them the ID is still
+	// selectable text and the LINE button still works.
+	const button = document.querySelector<HTMLButtonElement>(".copy");
+	const status = document.querySelector<HTMLParagraphElement>(".copy-status");
+
+	if (button && status && navigator.clipboard) {
+		button.hidden = false;
+
+		let clear: number | undefined;
+
+		button.addEventListener("click", async () => {
+			const id = button.dataset.copyId ?? "";
+			window.clearTimeout(clear);
+
+			try {
+				await navigator.clipboard.writeText(id);
+				status.textContent = "คัดลอกไอดีแล้ว";
+				status.dataset.state = "done";
+			} catch {
+				// Never claim a copy that did not happen: if the browser
+				// refuses, say so and point at the manual path instead.
+				status.textContent = "คัดลอกไม่ได้ครับ กดค้างที่ไอดีเพื่อเลือกเองได้เลย";
+				status.dataset.state = "failed";
+			}
+
+			clear = window.setTimeout(() => {
+				status.textContent = "";
+				delete status.dataset.state;
+			}, 4000);
+		});
+	}
+</script>
+
 <style>
-	.card-wrap {
-		padding-top: 2.5rem;
+	.narrow {
+		max-width: 44rem;
 	}
 
-	/* Three checklist cards in a 2-column grid left a lopsided empty cell, so
-	   they go three across once there is room. */
-	@media (min-width: 64em) {
-		.steps {
-			grid-template-columns: repeat(3, 1fr);
+	/* This page is an arrival, not another brochure page: the visitor is
+	   here to do one thing. So it holds a single column all the way down,
+	   never alternates bands, and spends its whole first screen on the LINE
+	   card instead of easing in through a section rhythm. */
+	.card-wrap {
+		padding-top: 1.75rem;
+		padding-bottom: 0.5rem;
+	}
+
+	@media (min-width: 48em) {
+		.card-wrap {
+			padding-top: 2.5rem;
 		}
 	}
 
@@ -175,9 +223,9 @@ const breadcrumb = {
 		display: grid;
 		gap: 2rem;
 		padding: 1.75rem 1.5rem 2rem;
-		border-radius: 18px;
+		border-radius: var(--radius);
 		background: var(--paper);
-		border: 1px solid var(--rule-soft);
+		border: 1px solid var(--rule);
 		box-shadow: var(--shadow-md);
 	}
 
@@ -198,14 +246,88 @@ const breadcrumb = {
 		overflow-wrap: anywhere;
 	}
 
+	/* The ID is set at display size, which promises it is meant to be taken.
+	   The copy control sits on the same line so the promise is kept, in the
+	   quiet outline treatment: the LINE button stays the one loud control. */
+	.id-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem 1rem;
+	}
+
+	.copy {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		min-height: 40px;
+		padding: 0.5rem 0.9375rem;
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: var(--fs-body-sm);
+		line-height: 1.4;
+		color: var(--accent);
+		background: var(--paper);
+		border: 1px solid var(--rule);
+		border-radius: 12px;
+		cursor: pointer;
+		transition:
+			border-color 180ms ease,
+			background-color 180ms ease;
+	}
+
+	@media (hover: hover) {
+		.copy:hover {
+			border-color: var(--accent);
+			background: var(--tint);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.copy {
+			transition: none;
+		}
+	}
+
+	@media (pointer: coarse) {
+		.copy {
+			min-height: 44px;
+		}
+	}
+
+	/* Empty until something happened, so it never reserves a line of blank
+	   space above the note. Ink for success, scarf ink for the failure the
+	   visitor has to act on. */
+	.copy-status {
+		font-size: var(--fs-body-sm);
+		color: var(--muted);
+	}
+
+	/* Collapsed rather than display:none: a live region that is removed from
+	   the box tree at the moment its text changes is not announced by every
+	   screen reader. This keeps it rendered and simply takes no room. */
+	.copy-status:empty {
+		height: 0;
+		overflow: hidden;
+		margin-top: -0.875rem;
+	}
+
+	.copy-status[data-state="done"] {
+		color: var(--ink);
+	}
+
+	.copy-status[data-state="failed"] {
+		color: var(--scarf-ink);
+	}
+
 	.line-note {
 		color: var(--muted);
-		font-size: 0.9375rem;
+		font-size: var(--fs-body-sm);
 	}
 
 	.line-hint {
 		color: var(--muted);
-		font-size: 0.8125rem;
+		font-size: var(--fs-body-sm);
 	}
 
 	.line-qr {
@@ -224,23 +346,96 @@ const breadcrumb = {
 
 	.qr-hint {
 		color: var(--muted);
-		font-size: 0.8125rem;
+		font-size: var(--fs-label);
 	}
 
 	@media (min-width: 48em) {
+		/* A fixed track, not auto: an auto column sizes to the placeholder's
+		   own intrinsic width and collapsed the code to roughly 100px, which
+		   no phone camera can read. */
 		.line-card {
-			grid-template-columns: 1fr auto;
-			gap: 3rem;
+			grid-template-columns: minmax(0, 1fr) 10.5rem;
+			gap: 2rem;
 			align-items: center;
+			padding: 2.25rem 2.5rem;
+		}
+	}
+
+	@media (min-width: 64em) {
+		.line-card {
+			grid-template-columns: minmax(0, 1fr) 12rem;
+			gap: 2.5rem;
 			padding: 2.5rem 2.75rem;
 		}
 	}
 
+	/* ---- what to say ----
+	   The other pages present their lists as things to look at. These three
+	   are things to type, so they stack as one draft message the visitor
+	   reads top to bottom before switching apps: no side-by-side columns at
+	   any width, a smaller mark so the words lead, and hairlines between the
+	   lines instead of three separate cards. */
+
+	.say .section-head {
+		margin-bottom: 1.5rem;
+	}
+
+	.steps {
+		gap: 0;
+		max-width: 40rem;
+	}
+
+	.step {
+		align-items: start;
+		gap: 0 1rem;
+		padding: 1.25rem 0;
+		border: 0;
+		border-bottom: 1px solid var(--rule-soft);
+		border-radius: 0;
+		background: none;
+		box-shadow: none;
+	}
+
+	.step:last-of-type {
+		border-bottom: 0;
+	}
+
+	/* These rows are no longer cards, so the shared card lift has to go with
+	   the card: without this a hairline row rises 3px and grows a shadow
+	   under nothing. The chip's own tilt stays. */
+	@media (hover: hover) {
+		.step:hover {
+			transform: none;
+			box-shadow: none;
+		}
+	}
+
+	.chip {
+		width: 2.5rem;
+		height: 2.5rem;
+	}
+
+	@media (min-width: 48em) {
+		.steps {
+			grid-template-columns: 1fr;
+			gap: 0;
+		}
+
+		.step {
+			gap: 0 1.25rem;
+			padding: 1.375rem 0;
+		}
+	}
+
+	/* The reassurance sits tight under the draft it reassures about; the
+	   cross-link is pushed well clear so it never competes with it. */
 	.closing {
-		margin-top: 2.5rem;
-		padding-top: 1.5rem;
-		border-top: 1px solid var(--rule);
-		color: var(--muted);
+		margin-top: 1.5rem;
+		color: var(--ink);
 		max-width: 34rem;
+	}
+
+	.more {
+		margin-top: 3.5rem;
 	}
 </style>

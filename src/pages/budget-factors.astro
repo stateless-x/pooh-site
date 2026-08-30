@@ -136,75 +136,106 @@ const breadcrumb = {
 		font-weight: 500;
 	}
 
-	/* ---- factors ---- */
+	/* ---- factors ----
+	   This page argues that no single number exists because six things move
+	   it, so the six read as one continuous scale rather than six equal
+	   cards: a single column with an unbroken rule running the full height
+	   and a honey tick at each stop. The reader sees one measurement with
+	   six positions on it, which is the argument the copy makes.
+	   The ticks stay the same size on purpose: the copy names ขอบเขตงาน as
+	   the largest driver and it comes first, so a mark that grew downward
+	   would state the opposite of what the page says. */
 
 	.factors {
 		display: grid;
-		gap: 1rem;
+		gap: 0;
 		margin: 0;
 		padding: 0;
 		list-style: none;
+		max-width: 42rem;
 	}
 
 	.factor {
+		position: relative;
 		display: grid;
 		grid-template-columns: auto minmax(0, 1fr);
-		gap: 0 1rem;
+		gap: 0 1.25rem;
 		align-items: start;
 		min-width: 0;
-		padding: 1.25rem;
-		border-radius: var(--radius);
-		background: var(--paper);
-		border: 1px solid var(--rule-soft);
-		box-shadow: var(--shadow-sm);
+		padding: 1.25rem 0 1.5rem;
 	}
 
+	/* One continuous line down the whole scale rather than a border per
+	   item: the six are stages of one measurement, not six separate things. */
+	/* One unbroken rule behind the whole scale, running through every stop
+	   rather than restarting per item. */
+	.factor::before {
+		content: "";
+		position: absolute;
+		left: 0.53125rem;
+		top: 0;
+		bottom: 0;
+		width: 1px;
+		background: var(--rule);
+	}
+
+	.factor:first-child::before {
+		top: 1.5rem;
+	}
+
+	.factor:last-child::before {
+		bottom: auto;
+		height: 1.5rem;
+	}
+
+	/* Each stop is a honey tick cutting across the rule with its number
+	   beside it, so the six read as positions on one measurement. */
 	.factor-n {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		justify-items: center;
+		gap: 0.375rem;
+		width: 1.0625rem;
+		padding-block: 0.9375rem;
 		font-family: var(--font-head);
 		font-weight: 600;
-		font-size: 0.9375rem;
+		font-size: var(--fs-label);
+		line-height: 1;
 		color: var(--honey-ink);
 		font-variant-numeric: tabular-nums;
-		min-width: 1.75rem;
+		background: var(--cream);
+	}
+
+	.factor-n::before {
+		content: "";
+		width: 0.6875rem;
+		height: 3px;
+		border-radius: 2px;
+		background: var(--honey);
 	}
 
 	.factor-body {
 		display: grid;
-		gap: 0.25rem;
+		gap: 0.375rem;
 		min-width: 0;
 	}
 
 	.factor-body h3 {
-		font-size: 1rem;
+		font-size: var(--fs-subtitle);
 		font-weight: 600;
 	}
 
 	.factor-body p {
 		color: var(--muted);
-		font-size: 0.9375rem;
-		max-width: 32rem;
+		font-size: var(--fs-body-sm);
+		max-width: 34rem;
 	}
 
 	@media (min-width: 48em) {
-		.factors {
-			grid-template-columns: repeat(2, 1fr);
-			gap: 1.25rem;
-		}
-
 		.factor {
-			padding: 1.5rem;
+			gap: 0 1.75rem;
+			padding: 1.5rem 0 1.75rem;
 		}
-	}
-
-
-
-
-
-
-
-
-
-
-	@media (min-width: 48em) {
 	}
 </style>

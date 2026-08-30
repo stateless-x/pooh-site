@@ -69,7 +69,9 @@ const breadcrumb = {
 					พอเริ่มมีลูกค้าใช้จริง ระบบที่ไม่มีพื้นฐานทางวิศวกรรมรองรับจะเริ่มส่งสัญญาณ
 					เช่น แก้ตรงหนึ่งแล้วอีกตรงพังตาม ข้อมูลลูกค้าเก็บไว้ในที่ที่ไม่ควรเก็บ
 					หรือไม่มีใครอธิบายได้ว่าข้างในทำงานยังไง
-					<strong>งานที่เหมือนใกล้เสร็จเต็มที จึงกลายเป็นงานที่ไปต่อไม่ได้</strong>
+				</p>
+				<p class="pullout">
+					งานที่เหมือนใกล้เสร็จเต็มที จึงกลายเป็นงานที่ไปต่อไม่ได้
 				</p>
 				<p>
 					ผมใช้ AI ทำงานทุกวันเหมือนกันครับ เลยไม่ได้มองว่าการเริ่มจาก AI เป็นเรื่องผิด
@@ -92,21 +94,23 @@ const breadcrumb = {
 				</p>
 			</div>
 
-			<ol class="checklist">
-				{
-					checklist.map((item, i) => (
-						<li class:list={["check", "reveal", `reveal-d${i % 3}`]}>
-							<span class="check-n" aria-hidden="true">
-								{String(i + 1).padStart(2, "0")}
-							</span>
-							<div class="check-body">
-								<h3>{protectThai(item.title)}</h3>
-								<p>{protectThai(item.body)}</p>
-							</div>
-						</li>
-					))
-				}
-			</ol>
+			<div class="sheet reveal">
+				<ol class="checklist">
+					{
+						checklist.map((item, i) => (
+							<li class="check">
+								<span class="check-n" aria-hidden="true">
+									{String(i + 1).padStart(2, "0")}
+								</span>
+								<div class="check-body">
+									<h3>{protectThai(item.title)}</h3>
+									<p>{protectThai(item.body)}</p>
+								</div>
+							</li>
+						))
+					}
+				</ol>
+			</div>
 		</div>
 	</section>
 
@@ -165,7 +169,7 @@ const breadcrumb = {
 	.prose {
 		display: grid;
 		gap: 1.125rem;
-		font-size: 1.0625rem;
+		font-size: var(--fs-body);
 	}
 
 	.prose p {
@@ -177,6 +181,36 @@ const breadcrumb = {
 		font-weight: 500;
 	}
 
+	/* The sentence the whole page turns on, lifted out of the paragraph it
+	   used to end. It keeps body size and earns its weight from the ink, the
+	   heading face, and the air around it, not from a fifth type step. The
+	   mark above it is the same short honey dash the section labels carry,
+	   which is how this system already signals "a line is starting here". */
+	.pullout {
+		display: grid;
+		gap: 0.75rem;
+		margin-block: 0.625rem;
+		color: var(--ink);
+		font-family: var(--font-head);
+		font-weight: 500;
+		line-height: 1.6;
+		max-width: 30rem;
+	}
+
+	.pullout::before {
+		content: "";
+		width: 1.5rem;
+		height: 2px;
+		border-radius: 2px;
+		background: var(--honey);
+	}
+
+	@media (min-width: 48em) {
+		.pullout {
+			margin-block: 1rem;
+		}
+	}
+
 	.page-head .lede strong {
 		color: var(--ink);
 		font-weight: 500;
@@ -186,11 +220,26 @@ const breadcrumb = {
 		margin-top: 0.75rem;
 	}
 
-	/* ---- checklist ---- */
+	/* ---- checklist ----
+	   The copy asks the reader to run this list against their own work
+	   ("ลองไล่ดูเองก่อนก็ได้ครับ"), so it is drawn as a list you tick, not as
+	   eight cards you browse. One paper sheet, hairline rules between rows,
+	   and an empty box in front of each item: the box is the affordance that
+	   turns reading into checking, and it stays empty because only the reader
+	   knows the answer. Same rounded-square language as the icon chip. */
+
+	.sheet {
+		max-width: 44rem;
+		padding: 0.5rem 1.25rem;
+		border-radius: var(--radius);
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		box-shadow: var(--shadow-sm);
+	}
 
 	.checklist {
 		display: grid;
-		gap: 1rem;
+		gap: 0;
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -199,74 +248,58 @@ const breadcrumb = {
 	.check {
 		display: grid;
 		grid-template-columns: auto minmax(0, 1fr);
-		gap: 0 1rem;
+		gap: 0 0.875rem;
 		align-items: start;
 		min-width: 0;
-		padding: 1.25rem;
-		border-radius: var(--radius);
-		background: var(--paper);
-		border: 1px solid var(--rule-soft);
-		box-shadow: var(--shadow-sm);
-		transition:
-			transform 200ms ease,
-			box-shadow 200ms ease;
+		padding-block: 1.125rem;
+		border-bottom: 1px solid var(--rule-soft);
 	}
 
-	@media (hover: hover) {
-		.check:hover {
-			transform: translateY(-3px);
-			box-shadow: var(--shadow-md);
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.check {
-			transition: none;
-		}
-
-		.check:hover {
-			transform: none;
-		}
+	.check:last-child {
+		border-bottom: 0;
 	}
 
 	.check-n {
+		display: grid;
+		place-items: center;
+		width: 1.625rem;
+		height: 1.625rem;
+		margin-top: 0.0625rem;
+		border-radius: 6px;
+		border: 1.5px solid var(--rule);
 		font-family: var(--font-head);
 		font-weight: 600;
-		font-size: 0.9375rem;
-		color: var(--honey-ink);
+		font-size: var(--fs-label);
+		line-height: 1;
+		color: var(--muted);
 		font-variant-numeric: tabular-nums;
-		min-width: 1.75rem;
 	}
 
 	.check-body {
 		display: grid;
-		gap: 0.25rem;
+		gap: 0.3125rem;
 		min-width: 0;
 	}
 
 	.check-body h3 {
-		font-size: 1rem;
+		font-size: var(--fs-subtitle);
 		font-weight: 600;
 	}
 
 	.check-body p {
 		color: var(--muted);
-		font-size: 0.9375rem;
+		font-size: var(--fs-body-sm);
+		max-width: 36rem;
 	}
 
 	@media (min-width: 48em) {
-		.checklist {
-			grid-template-columns: repeat(2, 1fr);
-			gap: 1.25rem;
+		.sheet {
+			padding: 0.75rem 2rem;
 		}
 
 		.check {
-			padding: 1.5rem;
+			gap: 0 1.25rem;
+			padding-block: 1.375rem;
 		}
 	}
-
-
-
-
-
 </style>
