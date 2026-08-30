@@ -26,6 +26,11 @@ Static Astro site, seven pages, no client framework. Live domain pending
 
 ## Docs
 
+- [PRODUCT.md](PRODUCT.md) — product truth for design tooling (Impeccable):
+  users, positioning, hard rules, brand commitments. Update when facts change.
+- [DESIGN.md](DESIGN.md) — the incumbent v3 visual system, machine-readable
+  frontmatter + prose rules; sidecar in `.impeccable/design.json`. Code is
+  canon; this documents it.
 - [docs/site-spec.md](docs/site-spec.md) — the living spec: hard content
   rules, brand system (v3), page inventory, verification assertions. Read
   before changing copy or design.
