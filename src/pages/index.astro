@@ -141,6 +141,12 @@ const personSchema = {
 							aria-hidden="true"
 						/>สวัสดีครับ ผมภูรินท์
 					</p>
+					{/* No .nb around "Business Technology": measured at 13px Mitr 600 it
+					    is 135px, and at 375 the credential chip only has ~115px of
+					    content box beside the greeting, so an unbreakable run of that
+					    width spills past the pill's own border. The term wraps across
+					    its natural spaces instead, and the wbr keeps "Engineer" from
+					    ever splitting mid-word. */}
 					<p class="ident" lang="en">Business Technology<wbr /> Engineer</p>
 				</div>
 				<h1>
@@ -243,8 +249,14 @@ const personSchema = {
 					ใครก็สั่งให้ AI สร้างเว็บขึ้นมาได้ในไม่กี่ชั่วโมง บางคนเรียกกันว่า <span
 						lang="en">Vibe Coding</span
 					> เห็นผลไวจนรู้สึกว่าใกล้เสร็จ แต่พอมีคนใช้จริงแล้วเริ่มรวน คำถามคือใครแก้ให้
+				</p>
+				<p class="wedge-lead">
 					ผมใช้ AI ทำงานทุกวันเหมือนกันครับ แต่ใช้แบบวิศวกร
-					คือให้ AI ช่วยเรื่องความเร็ว ส่วนโครงสร้างและความปลอดภัยมาจากประสบการณ์จริง
+					คือให้ AI ช่วยเรื่องความเร็ว ส่วนโครงสร้างและความปลอดภัยมาจาก<span class="nb"
+						>ประสบการณ์</span
+					>จริง
+				</p>
+				<p class="wedge-lead">
 					ถ้ามีของทำค้างไว้ ส่งมาให้ผมดูได้เลย ไม่ต้องรื้อทิ้งเริ่มใหม่
 				</p>
 				<div class="wedge-actions">
@@ -303,7 +315,12 @@ const personSchema = {
 							<span class:list={["tag", `is-${w.tint}`]}>{protectThai(w.kind)}</span>
 							<h3>{w.name}</h3>
 							<p>{protectThai(w.short)}</p>
-							<a class="work-link" href={w.url}>
+							<a
+								class="work-link"
+								href={w.url}
+								target="_blank"
+								rel="noopener"
+							>
 								เปิดดูเว็บไซต์
 								<Icon name="external" size={16} />
 							</a>
@@ -378,7 +395,7 @@ const personSchema = {
 					>
 						มีประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี จบวิศวกรรมคอมพิวเตอร์จาก Mahidol University
 						International College ปัจจุบันเป็นผู้ก่อตั้งและผู้พัฒนาหลักของ
-						<a href="https://pawjai.co">pawjai.co</a> ควบคู่กับงานอิสระ
+						<a href="https://pawjai.co" target="_blank" rel="noopener">pawjai.co</a> ควบคู่กับงานอิสระ
 						อยู่กรุงเทพและทำงานร่วมกับลูกค้าได้ทั่วประเทศ ใช้ AI
 						ช่วยให้งานเร็วขึ้นบนพื้นฐานวิศวกรรมที่ดูแลต่อได้ ติดต่อทางไลน์ bobroach
 					</p>
@@ -446,12 +463,17 @@ const personSchema = {
 				</div>
 
 				<div class="seo-qa-item">
-					<h3>อยากให้เว็บไซต์ติดอันดับและถูกผู้ช่วย AI แนะนำ</h3>
+					{/* Active phrasing on purpose: Thai ถูก carries adversative
+					    weight (ถูกจับ, ถูกไล่ออก) and reads machine-translated when
+					    it lands on a favourable event. This zone is written to be
+					    quoted by AI assistants, so it is the sentence most likely to
+					    be lifted verbatim. */}
+					<h3>อยากให้เว็บไซต์ติดอันดับและผู้ช่วย AI หยิบไปแนะนำ</h3>
 					<p>
 						เว็บที่ผมทำวางโครงมาให้เครื่องมือค้นหาอ่านเข้าใจตั้งแต่แรก
 						ทั้งการจัดหัวข้อ การเขียนเนื้อหาให้ตอบคำถามได้ตรง
 						และการบอกข้อมูลธุรกิจให้ครบในแบบที่เครื่องอ่านได้
-						ผลคือมีโอกาสติดอันดับบนกูเกิลมากขึ้น และถูกผู้ช่วย AI หยิบไปแนะนำได้ง่ายขึ้น
+						ผลคือมีโอกาสติดอันดับบนกูเกิลมากขึ้น และผู้ช่วย AI หยิบไปแนะนำได้ง่ายขึ้น
 						เป็นสิ่งที่ผมทำให้ลูกค้าเป็นปกติอยู่แล้ว ไม่ใช่งานเสริมที่ต้องจ่ายเพิ่มทีหลัง
 					</p>
 				</div>
@@ -460,9 +482,15 @@ const personSchema = {
 			{/* One quiet closing line. A plain text link, deliberately not a third
 			    button: the page already carries two LINE CTAs above this. */}
 			<p class="seo-close">
-				อยากดูตัวอย่างโค้ดของผม ดูได้ที่ <a href={GITHUB_URL}>GitHub</a>
+				อยากดูตัวอย่างโค้ดของผม ดูได้ที่ <a
+					href={GITHUB_URL}
+					target="_blank"
+					rel="noopener">GitHub</a
+				>
 				อ่านมาถึงตรงนี้แล้วสงสัยอะไรเพิ่ม ทักมาถามได้เลยครับ
-				<a href={LINE_URL}>ทักไลน์ {LINE_ID}</a>
+				{/* Same string as the LINE button's default label, colon included:
+				    the CTA reads identically wherever it appears. */}
+				<a href={LINE_URL}>ทักไลน์: {LINE_ID}</a>
 			</p>
 		</div>
 	</section>
@@ -473,42 +501,46 @@ const personSchema = {
 
 	.hero-inner {
 		display: grid;
-		gap: 2rem;
-		padding-block: 2.25rem 2.75rem;
+		gap: 1.5rem;
+		padding-block: 1.5rem 2.25rem;
 	}
 
-	/* Mobile: the face comes first, then the copy. A 4/5 portrait at full width
-	   filled almost the whole first screen and pushed the headline below the
-	   fold, so on mobile it crops to a shorter landscape frame. */
-	.hero-photo {
-		order: -1;
-	}
+	/* Mobile source order IS the reading order: greeting, credential, headline,
+	   the one-line claim, then the LINE button, and only then the portrait.
+	   The portrait used to be lifted above the copy with order: -1, which spent
+	   the entire first phone screen before the page had made a single claim and
+	   left the only CTA 85px past the fold at 375x812 (and ~195px past a real
+	   phone's usable fold after browser chrome). A Thai SME owner deciding in
+	   one visit was being asked to scroll on faith. The portrait stays, it just
+	   sits under the argument it supports; on the two-column tablet layout it
+	   returns to the reader's right where there is room for both at once. */
 
 	@media (max-width: 47.99em) {
 		.photo-frame :global(.ph img) {
 			aspect-ratio: 3 / 2;
-			max-height: 40vh;
+			/* Below the fold now, so the crop can be a little taller than the
+			   40vh it needed when it led the page. */
+			max-height: 38vh;
 			object-fit: cover;
-		}
-	}
-
-	@media (min-width: 48em) {
-		.hero-photo {
-			order: 0;
 		}
 	}
 
 	.hero-copy {
 		display: grid;
-		gap: 1.25rem;
+		gap: 1rem;
 		align-content: start;
 	}
 
+	/* Never wraps: the greeting is one short Thai phrase and breaking it after
+	   "ผม" reads as a layout accident. When the row is tight it is .ident that
+	   gives, at the wbr its markup provides. */
 	.greet {
 		display: inline-flex;
 		align-items: center;
 		align-self: start;
 		justify-self: start;
+		flex: none;
+		white-space: nowrap;
 		gap: 0.5rem;
 		padding: 0.375rem 0.875rem 0.375rem 0.4375rem;
 		border-radius: 999px;
@@ -520,7 +552,7 @@ const personSchema = {
 		color: var(--ink);
 		font-family: var(--font-head);
 		font-weight: 500;
-		font-size: 0.875rem;
+		font-size: var(--fs-body-sm);
 	}
 
 	.greet-bear {
@@ -530,19 +562,44 @@ const personSchema = {
 		flex: none;
 	}
 
+	/* Wrapping is the default and the safe floor: at 320px the shell is 276px
+	   and the greeting alone takes 177px, which leaves the credential too
+	   little to break into without pushing the row past the viewport. */
 	.hero-badges {
 		display: flex;
 		flex-wrap: wrap;
-		align-items: center;
+		align-items: flex-start;
 		gap: 0.5rem;
+	}
+
+	/* From 23em up there is room for both on one row once .ident takes the break
+	   its own markup provides. Held on one row rather than wrapped, the
+	   credential stops spending a second row of the first phone screen on its
+	   own full single-line width, and the LINE button moves up by that much. */
+	@media (min-width: 23em) and (max-width: 47.99em) {
+		.hero-badges {
+			flex-wrap: nowrap;
+		}
 	}
 
 	/* The English term is the attention-getter; the Thai line below carries
 	   the meaning. Bordered rather than filled so it reads as a credential
-	   next to the softer greeting chip. */
+	   next to the softer greeting chip.
+
+	   min-width: 0 so the chip may shrink and take the wbr break in the markup
+	   rather than holding its full single-line width. At 375px the greeting and
+	   the credential together need 403px on one line, so without this the
+	   credential dropped to a second row and spent ~49px of the first screen on
+	   whitespace. Broken across its two words both chips share one row and the
+	   LINE button moves up by that much. */
 	.ident {
-		display: inline-flex;
-		align-items: center;
+		/* inline-block, not inline-flex: as a flex container the .nb span and
+		   the " Engineer" text node become flex items and the space between
+		   them collapses, rendering "TechnologyEngineer". Inline-block keeps it
+		   a normal text run, so the space survives and the line breaks only at
+		   the space .nb leaves available. */
+		display: inline-block;
+		min-width: 0;
 		padding: 0.375rem 0.875rem;
 		border-radius: 999px;
 		border: 1.5px solid var(--honey);
@@ -550,8 +607,10 @@ const personSchema = {
 		color: var(--honey-ink);
 		font-family: var(--font-head);
 		font-weight: 600;
-		font-size: 0.8125rem;
+		font-size: var(--fs-label);
+		line-height: 1.35;
 		letter-spacing: 0;
+		text-align: center;
 		/* Controlled break: the wbr in the markup is the only allowed break
 		   point, so the term never splits mid-word the way anywhere allowed. */
 		overflow-wrap: normal;
@@ -576,7 +635,7 @@ const personSchema = {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		font-size: 0.8125rem;
+		font-size: var(--fs-label);
 		font-weight: 500;
 		letter-spacing: 0;
 		line-height: 1.5;
@@ -639,7 +698,7 @@ const personSchema = {
 
 	.hero-sub {
 		color: var(--muted);
-		font-size: 1.0625rem;
+		font-size: var(--fs-body);
 		max-width: 32rem;
 	}
 
@@ -710,7 +769,7 @@ const personSchema = {
 	.trust-item p {
 		font-family: var(--font-head);
 		font-weight: 500;
-		font-size: 0.9375rem;
+		font-size: var(--fs-body-sm);
 		line-height: 1.5;
 		min-width: 0;
 	}
@@ -770,16 +829,16 @@ const personSchema = {
 	/* Only some cards have a page to point at yet, so the link is optional. */
 	.offer-link {
 		margin-top: 0.25rem;
-		font-size: 0.875rem;
+		font-size: var(--fs-body-sm);
 	}
 
 	.offer h3 {
-		font-size: 1.1875rem;
+		font-size: var(--fs-subtitle);
 	}
 
 	.offer p {
 		color: var(--muted);
-		font-size: 0.9375rem;
+		font-size: var(--fs-body-sm);
 	}
 
 	/* Four offers divide evenly, so 2x2 at tablet and 2x2 again at desktop:
@@ -832,27 +891,27 @@ const personSchema = {
 		text-wrap: balance;
 	}
 
-
-
-
-
-
-
-
-
-
-
+	/* Tight between the three paragraphs of one argument, generous before the
+	   actions row: the rhythm marks where the reading ends and the asking
+	   begins, rather than spacing everything equally. */
 	.wedge-body {
 		display: grid;
-		gap: 1.5rem;
+		gap: 0.875rem;
 		max-width: 44rem;
 		min-width: 0;
 	}
 
+	/* The wedge carries the page's whole persuasion arc. It is split into its
+	   three real beats, with no word changed, so a skimming reader gets an
+	   entry point per beat instead of one six-sentence block.
+
+	   No overflow-wrap: anywhere here. It creates break opportunities inside
+	   words, which is the exact mid-syllable Thai split that .nb and
+	   protectThai() exist to prevent, and it was removed from .ident for the
+	   same reason. Loanwords are wrapped in .nb instead. */
 	.wedge-lead {
 		color: var(--muted);
-		font-size: 1.0625rem;
-		overflow-wrap: anywhere;
+		font-size: var(--fs-body);
 	}
 
 	.wedge-actions {
@@ -860,10 +919,11 @@ const personSchema = {
 		flex-wrap: wrap;
 		align-items: center;
 		gap: 0.875rem 1.25rem;
+		margin-top: 0.625rem;
 	}
 
 	.wedge-more {
-		font-size: 0.9375rem;
+		font-size: var(--fs-body-sm);
 	}
 
 	/* ---- quiet SEO reference zone ----
@@ -885,7 +945,7 @@ const personSchema = {
 	   where a 1px rule against that hard edge reads as a rendering artifact.
 	   The heading carries the separation instead. */
 	.seo-zone .label {
-		font-size: 0.75rem;
+		font-size: var(--fs-label);
 	}
 
 	.seo-cols {
@@ -902,7 +962,7 @@ const personSchema = {
 
 	.seo-col p {
 		color: var(--muted);
-		font-size: 0.9375rem;
+		font-size: var(--fs-body-sm);
 		line-height: 1.75;
 		max-width: 32rem;
 	}
@@ -915,7 +975,7 @@ const personSchema = {
 	.band-note {
 		margin-top: -0.25rem;
 		color: rgba(255, 249, 237, 0.72);
-		font-size: 0.875rem;
+		font-size: var(--fs-body-sm);
 		max-width: 30rem;
 	}
 
@@ -936,14 +996,14 @@ const personSchema = {
 	/* Same size and weight as the surrounding zone: these are reference
 	   headings, not a new visual device. */
 	.seo-qa-item h3 {
-		font-size: 0.9375rem;
+		font-size: var(--fs-body-sm);
 		font-weight: 600;
 		color: var(--ink);
 	}
 
 	.seo-qa-item p {
 		color: var(--muted);
-		font-size: 0.9375rem;
+		font-size: var(--fs-body-sm);
 		line-height: 1.75;
 		max-width: 32rem;
 	}
@@ -960,7 +1020,7 @@ const personSchema = {
 		padding-top: 1.25rem;
 		border-top: 1px solid var(--rule-soft);
 		color: var(--muted);
-		font-size: 0.9375rem;
+		font-size: var(--fs-body-sm);
 		max-width: 32rem;
 	}
 
@@ -1002,7 +1062,7 @@ const personSchema = {
 		gap: 1rem;
 		/* Thai reads comfortably shorter than Latin. */
 		max-width: 33rem;
-		font-size: 1.0625rem;
+		font-size: var(--fs-body);
 	}
 
 	@media (min-width: 48em) {

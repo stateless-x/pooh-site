@@ -314,20 +314,50 @@ const footNav = [
 					});
 				});
 
+				function show(el) {
+					el.classList.add("is-in");
+					io.unobserve(el);
+				}
+
 				var io = new IntersectionObserver(
 					function (entries) {
 						entries.forEach(function (entry) {
-							if (!entry.isIntersecting) return;
-							entry.target.classList.add("is-in");
-							io.unobserve(entry.target);
+							if (entry.isIntersecting) {
+								show(entry.target);
+								return;
+							}
+							// Not intersecting AND entirely above the viewport: the
+							// visitor arrived past this element rather than scrolling
+							// through it (back-navigation scroll restoration, an
+							// anchor jump, a reload with a restored offset). Without
+							// this branch the observer would never fire for it again
+							// and it would sit at opacity 0 in content the visitor has
+							// already passed, invisible until scrolled out and back in.
+							if (entry.boundingClientRect.bottom < 0) show(entry.target);
 						});
 					},
-					{ rootMargin: "0px 0px -8% 0px", threshold: 0.06 }
+					// threshold 0 with no negative rootMargin: any pixel on screen
+					// counts. The old 0.06 / -8% pair widened the band in which an
+					// element is on screen but not yet considered visible, which is
+					// dead zone rather than polish.
+					{ threshold: 0 }
 				);
 
 				els.forEach(function (el) {
 					if (el.classList.contains("reveal-eager")) return;
 					io.observe(el);
+				});
+
+				// Restoring from the back/forward cache does not re-run this script,
+				// and the browser restores the scroll offset without firing the
+				// observer for what is already on screen. Sweep on every pageshow
+				// (persisted or not) and reveal anything at or above the fold.
+				window.addEventListener("pageshow", function () {
+					var pending = document.querySelectorAll(".reveal:not(.is-in)");
+					for (var i = 0; i < pending.length; i++) {
+						var el = pending[i];
+						if (el.getBoundingClientRect().top < window.innerHeight) show(el);
+					}
 				});
 			})();
 		</script>
@@ -487,6 +517,22 @@ const footNav = [
 				--fs-h2: clamp(1.375rem, 1.15rem + 1.2vw, 1.875rem);
 				--fs-h2-lg: clamp(1.375rem, 1.1rem + 1.4vw, 2rem);
 				--fs-h3: 1.125rem;
+				/* ---- small-text scale ----
+				   Four steps, exactly the ones DESIGN.md documents. The ramp had
+				   drifted to seven literal sizes (17px, 14px, 19px and 12px were
+				   off-ramp), which cost the complexity of seven steps and delivered
+				   the legibility of about three: card body, lede, hint and nav all
+				   read as one undifferentiated grey. Named by role, not by value,
+				   and every small-text declaration in the system points at one of
+				   these four rather than at a literal.
+
+				   --fs-subtitle aliases --fs-h3 deliberately: same value, and the
+				   two names mark the same rung reached from the heading ladder and
+				   from the small ladder. */
+				--fs-subtitle: var(--fs-h3); /* 18px  h3, card headings, drawer nav */
+				--fs-body: 1rem; /* 16px  running copy, ledes, button labels */
+				--fs-body-sm: 0.9375rem; /* 15px  card copy, nav, footnotes, SEO zone */
+				--fs-label: 0.8125rem; /* 13px  kickers, step numbers, tags */
 				--lh-display: 1.4;
 				/* Mitr for headings (500/600). Thai-capable fallback after it, not
 				   just a Latin face, so a failed webfont still sets Thai correctly. */
@@ -511,7 +557,7 @@ const footNav = [
 				color: var(--ink);
 				font-family: var(--font-body);
 				font-weight: 400;
-				font-size: 1rem;
+				font-size: var(--fs-body);
 				line-height: 1.78;
 				-webkit-font-smoothing: antialiased;
 			}
@@ -645,7 +691,7 @@ const footNav = [
 				gap: 0.5rem;
 				font-family: var(--font-head);
 				font-weight: 500;
-				font-size: 0.8125rem;
+				font-size: var(--fs-label);
 				letter-spacing: 0;
 				color: var(--honey-ink);
 				margin: 0;
@@ -801,7 +847,7 @@ const footNav = [
 
 			.site-head nav a {
 				position: relative;
-				font-size: 0.9375rem;
+				font-size: var(--fs-body-sm);
 				color: var(--muted);
 				text-decoration: none;
 				padding-bottom: 0.25rem;
@@ -816,7 +862,7 @@ const footNav = [
 				}
 
 				.site-head nav a {
-					font-size: 0.8125rem;
+					font-size: var(--fs-label);
 				}
 			}
 
@@ -1010,7 +1056,7 @@ const footNav = [
 				border-radius: 10px;
 				font-family: var(--font-head);
 				font-weight: 500;
-				font-size: 1.0625rem;
+				font-size: var(--fs-subtitle);
 				color: var(--ink);
 				text-decoration: none;
 			}
@@ -1079,7 +1125,7 @@ const footNav = [
 
 			.foot-note {
 				color: rgba(255, 249, 237, 0.72);
-				font-size: 0.875rem;
+				font-size: var(--fs-body-sm);
 				max-width: 26rem;
 			}
 
@@ -1095,7 +1141,7 @@ const footNav = [
 
 			.foot-nav a {
 				color: rgba(255, 249, 237, 0.86);
-				font-size: 0.9375rem;
+				font-size: var(--fs-body-sm);
 				text-decoration: none;
 				border-bottom: 1px solid rgba(255, 249, 237, 0.28);
 				padding-bottom: 0.125rem;
@@ -1116,7 +1162,7 @@ const footNav = [
 			.foot-cta-label {
 				font-family: var(--font-head);
 				font-weight: 500;
-				font-size: 1rem;
+				font-size: var(--fs-body);
 				color: #fff;
 			}
 
@@ -1185,7 +1231,7 @@ const footNav = [
 				gap: 0.5rem;
 				font-family: var(--font-head);
 				font-weight: 500;
-				font-size: 1rem;
+				font-size: var(--fs-body);
 				line-height: 1.4;
 				padding: 0.8125rem 1.375rem;
 				border-radius: 12px;
@@ -1301,7 +1347,7 @@ const footNav = [
 			.step-n {
 				font-family: var(--font-head);
 				font-weight: 600;
-				font-size: 0.8125rem;
+				font-size: var(--fs-label);
 				letter-spacing: 0;
 				color: var(--honey-ink);
 				font-variant-numeric: tabular-nums;
@@ -1314,13 +1360,13 @@ const footNav = [
 			}
 
 			.step-body h3 {
-				font-size: 1.0625rem;
+				font-size: var(--fs-subtitle);
 				font-weight: 600;
 			}
 
 			.step-body p {
 				color: var(--muted);
-				font-size: 0.9375rem;
+				font-size: var(--fs-body-sm);
 				max-width: 38rem;
 			}
 
@@ -1342,7 +1388,7 @@ const footNav = [
 				padding-top: 1.5rem;
 				border-top: 1px solid var(--rule);
 				color: var(--muted);
-				font-size: 0.9375rem;
+				font-size: var(--fs-body-sm);
 			}
 
 			/* ---- FAQ accordion (shared by /contact and /fix-ai-website) ----
@@ -1373,7 +1419,7 @@ const footNav = [
 				list-style: none;
 				font-family: var(--font-head);
 				font-weight: 500;
-				font-size: 1rem;
+				font-size: var(--fs-body);
 				color: var(--ink);
 			}
 
@@ -1420,7 +1466,7 @@ const footNav = [
 			.faq-a {
 				padding: 0 1.25rem 1.25rem;
 				color: var(--muted);
-				font-size: 0.9375rem;
+				font-size: var(--fs-body-sm);
 				max-width: 32rem;
 			}
 
@@ -1440,7 +1486,7 @@ const footNav = [
 			@media (min-width: 48em) {
 				.faq-item summary {
 					padding: 1.125rem 1.5rem;
-					font-size: 1.0625rem;
+					font-size: var(--fs-body);
 				}
 
 				.faq-a {
@@ -1487,14 +1533,14 @@ const footNav = [
 			}
 
 			.work-item h3 {
-				font-size: 1.1875rem;
+				font-size: var(--fs-subtitle);
 				font-weight: 600;
 				overflow-wrap: anywhere;
 			}
 
 			.work-item p {
 				color: var(--muted);
-				font-size: 0.9375rem;
+				font-size: var(--fs-body-sm);
 			}
 
 			/* Coloured kind tag, one tint per project. */
@@ -1506,7 +1552,7 @@ const footNav = [
 				border-radius: 999px;
 				font-family: var(--font-head);
 				font-weight: 500;
-				font-size: 0.75rem;
+				font-size: var(--fs-label);
 				letter-spacing: 0;
 				background: var(--tint-strong);
 				color: var(--accent);
@@ -1529,9 +1575,8 @@ const footNav = [
 				align-self: start;
 				font-family: var(--font-head);
 				font-weight: 500;
-				font-size: 0.9375rem;
+				font-size: var(--fs-body-sm);
 				text-decoration: none;
-				overflow-wrap: anywhere;
 				border-bottom: 1px solid transparent;
 				padding-bottom: 0.0625rem;
 			}
