@@ -1,9 +1,53 @@
-# Everything is open to every crawler on purpose, AI assistants and answer
-# engines included: being quotable in an AI answer is a goal for this site, not
-# a risk. Do not add AI-specific Disallow rules without deciding that first.
+# Everything here is open to every crawler on purpose.
+#
+# Search engines and AI retrieval bots are BOTH welcome. Being quoted or cited
+# in an AI answer is a goal for this site, not a risk, so the AI crawlers below
+# are named explicitly rather than left to the default. Do not add
+# AI-specific Disallow rules without deciding that trade-off first.
+#
+# Machine-readable summary for assistants: /llms.txt
+
 User-agent: *
 Allow: /
 
-# TODO (owner, before deploy): replace REPLACE-WITH-DOMAIN.example with the
-# real domain here and in `site` in astro.config.mjs.
-Sitemap: https://REPLACE-WITH-DOMAIN.example/sitemap-index.xml
+# --- Search engines ---
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# --- AI training, retrieval and citation ---
+# Named individually so the intent is explicit and auditable.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Kept in sync by hand with SITE_URL in site.config.mjs.
+Sitemap: https://pooh.fyi/sitemap-index.xml

@@ -38,6 +38,8 @@ const LOANWORDS = [
 	"หลักหมื่น",
 	"หลักแสน",
 	"หลักพัน",
+	"บุรีวงศ์",
+	"จำนวนจำกัด",
 ];
 
 /** Returns the string with breaks forbidden inside known-fragile loanwords. */

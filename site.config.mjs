@@ -10,12 +10,18 @@
  * SITE_URL. That is the only place a domain is duplicated.
  */
 
-/** TODO (owner, before deploy): the owner is deciding between pooh.fyi and pooh.me. */
-export const SITE_URL = "https://REPLACE-WITH-DOMAIN.example";
+export const SITE_URL = "https://pooh.fyi";
 
 export const SITE_NAME = "Pooh";
 
+/** Full legal name, used once in the entity paragraph and in Person.name. */
+export const PERSON_FULL_NAME = "ภูรินท์ บุรีวงศ์";
+
+/** Short name used in running Thai prose. */
 export const PERSON_NAME = "ภูรินท์";
+
+/** Every name a person or an assistant might use to refer to him. */
+export const ALIASES = ["Pooh", "คุณพูห์", "Purin Buriwong", "ภูรินท์"];
 export const PERSON_TITLE = "Business Technology Engineer";
 export const IDENTITY_PHRASE = "นักพัฒนาเทคโนโลยีเพื่อธุรกิจ";
 export const EXPERIENCE = "มากกว่า 7 ปี";

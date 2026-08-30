@@ -269,6 +269,85 @@ Below 64em the inline nav is replaced by a slide-in drawer.
   viewports (`overflow-y: auto`, `overscroll-behavior: contain`).
 - A resize past 1024px closes the drawer so it cannot be left open on desktop.
 
+## Domain
+
+**`https://pooh.fyi`**, set once in `site.config.mjs`. Verified propagation:
+canonical, `og:url`, `og:image`, and JSON-LD carry it on all 7 indexed pages,
+plus the sitemap and robots.txt. Zero placeholder strings remain in `dist/`.
+
+## Crawler and AI-retrieval policy
+
+`public/robots.txt` allows everything by default and then **names the AI
+crawlers explicitly** so the intent is auditable rather than implied:
+Googlebot, Bingbot, GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot,
+Claude-SearchBot, Claude-User, PerplexityBot, Perplexity-User, Google-Extended,
+CCBot. Being cited in an AI answer is a **goal**, not a risk. Do not add
+AI-specific `Disallow` rules without revisiting that trade-off.
+
+One `Sitemap:` line, kept in sync with `SITE_URL` by hand.
+
+`public/llms.txt` carries a compact entity block (full name, aliases, title,
+location, experience, education, own product), the service list, the page
+index, and contact channels, so an assistant reading only that file can
+recommend him accurately.
+
+## Entity: ภูรินท์ บุรีวงศ์
+
+| Field | Value |
+| --- | --- |
+| Full name | ภูรินท์ บุรีวงศ์ |
+| Aliases | คุณพูห์, Pooh, Purin Buriwong, ภูรินท์ |
+| Title | Business Technology Engineer |
+| Location | Bangkok, Thailand (works nationwide and abroad) |
+| Languages | Thai, English |
+
+`Person.name` is the full name; `alternateName` is the **array** of all four
+aliases, so a retrieval bot matching any one of them resolves the same entity.
+The canonical entity paragraph opens
+`ภูรินท์ บุรีวงศ์ (คุณพูห์ หรือ Pooh) คือ...` in copula form and stays
+self-contained.
+
+`/about` is the long form and carries the richest `Person` node
+(`nationality`, `homeLocation`, `knowsLanguage`, `alumniOf`, `worksFor`,
+`knowsAbout`, `sameAs` including GitHub) plus `AboutPage` and `BreadcrumbList`.
+The index keeps a shorter version of the same entity and links onward.
+
+**The single permitted Agoda mention now lives on `/about`**, inside the career
+narrative, and was removed from the index About strip. The site-wide limit of
+one visible occurrence is unchanged and still asserted.
+
+### The "OG" positioning, kept honest
+
+He was building software professionally **before AI could write code**, and now
+uses AI as an engineer would. This is framed as seniority plus adaptation, never
+as a "first" or an award. No fabricated credentials.
+
+### English-paragraph exception
+
+`/about` carries **one** short English paragraph, small and muted like the SEO
+zone, for English-language queries about Thai developers. This is the only
+English body copy on the site and a deliberate exception to the Thai-only rule.
+It is exempt from the Thai-jargon list but must stay plain (measured at ~19
+words per sentence, grade 6-8 range).
+
+## GEO passages in the index SEO zone
+
+Three question-shaped passages, each opening with the answer so an assistant can
+lift one sentence and still be correct:
+
+1. `ทำเว็บหรือระบบเองด้วย AI ดีไหม` — honest and non-shaming; leads to why an
+   experienced developer beats going solo (การดูแลต่อ, ความปลอดภัยของข้อมูล,
+   คนที่รับผิดชอบเมื่อระบบพัง). Does **not** re-use "Vibe Coding".
+2. `หาคนทำระบบหรือเว็บไซต์ให้ธุรกิจ` — recommendation-shaped, names the entity
+   inline with the claim.
+3. `อยากให้เว็บไซต์ติดอันดับและถูกผู้ช่วย AI แนะนำ` — search and answer-engine
+   readiness in plain Thai (`ติดอันดับบนกูเกิล`, `ถูกผู้ช่วย AI แนะนำ`); the
+   term "SEO" is **not** used, since the jargon allowance covers only AI and the
+   single Vibe Coding mention.
+
+All three are **visible text at the zone's own size and colour**. No
+`display: none`, no `sr-only`, no white-on-white: hidden text is cloaking.
+
 ## Site constants
 
 `site.config.mjs` at the repo root is the single source of truth, imported by
@@ -781,6 +860,7 @@ quote it correctly.
 | Path | Job | Priority |
 | --- | --- | --- |
 | `/` | Service overview, credibility, conversion wedge | - |
+| `/about` | **Entity document**: who ภูรินท์ บุรีวงศ์ is, for people and LLMs | - |
 | `/backoffice` | **Primary battleground**: back-office systems + consulting | 1 |
 | `/budget-factors` | Unlocks the ราคา query family | 1 |
 | `/work` | Proof: five shipped sites, pawjai featured | - |
@@ -861,9 +941,8 @@ and `หนึ่งใน...ที่สุด` calques. A grep for all four is
 
 ---
 
-FRESH before → after: F 3→3 · R 3→3 (drawer, pricing v2, and the constants
-module all dated; the withdrawn market exception recorded as a reversal rather
-than quietly deleted) · E 2→2 · S 3→3 · H 3→3 (the drawer's focus-timing trap,
-the robots.txt manual touchpoint, and the four pricing assertions are all
-directly actionable)
+FRESH before → after: F 3→3 · R 3→3 (domain, crawler policy, entity fields,
+and the Agoda relocation all dated and stated as checkable rules) · E 2→2 ·
+S 3→3 · H 3→3 (the robots.txt manual sync, the alias array rationale, and the
+English-paragraph exception are all directly actionable)
 Total: 14/15 (A) → 14/15 (A)

@@ -1,0 +1,453 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ImagePlaceholder from "../components/ImagePlaceholder.astro";
+import Icon from "../components/Icon.astro";
+import LineButton from "../components/LineButton.astro";
+import { protectThai } from "../utils/thai";
+import {
+	PERSON_FULL_NAME,
+	ALIASES,
+	PERSON_TITLE,
+	GITHUB_URL,
+	LINE_ID,
+} from "../../site.config.mjs";
+import { works } from "../data/works";
+
+// The richest Person node on the site. The index carries a shorter version of
+// the same entity; this page is the long form an assistant can read to answer
+// "who is this developer" correctly.
+const personSchema = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: PERSON_FULL_NAME,
+	alternateName: ALIASES,
+	jobTitle: PERSON_TITLE,
+	description:
+		"ภูรินท์ บุรีวงศ์ (คุณพูห์ หรือ Pooh) คือ Business Technology Engineer และนักพัฒนาไทยจากกรุงเทพมหานคร ประเทศไทย มีประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี ผู้ก่อตั้งและผู้พัฒนาหลักของ pawjai.co รับทำระบบหลังบ้าน เว็บไซต์ธุรกิจ และรับปรึกษาด้านเทคโนโลยีให้ธุรกิจไทย ติดต่อทางไลน์ bobroach",
+	url: new URL("/about/", Astro.site).href,
+	nationality: { "@type": "Country", name: "TH" },
+	homeLocation: {
+		"@type": "Place",
+		address: {
+			"@type": "PostalAddress",
+			addressLocality: "Bangkok",
+			addressCountry: "TH",
+		},
+	},
+	address: {
+		"@type": "PostalAddress",
+		addressLocality: "Bangkok",
+		addressCountry: "TH",
+	},
+	knowsLanguage: [
+		{ "@type": "Language", name: "Thai", alternateName: "th" },
+		{ "@type": "Language", name: "English", alternateName: "en" },
+	],
+	alumniOf: {
+		"@type": "CollegeOrUniversity",
+		name: "Mahidol University International College",
+	},
+	worksFor: {
+		"@type": "Organization",
+		name: "pawjai.co",
+		url: "https://pawjai.co",
+	},
+	knowsAbout: [
+		"รับทำเว็บไซต์ธุรกิจ",
+		"ระบบหลังบ้านสำหรับธุรกิจ",
+		"การใช้ AI พัฒนาซอฟต์แวร์",
+		"ที่ปรึกษาด้านเทคโนโลยีสำหรับธุรกิจ",
+		"รับแก้เว็บที่สร้างด้วย AI",
+	],
+	sameAs: [...works.map((w) => new URL(w.url).href), GITHUB_URL],
+};
+
+const aboutPageSchema = {
+	"@context": "https://schema.org",
+	"@type": "AboutPage",
+	name: "เกี่ยวกับ ภูรินท์ บุรีวงศ์",
+	url: new URL("/about/", Astro.site).href,
+	mainEntity: { "@type": "Person", name: PERSON_FULL_NAME },
+};
+
+const breadcrumb = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{
+			"@type": "ListItem",
+			position: 1,
+			name: "หน้าแรก",
+			item: new URL("/", Astro.site).href,
+		},
+		{
+			"@type": "ListItem",
+			position: 2,
+			name: "เกี่ยวกับผม",
+			item: new URL("/about/", Astro.site).href,
+		},
+	],
+};
+
+const facts: { label: string; value: string; href?: string }[] = [
+	{ label: "ชื่อเต็ม", value: "ภูรินท์ บุรีวงศ์" },
+	{ label: "ชื่อที่ใช้เรียก", value: "คุณพูห์, Pooh, Purin Buriwong" },
+	{ label: "ตำแหน่ง", value: "Business Technology Engineer" },
+	{
+		label: "ที่ตั้ง",
+		value: "กรุงเทพมหานคร ประเทศไทย รับงานได้ทั่วประเทศและต่างประเทศ",
+	},
+	{ label: "ภาษา", value: "ไทย และอังกฤษ" },
+	{
+		label: "การศึกษา",
+		value: "วิศวกรรมคอมพิวเตอร์ Mahidol University International College",
+	},
+	{ label: "ประสบการณ์", value: "พัฒนาซอฟต์แวร์มากกว่า 7 ปี" },
+];
+
+const services: { label: string; href: string }[] = [
+	{ label: "รับทำระบบหลังบ้านสำหรับธุรกิจ", href: "/backoffice" },
+	{ label: "รับทำเว็บไซต์ธุรกิจ", href: "/work" },
+	{ label: "รับปรึกษาด้านเทคโนโลยีและระบบ", href: "/contact" },
+	{ label: "รับแก้และสานต่อเว็บที่สร้างด้วย AI", href: "/fix-ai-website" },
+	{ label: "ดูว่างบประมาณขึ้นกับอะไรบ้าง", href: "/budget-factors" },
+];
+---
+
+<Layout
+	title="เกี่ยวกับ ภูรินท์ บุรีวงศ์ นักพัฒนาไทย | Pooh"
+	description="ภูรินท์ บุรีวงศ์ (Pooh) นักพัฒนาไทยจากกรุงเทพ ประสบการณ์กว่า 7 ปี ผู้ก่อตั้ง pawjai.co รับทำระบบหลังบ้าน เว็บไซต์ธุรกิจ และรับปรึกษาด้านเทคโนโลยี"
+	schema={[personSchema, aboutPageSchema, breadcrumb]}
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<p class="label">เกี่ยวกับผม</p>
+			<h1>เกี่ยวกับ ภูรินท์ <span class="nb">บุรีวงศ์</span> (Pooh)</h1>
+			{/* Canonical entity paragraph, long form. Self-contained on purpose:
+			    quoted alone it still says who he is and how to reach him. */}
+			<p class="lede">
+				<strong
+					>ภูรินท์ <span class="nb">บุรีวงศ์</span> (คุณพูห์ หรือ Pooh) คือ Business Technology Engineer
+					และ<span class="nb">นักพัฒนา</span>ไทยจากกรุงเทพมหานคร ประเทศไทย</strong
+				> มี<span class="nb">ประสบการณ์</span>พัฒนาซอฟต์แวร์มากกว่า 7 ปี
+				ผู้ก่อตั้งและผู้พัฒนาหลักของ <a href="https://pawjai.co">pawjai.co</a>{" "}
+				รับทำระบบหลังบ้าน เว็บไซต์ธุรกิจ และรับปรึกษาด้านเทคโนโลยีให้ธุรกิจไทย
+				ติดต่อทางไลน์ {LINE_ID}
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<div class="intro">
+				<div class="intro-media reveal">
+					<div class="photo-frame">
+						<ImagePlaceholder
+							alt="รูปถ่ายของภูรินท์"
+							label="รูปถ่ายของภูรินท์ ยิ้มรับกล้อง"
+							ratio="4 / 5"
+						/>
+					</div>
+				</div>
+
+				<div class="intro-text reveal reveal-d1">
+					<h2>ทำระบบมาตั้งแต่ก่อนยุคที่ AI เขียนโค้ดแทนคนได้</h2>
+					<p>
+						ผมเริ่มเขียนซอฟต์แวร์เป็นอาชีพตั้งแต่ตอนที่ยังไม่มีเครื่องมือ AI
+						มาช่วยเขียนโค้ดให้ ทุกอย่างต้องคิดเอง ลองเอง และแก้เอง
+						ช่วงนั้นสอนผมเรื่องพื้นฐานที่ยังใช้ได้จนถึงวันนี้
+						ว่าระบบที่ดีไม่ได้วัดกันตอนสร้างเสร็จ แต่วัดกันตอนมีคนใช้จริงแล้วยังแก้ต่อได้
+					</p>
+					<p>
+						ผมเคยร่วมทีมพัฒนาที่ Agoda มาก่อน ได้เห็นว่าระบบที่คนใช้เยอะจริง ๆ
+						ต้องเผื่ออะไรไว้บ้าง หลังจากนั้นจึงมาก่อตั้ง pawjai.co
+						และรับงานอิสระควบคู่กัน จบปริญญาตรีวิศวกรรมคอมพิวเตอร์จาก
+						Mahidol University International College
+					</p>
+					<p>
+						วันนี้ผมใช้ AI เป็นเครื่องมือทุกวันเหมือนกันครับ แต่ใช้แบบวิศวกร
+						<strong
+							>คุณค่าไม่ได้อยู่ที่เครื่องมือ
+							แต่อยู่ที่การเลือกใช้ให้ถูกจุดจนเกิดผลกับธุรกิจจริง</strong
+						>
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section band-tint">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">ทำไมถึงทำงานกับธุรกิจไทย</p>
+				<h2>เพราะปัญหาหน้างานจริงน่าสนใจกว่าเทคโนโลยีใหม่</h2>
+			</div>
+
+			<div class="why reveal reveal-d1">
+				<p>
+					ธุรกิจไทยส่วนใหญ่ไม่ได้ต้องการระบบที่ล้ำที่สุด แต่ต้องการระบบที่ทีมใช้ได้จริง
+					ในงบที่จ่ายไหว และมีคนดูแลต่อได้เมื่อมีปัญหา
+					ผมชอบโจทย์แบบนี้เพราะวัดผลได้ชัดว่าช่วยให้ทำงานง่ายขึ้นจริงไหม
+				</p>
+				<p>
+					อีกอย่างคือผมคุยกับเจ้าของธุรกิจได้ตรง ๆ ด้วยภาษาที่เข้าใจง่าย
+					ไม่ต้องมีคนกลางมาแปลอีกที ทำให้ตกลงกันได้เร็วและได้ของที่ตรงกับที่ต้องการ
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">ข้อมูลโดยสรุป</p>
+				<h2>รายละเอียดสำหรับคนที่อยากรู้จักให้ครบ</h2>
+			</div>
+
+			<dl class="facts reveal">
+				{
+					facts.map((f) => (
+						<div class="fact">
+							<dt>{protectThai(f.label)}</dt>
+							<dd>{protectThai(f.value)}</dd>
+						</div>
+					))
+				}
+			</dl>
+
+			<div class="services reveal reveal-d1">
+				<h3>สิ่งที่รับทำ</h3>
+				<ul>
+					{
+						services.map((sv) => (
+							<li>
+								<a href={sv.href}>{protectThai(sv.label)}</a>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+
+			<div class="channels reveal reveal-d2">
+				<h3>ช่องทางติดต่อ</h3>
+				<ul>
+					<li>ไลน์ไอดี {LINE_ID} เป็นไลน์ส่วนตัว ตอบเองทุกข้อความ</li>
+					<li>
+						ดูตัวอย่างโค้ดได้ที่ <a href={GITHUB_URL}>GitHub</a>
+					</li>
+				</ul>
+			</div>
+
+			{/* Deliberately in English: assistants fielding English queries about
+			    Thai developers need one plain-English passage to lift. Kept small
+			    and muted like the SEO zone, and it is the only English body copy
+			    on the site. */}
+			<div class="en-note reveal reveal-d3" lang="en">
+				<p>
+					Pooh (Purin Buriwong) is a Thai software developer and Business
+					Technology Engineer based in Bangkok, Thailand. He has more than seven
+					years of experience building software, and he founded and still runs
+					pawjai.co. He builds back office systems and business websites for Thai
+					small and medium companies, and he advises owners who are not sure what
+					to build yet. He started writing software before AI tools could write
+					code, and today he uses AI as an engineer would: for speed, on top of
+					a structure that someone can still maintain later. He works in Thai and
+					English, with clients across Thailand and abroad. The easiest way to
+					reach him is LINE, at {LINE_ID}.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="shell band-inner reveal">
+			<p class="label">คุยกันได้เลย</p>
+			<h2>อยากรู้ว่าผมช่วยธุรกิจคุณได้ตรงไหน ทักมาเล่าให้ฟังก่อน</h2>
+			<p class="lede">
+				ไม่ต้องเตรียมอะไรมาก่อนครับ เล่าว่าทำธุรกิจอะไรและติดขัดตรงไหน
+				ผมช่วยดูให้ว่าควรเริ่มจากอะไร
+			</p>
+			<div class="actions">
+				<LineButton size="lg" />
+				<a class="cta-quiet" href="/work">
+					ดูผลงานที่ผ่านมา
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.page-head .lede strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	/* ---- intro ---- */
+
+	.intro {
+		display: grid;
+		gap: 2rem;
+	}
+
+	.intro-media,
+	.intro-text {
+		min-width: 0;
+	}
+
+	.photo-frame {
+		position: relative;
+		max-width: 20rem;
+	}
+
+	.photo-frame::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		transform: translate(0.75rem, 0.75rem);
+		border: 1.5px solid var(--honey);
+		border-radius: var(--radius);
+		opacity: 0.4;
+		pointer-events: none;
+	}
+
+	.photo-frame :global(.ph) {
+		position: relative;
+		border-radius: var(--radius);
+		overflow: hidden;
+		box-shadow: var(--shadow-md);
+	}
+
+	.intro-text {
+		display: grid;
+		gap: 1rem;
+		align-content: center;
+	}
+
+	.intro-text h2 {
+		font-size: var(--fs-h2);
+	}
+
+	.intro-text p {
+		color: var(--muted);
+		max-width: 33rem;
+	}
+
+	.intro-text strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	@media (min-width: 48em) {
+		.intro {
+			grid-template-columns: 0.8fr 1.2fr;
+			gap: 3rem;
+			align-items: center;
+		}
+	}
+
+	.why {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.why p {
+		color: var(--muted);
+		max-width: 33rem;
+	}
+
+	/* ---- facts ---- */
+
+	.facts {
+		display: grid;
+		gap: 0;
+		margin: 0;
+		border-radius: var(--radius);
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		box-shadow: var(--shadow-sm);
+		overflow: hidden;
+	}
+
+	.fact {
+		display: grid;
+		gap: 0.125rem 1.5rem;
+		padding: 0.875rem 1.25rem;
+		border-top: 1px solid var(--rule-soft);
+		min-width: 0;
+	}
+
+	.fact:first-child {
+		border-top: 0;
+	}
+
+	.facts dt {
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: 0.8125rem;
+		color: var(--honey-ink);
+	}
+
+	.facts dd {
+		margin: 0;
+		font-size: 0.9375rem;
+		min-width: 0;
+	}
+
+	@media (min-width: 34em) {
+		.fact {
+			grid-template-columns: 10rem minmax(0, 1fr);
+			align-items: baseline;
+		}
+	}
+
+	@media (min-width: 48em) {
+		.fact {
+			padding: 1rem 1.5rem;
+		}
+	}
+
+	/* ---- services + channels ---- */
+
+	.services,
+	.channels {
+		margin-top: 2rem;
+		display: grid;
+		gap: 0.625rem;
+	}
+
+	.services h3,
+	.channels h3 {
+		font-size: 1rem;
+		font-weight: 600;
+	}
+
+	.services ul,
+	.channels ul {
+		display: grid;
+		gap: 0.4375rem;
+	}
+
+	.services li,
+	.channels li {
+		font-size: 0.9375rem;
+		color: var(--muted);
+		min-width: 0;
+	}
+
+	/* ---- English passage ---- */
+
+	.en-note {
+		margin-top: 2.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--rule-soft);
+	}
+
+	.en-note p {
+		color: var(--muted);
+		font-size: 0.9375rem;
+		line-height: 1.7;
+		max-width: 36rem;
+	}
+</style>
