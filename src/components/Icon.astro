@@ -95,6 +95,138 @@ const paths = {
 		<path d="M8.2 8.4h5.6" />
 		<path d="M8.2 11.4h3.4" />
 	`,
+	// order sheet with a checked status
+	orders: `
+		<rect x="4" y="3.5" width="16" height="17" rx="2.5" />
+		<path d="M8 8h5" />
+		<path d="M8 12h3" />
+		<path d="m14.5 15.2 1.5 1.5 3-3" />
+	`,
+	// stacked boxes: products and stock movement
+	inventory: `
+		<path d="m4 7.2 8-3.7 8 3.7-8 3.7-8-3.7Z" />
+		<path d="M4 7.2v9.5l8 3.8 8-3.8V7.2" />
+		<path d="M12 10.9v9.6" />
+		<path d="m8.2 5.2 8 3.7" />
+	`,
+	// two customer profiles sharing one record
+	customers: `
+		<circle cx="9" cy="8" r="3" />
+		<path d="M3.8 19c.4-3.4 2.2-5.2 5.2-5.2s4.8 1.8 5.2 5.2" />
+		<circle cx="17" cy="9" r="2.2" />
+		<path d="M15.3 14.2c3.2-.8 5.2.8 5.5 3.8" />
+	`,
+	// people around a shared task
+	teamwork: `
+		<circle cx="7" cy="7" r="2.4" />
+		<circle cx="17" cy="7" r="2.4" />
+		<path d="M3.5 16.8c.3-3 1.5-4.6 3.5-4.6s3.2 1.6 3.5 4.6" />
+		<path d="M13.5 16.8c.3-3 1.5-4.6 3.5-4.6s3.2 1.6 3.5 4.6" />
+		<path d="M9.5 19.5h5" />
+	`,
+	// simple owner report, without decorative metrics
+	report: `
+		<rect x="3.5" y="4" width="17" height="16" rx="2.5" />
+		<path d="M7.5 16v-3" />
+		<path d="M12 16V9" />
+		<path d="M16.5 16v-5" />
+	`,
+	// one target: start with the most painful point
+	focus: `
+		<circle cx="12" cy="12" r="8.5" />
+		<circle cx="12" cy="12" r="4.5" />
+		<circle cx="12" cy="12" r="1" />
+	`,
+	// three work streams resolving into one shared view
+	overview: `
+		<path d="M4 5.5h5v5H4z" />
+		<path d="M15 5.5h5v5h-5z" />
+		<path d="M9.5 15h5v5h-5z" />
+		<path d="M6.5 10.5v2h11v-2" />
+		<path d="M12 12.5V15" />
+	`,
+	// factory roofline and chimney
+	factory: `
+		<path d="M3.5 20V9.5l5 3v-3l5 3v-7h4v9" />
+		<path d="M3.5 20h17V12l-7 4" />
+		<path d="M7 17h2" />
+		<path d="M12 17h2" />
+	`,
+	// cafe cup paired with a leaf for farm cafes
+	cafe: `
+		<path d="M5 9h12v5.5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5V9Z" />
+		<path d="M17 11h1.2a2.3 2.3 0 0 1 0 4.6h-1.7" />
+		<path d="M9 6.5c.2-2 1.4-3 3.5-3-0.1 2-1.3 3-3.5 3Z" />
+	`,
+	// hotel building and reception door
+	hotel: `
+		<path d="M5 20V5.5A1.5 1.5 0 0 1 6.5 4h11A1.5 1.5 0 0 1 19 5.5V20" />
+		<path d="M3.5 20h17" />
+		<path d="M8 8h2" />
+		<path d="M14 8h2" />
+		<path d="M8 12h2" />
+		<path d="M14 12h2" />
+		<path d="M10 20v-4h4v4" />
+	`,
+	// wholesale cartons moving together
+	wholesale: `
+		<path d="m4 7 5-2.5L14 7l-5 2.5L4 7Z" />
+		<path d="M4 7v6l5 2.5 5-2.5V7" />
+		<path d="m13 11 3-1.5 4 2-4 2-3-1.5" />
+		<path d="M16 13.5V19l4-2v-5.5" />
+		<path d="M13 15.5 16 17" />
+	`,
+	// hard hat for project and site work
+	construction: `
+		<path d="M4 15.5a8 8 0 0 1 16 0" />
+		<path d="M3.5 15.5h17v2.2a1.3 1.3 0 0 1-1.3 1.3H4.8a1.3 1.3 0 0 1-1.3-1.3v-2.2Z" />
+		<path d="M9 7.1v5.4" />
+		<path d="M15 7.1v5.4" />
+	`,
+	// candidate profile moving through a hiring path
+	recruitment: `
+		<circle cx="8" cy="8" r="3" />
+		<path d="M3.5 18c.4-3.4 1.9-5.2 4.5-5.2s4.1 1.8 4.5 5.2" />
+		<path d="M14 8h6" />
+		<path d="m17.5 5.5 2.5 2.5-2.5 2.5" />
+		<path d="M15 15h5" />
+	`,
+	// sprout rows: farms and food production
+	farm: `
+		<path d="M12 20V9" />
+		<path d="M12 11c-4.2 0-6.5-2-6.5-5.5C9.5 5.5 12 7 12 11Z" />
+		<path d="M12 14c4.2 0 6.5-2 6.5-5.5-4 0-6.5 1.5-6.5 5.5Z" />
+		<path d="M4 20h16" />
+	`,
+	// delivery vehicle and route point
+	logistics: `
+		<path d="M3.5 6h11v10h-11V6Z" />
+		<path d="M14.5 10h3l3 3v3h-6" />
+		<circle cx="7" cy="18" r="2" />
+		<circle cx="17" cy="18" r="2" />
+	`,
+	// building with a location marker
+	property: `
+		<path d="M4.5 20V6h9v14" />
+		<path d="M7.5 9h3" />
+		<path d="M7.5 13h3" />
+		<path d="M7.5 17h2" />
+		<path d="M16.5 14.5c-1.8 0-3-1.2-3-3s1.2-3 3-3 3 1.2 3 3c0 2.2-3 5.5-3 5.5s-3-3.3-3-5.5" />
+	`,
+	// care cross held by a soft heart outline
+	wellness: `
+		<path d="M12 20S4 15.4 4 9.6A4.1 4.1 0 0 1 11.2 7L12 8l.8-1A4.1 4.1 0 0 1 20 9.6C20 15.4 12 20 12 20Z" />
+		<path d="M12 10v5" />
+		<path d="M9.5 12.5h5" />
+	`,
+	// signed collaboration agreement
+	contract: `
+		<path d="M5 3.5h10l4 4V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z" />
+		<path d="M15 3.5v4h4" />
+		<path d="M8 12h7" />
+		<path d="M8 15h4" />
+		<path d="m13.5 18 1.4 1.3 2.6-2.6" />
+	`,
 	// arrow right: inline "go" affordance
 	arrow: `
 		<path d="M4.5 12h14" />

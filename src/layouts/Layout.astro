@@ -30,7 +30,7 @@ const schemaBlocks = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 // link the logo already provides. The logo carries aria-label "Pooh หน้าแรก",
 // so home stays reachable and named for assistive tech.
 const nav = [
-	{ href: "/backoffice", label: "ระบบหลังบ้าน" },
+	{ href: "/backoffice", label: "ระบบธุรกิจ" },
 	{ href: "/budget-factors", label: "งบประมาณ" },
 	{ href: "/work", label: "ผลงาน" },
 	{ href: "/contact", label: "ติดต่อ" },
@@ -560,6 +560,31 @@ const footNav = [
 				font-size: var(--fs-body);
 				line-height: 1.78;
 				-webkit-font-smoothing: antialiased;
+			}
+
+			::selection {
+				background: var(--tint-strong);
+				color: var(--ink);
+			}
+
+			html {
+				scrollbar-color: var(--muted) var(--warm);
+				scrollbar-width: thin;
+			}
+
+			::-webkit-scrollbar {
+				width: 0.75rem;
+				height: 0.75rem;
+			}
+
+			::-webkit-scrollbar-track {
+				background: var(--warm);
+			}
+
+			::-webkit-scrollbar-thumb {
+				border: 3px solid var(--warm);
+				border-radius: 999px;
+				background: var(--muted);
 			}
 
 			h1,

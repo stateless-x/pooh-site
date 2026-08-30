@@ -8,9 +8,9 @@ web
 
 ## Users
 
-Primary: Thai SME/business owners — non-technical, often evaluating on a phone, deciding within one visit whether to trust ภูรินท์ enough to message him on LINE.
+Primary: Thai SME/business owners and operations leads — non-technical, often evaluating on a phone, deciding within one visit whether to trust ภูรินท์ enough to message him on LINE. They may recognise themselves by a recurring workflow problem, a familiar system type, or an industry example before they know what to call the solution.
 
-Confirmed broader audience beyond traditional SME owners: startup founders; owners of half-finished or broken AI-generated websites (served by `/fix-ai-website`); people who already heard of him through referral and are checking the site before messaging.
+Confirmed broader audience beyond traditional SME owners: startup founders; owners of half-finished AI-generated websites that still have a clear, bounded path to launch (served by `/fix-ai-website`); people who already heard of him through referral and are checking the site before messaging. The AI-fix offer is a one-round inspection and repair service, not indefinite maintenance or emergency on-call support.
 
 ## Product Purpose
 
@@ -22,6 +22,7 @@ Freelance client acquisition site for ภูรินท์ บุรีวง�
 - Explains everything in plain Thai a business owner understands — no technical vocabulary in visible copy.
 - Personal LINE, he replies to every message himself (ไลน์ส่วนตัว ตอบเองทุกข้อความ) — not an OA, not a team inbox.
 - Uses AI for speed on an engineering foundation he can maintain long-term (per current hero copy).
+- The broad service category shown to buyers is “ระบบจัดการงานสำหรับธุรกิจ”; “ระบบหลังบ้าน” remains secondary search language. Engagement can be a scoped build, consulting/system planning, or joining an existing team under a fixed-term contract.
 
 ## Operating Context
 

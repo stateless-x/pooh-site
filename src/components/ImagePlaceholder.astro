@@ -6,17 +6,49 @@ interface Props {
 	label: string;
 	/** CSS aspect-ratio value, e.g. "16 / 10". */
 	ratio?: string;
+	/** Real image path. Omit it to keep showing the placeholder. */
+	src?: string;
+	/** Optional responsive candidates, e.g. "/image-640.webp 640w, /image-1280.webp 1280w". */
+	srcset?: string;
+	/** Rendered-width hint paired with srcset. */
+	sizes?: string;
+	/** Keep below-fold images lazy; use eager only for a first-viewport image. */
+	loading?: "lazy" | "eager";
+	/** Crop focus for the future real image. */
+	position?: string;
+	class?: string;
 }
 
-const { alt, label, ratio = "16 / 10" } = Astro.props;
+const {
+	alt,
+	label,
+	ratio = "16 / 10",
+	src: imageSrc,
+	srcset,
+	sizes,
+	loading = "lazy",
+	position = "center",
+	class: className,
+} = Astro.props;
 
 // Neutral 1x1 placeholder. Kept free of "#" so the data URI never truncates.
-const src =
+const placeholderSrc =
 	"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E";
+const isPlaceholder = !imageSrc;
 ---
 
-<figure class="ph" style={`--ph-ratio: ${ratio}`}>
-	<img src={src} alt={alt} loading="lazy" decoding="async" />
+<figure
+	class:list={["ph", className, isPlaceholder && "is-placeholder"]}
+	style={`--ph-ratio: ${ratio}; --ph-position: ${position}`}
+>
+	<img
+		src={imageSrc ?? placeholderSrc}
+		srcset={srcset}
+		sizes={srcset ? (sizes ?? "100vw") : undefined}
+		alt={alt}
+		loading={loading}
+		decoding="async"
+	/>
 	<figcaption aria-hidden="true">{label}</figcaption>
 </figure>
 
@@ -34,16 +66,17 @@ const src =
 		height: auto;
 		aspect-ratio: var(--ph-ratio, 16 / 10);
 		object-fit: cover;
+		object-position: var(--ph-position, center);
 	}
 
-	/* The label is guidance for the placeholder only. Once a real image is
-	   dropped into src, it clears itself so no editing of markup is needed. */
-	.ph:not(:has(img[src^="data:"])) {
+	/* The label is guidance for the placeholder only. Passing a real src
+	   clears it automatically, while preserving the same responsive frame. */
+	.ph:not(.is-placeholder) {
 		border-color: transparent;
 		background: transparent;
 	}
 
-	.ph:not(:has(img[src^="data:"])) figcaption {
+	.ph:not(.is-placeholder) figcaption {
 		display: none;
 	}
 

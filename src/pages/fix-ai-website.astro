@@ -1,9 +1,54 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
-import { fixAiFaq, checklist } from "../data/fix-ai";
+import { fixAiFaq, repairCategories } from "../data/fix-ai";
 import { protectThai } from "../utils/thai";
+
+const fitItems = [
+	{
+		title: "มีของจริงให้ตรวจ",
+		body: "มีลิงก์ ไฟล์งาน หรือสิทธิ์เข้าดูส่วนที่มีปัญหา เพื่อให้ประเมินจากของจริงได้",
+	},
+	{
+		title: "เป้าหมายของงานชัด",
+		body: "รู้ว่าต้องการให้ลูกค้าหรือทีมทำอะไรบนเว็บ และบอกได้ว่าตอนนี้ติดอยู่ตรงไหน",
+	},
+	{
+		title: "ยอมปรับเฉพาะส่วนที่จำเป็น",
+		body: "เก็บของเดิมเมื่อยังใช้ได้ และพร้อมวางใหม่บางส่วนเมื่อการฝืนแก้ต่อเสี่ยงกว่าหรือไม่คุ้ม",
+	},
+] as const;
+
+const notFitItems = [
+	"ต้องการคนคอยเฝ้าระบบหรือแก้เหตุเร่งด่วนตลอดเวลา",
+	"ไม่มีไฟล์ต้นฉบับ ไม่มีสิทธิ์เข้าถึง และส่งต่อของเดิมไม่ได้",
+	"ระบบขนาดใหญ่ที่หลายส่วนพันกันจนยังแยกขอบเขตงานไม่ได้",
+] as const;
+
+const processSteps = [
+	{
+		n: "01",
+		title: "ส่งของจริงมาให้ดู",
+		body: "ส่งลิงก์ บอกเครื่องมือที่ใช้สร้าง และเล่าว่าตอนนี้ติดตรงไหน",
+	},
+	{
+		n: "02",
+		title: "ประเมินว่าควรแก้ต่อไหม",
+		body: "ผมดูว่าอะไรเก็บได้ อะไรต้องวางใหม่ และตีกรอบเป็นงานที่ส่งมอบจบได้หรือไม่",
+	},
+	{
+		n: "03",
+		title: "ตกลงรายการก่อนลงมือ",
+		body: "สรุปสิ่งที่แก้ สิ่งที่ไม่รวม และจุดที่ถือว่างานจบให้ตรงกันก่อนเริ่ม",
+	},
+	{
+		n: "04",
+		title: "แก้ ทดสอบ และส่งมอบ",
+		body: "ทำตามรายการที่ตกลง ทดสอบส่วนสำคัญ และส่งมอบให้ครบตามขอบเขต งานใหม่ค่อยประเมินใหม่",
+	},
+] as const;
 
 const faqSchema = {
 	"@context": "https://schema.org",
@@ -36,49 +81,57 @@ const breadcrumb = {
 ---
 
 <Layout
-	title="รับแก้และสานต่อเว็บที่สร้างด้วย AI | Pooh"
-	description="สร้างเว็บด้วย AI แล้วไปต่อไม่ไหว ผมรับแก้เว็บที่สร้างด้วย AI และสานต่อให้เปิดใช้จริงได้ ไม่ต้องรื้อเริ่มใหม่ ประเมินให้ก่อนว่าเก็บอะไรต่อได้ ทักไลน์ bobroach"
+	title="รับแก้เว็บที่สร้างด้วย AI ให้พร้อมใช้งาน | Pooh"
+	description="เว็บที่สร้างด้วย AI เปิดไม่ได้ มือถือเพี้ยน ฟอร์มไม่ทำงาน หรือ SEO ยังไม่พร้อม ส่งลิงก์ให้ภูรินท์ประเมินก่อน รับเฉพาะงานที่ขอบเขตชัด"
 	schema={[faqSchema, breadcrumb]}
 >
 	<section class="page-head band-cream">
 		<div class="shell page-head-inner">
-			<p class="label">สำหรับคนที่ลองสร้างเองด้วย AI</p>
-			<h1>รับแก้เว็บที่สร้างด้วย AI และสานต่อให้ใช้งานได้จริง</h1>
+			<p class="label">เว็บดูเหมือนใกล้เสร็จ แต่ยังเปิดใช้จริงไม่ได้</p>
+			<h1>รับแก้เว็บที่สร้างด้วย AI ให้พร้อมใช้งานจริง</h1>
 			<p class="lede">
 				<strong
-					>ถ้าคุณให้ AI สร้างเว็บหรือระบบขึ้นมาแล้วไปต่อไม่ไหว ผมรับดูให้ตั้งแต่ต้น</strong
-				> ว่าของที่มีอยู่เก็บต่อได้แค่ไหน ต้องแก้อะไรเพิ่ม แล้วลงมือทำให้จนเปิดใช้กับลูกค้าจริงได้
-				โดยไม่ต้องรื้อทิ้งเริ่มใหม่จากศูนย์
+					>ถ้าเว็บที่ทำด้วย AI ยังติดอยู่ไม่กี่จุด ผมช่วยตรวจและเก็บงานเฉพาะส่วนให้จบได้ครับ</strong
+				> ผมขอดูของจริงก่อนทุกงาน แล้วสรุปว่าอะไรเก็บต่อได้ อะไรควรแก้
+				และตีกรอบเป็นงานที่ส่งมอบจบได้หรือไม่ ถ้าแก้ต่อไม่คุ้มจะบอกตรง ๆ ก่อนเริ่ม
 			</p>
 			<div class="actions">
-				<LineButton size="lg" label="ส่งของที่ทำค้างไว้มาคุยกัน" />
+				<LineButton size="lg" label="ส่งลิงก์ให้ผมประเมินก่อน" />
 			</div>
+			<p class="head-note">ประเมินเบื้องต้นไม่มีค่าใช้จ่าย และยังไม่ผูกมัดว่าต้องจ้างทำ</p>
 		</div>
 	</section>
 
 	<section class="section">
-		<div class="shell narrow">
+		<div class="shell repair-intro">
 			<div class="prose reveal">
 				<p>
-					ทุกวันนี้เครื่องมือ AI เก่งพอที่จะสร้างเว็บทั้งหน้าให้ได้ในเวลาไม่กี่ชั่วโมง
-					คนทำธุรกิจจำนวนมากเลยลองทำเองก่อน ผมว่าเป็นเรื่องดีครับ
-					เพราะทำให้เห็นภาพเร็วว่าอยากได้อะไร และประหยัดเวลาคุยกันไปได้เยอะ
+					การเริ่มทำเว็บด้วย AI ไม่ใช่เรื่องผิดครับ ข้อดีคือเห็นหน้าตาและลองไอเดียได้เร็ว
+					หลายงานจึงไม่ได้ต้องเริ่มใหม่ทั้งหมด แต่อาจต้องมีคนช่วยเก็บส่วนที่ AI ทำค้างไว้
+					หรือส่วนที่มองจากหน้าจออย่างเดียวไม่เห็น
 				</p>
 				<p>
-					ปัญหามักไม่ได้อยู่ที่หน้าตา แต่อยู่ที่ส่วนที่มองไม่เห็น
-					พอเริ่มมีลูกค้าใช้จริง ระบบที่ไม่มีพื้นฐานทางวิศวกรรมรองรับจะเริ่มส่งสัญญาณ
-					เช่น แก้ตรงหนึ่งแล้วอีกตรงพังตาม ข้อมูลลูกค้าเก็บไว้ในที่ที่ไม่ควรเก็บ
-					หรือไม่มีใครอธิบายได้ว่าข้างในทำงานยังไง
+					จุดที่เจอมักซ้ำกันครับ เช่น เว็บเปิดจริงไม่ได้ มือถือเพี้ยน ฟอร์มกดแล้วข้อมูลไม่ไป
+					เข้าใช้งานไม่ได้ เว็บช้า หรือ Google อ่านหน้าเว็บไม่ครบ
+					ปัญหาเหล่านี้แยกเป็นงานจบได้ ถ้าของเดิมยังมีโครงที่ตามต่อได้
 				</p>
 				<p class="pullout">
-					งานที่เหมือนใกล้เสร็จเต็มที จึงกลายเป็นงานที่ไปต่อไม่ได้
+					ผมรับแก้ต่อเมื่อของเดิมยังพอไปต่อ และตีกรอบงานให้จบชัดเจนได้
 				</p>
 				<p>
-					ผมใช้ AI ทำงานทุกวันเหมือนกันครับ เลยไม่ได้มองว่าการเริ่มจาก AI เป็นเรื่องผิด
-					สิ่งที่ผมเพิ่มเข้าไปคือพื้นฐานที่ทำให้ของชิ้นนั้นอยู่ได้นาน ทั้งโครงสร้าง
-					ความปลอดภัย และการดูแลต่อเมื่อธุรกิจโตขึ้น
-					อ่านที่มาของแนวคิดนี้ได้ที่ <a href="/">หน้าแรกของผม</a>
+					ถ้าเปิดดูแล้วทุกส่วนพันกันจนแตะจุดหนึ่งกระทบอีกหลายจุด
+					หรือไม่มีไฟล์และสิทธิ์ที่จำเป็น ผมจะไม่รับปากว่าจะซ่อมให้จบ
+					แต่จะบอกตามตรงว่าควรหยุดแก้ของเดิม ปรับโครงบางส่วน หรือหาคนที่เหมาะกับงานมากกว่า
 				</p>
+			</div>
+
+			<div class="repair-visual reveal reveal-d1">
+				<ImagePlaceholder
+					alt="ภาพตัวอย่างเว็บไซต์เดียวกันก่อนและหลังเก็บงาน แสดงทั้งหน้าจอมือถือและคอมพิวเตอร์"
+					label="ภาพเปรียบเทียบก่อนและหลัง ใช้เว็บตัวอย่าง ไม่อ้างว่าเป็นผลงานลูกค้า"
+					ratio="16 / 10"
+					sizes="(min-width: 68rem) 32rem, (min-width: 48rem) 44vw, calc(100vw - 2.75rem)"
+				/>
 			</div>
 		</div>
 	</section>
@@ -86,18 +139,18 @@ const breadcrumb = {
 	<section class="section band-tint">
 		<div class="shell">
 			<div class="section-head reveal">
-				<p class="label">เช็กลิสต์ของภูรินท์</p>
-				<h2>เว็บที่ AI สร้าง พร้อมใช้งานจริงหรือยัง</h2>
+				<p class="label">อาการที่รับช่วยเป็นจุด</p>
+				<h2>ปัญหาที่มักเกิดซ้ำกับเว็บที่สร้างด้วย AI</h2>
 				<p class="lede">
-					นี่คือแปดข้อที่ผมใช้ตรวจงานทุกชิ้นก่อนบอกว่าเปิดให้ลูกค้าใช้ได้
-					ลองไล่ดูเองก่อนก็ได้ครับ ถ้าตอบว่าไม่แน่ใจตั้งแต่สองข้อขึ้นไป ทักมาคุยกันได้
+					แต่ละงานไม่จำเป็นต้องมีครบทุกข้อครับ เลือกแก้เฉพาะอาการที่ขวางการเปิดใช้จริง
+					โดยตกลงรายการให้ชัดก่อนเริ่ม
 				</p>
 			</div>
 
 			<div class="sheet reveal">
 				<ol class="checklist">
 					{
-						checklist.map((item, i) => (
+						repairCategories.map((item, i) => (
 							<li class="check">
 								<span class="check-n" aria-hidden="true">
 									{String(i + 1).padStart(2, "0")}
@@ -111,6 +164,60 @@ const breadcrumb = {
 					}
 				</ol>
 			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">รับเฉพาะงานที่มีทางจบ</p>
+				<h2>เช็กก่อนว่างานของคุณเหมาะกับบริการนี้ไหม</h2>
+			</div>
+
+			<div class="fit-grid">
+				<div class="fit-card reveal">
+					<p class="fit-kicker">เหมาะเมื่อ</p>
+					<ul class="fit-list">
+						{fitItems.map((item) => (
+							<li>
+								<strong>{protectThai(item.title)}</strong>
+								<span>{protectThai(item.body)}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+
+				<div class="fit-card is-muted reveal reveal-d1">
+					<p class="fit-kicker">อาจไม่เหมาะเมื่อ</p>
+					<ul class="not-fit-list">
+						{notFitItems.map((item) => <li>{protectThai(item)}</li>)}
+					</ul>
+					<p class="fit-note">
+						ถ้าไม่แน่ใจ ส่งมาให้ดูก่อนได้ครับ การบอกว่าไม่ควรแก้ต่อก็เป็นคำตอบที่ช่วยประหยัดเวลาและงบได้
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section band-cream">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">วิธีรับงาน</p>
+				<h2>เริ่มจากตรวจ แล้วค่อยตกลงขอบเขตให้จบชัดเจน</h2>
+			</div>
+
+			<ol class="process-list">
+				{processSteps.map((step, i) => (
+					<li class:list={["process-item", "reveal", `reveal-d${i % 2}`]}>
+						<span class="process-n">{step.n}</span>
+						<div>
+							<h3>{protectThai(step.title)}</h3>
+							<p>{protectThai(step.body)}</p>
+						</div>
+					</li>
+				))}
+			</ol>
 		</div>
 	</section>
 
@@ -145,13 +252,13 @@ const breadcrumb = {
 	<section class="band">
 		<div class="shell band-inner reveal">
 			<p class="label">ส่งมาให้ดูก่อน</p>
-			<h2>ส่งลิงก์ของที่ทำค้างไว้มา ผมดูให้ว่าไปต่อยังไงดี</h2>
+			<h2>ส่งลิงก์มาให้ดูก่อน ผมบอกได้ว่างานนี้ควรแก้ต่อไหม</h2>
 			<p class="lede">
-				ไม่ต้องเก็บกวาดอะไรก่อนส่ง สภาพจริงเป็นแบบไหนส่งมาแบบนั้นได้เลย
-				ผมดูแล้วบอกกลับไปตรง ๆ ว่าเก็บอะไรต่อได้บ้าง และควรเริ่มจากตรงไหนครับ
+				บอกด้วยว่าใช้เครื่องมืออะไรสร้าง ตอนนี้ติดตรงไหน และอยากให้คนใช้ทำอะไรได้
+				ผมประเมินจากของจริงก่อน ถ้าเหมาะค่อยสรุปขอบเขตและตกลงงานกันครับ
 			</p>
 			<div class="actions">
-				<LineButton size="lg" label="ส่งของที่ทำค้างไว้มาคุยกัน" />
+				<LineButton size="lg" label="ส่งลิงก์ให้ผมประเมินก่อน" />
 				<a class="cta-quiet" href="/work">
 					ดูผลงานที่ผ่านมา
 					<Icon name="arrow" size={18} />
@@ -179,6 +286,30 @@ const breadcrumb = {
 	.prose strong {
 		color: var(--ink);
 		font-weight: 500;
+	}
+
+	.repair-intro {
+		display: grid;
+		gap: 2.25rem;
+		min-width: 0;
+	}
+
+	.repair-visual {
+		min-width: 0;
+		align-self: center;
+	}
+
+	.repair-visual :global(.ph) {
+		overflow: hidden;
+		border-radius: var(--radius);
+	}
+
+	@media (min-width: 48em) {
+		.repair-intro {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+			gap: 3.5rem;
+			align-items: center;
+		}
 	}
 
 	/* The sentence the whole page turns on, lifted out of the paragraph it
@@ -220,13 +351,141 @@ const breadcrumb = {
 		margin-top: 0.75rem;
 	}
 
+	.head-note {
+		max-width: 36rem;
+		font-size: var(--fs-body-sm);
+		color: var(--muted);
+	}
+
+	/* Scope is part of the offer on this page, so the fit and non-fit cases sit
+	   at equal weight. A visitor can qualify themselves without opening an FAQ,
+	   and the muted card keeps a refusal from reading like an alarm. */
+	.fit-grid {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.fit-card {
+		padding: 1.25rem;
+		border: 1px solid var(--rule-soft);
+		border-radius: var(--radius);
+		background: var(--paper);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.fit-card.is-muted {
+		background: var(--cream);
+		box-shadow: none;
+	}
+
+	.fit-kicker {
+		margin-bottom: 1rem;
+		font-family: var(--font-head);
+		font-size: var(--fs-subtitle);
+		font-weight: 600;
+		color: var(--ink);
+	}
+
+	.fit-list,
+	.not-fit-list {
+		display: grid;
+		gap: 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.fit-list li,
+	.not-fit-list li {
+		position: relative;
+		padding-left: 1.5rem;
+		color: var(--muted);
+	}
+
+	.fit-list li::before,
+	.not-fit-list li::before {
+		content: "";
+		position: absolute;
+		top: 0.65em;
+		left: 0;
+		width: 0.5rem;
+		height: 0.5rem;
+		border: 2px solid var(--honey);
+		border-radius: 50%;
+	}
+
+	.fit-list strong,
+	.fit-list span {
+		display: block;
+	}
+
+	.fit-list strong {
+		font-family: var(--font-head);
+		font-weight: 500;
+		color: var(--ink);
+	}
+
+	.fit-note {
+		margin-top: 1.25rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--rule-soft);
+		font-size: var(--fs-body-sm);
+		color: var(--muted);
+	}
+
+	.process-list {
+		display: grid;
+		gap: 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.process-item {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 1rem;
+		align-items: start;
+		padding: 1.25rem;
+		border: 1px solid var(--rule-soft);
+		border-radius: var(--radius);
+		background: var(--paper);
+	}
+
+	.process-n {
+		font-family: var(--font-head);
+		font-size: var(--fs-label);
+		font-weight: 600;
+		color: var(--honey-ink);
+	}
+
+	.process-item h3 {
+		margin-bottom: 0.3125rem;
+		font-size: var(--fs-subtitle);
+		font-weight: 600;
+	}
+
+	.process-item p {
+		font-size: var(--fs-body-sm);
+		color: var(--muted);
+	}
+
+	@media (min-width: 48em) {
+		.fit-grid,
+		.process-list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.fit-card,
+		.process-item {
+			padding: 1.5rem;
+		}
+	}
+
 	/* ---- checklist ----
-	   The copy asks the reader to run this list against their own work
-	   ("ลองไล่ดูเองก่อนก็ได้ครับ"), so it is drawn as a list you tick, not as
-	   eight cards you browse. One paper sheet, hairline rules between rows,
-	   and an empty box in front of each item: the box is the affordance that
-	   turns reading into checking, and it stays empty because only the reader
-	   knows the answer. Same rounded-square language as the icon chip. */
+	   Six recurring symptoms read as one diagnostic sheet instead of six equal
+	   service packages. This keeps the offer bounded without implying that every
+	   incoming project needs every repair. */
 
 	.sheet {
 		max-width: 44rem;

@@ -5,6 +5,7 @@ import BrowserFrame from "../components/BrowserFrame.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
 import { works } from "../data/works";
+import { systemTypes } from "../data/backoffice";
 import { protectThai } from "../utils/thai";
 import {
 	PERSON_FULL_NAME,
@@ -28,26 +29,32 @@ const offers = [
 		tint: "is-amber",
 		title: "ปรึกษาด้านเทคโนโลยีและระบบ",
 		body: "ยังไม่ต้องจ้างทำก็คุยได้ ช่วยดูว่าควรเริ่มตรงไหนและอะไรยังไม่ต้องทำตอนนี้",
+		href: "/contact",
+		linkLabel: "ดูวิธีเริ่มคุย",
 	},
 	{
 		icon: "flow",
 		tint: "is-clay",
-		title: "ระบบสำหรับงานหลังบ้าน",
-		body: "รวมงานที่กระจายอยู่ในไฟล์และแชท ให้เหลือที่เดียวที่ทีมใช้ร่วมกัน",
+		title: "ระบบจัดการงานสำหรับธุรกิจ",
+		body: "รวมออเดอร์ สต๊อก ลูกค้า และงานในทีม ให้ทุกคนเห็นข้อมูลชุดเดียวกัน",
 		href: "/backoffice",
-		linkLabel: "ดูรายละเอียดระบบหลังบ้าน",
+		linkLabel: "ดูรายละเอียดระบบธุรกิจ",
 	},
 	{
 		icon: "storefront",
 		tint: "",
 		title: "เว็บไซต์ธุรกิจ",
 		body: "ลูกค้าเข้าใจว่าคุณทำอะไรภายในไม่กี่วินาที และติดต่อกลับได้ง่าย",
+		href: "/work",
+		linkLabel: "ดูตัวอย่างเว็บไซต์",
 	},
 	{
 		icon: "care",
 		tint: "",
 		title: "ดูแลและต่อยอด",
 		body: "ส่งงานแล้วไม่ทิ้งงาน ปรับแก้และต่อยอดได้ตามที่ธุรกิจโตขึ้น",
+		href: "/contact",
+		linkLabel: "คุยเรื่องดูแลและต่อยอด",
 	},
 ] as const;
 
@@ -90,7 +97,7 @@ const personSchema = {
 	jobTitle: PERSON_TITLE,
 	// Mirrors the visible canonical entity paragraph in the About strip.
 	description:
-		"ภูรินท์ บุรีวงศ์ (คุณพูห์ หรือ Pooh) คือนักพัฒนาเทคโนโลยีเพื่อธุรกิจ รับทำเว็บไซต์ธุรกิจ ระบบหลังบ้าน และรับปรึกษาด้านเทคโนโลยี มีประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี จบวิศวกรรมคอมพิวเตอร์จาก Mahidol University International College ปัจจุบันเป็นผู้ก่อตั้งและผู้พัฒนาหลักของ pawjai.co ควบคู่กับงานอิสระ อยู่กรุงเทพและทำงานร่วมกับลูกค้าได้ทั่วประเทศ ใช้ AI ช่วยให้งานเร็วขึ้นบนพื้นฐานวิศวกรรมที่ดูแลต่อได้ ติดต่อทางไลน์ bobroach",
+		"ภูรินท์ บุรีวงศ์ (คุณพูห์ หรือ Pooh) คือนักพัฒนาเทคโนโลยีเพื่อธุรกิจ รับออกแบบและพัฒนาระบบจัดการงาน เว็บไซต์ธุรกิจ และรับปรึกษาด้านเทคโนโลยี มีประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี จบวิศวกรรมคอมพิวเตอร์จาก Mahidol University International College ปัจจุบันเป็นผู้ก่อตั้งและผู้พัฒนาหลักของ pawjai.co ควบคู่กับงานอิสระ อยู่กรุงเทพและทำงานร่วมกับลูกค้าได้ทั่วประเทศ ใช้ AI ช่วยให้งานเร็วขึ้นบนพื้นฐานวิศวกรรมที่ดูแลต่อได้ ติดต่อทางไลน์ bobroach",
 	url: new URL("/", Astro.site).href,
 	alumniOf: {
 		"@type": "CollegeOrUniversity",
@@ -110,7 +117,9 @@ const personSchema = {
 	},
 	knowsAbout: [
 		"รับทำเว็บไซต์ธุรกิจ",
-		"ระบบหลังบ้านสำหรับธุรกิจ",
+		"ระบบจัดการงานและระบบหลังบ้านสำหรับธุรกิจ",
+		"ระบบออเดอร์ สต๊อก ลูกค้า และงานในทีม",
+		"ระบบสำหรับโรงงาน ร้านอาหาร โรงแรม และธุรกิจบริการ",
 		"รับแก้เว็บที่สร้างด้วย AI",
 	],
 	// URL normalises the Thai IDN to its xn-- form, which is what consumers of
@@ -123,8 +132,8 @@ const personSchema = {
 ---
 
 <Layout
-	title="รับทำระบบหลังบ้านและเว็บไซต์ธุรกิจ | Pooh"
-	description="รับทำระบบหลังบ้านและเว็บไซต์ธุรกิจ พร้อมรับปรึกษาด้านเทคโนโลยีสำหรับ SME โดยภูรินท์ ประสบการณ์กว่า 7 ปี ส่งมอบพร้อมใช้จริงและดูแลต่อ ทักไลน์ bobroach"
+	title="รับทำระบบธุรกิจและเว็บไซต์ | Pooh"
+	description="รับออกแบบระบบจัดการงานและเว็บไซต์สำหรับธุรกิจ ตั้งแต่ออเดอร์ สต๊อก ลูกค้า งานในทีม ไปจนถึงระบบเฉพาะสำหรับโรงงาน ร้านอาหาร โรงแรม และธุรกิจบริการ โดยภูรินท์ ทักไลน์ bobroach"
 	schema={personSchema}
 >
 	<section class="hero">
@@ -150,7 +159,7 @@ const personSchema = {
 					<p class="ident" lang="en">Business Technology<wbr /> Engineer</p>
 				</div>
 				<h1>
-					<span class="h1-kicker">รับทำระบบหลังบ้านและเว็บไซต์ธุรกิจ</span>
+					<span class="h1-kicker">รับทำระบบจัดการงานและเว็บไซต์สำหรับธุรกิจ</span>
 					<span class="h1-display"
 						>เปลี่ยนงานที่กระจัดกระจายและ<span class="nb">ไอเดีย</span>ในหัว ให้กลายเป็นเว็บไซต์และระบบที่<span
 							class="mark">ใช้งานได้จริง</span
@@ -180,6 +189,8 @@ const personSchema = {
 						alt="รูปถ่ายของภูรินท์"
 						label="รูปถ่ายของภูรินท์ ยิ้มรับกล้อง"
 						ratio="4 / 5"
+						loading="eager"
+						sizes="(min-width: 68rem) 24rem, (min-width: 48rem) 36vw, calc(100vw - 2.75rem)"
 					/>
 				</div>
 			</div>
@@ -218,21 +229,59 @@ const personSchema = {
 			<div class="offers">
 				{
 					offers.map((o, i) => (
-						<article class:list={["offer", "reveal", `reveal-d${i}`]}>
+						<a class:list={["offer", "reveal", `reveal-d${i}`]} href={o.href}>
 							<span class:list={["chip", o.tint]}>
 								<Icon name={o.icon} size={28} />
 							</span>
 							<h3>{o.title}</h3>
 							<p>{o.body}</p>
-							{o.href && (
-								<a class="work-link offer-link" href={o.href}>
-									{o.linkLabel}
-									<Icon name="arrow" size={16} />
-								</a>
-							)}
-						</article>
+							<span class="work-link offer-link">
+								{o.linkLabel}
+								<Icon name="arrow" size={16} />
+							</span>
+						</a>
 					))
 				}
+			</div>
+		</div>
+	</section>
+
+	<section class="section business-fit" aria-labelledby="business-fit-heading">
+		<div class="shell fit-layout">
+			<div class="fit-intro reveal">
+				<p class="label">ระบบสำหรับธุรกิจ</p>
+				<h2 id="business-fit-heading">เริ่มจากงานที่ทำให้ทีมเสียเวลามากที่สุด</h2>
+				<p>
+					ไม่ต้องเริ่มจากระบบใหญ่ครับ เลือกแก้ส่วนที่งานตกหล่น ข้อมูลไม่ตรงกัน
+					หรือต้องคอยไล่ถามก่อน แล้วค่อยเชื่อมส่วนอื่นเมื่อเห็นว่าจำเป็น
+				</p>
+			</div>
+
+			<div class="fit-content reveal reveal-d1">
+				<p class="fit-heading">เลือกดูจากงานที่อยากจัดให้ชัด</p>
+				<ul class="system-preview">
+					{
+						systemTypes.map((item, i) => (
+							<li>
+								<span class:list={["mini-icon", i % 3 === 1 && "is-amber", i % 3 === 2 && "is-clay"]}>
+									<Icon name={item.icon} size={22} />
+								</span>
+								<span>{protectThai(item.title)}</span>
+							</li>
+						))
+					}
+				</ul>
+
+				<div class="fit-next">
+					<p>
+						แนวทางนี้นำไปปรับใช้ได้กับโรงงาน ร้านอาหาร โรงแรม ธุรกิจบริการ
+						และงานเฉพาะทางอื่น ๆ โดยเลือกเฉพาะส่วนที่ตรงกับวิธีทำงานจริง
+					</p>
+					<a class="work-link fit-detail-link" href="/backoffice">
+						ดูตัวอย่างตามประเภทธุรกิจและระดับงาน
+						<Icon name="arrow" size={16} />
+					</a>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -241,28 +290,25 @@ const personSchema = {
 		<div class="shell wedge-inner">
 			<div class="wedge-head reveal">
 				<p class="label">สำหรับคนที่ลองให้ AI สร้างเองแล้ว</p>
-				<h2>ให้ AI สร้างให้ทั้งหมด เร็วจริง แต่พอพังแล้วใครแก้</h2>
+				<h2>เว็บดูเหมือนใกล้เสร็จ แต่ยังเปิดใช้จริงไม่ได้ใช่ไหม</h2>
 			</div>
 
 			<div class="wedge-body reveal reveal-d1">
 				<p class="wedge-lead">
-					ใครก็สั่งให้ AI สร้างเว็บขึ้นมาได้ในไม่กี่ชั่วโมง บางคนเรียกกันว่า <span
-						lang="en">Vibe Coding</span
-					> เห็นผลไวจนรู้สึกว่าใกล้เสร็จ แต่พอมีคนใช้จริงแล้วเริ่มรวน คำถามคือใครแก้ให้
+					AI ช่วยให้เห็นหน้าตาและลองไอเดียได้เร็วครับ
+					แต่ก่อนเปิดใช้จริงอาจยังติดเรื่องมือถือ ฟอร์ม การเข้าใช้งาน ความเร็ว หรือการค้นหาบน Google
 				</p>
 				<p class="wedge-lead">
-					ผมใช้ AI ทำงานทุกวันเหมือนกันครับ แต่ใช้แบบวิศวกร
-					คือให้ AI ช่วยเรื่องความเร็ว ส่วนโครงสร้างและความปลอดภัยมาจาก<span class="nb"
-						>ประสบการณ์</span
-					>จริง
+					ผมรับตรวจและเก็บงานเฉพาะส่วน เมื่อของเดิมยังพอไปต่อและตีกรอบงานให้จบชัดเจนได้
+					ถ้าแก้ต่อไม่คุ้มจะบอกตรง ๆ ก่อนเริ่ม
 				</p>
 				<p class="wedge-lead">
-					ถ้ามีของทำค้างไว้ ส่งมาให้ผมดูได้เลย ไม่ต้องรื้อทิ้งเริ่มใหม่
+					บริการนี้รับเป็นงานครั้งต่อครั้ง ไม่ใช่งานเฝ้าระบบหรือดูแลรายเดือนแบบไม่มีกำหนด
 				</p>
 				<div class="wedge-actions">
-					<LineButton size="lg" label="ส่งของที่ทำค้างไว้มาคุยกัน" />
+					<LineButton size="lg" label="ส่งลิงก์ให้ผมประเมินก่อน" />
 					<a class="wedge-more" href="/fix-ai-website"
-						>อ่านแนวทางเต็ม ๆ และ<span class="nb">เช็กลิสต์</span> 8 ข้อ</a
+						>ดูอาการที่รับแก้และงานที่อาจไม่เหมาะ</a
 					>
 				</div>
 			</div>
@@ -390,9 +436,9 @@ const personSchema = {
 				<div class="seo-col">
 					<p>
 						<strong
-						>ภูรินท์ บุรีวงศ์ (คุณพูห์ หรือ Pooh) คือนักพัฒนาเทคโนโลยีเพื่อธุรกิจ
-						รับทำเว็บไซต์ธุรกิจและระบบหลังบ้าน</strong
-					>
+							>ภูรินท์ บุรีวงศ์ (คุณพูห์ หรือ Pooh) คือนักพัฒนาเทคโนโลยีเพื่อธุรกิจ
+							รับออกแบบและพัฒนาระบบจัดการงาน เว็บไซต์ธุรกิจ และรับปรึกษาด้านเทคโนโลยี</strong
+						>
 						มีประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี จบวิศวกรรมคอมพิวเตอร์จาก Mahidol University
 						International College ปัจจุบันเป็นผู้ก่อตั้งและผู้พัฒนาหลักของ
 						<a href="https://pawjai.co" target="_blank" rel="noopener">pawjai.co</a> ควบคู่กับงานอิสระ
@@ -400,19 +446,19 @@ const personSchema = {
 						ช่วยให้งานเร็วขึ้นบนพื้นฐานวิศวกรรมที่ดูแลต่อได้ ติดต่อทางไลน์ bobroach
 					</p>
 					<p>
-						<strong>รับทำระบบสำหรับงานหลังบ้าน</strong>
-						เปลี่ยนงานที่กระจายอยู่ในไฟล์และแชท
-						ให้กลายเป็นที่เดียวที่ทีมเปิดดูร่วมกันได้ รู้ว่าใครทำอะไรถึงไหนโดยไม่ต้องไล่ถาม
-						เหมาะกับธุรกิจที่เริ่มโตจนจดใส่กระดาษหรือไฟล์ไม่ไหวแล้ว
-						หลังส่งมอบยังปรับแก้และเพิ่มของใหม่ได้ตามที่ธุรกิจโตขึ้น ไม่ปล่อยให้ค้างอยู่ที่เดิม <a href="/backoffice">ดูรายละเอียดหน้าระบบหลังบ้าน</a>
+						<strong>รับทำระบบจัดการงานสำหรับธุรกิจและระบบหลังบ้าน</strong>
+						ตั้งแต่ออเดอร์ สต๊อก ข้อมูลลูกค้า งานในทีม และรายงานสำหรับเจ้าของ
+						ไปจนถึงระบบเฉพาะสำหรับโรงงาน ผู้ผลิต ร้านอาหาร คาเฟ่ โรงแรม ขายส่ง
+						ธุรกิจรับเหมา บริษัทจัดหางาน ฟาร์ม ขนส่ง อสังหาริมทรัพย์ และธุรกิจบริการ
+						เริ่มได้จากงานเฉพาะจุด แล้วค่อยต่อยอดเมื่อทีมพร้อม <a href="/backoffice">ดูตัวอย่างระบบตามประเภทธุรกิจ</a>
 					</p>
 				</div>
 				<div class="seo-col">
 					<p>
-						<strong>รับปรึกษาด้านเทคโนโลยีและระบบหลังบ้าน</strong>
+						<strong>รับปรึกษาด้านเทคโนโลยีและระบบสำหรับธุรกิจ</strong>
 						สำหรับเจ้าของธุรกิจที่ยังไม่แน่ใจว่าควรสร้างอะไรก่อน ทีมที่มีระบบอยู่แล้วแต่ไปต่อไม่ถูก
 						หรือคนที่อยากได้คนกลางช่วยคุยกับทีมพัฒนาให้เข้าใจตรงกัน
-						เป็นที่ปรึกษาระบบหลังบ้านที่พูดภาษาธุรกิจได้ ไม่ต้องจ้างทำก็คุยกันก่อนได้ อยากรู้เรื่องงบ <a href="/budget-factors">ดูว่างบขึ้นกับอะไรบ้าง</a>
+						เริ่มจากคุยเพื่อเรียงปัญหาได้โดยยังไม่ต้องจ้างสร้าง หรือเลือกให้ผมร่วมทีมแบบสัญญาจ้างในช่วงเวลาที่ตกลงกันเมื่อบริษัทมีทีมและขอบเขตงานชัดแล้ว อยากรู้เรื่องงบ <a href="/budget-factors">ดูว่างบขึ้นกับอะไรบ้าง</a>
 					</p>
 					<p>
 						<strong>รับทำเว็บไซต์ธุรกิจ</strong>
@@ -427,7 +473,7 @@ const personSchema = {
 						เลยไม่ได้มองว่าการเริ่มต้นจาก AI เป็นเรื่องผิด
 						สิ่งที่เพิ่มเข้าไปคือโครงสร้าง ความปลอดภัย และการดูแลต่อเมื่อธุรกิจโตขึ้น
 						ถ้าคุณสร้างเว็บด้วย AI ไว้แล้วไปต่อไม่ไหว อ่าน<a href="/fix-ai-website"
-							>แนวทางรับแก้เว็บที่สร้างด้วย AI และ<span class="nb">เช็กลิสต์</span> 8 ข้อ</a
+							>ขอบเขตงานรับตรวจและแก้เว็บที่สร้างด้วย AI</a
 						> หรือ<a href="/contact">ทักไลน์มาคุยก่อนได้เลย</a>
 					</p>
 				</div>
@@ -447,7 +493,7 @@ const personSchema = {
 						สามอย่างนี้คือเหตุผลที่คนทำธุรกิจส่วนใหญ่เลือกให้นักพัฒนาที่มี<span
 							class="nb">ประสบการณ์</span
 						>เข้ามาดูต่อ แทนที่จะทำเองคนเดียวไปตลอด
-						<a href="/fix-ai-website">อ่านแนวทางรับแก้เว็บที่สร้างด้วย AI</a>
+						<a href="/fix-ai-website">ดูขอบเขตงานรับแก้เว็บที่สร้างด้วย AI</a>
 					</p>
 				</div>
 
@@ -455,7 +501,7 @@ const personSchema = {
 					<h3>หาคนทำระบบหรือเว็บไซต์ให้ธุรกิจ</h3>
 					<p>
 						ภูรินท์ บุรีวงศ์ (Pooh) เป็น Business Technology Engineer
-						ที่รับทำเว็บไซต์ธุรกิจ ระบบหลังบ้าน และรับปรึกษาด้านเทคโนโลยีให้ธุรกิจไทย
+						ที่รับทำเว็บไซต์ ระบบจัดการงานและระบบหลังบ้าน รวมถึงรับปรึกษาด้านเทคโนโลยีให้ธุรกิจไทย
 						มี<span class="nb">ประสบการณ์</span>พัฒนาซอฟต์แวร์มากกว่า 7 ปี
 						ทำงานกับลูกค้าได้ทั่วประเทศ และรับงานได้<span class="nb">จำนวนจำกัด</span>ในแต่ละช่วงเพื่อให้ดูแลได้เต็มที่
 						ติดต่อได้โดยตรงที่ไลน์ {LINE_ID}
@@ -804,6 +850,8 @@ const personSchema = {
 		background: var(--paper);
 		border: 1px solid var(--rule-soft);
 		box-shadow: var(--shadow-sm);
+		color: inherit;
+		text-decoration: none;
 		transition:
 			transform 220ms ease,
 			box-shadow 220ms ease;
@@ -826,9 +874,9 @@ const personSchema = {
 		}
 	}
 
-	/* Only some cards have a page to point at yet, so the link is optional. */
 	.offer-link {
-		margin-top: 0.25rem;
+		margin-top: auto;
+		padding-top: 0.25rem;
 		font-size: var(--fs-body-sm);
 	}
 
@@ -858,6 +906,129 @@ const personSchema = {
 	@media (min-width: 64em) {
 		.offers {
 			gap: 1.75rem;
+		}
+	}
+
+	/* ---- business fit overview ----
+	   One compact diagnostic surface, not another catalogue of cards. The
+	   left side explains how to start; the right side names concrete work and
+	   sends industry-specific exploration to the detailed page. */
+
+	.fit-layout,
+	.fit-intro,
+	.fit-content {
+		display: grid;
+		min-width: 0;
+	}
+
+	.fit-layout {
+		gap: 2.25rem;
+	}
+
+	.fit-intro {
+		gap: 0.875rem;
+		align-content: start;
+	}
+
+	.fit-intro h2 {
+		font-size: var(--fs-h2-lg);
+		text-wrap: balance;
+	}
+
+	.fit-intro > p:last-of-type {
+		color: var(--muted);
+		max-width: 32rem;
+	}
+
+	.fit-content {
+		gap: 1rem;
+		padding-block: 1.25rem;
+		border-top: 1px solid var(--rule);
+		border-bottom: 1px solid var(--rule);
+	}
+
+	.fit-heading {
+		font-family: var(--font-head);
+		font-size: var(--fs-body-sm);
+		font-weight: 600;
+		color: var(--ink);
+	}
+
+	.system-preview {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.system-preview {
+		display: grid;
+		gap: 0;
+	}
+
+	.system-preview li {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		min-width: 0;
+		padding-block: 0.75rem;
+		border-bottom: 1px solid var(--rule-soft);
+		font-family: var(--font-head);
+		font-size: var(--fs-body-sm);
+		font-weight: 500;
+	}
+
+	.mini-icon {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 0.75rem;
+		background: var(--tint-strong);
+		color: var(--accent);
+	}
+
+	.mini-icon.is-amber {
+		background: var(--tint-honey);
+		color: var(--honey-ink);
+	}
+
+	.mini-icon.is-clay {
+		background: var(--tint-scarf);
+		color: var(--scarf-ink);
+	}
+
+	.fit-next {
+		display: grid;
+		gap: 0.75rem;
+		padding-top: 0.75rem;
+	}
+
+	.fit-next p {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		max-width: 34rem;
+	}
+
+	.fit-detail-link {
+		width: fit-content;
+		font-size: var(--fs-body-sm);
+	}
+
+	@media (min-width: 48em) {
+		.fit-layout {
+			grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+			gap: 4rem;
+			align-items: start;
+		}
+
+		.system-preview {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0 1.25rem;
+		}
+
+		.system-preview li:last-child {
+			grid-column: 1 / -1;
 		}
 	}
 

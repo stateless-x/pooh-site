@@ -43,11 +43,16 @@ personal LINE ID `bobroach` (NOT a LINE OA — do not call it OA).
      work / ideas into websites and systems that teams and customers actually
      use. Sub-line carrying the ex-Agoda + own-products credential. Primary
      CTA: ทักไลน์มาคุย (LINE link). Secondary: ดูผลงาน.
-   - What I do: 3 offer blocks, plain-Thai outcomes:
-     a) เว็บไซต์ธุรกิจ — ให้ลูกค้าเข้าใจ เชื่อถือ และติดต่อได้ง่าย
-     b) ระบบสำหรับงานหลังบ้าน — เปลี่ยนงานที่กระจายอยู่ในไฟล์และแชท
-        ให้เป็นระบบเดียวที่ทีมใช้ร่วมกัน
-     c) ดูแลและต่อยอด — ปรับปรุงหลังส่งมอบ ไม่ทิ้งงาน
+   - What I do: 4 offer blocks, plain-Thai outcomes:
+     a) ปรึกษาด้านเทคโนโลยีและระบบ — ช่วยเรียงว่าควรเริ่มตรงไหน
+     b) ระบบจัดการงานสำหรับธุรกิจ — รวมออเดอร์ สต๊อก ลูกค้า
+        และงานในทีมให้เห็นข้อมูลชุดเดียวกัน
+     c) เว็บไซต์ธุรกิจ — ให้ลูกค้าเข้าใจ เชื่อถือ และติดต่อได้ง่าย
+     d) ดูแลและต่อยอด — ปรับปรุงหลังส่งมอบ ไม่ทิ้งงาน
+   - Compact business-fit overview after the offers: five common system types
+     plus one plain-language industry sentence, linking to `/backoffice` for
+     detailed industry and complexity guidance. Do not use non-interactive
+     industry tags on the homepage.
    - How I work: 4 numbered steps (ฟังปัญหาก่อน, สรุปขอบเขตให้ชัด,
      อัปเดตเป็นระยะ, ส่งมอบพร้อมใช้จริง). Typographic numbers, no icons.
    - Selected work teaser: 3 cards (from list above), link to /work.
@@ -81,10 +86,10 @@ not a template or AI default.
 - Image placeholders: an `ImagePlaceholder.astro` component rendering a
   `<figure>` with subtle tinted background, a thin border, small centered Thai
   label of what goes there, correct aspect ratio via prop, and the `alt` prop
-  on an inner `<img>`-ready slot OR rendered as the figure's aria-label plus a
-  visible label. Prefer an actual `<img>` with a tiny inline SVG data-URI
-  neutral placeholder and the real alt text, so swapping the `src` later is
-  all the owner needs to do.
+  on an inner `<img>`. With no `src` it renders a tiny inline SVG data-URI;
+  passing a real `src` hides the owner label automatically. Optional `srcset`,
+  `sizes`, crop position, and loading priority support responsive replacement
+  images without changing the surrounding page layout.
 - Mobile-first responsive. No horizontal scroll. Nav collapses gracefully
   (simple stacked or wrap; no JS hamburger needed if wrap looks clean).
 - SEO basics: Thai `<title>`/meta description per page, `lang="th"`,
@@ -597,7 +602,7 @@ Target was five items; measurement forced four. At 320 and 375 the five-item row
 wrapped, so **หน้าแรก was dropped rather than a destination**, because the logo
 already links home and carries `aria-label="Pooh หน้าแรก"`.
 
-Nav is **ระบบหลังบ้าน · งบประมาณ · ผลงาน · ติดต่อ**. Below 22.4em the gap and
+Nav is **ระบบธุรกิจ · งบประมาณ · ผลงาน · ติดต่อ**. Below 22.4em the gap and
 font size step down (0.625rem / 0.8125rem) so all four still hold one row at
 320; that override must sit **after** the base `.site-head nav a` rule, since
 equal specificity makes source order decide. Footer keeps หน้าแรก plus
@@ -862,19 +867,19 @@ quote it correctly.
 | --- | --- | --- |
 | `/` | Service overview, credibility, conversion wedge | - |
 | `/about` | **Entity document**: who ภูรินท์ บุรีวงศ์ is, for people and LLMs | - |
-| `/backoffice` | **Primary battleground**: back-office systems + consulting | 1 |
+| `/backoffice` | **Primary battleground**: business work systems, industry fit, consulting, and contract work | 1 |
 | `/budget-factors` | Unlocks the ราคา query family | 1 |
 | `/work` | Proof: five shipped sites, pawjai featured | - |
 | `/fix-ai-website` | The ownable niche: fixing AI-built sites | 3 |
 | `/contact` | Conversion: LINE, what to send, FAQ | - |
 | `/404` | Recovery. `noindex, follow`, excluded from the sitemap | - |
 
-**Search priority order (2026-08-28):** (1) ระบบหลังบ้าน + ที่ปรึกษา,
-(2) เว็บไซต์ธุรกิจ, (3) fix-AI. This drives the home title
-(`รับทำระบบหลังบ้านและเว็บไซต์ธุรกิจ`), the H1 kicker, the meta description, the
-offers order (ปรึกษา, ระบบหลังบ้าน, เว็บไซต์ธุรกิจ, ดูแลและต่อยอด), and the SEO
-zone paragraph order. **No blog** for now: on-page linking carries internal link
-equity instead.
+**Search priority order (updated 2026-08-31):** (1) ระบบจัดการงานสำหรับธุรกิจ,
+with ระบบหลังบ้าน retained as secondary search language, (2) เว็บไซต์ธุรกิจ,
+(3) fix-AI. This drives the home title (`รับทำระบบธุรกิจและเว็บไซต์`), the H1
+kicker, the meta description, the offers order (ปรึกษา, ระบบธุรกิจ,
+เว็บไซต์ธุรกิจ, ดูแลและต่อยอด), and the SEO zone paragraph order. **No blog**
+for now: on-page linking carries internal link equity instead.
 
 ### Titles and descriptions
 
@@ -885,7 +890,7 @@ titles land at 33-39 base chars, descriptions at 120-130.
 
 ### H1 and the entity paragraph
 
-- The home `h1` carries a keyword kicker (`รับทำเว็บไซต์และระบบหลังบ้านสำหรับธุรกิจ`)
+- The home `h1` carries a keyword kicker (`รับทำระบบจัดการงานและเว็บไซต์สำหรับธุรกิจ`)
   above the emotional display line, so the heading serves search and the reader
   at once. The highlight sweep stays on the display line.
 - The About strip opens with a **canonical entity definition** in copula form
@@ -901,6 +906,30 @@ self-containedly in the first sentences, plus a named framework,
 name survives extraction. No invented benchmarks or statistics.
 
 The index wedge keeps its own copy and links here rather than repeating it.
+
+### Selective AI-site repair offer (2026-08-30)
+
+Supersedes the broad “fix and continue anything” promise above. The owner does
+not want indefinite maintenance work, so `/fix-ai-website` is now a selective,
+one-job-at-a-time inspection and repair offer.
+
+- Six bounded symptom groups: publishing/domain, mobile usability, forms/data,
+  login/permissions, speed/stability, and Google/SEO presentation.
+- Every enquiry is inspected before acceptance. The page promises an honest
+  keep, restructure, or decline recommendation rather than a guaranteed rescue.
+- Good fit requires real work to inspect, a clear user goal, and scope that can
+  be agreed and completed.
+- Explicit non-fit cases: emergency or always-on support, missing source/access,
+  and large intertwined systems whose scope cannot yet be separated.
+- Work is accepted one job at a time. New work after handoff is assessed again;
+  the page does not sell monthly maintenance.
+- The primary CTA is `ส่งลิงก์ให้ผมประเมินก่อน`, matching the visitor's low
+  readiness and filtering before commitment.
+
+The page retains the exact search phrase `รับแก้เว็บที่สร้างด้วย AI` in its
+title, H1 context, internal links, FAQ, and `llms.txt`, but avoids repeating it
+unnaturally. Its FAQPage data renders from the same Thai answers as the visible
+FAQ.
 
 ### Thai loanword line breaks
 

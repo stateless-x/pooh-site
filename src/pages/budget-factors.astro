@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
 import { factors, budgetFaq } from "../data/budget";
@@ -55,9 +56,20 @@ const breadcrumb = {
 
 	<section class="section">
 		<div class="shell">
-			<div class="section-head reveal">
-				<p class="label">หกเรื่องที่มีผลกับงบ</p>
-				<h2>อะไรบ้างที่ทำให้งานสองชิ้นราคาไม่เท่ากัน</h2>
+			<div class="budget-overview">
+				<div class="section-head reveal">
+					<p class="label">หกเรื่องที่มีผลกับงบ</p>
+					<h2>อะไรบ้างที่ทำให้งานสองชิ้นราคาไม่เท่ากัน</h2>
+				</div>
+
+				<div class="budget-visual reveal reveal-d1">
+					<ImagePlaceholder
+						alt="ภาพภูรินท์กำลังสรุปขอบเขตงาน โดยแบ่งส่วนจำเป็นกับส่วนที่ค่อยต่อยอดภายหลัง"
+						label="ภาพภูรินท์กำลังสรุปขอบเขตงานบนกระดาษหรือไวท์บอร์ด"
+						ratio="16 / 10"
+						sizes="(min-width: 68rem) 32rem, (min-width: 48rem) 44vw, calc(100vw - 2.75rem)"
+					/>
+				</div>
 			</div>
 
 			<ol class="factors">
@@ -100,8 +112,8 @@ const breadcrumb = {
 			</div>
 
 			<p class="more reveal">
-				อยากเห็นว่างานระบบหลังบ้านทำอะไรได้บ้าง <a href="/backoffice"
-					>ดูหน้าระบบหลังบ้าน</a
+				อยากเห็นว่างานจัดการในธุรกิจทำเป็นระบบอะไรได้บ้าง <a href="/backoffice"
+					>ดูหน้าระบบสำหรับธุรกิจ</a
 				> หรือ<a href="/work">ดูผลงานที่ผ่านมา</a>
 			</p>
 		</div>
@@ -134,6 +146,34 @@ const breadcrumb = {
 	.page-head .lede strong {
 		color: var(--ink);
 		font-weight: 500;
+	}
+
+	.budget-overview {
+		display: grid;
+		gap: 2rem;
+		margin-bottom: 2.25rem;
+	}
+
+	.budget-overview .section-head {
+		margin-bottom: 0;
+	}
+
+	.budget-visual {
+		min-width: 0;
+	}
+
+	.budget-visual :global(.ph) {
+		overflow: hidden;
+		border-radius: var(--radius);
+	}
+
+	@media (min-width: 48em) {
+		.budget-overview {
+			grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+			gap: 3.5rem;
+			align-items: center;
+			margin-bottom: 3.5rem;
+		}
 	}
 
 	/* ---- factors ----
