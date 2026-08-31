@@ -1033,6 +1033,16 @@ const footNav = [
 					transform: translateX(0);
 				}
 
+				/* The display rules above are author styles, so they outrank the
+				   UA sheet's [hidden] { display: none } and would leave the
+				   closed overlay painted across the whole viewport, eating every
+				   tap meant for the header. Restore the semantics the script is
+				   written against: hidden means gone, not merely transparent. */
+				html.js .nav-overlay[hidden],
+				html.js .nav-drawer[hidden] {
+					display: none;
+				}
+
 				/* Reduced motion: appear and disappear, never slide. */
 				@media (prefers-reduced-motion: reduce) {
 					html.js .nav-drawer,

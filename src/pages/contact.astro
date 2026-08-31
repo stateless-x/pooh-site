@@ -258,6 +258,13 @@ const breadcrumb = {
 		gap: 0.75rem 1rem;
 	}
 
+	/* The display below is an author style, so it outranks the UA sheet's
+	   [hidden] { display: none } and would paint the button even while it is
+	   still hidden — the dead no-JS button the script comment rules out. */
+	.copy[hidden] {
+		display: none;
+	}
+
 	.copy {
 		display: inline-flex;
 		align-items: center;
