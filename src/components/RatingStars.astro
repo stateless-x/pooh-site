@@ -1,0 +1,37 @@
+---
+interface Props {
+	score?: number;
+}
+
+const { score = 4.8 } = Astro.props;
+const starPath = "M12 2.7l2.9 5.87 6.48.94-4.69 4.57 1.11 6.45L12 17.48l-5.8 3.05 1.11-6.45-4.69-4.57 6.48-.94L12 2.7Z";
+---
+
+<span class="rating-stars" aria-label={`${score} จาก 5 ดาว`}>
+	{Array.from({ length: 5 }, (_, index) => (
+		<svg viewBox="0 0 24 24" aria-hidden="true" class:list={[index < 4 ? "is-full" : "is-muted"]}>
+			<path d={starPath} />
+		</svg>
+	))}
+</span>
+
+<style>
+	.rating-stars {
+		display: inline-flex;
+		gap: 0.125rem;
+		align-items: center;
+	}
+
+	.rating-stars svg {
+		width: 0.875rem;
+		height: 0.875rem;
+	}
+
+	.rating-stars .is-full {
+		fill: var(--honey);
+	}
+
+	.rating-stars .is-muted {
+		fill: rgba(143, 98, 7, 0.22);
+	}
+</style>

@@ -1,9 +1,10 @@
 ---
 import ImagePlaceholder from "./ImagePlaceholder.astro";
+import portfolioImage from "../assets/images/illustrations/pooh-portfolio.webp";
 
 /**
- * Wraps a screenshot placeholder in a browser-window chrome so portfolio work
- * reads as a real shipped site rather than a grey box.
+ * Wraps a portfolio illustration in browser-window chrome. The image is an
+ * explicitly stylised representation, not a fabricated client screenshot.
  *
  * The chrome is decorative: the domain is already in the card heading and the
  * link, so the whole bar is hidden from assistive tech to avoid repeating it.
@@ -14,9 +15,21 @@ interface Props {
 	alt: string;
 	label: string;
 	ratio?: string;
+	/** Source-specific illustration; generic portfolio art remains the fallback. */
+	src?: ImageMetadata;
+	loading?: "lazy" | "eager";
+	fetchpriority?: "high" | "low" | "auto";
 }
 
-const { domain, alt, label, ratio = "16 / 10" } = Astro.props;
+const {
+	domain,
+	alt,
+	label,
+	ratio = "16 / 10",
+	src,
+	loading = "lazy",
+	fetchpriority,
+} = Astro.props;
 ---
 
 <div class="frame">
@@ -27,7 +40,15 @@ const { domain, alt, label, ratio = "16 / 10" } = Astro.props;
 		<span class="url">{domain}</span>
 	</div>
 	<div class="shot">
-		<ImagePlaceholder alt={alt} label={label} ratio={ratio} />
+		<ImagePlaceholder
+			src={src ?? portfolioImage}
+			alt={alt}
+			label={label}
+			ratio={ratio}
+			sizes="(min-width: 68rem) 32rem, (min-width: 48rem) 44vw, calc(100vw - 2.75rem)"
+			loading={loading}
+			fetchpriority={fetchpriority}
+		/>
 	</div>
 </div>
 

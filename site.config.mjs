@@ -26,7 +26,17 @@ export const PERSON_TITLE = "Business Technology Engineer";
 export const IDENTITY_PHRASE = "นักพัฒนาเทคโนโลยีเพื่อธุรกิจ";
 export const EXPERIENCE = "มากกว่า 7 ปี";
 
+/**
+ * The LINE ID is a personal handle, not a brand name. Treat it as plumbing:
+ * it belongs in the button's own label, the contact page's add-friend
+ * instructions, and hrefs. Running prose says "ทักไลน์" and lets the link
+ * carry the ID, so the copy never leans on an informal handle for credibility.
+ */
 export const LINE_ID = "bobroach";
 export const LINE_URL = `https://line.me/ti/p/~${LINE_ID}`;
+
+/** Second contact channel, for buyers who prefer email over a chat app. */
+export const EMAIL = "askpurin@pm.me";
+export const EMAIL_URL = `mailto:${EMAIL}`;
 
 export const GITHUB_URL = "https://github.com/stateless-x";

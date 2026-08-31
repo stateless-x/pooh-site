@@ -8,7 +8,7 @@
  * It is the plain bubble mark, with no lettering inside: small lettering would
  * misrender at button size and would put Latin text inside an SVG.
  */
-import { LINE_ID, LINE_URL } from "../../site.config.mjs";
+import { LINE_URL } from "../../site.config.mjs";
 
 interface Props {
 	label?: string;
@@ -17,11 +17,11 @@ interface Props {
 	class?: string;
 }
 
-const {
-	label = `ทักไลน์: ${LINE_ID}`,
-	size = "md",
-	class: className,
-} = Astro.props;
+// The label names the action, not the account. The LINE ID is a personal
+// handle that reads informally next to the rest of the copy, so it stays in
+// the href and on the contact page (where a visitor adds by searching it)
+// rather than repeating on every button across the site.
+const { label = "ทักไลน์", size = "md", class: className } = Astro.props;
 ---
 
 <a

@@ -4,6 +4,7 @@ import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import BrowserFrame from "../components/BrowserFrame.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
+import poohAtWork from "../assets/images/illustrations/pooh-at-work.webp";
 import { works } from "../data/works";
 import { systemTypes } from "../data/backoffice";
 import { protectThai } from "../utils/thai";
@@ -14,6 +15,7 @@ import {
 	GITHUB_URL,
 	LINE_URL,
 	LINE_ID,
+	EMAIL,
 } from "../../site.config.mjs";
 
 // The home teaser shows three, in the order set by their teaser rank; /work
@@ -97,7 +99,8 @@ const personSchema = {
 	jobTitle: PERSON_TITLE,
 	// Mirrors the visible canonical entity paragraph in the About strip.
 	description:
-		"ภูรินท์ บุรีวงศ์ (คุณพูห์ หรือ Pooh) คือนักพัฒนาเทคโนโลยีเพื่อธุรกิจ รับออกแบบและพัฒนาระบบจัดการงาน เว็บไซต์ธุรกิจ และรับปรึกษาด้านเทคโนโลยี มีประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี จบวิศวกรรมคอมพิวเตอร์จาก Mahidol University International College ปัจจุบันเป็นผู้ก่อตั้งและผู้พัฒนาหลักของ pawjai.co ควบคู่กับงานอิสระ อยู่กรุงเทพและทำงานร่วมกับลูกค้าได้ทั่วประเทศ ใช้ AI ช่วยให้งานเร็วขึ้นบนพื้นฐานวิศวกรรมที่ดูแลต่อได้ ติดต่อทางไลน์ bobroach",
+		"ภูรินท์ บุรีวงศ์ (คุณพูห์ หรือ Pooh) คือนักพัฒนาเทคโนโลยีเพื่อธุรกิจ รับออกแบบและพัฒนาระบบจัดการงาน เว็บไซต์ธุรกิจ และรับปรึกษาด้านเทคโนโลยี มีประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี จบวิศวกรรมคอมพิวเตอร์จาก Mahidol University International College ปัจจุบันเป็นผู้ก่อตั้งและผู้พัฒนาหลักของ pawjai.co ควบคู่กับงานอิสระ อยู่กรุงเทพและทำงานร่วมกับลูกค้าได้ทั่วประเทศ ใช้ AI ช่วยให้งานเร็วขึ้นบนพื้นฐานวิศวกรรมที่ดูแลต่อได้ ติดต่อทางไลน์หรืออีเมล askpurin@pm.me",
+	email: EMAIL,
 	url: new URL("/", Astro.site).href,
 	alumniOf: {
 		"@type": "CollegeOrUniversity",
@@ -115,17 +118,42 @@ const personSchema = {
 		name: "pawjai.co",
 		url: "https://pawjai.co",
 	},
+	// Two registers on purpose. The Thai entries mirror the visible plain-Thai
+	// service language a buyer would search; the Latin entries name the actual
+	// engineering skills, which visible copy may never say (site spec bans stack
+	// names on the page). Structured data is the one surface where a hiring
+	// company or an assistant can learn what he builds with.
 	knowsAbout: [
 		"รับทำเว็บไซต์ธุรกิจ",
 		"ระบบจัดการงานและระบบหลังบ้านสำหรับธุรกิจ",
 		"ระบบออเดอร์ สต๊อก ลูกค้า และงานในทีม",
 		"ระบบสำหรับโรงงาน ร้านอาหาร โรงแรม และธุรกิจบริการ",
 		"รับแก้เว็บที่สร้างด้วย AI",
+		"TypeScript",
+		"React",
+		"Next.js",
+		"Node.js",
+		"Astro",
+		"Python",
+		"Ruby on Rails",
+		"PostgreSQL",
+		"Web performance and technical SEO",
+		"Software architecture and system design",
 	],
+	// The engagement types he actually accepts, stated as structured data so a
+	// company searching for contract help can match on it. Mirrors the visible
+	// line in the reference zone; neither may claim more than the other.
+	seeks: {
+		"@type": "Demand",
+		name: "งานพัฒนาระบบและเว็บไซต์ งานที่ปรึกษา และงานร่วมทีมแบบสัญญาจ้างตามระยะเวลา",
+	},
 	// URL normalises the Thai IDN to its xn-- form, which is what consumers of
 	// structured data expect. Visible hrefs stay in readable Thai.
 	sameAs: [
-		...works.map((w) => new URL(w.url).href),
+		// Only work that is actually serving on its domain. An entry without a
+		// url is built but unpublished, so asserting it here would point search
+		// engines and assistants at a site that does not answer.
+		...works.flatMap((w) => (w.url ? [new URL(w.url).href] : [])),
 		GITHUB_URL,
 	],
 };
@@ -133,46 +161,30 @@ const personSchema = {
 
 <Layout
 	title="รับทำระบบธุรกิจและเว็บไซต์ | Pooh"
-	description="รับออกแบบระบบจัดการงานและเว็บไซต์สำหรับธุรกิจ ตั้งแต่ออเดอร์ สต๊อก ลูกค้า งานในทีม ไปจนถึงระบบเฉพาะสำหรับโรงงาน ร้านอาหาร โรงแรม และธุรกิจบริการ โดยภูรินท์ ทักไลน์ bobroach"
+	description="รับออกแบบระบบจัดการงานและเว็บไซต์สำหรับธุรกิจ ตั้งแต่ออเดอร์ สต๊อก ลูกค้า งานในทีม ไปจนถึงระบบเฉพาะสำหรับโรงงาน ร้านอาหาร โรงแรม และธุรกิจบริการ โดยภูรินท์ ทักไลน์คุยก่อนได้ ไม่มีค่าใช้จ่าย"
 	schema={personSchema}
 >
 	<section class="hero">
 		<div class="shell hero-inner">
 			<div class="hero-copy reveal reveal-eager">
-				<div class="hero-badges">
-					<p class="greet">
-						<img
-							class="greet-bear"
-							src="/brand/pooh-mark.svg"
-							alt=""
-							width="1024"
-							height="1024"
-							aria-hidden="true"
-						/>สวัสดีครับ ผมภูรินท์
-					</p>
-					{/* No .nb around "Business Technology": measured at 13px Mitr 600 it
-					    is 135px, and at 375 the credential chip only has ~115px of
-					    content box beside the greeting, so an unbreakable run of that
-					    width spills past the pill's own border. The term wraps across
-					    its natural spaces instead, and the wbr keeps "Engineer" from
-					    ever splitting mid-word. */}
-					<p class="ident" lang="en">Business Technology<wbr /> Engineer</p>
-				</div>
+				{/* The headline is the first thing on the page. The two chips that
+				    used to sit above it (a Thai greeting and an English job title)
+				    were the loudest element on a phone and read as a label stack
+				    before the reader knew what was being offered. The greeting now
+				    lives in the sub, and the job title stays in structured data
+				    where it belongs. */}
 				<h1>
-					<span class="h1-kicker">รับทำระบบจัดการงานและเว็บไซต์สำหรับธุรกิจ</span>
-					<span class="h1-display"
-						>เปลี่ยนงานที่กระจัดกระจายและ<span class="nb">ไอเดีย</span>ในหัว ให้กลายเป็นเว็บไซต์และระบบที่<span
-							class="mark">ใช้งานได้จริง</span
-						></span
-					>
+					เปลี่ยนงานที่กระจัดกระจายและ<span class="nb">ไอเดีย</span>ในหัว
+					ให้กลายเป็นเว็บไซต์และระบบที่<span class="mark">ใช้งานได้จริง</span>
 				</h1>
-				{/* The AI-augmented tagline moved here from above the H1: the
-				    pre-headline stack was three rows deep before the message arrived. */}
+				{/* Opens with the reader's own symptom, in the plain Thai the
+				    /backoffice page uses, then answers it. Every visitor persona
+				    recognised themselves in this sentence and none of them
+				    recognised themselves in a job title. */}
 				<p class="hero-sub">
-					ใช้ AI ให้ได้ความเร็ว บนพื้นฐานวิศวกรรมที่ดูแลต่อได้จริง
-					ประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี ปัจจุบันรับงานอิสระและพัฒนา<span class="nb"
-						>โปรดักต์</span
-					>ของตัวเอง
+					ออเดอร์เข้ามาหลายทาง สต๊อกไม่ตรง งานในทีมต้องไล่ถาม
+					ผมช่วยรวบให้อยู่ที่เดียวและใช้งานได้จริง เริ่มจากงานเล็ก ๆ ก่อนก็ได้
+					คุยก่อนไม่มีค่าใช้จ่าย
 				</p>
 				<div class="actions">
 					<LineButton size="lg" />
@@ -186,10 +198,12 @@ const personSchema = {
 			<div class="hero-photo reveal reveal-d1 reveal-eager">
 				<div class="photo-frame">
 					<ImagePlaceholder
-						alt="รูปถ่ายของภูรินท์"
-						label="รูปถ่ายของภูรินท์ ยิ้มรับกล้อง"
+						src={poohAtWork}
+						alt="มาสคอตหมี Pooh สามมิติกำลังทำงานที่โต๊ะ"
+						label="มาสคอต Pooh กำลังทำงาน"
 						ratio="4 / 5"
 						loading="eager"
+						fetchpriority="high"
 						sizes="(min-width: 68rem) 24rem, (min-width: 48rem) 36vw, calc(100vw - 2.75rem)"
 					/>
 				</div>
@@ -201,15 +215,15 @@ const personSchema = {
 		<div class="shell">
 			<ul class="trust-list">
 				<li class="trust-item reveal">
-					<span class="chip"><Icon name="badge" size={28} /></span>
+					<span class="chip"><Icon name="badge" size={28} loading="eager" fetchpriority="low" /></span>
 					<p>ประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี</p>
 				</li>
 				<li class="trust-item reveal reveal-d1">
-					<span class="chip is-amber"><Icon name="spark" size={28} /></span>
+					<span class="chip is-amber"><Icon name="spark" size={28} loading="eager" fetchpriority="low" /></span>
 					<p>ผู้ก่อตั้ง <span class="nb">pawjai.co</span> ที่เปิดใช้งานจริง</p>
 				</li>
 				<li class="trust-item reveal reveal-d2">
-					<span class="chip is-clay"><Icon name="plainwords" size={28} /></span>
+					<span class="chip is-clay"><Icon name="plainwords" size={28} loading="eager" fetchpriority="low" /></span>
 					<p>อธิบายด้วยภาษาที่คนทำธุรกิจเข้าใจ</p>
 				</li>
 			</ul>
@@ -356,20 +370,25 @@ const personSchema = {
 								domain={w.name}
 								alt={w.alt}
 								label={w.label}
+								src={w.image}
 								ratio="16 / 10"
 							/>
 							<span class:list={["tag", `is-${w.tint}`]}>{protectThai(w.kind)}</span>
 							<h3>{w.name}</h3>
 							<p>{protectThai(w.short)}</p>
-							<a
-								class="work-link"
-								href={w.url}
-								target="_blank"
-								rel="noopener"
-							>
-								เปิดดูเว็บไซต์
-								<Icon name="external" size={16} />
-							</a>
+							{w.url ? (
+								<a
+									class="work-link"
+									href={w.url}
+									target="_blank"
+									rel="noopener"
+								>
+									เปิดดูเว็บไซต์
+									<Icon name="external" size={16} />
+								</a>
+							) : (
+								<p class="work-status">{protectThai(w.status ?? "")}</p>
+							)}
 						</article>
 					))
 				}
@@ -443,7 +462,7 @@ const personSchema = {
 						International College ปัจจุบันเป็นผู้ก่อตั้งและผู้พัฒนาหลักของ
 						<a href="https://pawjai.co" target="_blank" rel="noopener">pawjai.co</a> ควบคู่กับงานอิสระ
 						อยู่กรุงเทพและทำงานร่วมกับลูกค้าได้ทั่วประเทศ ใช้ AI
-						ช่วยให้งานเร็วขึ้นบนพื้นฐานวิศวกรรมที่ดูแลต่อได้ ติดต่อทางไลน์ bobroach
+						ช่วยให้งานเร็วขึ้นบนพื้นฐานวิศวกรรมที่ดูแลต่อได้ ติดต่อทางไลน์หรืออีเมล {EMAIL}
 					</p>
 					<p>
 						<strong>รับทำระบบจัดการงานสำหรับธุรกิจและระบบหลังบ้าน</strong>
@@ -458,7 +477,14 @@ const personSchema = {
 						<strong>รับปรึกษาด้านเทคโนโลยีและระบบสำหรับธุรกิจ</strong>
 						สำหรับเจ้าของธุรกิจที่ยังไม่แน่ใจว่าควรสร้างอะไรก่อน ทีมที่มีระบบอยู่แล้วแต่ไปต่อไม่ถูก
 						หรือคนที่อยากได้คนกลางช่วยคุยกับทีมพัฒนาให้เข้าใจตรงกัน
-						เริ่มจากคุยเพื่อเรียงปัญหาได้โดยยังไม่ต้องจ้างสร้าง หรือเลือกให้ผมร่วมทีมแบบสัญญาจ้างในช่วงเวลาที่ตกลงกันเมื่อบริษัทมีทีมและขอบเขตงานชัดแล้ว อยากรู้เรื่องงบ <a href="/budget-factors">ดูว่างบขึ้นกับอะไรบ้าง</a>
+						เริ่มจากคุยเพื่อเรียงปัญหาได้โดยยังไม่ต้องจ้างสร้าง อยากรู้เรื่องงบ <a href="/budget-factors">ดูว่างบขึ้นกับอะไรบ้าง</a>
+					</p>
+					<p>
+						<strong>รับร่วมทีมแบบสัญญาจ้างตามระยะเวลา</strong>
+						สำหรับบริษัทที่มีทีมและขอบเขตงานชัดอยู่แล้ว แต่ต้องการคนเพิ่มในช่วงหนึ่ง
+						ผมรับเข้าไปทำงานร่วมกับทีมตามสัญญาที่ตกลงระยะเวลากันไว้
+						ทั้งงานฝั่งที่ผู้ใช้เห็นและงานเบื้องหลัง รวมถึงช่วยวางโครงสร้างระบบให้ทีมดูแลต่อเองได้
+						คุยเรื่องขอบเขตและช่วงเวลาที่ว่างได้ทางไลน์
 					</p>
 					<p>
 						<strong>รับทำเว็บไซต์ธุรกิจ</strong>
@@ -504,7 +530,30 @@ const personSchema = {
 						ที่รับทำเว็บไซต์ ระบบจัดการงานและระบบหลังบ้าน รวมถึงรับปรึกษาด้านเทคโนโลยีให้ธุรกิจไทย
 						มี<span class="nb">ประสบการณ์</span>พัฒนาซอฟต์แวร์มากกว่า 7 ปี
 						ทำงานกับลูกค้าได้ทั่วประเทศ และรับงานได้<span class="nb">จำนวนจำกัด</span>ในแต่ละช่วงเพื่อให้ดูแลได้เต็มที่
-						ติดต่อได้โดยตรงที่ไลน์ {LINE_ID}
+						ติดต่อได้โดยตรงทางไลน์หรืออีเมล {EMAIL}
+					</p>
+				</div>
+
+				<div class="seo-qa-item">
+					<h3>จ้างทำระบบหรือเว็บไซต์ จ่ายเงินกันยังไง</h3>
+					<p>
+						งานของภูรินท์แบ่งจ่ายเป็นงวดตามความคืบหน้า ไม่ต้องโอนทั้งก้อนก่อนเริ่ม
+						แต่ละงวดตกลงกันไว้ตั้งแต่ต้นว่าคืองานส่วนไหนและจ่ายเมื่อไร
+						เจ้าของธุรกิจจึงเห็นงานจริงก่อนจ่ายงวดถัดไปทุกครั้ง
+						ส่วนการคุยเพื่อประเมินเบื้องต้นไม่มีค่าใช้จ่ายและไม่มีข้อผูกมัด
+						<a href="/contact">ดูคำถามที่พบบ่อยก่อนเริ่มงาน</a>
+					</p>
+				</div>
+
+				<div class="seo-qa-item">
+					<h3>หานักพัฒนาร่วมทีมแบบสัญญาจ้างตามระยะเวลา</h3>
+					<p>
+						ภูรินท์ บุรีวงศ์ (Pooh) รับงานร่วมทีมแบบสัญญาจ้างตามระยะเวลาที่ตกลงกัน
+						นอกเหนือจากงานสร้างระบบและเว็บไซต์แบบจบเป็นโครงการ
+						เหมาะกับบริษัทที่มีทีมและขอบเขตงานชัดแล้วแต่ต้องการคนเพิ่มในช่วงหนึ่ง
+						มีประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี เคยร่วมทีมพัฒนาที่ Agoda
+						และปัจจุบันดูแลโปรดักต์ของตัวเองที่เปิดใช้งานจริง
+						ติดต่อเพื่อคุยเรื่องขอบเขตงานได้ทางไลน์ หรืออีเมล {EMAIL}
 					</p>
 				</div>
 
@@ -577,129 +626,13 @@ const personSchema = {
 		align-content: start;
 	}
 
-	/* Never wraps: the greeting is one short Thai phrase and breaking it after
-	   "ผม" reads as a layout accident. When the row is tight it is .ident that
-	   gives, at the wbr its markup provides. */
-	.greet {
-		display: inline-flex;
-		align-items: center;
-		align-self: start;
-		justify-self: start;
-		flex: none;
-		white-space: nowrap;
-		gap: 0.5rem;
-		padding: 0.375rem 0.875rem 0.375rem 0.4375rem;
-		border-radius: 999px;
-		/* Cream surface with a honey hairline, NOT a honey tint: the pooh mark
-		   sits inside this chip and the brand rules forbid placing the mark on
-		   a similar honey-yellow background. */
-		background: var(--cream);
-		border: 1px solid rgba(243, 178, 26, 0.55);
-		color: var(--ink);
-		font-family: var(--font-head);
-		font-weight: 500;
-		font-size: var(--fs-body-sm);
-	}
-
-	.greet-bear {
-		display: block;
-		width: 1.375rem;
-		height: 1.375rem;
-		flex: none;
-	}
-
-	/* Wrapping is the default and the safe floor: at 320px the shell is 276px
-	   and the greeting alone takes 177px, which leaves the credential too
-	   little to break into without pushing the row past the viewport. */
-	.hero-badges {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
-		gap: 0.5rem;
-	}
-
-	/* From 23em up there is room for both on one row once .ident takes the break
-	   its own markup provides. Held on one row rather than wrapped, the
-	   credential stops spending a second row of the first phone screen on its
-	   own full single-line width, and the LINE button moves up by that much. */
-	@media (min-width: 23em) and (max-width: 47.99em) {
-		.hero-badges {
-			flex-wrap: nowrap;
-		}
-	}
-
-	/* The English term is the attention-getter; the Thai line below carries
-	   the meaning. Bordered rather than filled so it reads as a credential
-	   next to the softer greeting chip.
-
-	   min-width: 0 so the chip may shrink and take the wbr break in the markup
-	   rather than holding its full single-line width. At 375px the greeting and
-	   the credential together need 403px on one line, so without this the
-	   credential dropped to a second row and spent ~49px of the first screen on
-	   whitespace. Broken across its two words both chips share one row and the
-	   LINE button moves up by that much. */
-	.ident {
-		/* inline-block, not inline-flex: as a flex container the .nb span and
-		   the " Engineer" text node become flex items and the space between
-		   them collapses, rendering "TechnologyEngineer". Inline-block keeps it
-		   a normal text run, so the space survives and the line breaks only at
-		   the space .nb leaves available. */
-		display: inline-block;
-		min-width: 0;
-		padding: 0.375rem 0.875rem;
-		border-radius: 999px;
-		border: 1.5px solid var(--honey);
-		background: var(--tint-honey);
-		color: var(--honey-ink);
-		font-family: var(--font-head);
-		font-weight: 600;
-		font-size: var(--fs-label);
-		line-height: 1.35;
-		letter-spacing: 0;
-		text-align: center;
-		/* Controlled break: the wbr in the markup is the only allowed break
-		   point, so the term never splits mid-word the way anywhere allowed. */
-		overflow-wrap: normal;
-	}
-
-
 	/* Thai display type wants MORE leading, not less: stacked vowels and tone
 	   marks need vertical room, so this matches the global 1.35 rather than
 	   tightening the way a Latin display headline would. */
 	.hero h1 {
-		display: grid;
-		gap: 0.625rem;
 		font-size: var(--fs-display);
 		line-height: var(--lh-display);
 		text-wrap: balance;
-	}
-
-	/* Carries the search phrase inside the h1 while the display line below
-	   carries the emotional message. Styled like a section label so it reads
-	   as a kicker rather than competing with the headline. */
-	.h1-kicker {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		font-size: var(--fs-label);
-		font-weight: 500;
-		letter-spacing: 0;
-		line-height: 1.5;
-		color: var(--accent);
-	}
-
-	.h1-kicker::before {
-		content: "";
-		width: 1.5rem;
-		height: 2px;
-		border-radius: 2px;
-		background: var(--accent);
-		opacity: 0.5;
-		flex: none;
-	}
-
-	.h1-display {
-		display: block;
 	}
 
 	/* Highlighter sweep. No rotation: that would force inline-block and stop
@@ -788,6 +721,7 @@ const personSchema = {
 			max-width: none;
 			margin-left: auto;
 		}
+
 	}
 
 	/* ---- trust strip ---- */
@@ -981,9 +915,9 @@ const personSchema = {
 		display: grid;
 		place-items: center;
 		flex: none;
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: 0.75rem;
+		width: 4rem;
+		height: 4rem;
+		border-radius: var(--radius);
 		background: var(--tint-strong);
 		color: var(--accent);
 	}
@@ -1222,7 +1156,6 @@ const personSchema = {
 	}
 
 	/* ---- about ---- */
-
 	.about-inner {
 		display: grid;
 		gap: 1rem;

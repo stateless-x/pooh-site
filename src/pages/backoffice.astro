@@ -1,13 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
 import {
 	useCases,
 	systemTypes,
 	systemLevels,
-	industries,
+	industryGroups,
 	engagementTypes,
 	backofficeFaq,
 } from "../data/backoffice";
@@ -66,107 +65,68 @@ const serviceSchema = {
 
 <Layout
 	title="รับทำระบบจัดการงานสำหรับธุรกิจ | Pooh"
-	description="รับออกแบบและพัฒนาระบบจัดการงานสำหรับธุรกิจและระบบหลังบ้าน ตั้งแต่ออเดอร์ สต๊อก ลูกค้า งานในทีม ไปจนถึงระบบเฉพาะสำหรับโรงงาน ร้านอาหาร โรงแรม และธุรกิจบริการ ทักไลน์ bobroach"
+	description="รับออกแบบระบบจัดการงานสำหรับธุรกิจ รวมออเดอร์ สต๊อก ลูกค้า งานในทีม และรายงานไว้ที่เดียว เริ่มจากจุดที่เสียเวลาที่สุด ทักไลน์คุยก่อนได้"
 	schema={[serviceSchema, faqSchema, breadcrumb]}
 >
 	<section class="page-head band-cream">
 		<div class="shell page-head-inner">
-			<p class="label">ระบบจัดการงานสำหรับธุรกิจ</p>
-			<h1>รับออกแบบและพัฒนาระบบตามวิธีทำงานจริงของธุรกิจ</h1>
+			<h1>ระบบจัดการงานสำหรับธุรกิจที่ทำให้ทีมเห็นข้อมูลเดียวกัน</h1>
 			<p class="lede">
-				<strong
-					>รวม<span class="nb">ออเดอร์</span> สต๊อก ลูกค้า งานในทีม และรายงานให้คนที่เกี่ยวข้องเห็นข้อมูลชุดเดียวกัน</strong
-				> เริ่มจากจุดที่เสียเวลาหรือผิดพลาดบ่อยที่สุดก่อน แล้วค่อยต่อยอดเมื่อทีมพร้อม
+				ผมช่วยรวม<span class="nb">ออเดอร์</span> สต๊อก ลูกค้า งานในทีม และรายงานที่กระจายอยู่หลายที่
+				ให้คนที่เกี่ยวข้องเปิดดูและทำงานต่อกันได้ เริ่มจากจุดที่เสียเวลาหรือผิดพลาดบ่อยที่สุดก่อน
 			</p>
 			<div class="actions">
 				<LineButton size="lg" label="เล่างานที่อยากจัดให้เป็นระบบ" />
+				<a class="cta-quiet" href="#workflow">
+					ดูว่างานแบบไหนเริ่มได้
+					<Icon name="arrow" size={18} />
+				</a>
 			</div>
+			<p class="hero-note">คุยก่อนไม่มีค่าใช้จ่าย และยังไม่ต้องเตรียมสเปก</p>
 		</div>
 	</section>
 
-	<section class="section intro">
-		<div class="shell narrow">
-			<div class="prose reveal">
-				<p>
-					ธุรกิจส่วนใหญ่เริ่มจากไฟล์กับ<span class="nb">แชท</span>ก่อนเสมอ และวิธีนั้นก็พอไหวตอนงานยังน้อย
-					พอ<span class="nb">ออเดอร์</span>เยอะขึ้น คนในทีมมากขึ้น
-					สิ่งที่เคยจดไว้ในไฟล์เดียวก็เริ่มกระจายไปหลายที่ จนไม่มีใครแน่ใจว่าอันไหนคือข้อมูลล่าสุด
-				</p>
-				<p>
-					<strong>ระบบที่ดีไม่ได้ทำให้งานเดิมซับซ้อนขึ้น แต่ช่วยให้ทุกคนเห็นเรื่องสำคัญตรงกัน</strong>
-					ทุกคนเปิดดูแล้วเห็นตรงกัน รู้ว่าใครทำอะไรถึงไหน
-					และเจ้าของเปิดดูสรุปได้เองโดยไม่ต้องรอใครรวมไฟล์ให้
-				</p>
-			</div>
-		</div>
-	</section>
-
-	<section class="section band-tint symptoms">
+	<section class="section band-tint workflow" id="workflow" aria-labelledby="workflow-heading">
 		<div class="shell">
 			<div class="section-head reveal">
-				<p class="label">งานที่มักจะเอามาให้ช่วย</p>
-				<h2>ถ้างานเริ่มมีอาการแบบนี้ ถึงเวลาจัดให้เป็นระบบ</h2>
+				<h2 id="workflow-heading">จากงานที่ต้องไล่ถาม สู่ข้อมูลที่ทีมเปิดดูได้เอง</h2>
+				<p class="lede">
+					ไม่ต้องทำทุกอย่างพร้อมกัน เลือกเรื่องที่ทำให้ทีมเสียเวลาซ้ำ ๆ ก่อน แล้ววางให้จบเป็นเรื่องเดียว
+				</p>
 			</div>
 
-			<ol class="cases">
+			<ul class="workflow-list">
 				{
 					useCases.map((item, i) => (
-						<li class:list={["case", "reveal", `reveal-d${i % 3}`]}>
-							<span class="case-n" aria-hidden="true">
-								{String(i + 1).padStart(2, "0")}
+						<li class:list={["workflow-item", "reveal", `reveal-d${i % 3}`]}>
+							<span class:list={["chip", i % 3 === 1 && "is-amber", i % 3 === 2 && "is-clay"]}>
+								<Icon
+									name={systemTypes[i].icon}
+									size={28}
+									loading={i === 0 ? "eager" : "lazy"}
+									fetchpriority={i === 0 ? "low" : undefined}
+								/>
 							</span>
-							<div class="case-body">
+							<div class="workflow-problem">
+								<span class="flow-label">ตอนนี้</span>
 								<h3>{protectThai(item.title)}</h3>
 								<p>{protectThai(item.body)}</p>
 							</div>
-						</li>
-					))
-				}
-			</ol>
-		</div>
-	</section>
-
-	<section class="section systems" aria-labelledby="systems-heading">
-		<div class="shell">
-			<div class="section-head reveal">
-				<p class="label">สิ่งที่นำมารวมไว้ได้</p>
-				<h2 id="systems-heading">งานแบบไหนที่ทำเป็นระบบได้บ้าง</h2>
-				<p class="lede">
-					ไม่จำเป็นต้องทำทุกอย่างพร้อมกันครับ เลือกเฉพาะส่วนที่ทำให้ทีมเสียเวลาหรือเกิดข้อผิดพลาดบ่อยก่อน
-				</p>
-			</div>
-
-			<ul class="system-list">
-				{
-					systemTypes.map((item, i) => (
-						<li class="system-item">
-							<span class:list={["chip", i % 3 === 1 && "is-amber", i % 3 === 2 && "is-clay"]}>
-								<Icon name={item.icon} size={28} />
-							</span>
-							<div>
-								<h3>{protectThai(item.title)}</h3>
-								<p>{protectThai(item.body)}</p>
+							<div class="workflow-answer">
+								<span class="flow-label">เมื่อจัดให้เป็นระบบ</span>
+								<h3>{protectThai(systemTypes[i].title)}</h3>
+								<p>{protectThai(systemTypes[i].body)}</p>
 							</div>
 						</li>
 					))
 				}
 			</ul>
-
-			<div class="system-visual reveal">
-				<ImagePlaceholder
-					alt="ภาพหน้าจอตัวอย่างระบบจัดการงานที่แสดงออเดอร์ สต๊อก สถานะงาน และรายงานในมุมมองเดียว"
-					label="ภาพหน้าจอระบบตัวอย่าง ใช้ข้อมูลจำลอง ไม่ใช้ข้อมูลลูกค้าจริง"
-					ratio="16 / 10"
-					sizes="(min-width: 68rem) 54rem, (min-width: 48rem) calc(100vw - 5rem), calc(100vw - 2.75rem)"
-				/>
-			</div>
 		</div>
 	</section>
 
 	<section class="section band-cream levels" aria-labelledby="levels-heading">
 		<div class="shell level-layout">
 			<div class="level-intro reveal">
-				<p class="label">เริ่มให้พอดีกับงาน</p>
 				<h2 id="levels-heading">ระบบควรโตตามความซับซ้อน ไม่ใช่ตามขนาดบริษัท</h2>
 				<p>
 					ร้านที่มีทีมเล็กอาจมีงานหลายขั้นตอน ส่วนบริษัทใหญ่บางแห่งอาจต้องแก้แค่จุดเดียว
@@ -174,11 +134,10 @@ const serviceSchema = {
 				</p>
 			</div>
 
-			<ol class="level-list">
+			<ul class="level-list">
 				{
-					systemLevels.map((item, i) => (
+					systemLevels.map((item) => (
 						<li class="level-item">
-							<span class="level-count" aria-hidden="true">{i + 1}</span>
 							<span class="chip"><Icon name={item.icon} size={26} /></span>
 							<div>
 								<h3>{protectThai(item.title)}</h3>
@@ -187,43 +146,48 @@ const serviceSchema = {
 						</li>
 					))
 				}
-			</ol>
+			</ul>
 		</div>
 	</section>
 
 	<section class="section industries" aria-labelledby="industries-heading">
 		<div class="shell">
 			<div class="section-head reveal">
-				<p class="label">ดูตัวอย่างจากธุรกิจที่ใกล้เคียง</p>
-				<h2 id="industries-heading">ระบบเดียวกันไม่ควรใช้เหมือนกันทุกอุตสาหกรรม</h2>
+				<h2 id="industries-heading">ธุรกิจต่างกัน ก็มีงานที่ต้องจัดการคล้ายกัน</h2>
 				<p class="lede">
-					ตัวอย่างด้านล่างคือปัญหาที่นำมาออกแบบเป็นระบบได้ ไม่ใช่แบบสำเร็จรูป
-					งานจริงจะเลือกเฉพาะสิ่งที่ตรงกับวิธีทำงานของคุณ
+					ลองดูว่าวิธีทำงานของคุณใกล้กับกลุ่มไหน แล้วเลือกเฉพาะส่วนที่ตรงกับงานจริง
 				</p>
 			</div>
 
-			<ul class="industry-list">
+			<ul class="industry-patterns">
 				{
-					industries.map((item, i) => (
-						<li class="industry-item">
+					industryGroups.map((item, i) => (
+						<li class:list={["industry-pattern", "reveal", `reveal-d${i % 3}`]}>
 							<span class:list={["chip", i % 3 === 1 && "is-amber", i % 3 === 2 && "is-clay"]}>
 								<Icon name={item.icon} size={28} />
 							</span>
-							<div>
+							<div class="industry-copy">
 								<h3>{protectThai(item.title)}</h3>
 								<p>{protectThai(item.body)}</p>
+								<ul class="industry-examples" aria-label={`ตัวอย่างธุรกิจในกลุ่ม${item.title}`}>
+									{item.examples.map((example) => <li>{protectThai(example)}</li>)}
+								</ul>
 							</div>
 						</li>
 					))
 				}
 			</ul>
+
+			<div class="industry-cta reveal">
+				<p><strong>ไม่เห็นธุรกิจของคุณก็ยังคุยได้</strong> ผมดูจากวิธีทำงานจริงมากกว่าชื่อประเภทธุรกิจ</p>
+				<LineButton label="เล่าวิธีทำงานของธุรกิจคุณ" />
+			</div>
 		</div>
 	</section>
 
 	<section class="section band-tint engagement" aria-labelledby="engagement-heading">
 		<div class="shell engagement-layout">
 			<div class="engagement-intro reveal">
-				<p class="label">วิธีร่วมงาน</p>
 				<h2 id="engagement-heading">เลือกจุดเริ่มให้ตรงกับสิ่งที่คุณต้องการตอนนี้</h2>
 				<p>
 					บางธุรกิจพร้อมสร้างแล้ว บางธุรกิจยังต้องช่วยเรียงปัญหา และบางทีมต้องการคนเข้าไปช่วยทำงานช่วงหนึ่ง
@@ -255,7 +219,6 @@ const serviceSchema = {
 	<section class="section band-cream">
 		<div class="shell narrow">
 			<div class="section-head reveal">
-				<p class="label">คำถามที่เจอบ่อย</p>
 				<h2>เรื่องที่คนมักถามก่อนเริ่มจัดงานให้เป็นระบบ</h2>
 			</div>
 
@@ -283,7 +246,6 @@ const serviceSchema = {
 
 	<section class="band">
 		<div class="shell band-inner reveal">
-			<p class="label">เริ่มจากเล่าให้ฟัง</p>
 			<h2>เล่าว่าทีมทำงานยังไงอยู่ ผมช่วยดูให้ว่าควรเริ่มตรงไหน</h2>
 			<p class="lede">
 				ไม่ต้องเตรียมสเปกมาก่อนครับ เล่าว่าวันนี้ใครทำอะไร ติดตรงไหนบ่อยที่สุด
@@ -305,168 +267,79 @@ const serviceSchema = {
 		max-width: 48rem;
 	}
 
-	/* The flagship page opens tight: the intro is two short beats, not a
-	   reading section, so the symptom list arrives on the first scroll. */
-	.intro {
-		padding-block: 2.5rem 1rem;
-	}
-
-	@media (min-width: 48em) {
-		.intro {
-			padding-block: 4rem 1.5rem;
-		}
-	}
-
-	.prose {
-		display: grid;
-		gap: 1.125rem;
-		font-size: var(--fs-body);
-	}
-
-	.prose p {
-		color: var(--muted);
-		max-width: 33rem;
-	}
-
-	.prose strong,
-	.page-head .lede strong {
-		color: var(--ink);
-		font-weight: 500;
+	.page-head-inner {
+		max-width: 52rem;
 	}
 
 	.page-head .actions {
-		margin-top: 0.75rem;
+		margin-top: 0.875rem;
 	}
 
-	/* ---- use cases ----
-	   This is the flagship page's heaviest moment, so the five symptoms read
-	   as one continuous ledger the owner scans top to bottom, not as a card
-	   grid the eye samples at random. One column at every width, hairline
-	   separators instead of five boxes, and the number carried on a honey
-	   rail so the sequence is legible without a container per item. */
-
-	.symptoms .section-head {
-		margin-bottom: 1.75rem;
-	}
-
-	.cases {
-		display: grid;
-		gap: 0;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-		max-width: 44rem;
-		border-top: 1px solid var(--rule);
-	}
-
-	.case {
-		display: grid;
-		grid-template-columns: auto minmax(0, 1fr);
-		gap: 0 1.125rem;
-		align-items: start;
-		min-width: 0;
-		padding-block: 1.375rem;
-		border-bottom: 1px solid var(--rule-soft);
-	}
-
-	/* The number sits in the honey chip the rest of the system reserves for
-	   icons, at label size: on a page with no icon per row it is what makes
-	   the sequence readable as a sequence. */
-	.case-n {
-		display: grid;
-		place-items: center;
-		width: 2rem;
-		height: 2rem;
-		border-radius: 999px;
-		background: var(--tint-strong);
-		font-family: var(--font-head);
-		font-weight: 600;
-		font-size: var(--fs-label);
-		color: var(--honey-ink);
-		font-variant-numeric: tabular-nums;
-	}
-
-	.case-body {
-		display: grid;
-		gap: 0.375rem;
-		min-width: 0;
-	}
-
-	.case-body h3 {
-		font-size: var(--fs-subtitle);
-		font-weight: 600;
-	}
-
-	.case-body p {
+	.hero-note {
+		margin-top: 0.875rem;
 		color: var(--muted);
 		font-size: var(--fs-body-sm);
-		max-width: 34rem;
 	}
 
-	@media (min-width: 48em) {
-		.case {
-			grid-template-columns: auto minmax(0, 1fr);
-			gap: 0 2rem;
-			padding-block: 1.75rem;
-		}
-
-		.case-n {
-			width: 2.5rem;
-			height: 2.5rem;
-			font-size: var(--fs-body-sm);
-		}
-	}
-
-	/* ---- system types ---- */
-
-	.systems .section-head,
+	.workflow .section-head,
 	.industries .section-head {
-		max-width: 43rem;
+		max-width: 44rem;
 	}
 
-	.system-list,
-	.industry-list,
-	.level-list {
+	.workflow-list,
+	.level-list,
+	.industry-patterns,
+	.industry-examples {
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
 
-	.system-list,
-	.industry-list {
-		display: grid;
-		gap: 0;
+	.workflow-list {
 		border-top: 1px solid var(--rule);
 	}
 
-	.system-item,
-	.industry-item {
+	.workflow-item {
 		display: grid;
 		grid-template-columns: auto minmax(0, 1fr);
-		gap: 1rem;
+		gap: 0.875rem 1rem;
 		align-items: start;
-		min-width: 0;
 		padding-block: 1.375rem;
 		border-bottom: 1px solid var(--rule-soft);
 	}
 
-	.system-item > div,
-	.industry-item > div {
+	.workflow-problem,
+	.workflow-answer,
+	.industry-copy,
+	.level-item > div {
 		display: grid;
 		gap: 0.375rem;
 		min-width: 0;
 	}
 
-	.system-item h3,
-	.industry-item h3,
+	.workflow-answer {
+		grid-column: 2;
+		padding-top: 0.875rem;
+		border-top: 1px solid var(--rule-soft);
+	}
+
+	.flow-label {
+		font-family: var(--font-head);
+		font-size: var(--fs-label);
+		font-weight: 500;
+		color: var(--honey-ink);
+	}
+
+	.workflow-item h3,
 	.level-item h3,
+	.industry-pattern h3,
 	.engagement-item h3 {
 		font-size: var(--fs-subtitle);
 	}
 
-	.system-item p,
-	.industry-item p,
+	.workflow-item p,
 	.level-item p,
+	.industry-pattern p,
 	.engagement-item p,
 	.level-intro > p:last-child,
 	.engagement-intro > p:last-child {
@@ -474,47 +347,24 @@ const serviceSchema = {
 		font-size: var(--fs-body-sm);
 	}
 
-	.system-item p,
-	.industry-item p {
+	.workflow-item p {
 		max-width: 31rem;
 	}
 
-	.system-visual {
-		max-width: 54rem;
-		margin-top: 2.5rem;
-	}
-
-	.system-visual :global(.ph) {
-		overflow: hidden;
-		border-radius: var(--radius);
-	}
-
 	@media (min-width: 48em) {
-		.system-list,
-		.industry-list {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: 0 2.5rem;
+		.workflow-item {
+			grid-template-columns: 4rem minmax(0, 0.9fr) minmax(0, 1fr);
+			gap: 1.75rem;
+			padding-block: 1.75rem;
 		}
 
-		.system-item,
-		.industry-item {
-			padding-block: 1.625rem;
-		}
-
-		.system-item:last-child {
-			grid-column: 1 / -1;
-		}
-
-		.system-item:last-child p {
-			max-width: 35rem;
-		}
-
-		.system-visual {
-			margin-top: 3.25rem;
+		.workflow-answer {
+			grid-column: auto;
+			padding: 0 0 0 1.75rem;
+			border-top: 0;
+			border-left: 1px solid var(--rule);
 		}
 	}
-
-	/* ---- right-sized system levels ---- */
 
 	.level-layout,
 	.engagement-layout {
@@ -543,62 +393,146 @@ const serviceSchema = {
 	}
 
 	.level-list {
-		display: grid;
-		gap: 0;
 		border-top: 1px solid var(--rule);
 	}
 
 	.level-item {
 		display: grid;
-		grid-template-columns: 1.25rem auto minmax(0, 1fr);
-		gap: 0.875rem;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 1rem;
 		align-items: start;
-		min-width: 0;
-		padding-block: 1.375rem;
-		border-bottom: 1px solid var(--rule);
+		padding-block: 1.25rem;
+		border-bottom: 1px solid var(--rule-soft);
 	}
 
-	.level-count {
-		padding-top: 0.875rem;
-		font-family: var(--font-head);
-		font-size: var(--fs-label);
-		font-weight: 600;
-		color: var(--honey-ink);
-		font-variant-numeric: tabular-nums;
-	}
-
-	.level-item > div {
-		display: grid;
-		gap: 0.375rem;
-		padding-top: 0.25rem;
-		min-width: 0;
-	}
-
-	@media (min-width: 48em) {
-		.level-layout {
-			grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-			gap: 4.5rem;
+	@media (min-width: 56em) {
+		.level-layout,
+		.engagement-layout {
+			grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+			gap: 4rem;
 			align-items: start;
 		}
 	}
 
-	/* ---- engagement choice ---- */
-
-	.engagement-options {
+	.industry-patterns {
 		display: grid;
 		gap: 1rem;
 	}
 
-	.engagement-item {
+	.industry-pattern {
 		display: grid;
-		gap: 0.75rem;
-		align-content: start;
-		min-width: 0;
-		padding: 1.375rem;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 1.125rem;
+		align-items: start;
+		padding: 1.25rem;
 		border: 1px solid var(--rule-soft);
 		border-radius: var(--radius);
 		background: var(--paper);
 		box-shadow: var(--shadow-sm);
+	}
+
+	.industry-copy {
+		display: grid;
+		gap: 0.625rem;
+		min-width: 0;
+	}
+
+	.industry-copy h3 {
+		font-size: 1.125rem;
+		line-height: 1.45;
+	}
+
+	.industry-copy > p {
+		max-width: 33rem;
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+	}
+
+	.industry-examples {
+		display: grid;
+		gap: 0.375rem;
+		margin-top: 0.125rem;
+	}
+
+	.industry-examples li {
+		position: relative;
+		width: 100%;
+		padding: 0.5rem 0.625rem 0.5rem 1.625rem;
+		border-radius: 0.625rem;
+		background: var(--tint);
+		color: var(--muted);
+		font-size: var(--fs-label);
+		line-height: 1.5;
+	}
+
+	.industry-examples li::before {
+		position: absolute;
+		left: 0.75rem;
+		top: 0.95rem;
+		width: 0.35rem;
+		height: 0.35rem;
+		border-radius: 999px;
+		background: var(--honey);
+		content: "";
+	}
+
+	.industry-cta {
+		display: grid;
+		gap: 1rem;
+		align-items: center;
+		margin-top: 1rem;
+		padding: 1.25rem;
+		border: 1px solid var(--rule-soft);
+		border-radius: var(--radius);
+		background: var(--tint);
+	}
+
+	.industry-cta p {
+		max-width: 38rem;
+		color: var(--muted);
+	}
+
+	.industry-cta strong {
+		color: var(--ink);
+		font-weight: 600;
+	}
+
+	@media (min-width: 48em) {
+		.industry-patterns {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 1.25rem;
+		}
+
+		.industry-pattern {
+			padding: 1.5rem;
+		}
+
+		.industry-cta {
+			grid-template-columns: minmax(0, 1fr) auto;
+			gap: 2rem;
+		}
+	}
+
+	.engagement-options {
+		display: grid;
+		border-top: 1px solid var(--rule);
+	}
+
+	.engagement-item {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 0.375rem 1rem;
+		align-items: start;
+		padding-block: 1.25rem;
+		border-bottom: 1px solid var(--rule-soft);
+	}
+
+	.engagement-item .chip {
+		grid-row: 1 / span 2;
+	}
+
+	.engagement-item p {
+		max-width: 31rem;
 	}
 
 	.engagement-note {
@@ -609,14 +543,9 @@ const serviceSchema = {
 		max-width: 43rem;
 	}
 
-	@media (min-width: 48em) {
-		.engagement-options {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-			gap: 1.25rem;
-		}
-
-		.engagement-item {
-			padding: 1.5rem;
+	@media (min-width: 56em) {
+		.engagement-note {
+			grid-column: 2;
 		}
 	}
 </style>

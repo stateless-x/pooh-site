@@ -3,13 +3,15 @@ import Layout from "../layouts/Layout.astro";
 import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
+import poohAtWork from "../assets/images/illustrations/pooh-at-work.webp";
 import { protectThai } from "../utils/thai";
 import {
 	PERSON_FULL_NAME,
 	ALIASES,
 	PERSON_TITLE,
 	GITHUB_URL,
-	LINE_ID,
+	EMAIL,
+	EMAIL_URL,
 } from "../../site.config.mjs";
 import { works } from "../data/works";
 
@@ -23,8 +25,9 @@ const personSchema = {
 	alternateName: ALIASES,
 	jobTitle: PERSON_TITLE,
 	description:
-		"ภูรินท์ บุรีวงศ์ (คุณพูห์ หรือ Pooh) คือ Business Technology Engineer และนักพัฒนาไทยจากกรุงเทพมหานคร ประเทศไทย มีประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี ผู้ก่อตั้งและผู้พัฒนาหลักของ pawjai.co รับทำระบบจัดการงานและระบบหลังบ้าน เว็บไซต์ธุรกิจ รับปรึกษาด้านเทคโนโลยี และร่วมทีมแบบสัญญาจ้างให้ธุรกิจไทย ติดต่อทางไลน์ bobroach",
+		"ภูรินท์ บุรีวงศ์ (Purin Buriwong หรือ คุณพูห์ Pooh) คือ Business Technology Engineer และนักพัฒนาไทยจากกรุงเทพมหานคร ประเทศไทย มีประสบการณ์พัฒนาซอฟต์แวร์มากกว่า 7 ปี ผู้ก่อตั้งและผู้พัฒนาหลักของ pawjai.co รับทำระบบจัดการงานและระบบหลังบ้าน เว็บไซต์ธุรกิจ รับปรึกษาด้านเทคโนโลยี และร่วมทีมแบบสัญญาจ้างให้ธุรกิจไทย ติดต่อทางไลน์ หรืออีเมล askpurin@pm.me",
 	url: new URL("/about/", Astro.site).href,
+	email: EMAIL,
 	nationality: { "@type": "Country", name: "TH" },
 	homeLocation: {
 		"@type": "Place",
@@ -60,7 +63,12 @@ const personSchema = {
 		"ที่ปรึกษาด้านเทคโนโลยีสำหรับธุรกิจ",
 		"รับแก้เว็บที่สร้างด้วย AI",
 	],
-	sameAs: [...works.map((w) => new URL(w.url).href), GITHUB_URL],
+	// Only live work belongs in sameAs; an entry without a url is built but
+	// not published, so listing it would point at a domain that does not serve.
+	sameAs: [
+		...works.flatMap((w) => (w.url ? [new URL(w.url).href] : [])),
+		GITHUB_URL,
+	],
 };
 
 const aboutPageSchema = {
@@ -123,18 +131,32 @@ const services: { label: string; href: string }[] = [
 	<section class="page-head band-cream">
 		<div class="shell page-head-inner">
 			<p class="label">เกี่ยวกับผม</p>
-			<h1>เกี่ยวกับ ภูรินท์ <span class="nb">บุรีวงศ์</span> (Pooh)</h1>
-			{/* Canonical entity paragraph, long form. Self-contained on purpose:
-			    quoted alone it still says who he is and how to reach him. */}
+			<h1>เกี่ยวกับ ภูรินท์ <span class="nb">บุรีวงศ์</span> (Purin Buriwong / Pooh)</h1>
+			{/* A person reads first, so a person's sentence goes first. This is
+			    the same line that used to open the section below; it moved up
+			    because a visitor who lands here needs a reason to keep reading
+			    before they need a credential list. */}
 			<p class="lede">
+				ผมทำระบบมาตั้งแต่ก่อนยุคที่ AI เขียนโค้ดแทนคนได้
+				เลยเชื่อแบบนี้ครับ ว่า<strong
+					>ระบบที่ดีไม่ได้วัดกันตอนสร้างเสร็จ
+					แต่วัดกันตอนมีคนใช้จริงแล้วยังแก้ต่อได้</strong
+				>
+			</p>
+			{/* Canonical entity paragraph, long form. Self-contained on purpose:
+			    quoted alone it still says who he is and how to reach him. Text
+			    is mirrored verbatim into Person.description above, so it is
+			    moved and restyled but never reworded. It stays visible body
+			    copy directly under the lede: still early, still extractable. */}
+			<p class="entity">
 				<strong
-					>ภูรินท์ <span class="nb">บุรีวงศ์</span> (คุณพูห์ หรือ Pooh) คือ Business Technology Engineer
+					>ภูรินท์ <span class="nb">บุรีวงศ์</span> (Purin Buriwong หรือ คุณพูห์ Pooh) คือ Business Technology Engineer
 					และ<span class="nb">นักพัฒนา</span>ไทยจากกรุงเทพมหานคร ประเทศไทย</strong
 				> มี<span class="nb">ประสบการณ์</span>พัฒนาซอฟต์แวร์มากกว่า 7 ปี
 				ผู้ก่อตั้งและผู้พัฒนาหลักของ <a href="https://pawjai.co" target="_blank" rel="noopener">pawjai.co</a>{" "}
 				รับทำระบบจัดการงานและระบบหลังบ้าน เว็บไซต์ธุรกิจ รับปรึกษาด้านเทคโนโลยี
 				และร่วมทีมแบบสัญญาจ้างให้ธุรกิจไทย
-				ติดต่อทางไลน์ {LINE_ID}
+				ติดต่อทางไลน์ หรืออีเมล {EMAIL}
 			</p>
 		</div>
 	</section>
@@ -145,9 +167,12 @@ const services: { label: string; href: string }[] = [
 				<div class="intro-media reveal">
 					<div class="photo-frame">
 						<ImagePlaceholder
-							alt="รูปถ่ายของภูรินท์"
-							label="รูปถ่ายของภูรินท์ ยิ้มรับกล้อง"
+							src={poohAtWork}
+							alt="มาสคอตหมี Pooh สามมิติกำลังทำงานที่โต๊ะ"
+							label="มาสคอต Pooh กำลังทำงาน"
 							ratio="4 / 5"
+							loading="eager"
+							fetchpriority="high"
 							sizes="(min-width: 68rem) 22rem, (min-width: 48rem) 36vw, calc(100vw - 2.75rem)"
 						/>
 					</div>
@@ -159,7 +184,6 @@ const services: { label: string; href: string }[] = [
 						ผมเริ่มเขียนซอฟต์แวร์เป็นอาชีพตั้งแต่ตอนที่ยังไม่มีเครื่องมือ AI
 						มาช่วยเขียนโค้ดให้ ทุกอย่างต้องคิดเอง ลองเอง และแก้เอง
 						ช่วงนั้นสอนผมเรื่องพื้นฐานที่ยังใช้ได้จนถึงวันนี้
-						ว่าระบบที่ดีไม่ได้วัดกันตอนสร้างเสร็จ แต่วัดกันตอนมีคนใช้จริงแล้วยังแก้ต่อได้
 					</p>
 					<p>
 						ผมเคยร่วมทีมพัฒนาที่ Agoda มาก่อน ได้เห็นว่าระบบที่คนใช้เยอะจริง ๆ
@@ -234,7 +258,8 @@ const services: { label: string; href: string }[] = [
 			<div class="channels reveal reveal-d2">
 				<h3>ช่องทางติดต่อ</h3>
 				<ul>
-					<li>ไลน์ไอดี {LINE_ID} เป็นไลน์ส่วนตัว ตอบเองทุกข้อความ</li>
+					<li>ไลน์ส่วนตัว ตอบเองทุกข้อความ ไม่ใช่บัญชีทางการหรือทีมงาน</li>
+					<li>อีเมล <a href={EMAIL_URL}>{EMAIL}</a> สำหรับงานที่ต้องมีเอกสาร</li>
 					<li>
 						ดูตัวอย่างโค้ดได้ที่ <a
 							href={GITHUB_URL}
@@ -260,7 +285,7 @@ const services: { label: string; href: string }[] = [
 					code, and today he uses AI as an engineer would: for speed, on top of
 					a structure that someone can still maintain later. He works in Thai and
 					English, with clients across Thailand and abroad. The easiest way to
-					reach him is LINE, at {LINE_ID}.
+					reach him is LINE. He can also be reached by email at {EMAIL}.
 				</p>
 			</div>
 		</div>
@@ -286,6 +311,17 @@ const services: { label: string; href: string }[] = [
 </Layout>
 
 <style>
+	/* The entity paragraph: full-size, full-contrast body copy sitting right
+	   under the lede. Never hidden and never shrunk to fine print, because
+	   site-spec treats hidden entity text as cloaking. It reads as the
+	   factual footing under the human opening. */
+	.entity {
+		margin-top: 1rem;
+		max-width: 34rem;
+		color: var(--ink);
+		font-size: var(--fs-body);
+	}
+
 	.page-head .lede strong {
 		color: var(--ink);
 		font-weight: 500;
@@ -402,15 +438,10 @@ const services: { label: string; href: string }[] = [
 		min-width: 0;
 	}
 
-	@media (min-width: 34em) {
+	@media (min-width: 48em) {
 		.fact {
 			grid-template-columns: 10rem minmax(0, 1fr);
 			align-items: baseline;
-		}
-	}
-
-	@media (min-width: 48em) {
-		.fact {
 			padding: 1rem 1.5rem;
 		}
 	}

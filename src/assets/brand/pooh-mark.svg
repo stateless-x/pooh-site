@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1024 1024"
+     role="img"
+     aria-labelledby="title desc">
+  <title id="title">Pooh personal-brand bear mark</title>
+  <desc id="desc">A compact cream bear silhouette with small round charcoal glasses and a red ribbon, contained in a warm honey-yellow circle.</desc>
+
+  <!--
+    Editable vector master redrawn from the selected Logo 01 direction.
+    Every visual component is kept in a separately named group.
+    There is intentionally no face, nose, mouth, or muzzle patch.
+  -->
+  <defs>
+    <clipPath id="round-field">
+      <circle cx="512" cy="512" r="440"/>
+    </clipPath>
+  </defs>
+
+  <!-- Transparent outside this circle. -->
+  <g id="honey-field">
+    <circle cx="512" cy="512" r="440" fill="#F3B21A"/>
+  </g>
+
+  <g id="cream-bear" fill="#FFF9ED">
+    <!-- Small ears and compact head/body match Logo 01's proportions. -->
+    <circle cx="322" cy="371" r="96"/>
+    <circle cx="699" cy="362" r="93"/>
+    <path d="M322 378
+             C367 371 411 375 454 393
+             C490 379 535 379 574 394
+             C613 374 659 369 699 375
+             C772 418 800 486 800 570
+             L800 836
+             L238 836
+             L238 565
+             C238 482 262 420 322 378Z"/>
+  </g>
+
+  <g id="round-glasses" fill="#282722">
+    <!-- Filled rings avoid stroke-scaling differences between renderers. -->
+    <circle cx="404" cy="609" r="78" fill="#282722"/>
+    <circle cx="404" cy="609" r="57" fill="#FFF9ED"/>
+    <circle cx="620" cy="609" r="78" fill="#282722"/>
+    <circle cx="620" cy="609" r="57" fill="#FFF9ED"/>
+
+    <!-- Short temples and a quiet, straight bridge. -->
+    <path d="M326 596 L307 596 L307 616 L326 616Z" fill="#282722"/>
+    <path d="M698 596 L717 596 L717 616 L698 616Z" fill="#282722"/>
+    <path d="M482 598
+             C501 589 523 589 542 598
+             L542 619
+             C523 610 501 610 482 619Z"
+          fill="#282722"/>
+  </g>
+
+  <!-- Two clean overlapping shapes preserve the painted two-tone swoosh. -->
+  <g id="red-ribbon" clip-path="url(#round-field)">
+    <path d="M183 750
+             C325 711 492 735 650 770
+             C733 788 793 807 838 808
+             C755 899 636 952 512 952
+             C388 952 266 908 183 824Z"
+          fill="#D92731"/>
+    <path d="M187 808
+             C325 774 492 813 643 852
+             C691 864 729 875 762 876
+             C700 928 614 952 512 952
+             C360 952 248 907 187 824Z"
+          fill="#B91F29" opacity="0.88"/>
+  </g>
+</svg>

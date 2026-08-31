@@ -20,7 +20,7 @@ Freelance client acquisition site for ภูรินท์ บุรีวง�
 
 - Former Agoda developer, now freelance + building his own products; founder of pawjai.co (a live product he develops and operates himself — proof he maintains real systems, not just delivers them).
 - Explains everything in plain Thai a business owner understands — no technical vocabulary in visible copy.
-- Personal LINE, he replies to every message himself (ไลน์ส่วนตัว ตอบเองทุกข้อความ) — not an OA, not a team inbox.
+- Personal LINE, he replies to every message himself (ไลน์ส่วนตัว ตอบเองทุกข้อความ) — not an OA, not a team inbox. The LINE handle (`bobroach`) is personal and reads informally, so it never appears in running copy: buttons say `ทักไลน์`, the href carries the ID, and `/contact` still shows it because a visitor adds by searching it. Email `askpurin@pm.me` is the quieter second channel for buyers who want a paper trail.
 - Uses AI for speed on an engineering foundation he can maintain long-term (per current hero copy).
 - The broad service category shown to buyers is “ระบบจัดการงานสำหรับธุรกิจ”; “ระบบหลังบ้าน” remains secondary search language. Engagement can be a scoped build, consulting/system planning, or joining an existing team under a fixed-term contract.
 
@@ -52,9 +52,15 @@ Undecided: blog (`docs/blog-plan.md` — planned, not built, owner decision pend
 
 ## Evidence on Hand
 
-- Real projects: pawjai.co (own product), สายมู.com, valasauna.com — shown as cards in `/work` with neutral one-line Thai descriptions; screenshots pending (placeholders).
+- Real projects shown as cards in `/work`, each described by what the business actually is and what the site had to solve; screenshots pending (placeholders):
+  - pawjai.co — own product (pet platform), featured card.
+  - สายมู.com — client site: online fortune-telling combining Thai astrology, Chinese Bazi, and a personality test. (Ownership unconfirmed by the owner; kept as client work per the original data.)
+  - valasauna.com — client site for a Hat Yai sauna, multilingual because it serves Thai and cross-border visitors.
+  - forgio.co, pscmceramic.com — client factory/manufacturing work; the clearest B2B proof, so they lead the non-featured cards on `/work` and the home teaser.
 - True credentials only: ex-Agoda, founder of pawjai.co, 7+ years software development (as stated in current site copy).
 - No testimonials, client counts, or metrics exist — future work must state absences, never fabricate.
+- Payment terms are stated on the site as staged by milestone with no full amount up front (owner-confirmed). Amounts and percentages stay unstated, per the no-pricing rule.
+- Engineering stack (TypeScript, React, Next.js, Node, Astro, Python, Ruby on Rails, PostgreSQL) is recorded only in `Person.knowsAbout` JSON-LD. It must never appear in visible copy; structured data is the one surface where a hiring company or an assistant can read it.
 
 ## Product Principles
 

@@ -3,8 +3,10 @@ import Layout from "../layouts/Layout.astro";
 import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
+import lineQr from "../assets/images/contact/line-bobroach.png";
 import { faq } from "../data/faq";
 import { protectThai } from "../utils/thai";
+import { EMAIL, EMAIL_URL } from "../../site.config.mjs";
 
 const points = [
 	{
@@ -61,7 +63,7 @@ const breadcrumb = {
 
 <Layout
 	title="จ้างทำเว็บไซต์ เริ่มจากทักไลน์มาคุยก่อน | Pooh"
-	description="อยากจ้างทำเว็บไซต์หรือระบบจัดการงานสำหรับธุรกิจ เริ่มจากทักไลน์ไอดี bobroach มาเล่าให้ฟังก่อนได้เลย ไลน์ส่วนตัวของภูรินท์ ตอบเองทุกข้อความ ยังไม่ต้องตัดสินใจอะไร"
+	description="อยากจ้างทำเว็บไซต์หรือระบบจัดการงานสำหรับธุรกิจ เริ่มจากทักไลน์มาเล่าให้ฟังก่อนได้เลย ไลน์ส่วนตัวของภูรินท์ ตอบเองทุกข้อความ ยังไม่ต้องตัดสินใจอะไร"
 	schema={[faqSchema, breadcrumb]}
 >
 	<section class="page-head band-cream">
@@ -93,15 +95,25 @@ const breadcrumb = {
 				</div>
 				<div class="line-qr">
 					<ImagePlaceholder
+						src={lineQr}
 						alt="คิวอาร์โค้ดสำหรับเพิ่มเพื่อนไลน์ bobroach"
-						label="คิวอาร์โค้ดไลน์"
+						label="คิวอาร์โค้ดไลน์ bobroach"
 						ratio="1 / 1"
 						loading="eager"
+						fetchpriority="high"
+						widths={[160, 192, 256, 320, 384]}
+						format="png"
 						sizes="(min-width: 48rem) 12rem, 10rem"
 					/>
 					<p class="qr-hint">สแกนเพื่อเพิ่มเพื่อน</p>
 				</div>
 			</div>
+			{/* Second channel, deliberately quieter than the LINE card: most
+			    buyers here message on LINE, but a company that needs a paper
+			    trail should not have to ask whether email is an option. */}
+			<p class="alt-channel reveal reveal-d1">
+				สะดวกทางอีเมลมากกว่า ส่งมาที่ <a href={EMAIL_URL}>{EMAIL}</a> ได้เลยครับ
+			</p>
 		</div>
 	</section>
 
@@ -202,8 +214,11 @@ const breadcrumb = {
 </script>
 
 <style>
+	/* Matches the 48rem `.narrow` used by /backoffice, /budget-factors and
+	   /fix-ai-website: the same class doing the same job should not measure
+	   differently on the one page a visitor reaches last. */
 	.narrow {
-		max-width: 44rem;
+		max-width: 48rem;
 	}
 
 	/* This page is an arrival, not another brochure page: the visitor is
@@ -339,6 +354,30 @@ const breadcrumb = {
 		font-size: var(--fs-body-sm);
 	}
 
+	/* Sits under the LINE card as the quieter alternative: centred, muted, and
+	   never a second button, so the primary action stays unambiguous. */
+	.alt-channel {
+		margin-top: 1.25rem;
+		text-align: center;
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+	}
+
+	.alt-channel a {
+		color: var(--ink);
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+		text-decoration-thickness: 1px;
+		text-decoration-color: var(--rule);
+		transition: text-decoration-color 180ms ease;
+	}
+
+	@media (hover: hover) {
+		.alt-channel a:hover {
+			text-decoration-color: currentColor;
+		}
+	}
+
 	.line-qr {
 		display: grid;
 		gap: 0.625rem;
@@ -349,7 +388,7 @@ const breadcrumb = {
 
 	.line-qr :global(.ph) {
 		width: 100%;
-		border-radius: 12px;
+		border-radius: var(--radius);
 		overflow: hidden;
 	}
 
@@ -419,10 +458,10 @@ const breadcrumb = {
 		}
 	}
 
-	.chip {
-		width: 2.5rem;
-		height: 2.5rem;
-	}
+		.chip {
+			width: 3.5rem;
+			height: 3.5rem;
+		}
 
 	@media (min-width: 48em) {
 		.steps {

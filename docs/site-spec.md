@@ -608,6 +608,19 @@ font size step down (0.625rem / 0.8125rem) so all four still hold one row at
 equal specificity makes source order decide. Footer keeps หน้าแรก plus
 `/fix-ai-website`, which stays contextual by design. Tap targets stay 44px.
 
+**Four remains the ceiling (re-measured 2026-08-31).** The inline row is also
+the no-JS fallback, so it renders at 320 for any visitor without JS. Adding a
+fifth item wraps it to two rows at 320, 360, 375 **and** 414. Any future
+destination goes to the drawer and the footer, not the header row.
+
+**Drawer threshold is 48em, not 64em (2026-08-31).** Tablet previously got a
+hamburger over a row that already fit: measured at 768 the logo (118), nav
+(335) and LINE button (99) use 552 of 757px, leaving 205px of slack. The
+drawer now takes over only below 48em, where the row genuinely stops fitting.
+The threshold lives in two `max-width: 47.99em` blocks in `Layout.astro` (the
+`.head-cta` hide and the `.nav-inline`/`.nav-toggle` swap); they must move
+together, and the drawer's JS has no width gating of its own.
+
 The original framing: The English term is the
 attention-getter; the Thai line underneath carries the actual meaning:
 
@@ -630,6 +643,34 @@ Two exceptions are now permitted in visible copy:
 Every other jargon ban stands: no API, CRUD, database, deploy, framework,
 responsive, stack, SaaS in visible copy. The audit greps are updated to allow
 these two and to assert the "Vibe Coding" count is exactly one.
+
+### Industries: two weights, one list (2026-08-31)
+
+`/backoffice` shows industries at two weights, driven by the `home` flag in
+`src/data/backoffice.ts` (previously dead data, now the switch):
+
+- `home: true` renders a **full row** (icon chip, heading, body). These are the
+  trades with the deepest track record and they carry the persuasion.
+- `home: false` renders as a **closed disclosure row** under a
+  `รับทำให้ธุรกิจกลุ่มนี้ด้วย` label: the title is always visible and the body
+  copy opens on tap. Two columns from 48em, closed by a line inviting anyone
+  not listed to ask anyway.
+
+  This uses the site's one disclosure pattern, native `<details>`/`<summary>`
+  as the FAQ does, so it opens without JS and every industry's body copy ships
+  in the static HTML for readers and crawlers alike. Summary rows are 48px,
+  clearing the 44px tap-target floor.
+
+**The list can grow without the page growing.** A closed row costs one line,
+so adding an industry is roughly 48px rather than a full card. That is the
+mechanism that lets the industry list stay broad for reach while the page
+stays scannable; breadth is no longer paid for in vertical space.
+
+**Why:** every industry at equal weight reads as "we do everything", which
+persuades nobody, and the run was the heaviest block on the page. Two weights
+let the page focus without turning a real buyer away because their trade is
+missing. Adding an industry is now cheap: a new `home: false` entry costs one
+pill, not one more full row.
 
 ## Service ladder: consulting is the entry rung
 
@@ -893,9 +934,20 @@ titles land at 33-39 base chars, descriptions at 120-130.
 - The home `h1` carries a keyword kicker (`รับทำระบบจัดการงานและเว็บไซต์สำหรับธุรกิจ`)
   above the emotional display line, so the heading serves search and the reader
   at once. The highlight sweep stays on the display line.
-- The About strip opens with a **canonical entity definition** in copula form
-  (`ภูรินท์ คือ...`), self-contained enough to survive being quoted alone, and
-  mirrored verbatim into `Person.description`.
+- The **canonical entity definition** is in copula form (`ภูรินท์ คือ...`),
+  self-contained enough to survive being quoted alone, and mirrored verbatim
+  into `Person.description`. It no longer *opens* a surface: on the index it
+  moved into the SEO zone (see "Text budget above the SEO zone"), and on
+  `/about` (2026-08-31) a first-person lede leads and the entity paragraph
+  follows it as full-size, full-contrast body copy (`.entity`).
+
+  **Why:** the paragraph is written for extraction, so as an opening it made a
+  human read a database record before a sentence. Moving it one paragraph down
+  keeps it early, visible, and self-contained (nothing about extraction
+  changes) while a person gets a person's sentence first. It is never
+  reworded in place: the visible text and `Person.description` must stay
+  byte-identical, so it is moved as a whole node, never edited in one place
+  only.
 
 ### The niche page
 

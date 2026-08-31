@@ -1,6 +1,16 @@
 ---
+import { Image } from "astro:assets";
 import LineButton from "../components/LineButton.astro";
-import { SITE_NAME, PERSON_NAME, IDENTITY_PHRASE } from "../../site.config.mjs";
+import poohLockup from "../assets/brand/pooh-lockup-horizontal.svg";
+import poohMark from "../assets/brand/pooh-mark.svg";
+import poohWordmark from "../assets/brand/pooh-wordmark.svg";
+import {
+	SITE_NAME,
+	PERSON_NAME,
+	IDENTITY_PHRASE,
+	LINE_URL,
+	GITHUB_URL,
+} from "../../site.config.mjs";
 
 interface Props {
 	title: string;
@@ -22,10 +32,11 @@ const ogImage = new URL("/og.png", Astro.site);
 
 const schemaBlocks = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 
-// Header nav carries the two priority service pages. Labels are the shortest
+// Header nav carries the priority service and content pages. Labels are the shortest
 // form that still names the destination.
 //
-// หน้าแรก is deliberately absent: five items wrapped to two rows at 320 and 375
+// หน้าแรก is deliberately absent: adding it to these five items wraps too deeply
+// on narrow no-JS layouts
 // (measured), and dropping a destination would have been worse than dropping a
 // link the logo already provides. The logo carries aria-label "Pooh หน้าแรก",
 // so home stays reachable and named for assistive tech.
@@ -33,6 +44,7 @@ const nav = [
 	{ href: "/backoffice", label: "ระบบธุรกิจ" },
 	{ href: "/budget-factors", label: "งบประมาณ" },
 	{ href: "/work", label: "ผลงาน" },
+	{ href: "/blog", label: "บทความ" },
 	{ href: "/contact", label: "ติดต่อ" },
 ];
 
@@ -108,19 +120,21 @@ const footNav = [
 				    100px minimum. Below 26em the header is too tight for that, so
 				    the mark alone is used, per the same rule. */}
 				<a class="site-logo-link" href="/" aria-label="Pooh หน้าแรก">
-					<img
+					<Image
 						class="site-logo site-logo-lockup"
-						src="/brand/pooh-lockup-horizontal.svg"
+						src={poohLockup}
 						alt="Pooh"
 						width="600"
 						height="240"
+						loading="eager"
 					/>
-					<img
+					<Image
 						class="site-logo site-logo-mark"
-						src="/brand/pooh-mark.svg"
+						src={poohMark}
 						alt="Pooh"
 						width="1024"
 						height="1024"
+						loading="eager"
 					/>
 				</a>
 				{/* Inline nav is the DEFAULT and the no-JS fallback: without the
@@ -143,6 +157,24 @@ const footNav = [
 						}
 					</ul>
 				</nav>
+
+				{/* The decision to message can land anywhere on a long page, so the
+				    action rides along in the sticky header at every width. It is
+				    deliberately NOT the green LINE button: a second full-strength
+				    button competes with the page's own CTA and puts the loudest
+				    colour on the site above the logo. An outlined cocoa pill
+				    reads as part of the header, and green stays the one colour
+				    that means "this is the action". */}
+				<a class="head-cta" href={LINE_URL}>
+					<span class="head-cta-mark" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none" focusable="false">
+							<path
+								d="M12 3.2c-5 0-9 3.2-9 7.2 0 3.6 3 6.6 7.1 7.1.3.06.6.2.7.4.1.2.06.5.03.7l-.1.7c-.04.2-.2.9.7.5s4.9-2.9 6.7-5c1.2-1.3 1.8-2.7 1.8-4.4 0-4-4-7.2-9-7.2Z"
+								fill="currentColor"></path>
+						</svg>
+					</span>
+					<span class="head-cta-label">ทักไลน์</span>
+				</a>
 
 				<button
 					class="nav-toggle"
@@ -173,20 +205,22 @@ const footNav = [
 		<div class="nav-drawer" id="nav-drawer" hidden>
 			<div class="drawer-head">
 				<a class="drawer-brand" href="/" aria-label={`${SITE_NAME} หน้าแรก`}>
-					<img
+					<Image
 						class="drawer-bear"
-						src="/brand/pooh-mark.svg"
+						src={poohMark}
 						alt=""
 						width="1024"
 						height="1024"
+						loading="lazy"
 						aria-hidden="true"
 					/>
-					<img
+					<Image
 						class="drawer-wordmark"
-						src="/brand/pooh-wordmark.svg"
+						src={poohWordmark}
 						alt={SITE_NAME}
 						width="2258"
 						height="1116"
+						loading="lazy"
 					/>
 				</a>
 				<button class="drawer-close" type="button" aria-label="ปิดเมนู">
@@ -225,8 +259,31 @@ const footNav = [
 				</ul>
 			</nav>
 
+			{/* Square icon pair rather than a full-width button: the drawer is
+			    already a list of text rows, so two 1:1 tiles read as "ช่องทาง"
+			    instead of a third nav item. LINE keeps its own green; GitHub
+			    stays in the header's ink so the green still means one thing. */}
 			<div class="drawer-foot">
-				<LineButton />
+				<a class="drawer-icon is-line" href={LINE_URL} aria-label="ทักไลน์">
+					<svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+						<path
+							d="M12 3.2c-5 0-9 3.2-9 7.2 0 3.6 3 6.6 7.1 7.1.3.06.6.2.7.4.1.2.06.5.03.7l-.1.7c-.04.2-.2.9.7.5s4.9-2.9 6.7-5c1.2-1.3 1.8-2.7 1.8-4.4 0-4-4-7.2-9-7.2Z"
+							fill="currentColor"></path>
+					</svg>
+				</a>
+				<a
+					class="drawer-icon"
+					href={GITHUB_URL}
+					target="_blank"
+					rel="noopener"
+					aria-label="ดูตัวอย่างโค้ดบน GitHub"
+				>
+					<svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+						<path
+							d="M12 2.6a9.4 9.4 0 0 0-3 18.3c.5.1.6-.2.6-.5v-1.7c-2.6.6-3.2-1.2-3.2-1.2-.4-1.1-1-1.4-1-1.4-.9-.6.06-.6.06-.6 1 .07 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.8.85.1-.6.35-1.1.6-1.35-2.1-.25-4.3-1.05-4.3-4.65 0-1.05.35-1.85.95-2.55-.1-.25-.4-1.2.1-2.5 0 0 .8-.25 2.6.95a9 9 0 0 1 4.7 0c1.8-1.2 2.6-.95 2.6-.95.5 1.3.2 2.25.1 2.5.6.7.95 1.5.95 2.55 0 3.6-2.2 4.4-4.3 4.65.35.3.65.9.65 1.8v2.7c0 .3.15.6.65.5A9.4 9.4 0 0 0 12 2.6Z"
+							fill="currentColor"></path>
+					</svg>
+				</a>
 			</div>
 		</div>
 
@@ -242,25 +299,25 @@ const footNav = [
 					    them read as two different brands. Inlined so fill can follow
 					    currentColor for the cream-on-cocoa footer. Mark-to-wordmark gap
 					    and relative height match the lockup's own geometry. */}
-					<p class="foot-mark">
-						<img
+					<div class="foot-mark" role="img" aria-label="Pooh">
+						<Image
 							class="foot-bear"
-							src="/brand/pooh-mark.svg"
+							src={poohMark}
 							alt=""
 							width="1024"
 							height="1024"
+							loading="lazy"
 							aria-hidden="true"
 						/>
 						<svg
 							class="foot-wordmark"
 							viewBox="0 0 2258 1116"
-							role="img"
-							aria-label="pooh"
+							aria-hidden="true"
 							focusable="false"
 						>
 							<path fill="currentColor" d="M463.00 558.00Q463.00 519.00 450.50 485.00Q438.00 451.00 415.00 426.00Q392.00 401.00 359.50 386.50Q327.00 372.00 286.00 372.00Q245.00 372.00 211.00 386.50Q177.00 401.00 152.00 426.00Q127.00 451.00 113.00 485.00Q99.00 519.00 99.00 558.00Q99.00 597.00 113.00 631.00Q127.00 665.00 152.00 690.00Q177.00 715.00 211.00 729.50Q245.00 744.00 286.00 744.00Q327.00 744.00 359.50 729.50Q392.00 715.00 415.00 690.00Q438.00 665.00 450.50 631.00Q463.00 597.00 463.00 558.00ZM36.00 324.00L102.00 324.00L102.00 402.00L104.00 402.00Q120.00 378.00 142.00 361.00Q164.00 344.00 188.00 333.00Q212.00 322.00 237.50 317.00Q263.00 312.00 286.00 312.00Q341.00 312.00 386.50 330.50Q432.00 349.00 465.00 382.00Q498.00 415.00 516.50 460.00Q535.00 505.00 535.00 558.00Q535.00 611.00 516.50 656.00Q498.00 701.00 465.00 734.00Q432.00 767.00 386.50 785.50Q341.00 804.00 286.00 804.00Q263.00 804.00 237.50 799.00Q212.00 794.00 188.00 783.00Q164.00 772.00 142.00 755.00Q120.00 738.00 104.00 714.00L102.00 714.00L102.00 1080.00L36.00 1080.00ZM1044.00 558.00Q1044.00 519.00 1031.50 485.00Q1019.00 451.00 996.00 426.00Q973.00 401.00 940.50 386.50Q908.00 372.00 867.00 372.00Q826.00 372.00 793.50 386.50Q761.00 401.00 738.50 426.00Q716.00 451.00 703.50 485.00Q691.00 519.00 691.00 558.00Q691.00 597.00 703.50 631.00Q716.00 665.00 738.50 690.00Q761.00 715.00 793.50 729.50Q826.00 744.00 867.00 744.00Q908.00 744.00 940.50 729.50Q973.00 715.00 996.00 690.00Q1019.00 665.00 1031.50 631.00Q1044.00 597.00 1044.00 558.00ZM1116.00 558.00Q1116.00 611.00 1097.50 656.00Q1079.00 701.00 1046.00 734.00Q1013.00 767.00 967.50 785.50Q922.00 804.00 867.00 804.00Q813.00 804.00 767.50 785.50Q722.00 767.00 689.00 734.00Q656.00 701.00 637.50 656.00Q619.00 611.00 619.00 558.00Q619.00 505.00 637.50 460.00Q656.00 415.00 689.00 382.00Q722.00 349.00 767.50 330.50Q813.00 312.00 867.00 312.00Q922.00 312.00 967.50 330.50Q1013.00 349.00 1046.00 382.00Q1079.00 415.00 1097.50 460.00Q1116.00 505.00 1116.00 558.00ZM1633.00 558.00Q1633.00 519.00 1620.50 485.00Q1608.00 451.00 1585.00 426.00Q1562.00 401.00 1529.50 386.50Q1497.00 372.00 1456.00 372.00Q1415.00 372.00 1382.50 386.50Q1350.00 401.00 1327.50 426.00Q1305.00 451.00 1292.50 485.00Q1280.00 519.00 1280.00 558.00Q1280.00 597.00 1292.50 631.00Q1305.00 665.00 1327.50 690.00Q1350.00 715.00 1382.50 729.50Q1415.00 744.00 1456.00 744.00Q1497.00 744.00 1529.50 729.50Q1562.00 715.00 1585.00 690.00Q1608.00 665.00 1620.50 631.00Q1633.00 597.00 1633.00 558.00ZM1705.00 558.00Q1705.00 611.00 1686.50 656.00Q1668.00 701.00 1635.00 734.00Q1602.00 767.00 1556.50 785.50Q1511.00 804.00 1456.00 804.00Q1402.00 804.00 1356.50 785.50Q1311.00 767.00 1278.00 734.00Q1245.00 701.00 1226.50 656.00Q1208.00 611.00 1208.00 558.00Q1208.00 505.00 1226.50 460.00Q1245.00 415.00 1278.00 382.00Q1311.00 349.00 1356.50 330.50Q1402.00 312.00 1456.00 312.00Q1511.00 312.00 1556.50 330.50Q1602.00 349.00 1635.00 382.00Q1668.00 415.00 1686.50 460.00Q1705.00 505.00 1705.00 558.00ZM1821.00 36.00L1887.00 36.00L1887.00 399.00L1889.00 399.00Q1900.00 380.00 1917.00 364.00Q1934.00 348.00 1955.00 336.50Q1976.00 325.00 1999.50 318.50Q2023.00 312.00 2046.00 312.00Q2136.00 312.00 2179.00 359.50Q2222.00 407.00 2222.00 495.00L2222.00 792.00L2156.00 792.00L2156.00 533.00Q2156.00 455.00 2129.00 413.50Q2102.00 372.00 2029.00 372.00Q2024.00 372.00 2001.00 376.00Q1978.00 380.00 1952.50 398.00Q1927.00 416.00 1907.00 452.00Q1887.00 488.00 1887.00 552.00L1887.00 792.00L1821.00 792.00Z" />
 						</svg>
-					</p>
+					</div>
 					<p class="foot-note">
 						รับงานอิสระ ออกแบบและพัฒนาเว็บไซต์และระบบสำหรับธุรกิจ
 					</p>
@@ -283,6 +340,13 @@ const footNav = [
 				</div>
 			</div>
 		</footer>
+
+		<button class="back-to-top" type="button" aria-label="กลับไปด้านบน" data-back-to-top>
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+				<path d="M12 19V5" />
+				<path d="m6.5 10.5 5.5-5.5 5.5 5.5" />
+			</svg>
+		</button>
 
 		<script is:inline>
 			(function () {
@@ -358,6 +422,25 @@ const footNav = [
 						var el = pending[i];
 						if (el.getBoundingClientRect().top < window.innerHeight) show(el);
 					}
+				});
+			})();
+		</script>
+
+		<script is:inline>
+			(function () {
+				var button = document.querySelector("[data-back-to-top]");
+				if (!button) return;
+
+				function update() {
+					button.classList.toggle("is-visible", window.scrollY > Math.max(640, window.innerHeight * 1.2));
+				}
+
+				window.addEventListener("scroll", update, { passive: true });
+				window.addEventListener("pageshow", update);
+				update();
+
+				button.addEventListener("click", function () {
+					window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
 				});
 			})();
 		</script>
@@ -514,6 +597,10 @@ const footNav = [
 				--tint-strong: rgba(243, 178, 26, 0.18);
 				--tint-honey: rgba(243, 178, 26, 0.1);
 				--tint-scarf: rgba(217, 39, 49, 0.1);
+				/* Honey at border strength. The featured work card outlines
+				   itself in honey; every other honey surface is a fill tint,
+				   so this rung is a border value and lives beside them. */
+				--honey-edge: rgba(243, 178, 26, 0.4);
 
 				/* LINE brand green, on LINE buttons only.
 				   --line-green is the recognisable brand hex, kept for the bubble
@@ -776,12 +863,12 @@ const footNav = [
 
 			/* ---- icon chip ---- */
 
-			.chip {
-				display: grid;
-				place-items: center;
-				width: 3.25rem;
-				height: 3.25rem;
-				border-radius: var(--radius);
+				.chip {
+					display: grid;
+					place-items: center;
+					width: 4rem;
+					height: 4rem;
+					border-radius: var(--radius);
 				background: var(--tint-strong);
 				color: var(--accent);
 				flex: none;
@@ -882,7 +969,7 @@ const footNav = [
 				}
 			}
 
-			/* Four Thai labels on one row at 320 needs a tighter gap and a
+			/* Thai labels on a narrow no-JS row need a tighter gap and a
 			   slightly smaller size than the desktop treatment. Measured: at
 			   1.25rem/0.9375rem the last item wrapped to its own line. */
 			.site-head nav ul {
@@ -900,7 +987,7 @@ const footNav = [
 			}
 
 			/* Placed after the base rule on purpose: same specificity, so source
-			   order decides. Four Thai labels need ~295px at the default size,
+			   order decides. The labels exceed the shell at the default size,
 			   and the 320 shell only offers 276px. */
 			@media (max-width: 22.4em) {
 				.site-head nav ul {
@@ -961,16 +1048,93 @@ const footNav = [
 				}
 			}
 
+			/* ---- header call to action ----
+			   An outlined pill in the header's own ink, not the green button:
+			   it belongs to the header the way the nav does, and leaves green
+			   to mean one thing on the page. The mark keeps it recognisable as
+			   the LINE action without shouting. */
+			.head-cta {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.4375rem;
+				align-self: center;
+				margin-left: auto;
+				padding: 0.5rem 0.9375rem;
+				/* Clears the 44px pointer-target floor without the pill looking
+				   oversized: the extra height is padding, not a taller shape. */
+				min-height: 44px;
+				box-sizing: border-box;
+				border: 1px solid var(--rule);
+				border-radius: 999px;
+				background: var(--paper);
+				color: var(--ink);
+				font-family: var(--font-head);
+				font-weight: 600;
+				font-size: var(--fs-body-sm);
+				line-height: 1.4;
+				text-decoration: none;
+				white-space: nowrap;
+				transition:
+					border-color 180ms ease,
+					background-color 180ms ease;
+			}
+
+			.head-cta-mark {
+				display: block;
+				width: 1.0625rem;
+				height: 1.0625rem;
+				/* The one place green appears in the header: small enough to read
+				   as the LINE mark rather than as a filled button. */
+				color: var(--line-fill);
+			}
+
+			.head-cta-mark svg {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+
+			@media (hover: hover) {
+				.head-cta:hover {
+					border-color: var(--ink);
+					background: var(--tint-honey);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.head-cta {
+					transition: none;
+				}
+			}
+
+			/* Phones keep the header down to the logo and the toggle. The
+			   contact channels live inside the drawer instead, so the bar above
+			   the fold stays quiet on the smallest screens. Tablet keeps the
+			   full row: at 768 the logo, five compact nav items and the LINE
+			   button still fit, so hiding them behind a toggle would spend a
+			   tap on space that was already there. */
+			@media (max-width: 47.99em) {
+				.head-inner {
+					align-items: center;
+				}
+
+				html.js .head-cta {
+					display: none;
+				}
+			}
+
 			/* ---- mobile drawer ----
 			   The inline nav is the default so no-JS users always have working
-			   navigation. Only html.js swaps in the toggle + drawer below 64em. */
+			   navigation. Only html.js swaps in the toggle + drawer below 48em,
+			   the width where the nav row genuinely stops fitting beside
+			   the logo and the LINE button. */
 			.nav-toggle,
 			.nav-drawer,
 			.nav-overlay {
 				display: none;
 			}
 
-			@media (max-width: 63.99em) {
+			@media (max-width: 47.99em) {
 				html.js .nav-inline {
 					display: none;
 				}
@@ -1124,7 +1288,59 @@ const footNav = [
 
 			.drawer-foot {
 				margin-top: auto;
-				padding-top: 0.5rem;
+				padding-top: 0.875rem;
+				border-top: 1px solid var(--rule-soft);
+				display: flex;
+				gap: 0.625rem;
+			}
+
+			/* 1:1 tiles. aspect-ratio rather than a fixed height so the pair keeps
+			   its square regardless of the icon inside. */
+			.drawer-icon {
+				display: grid;
+				place-items: center;
+				width: 52px;
+				aspect-ratio: 1;
+				border-radius: 12px;
+				border: 1px solid var(--rule);
+				background: var(--paper);
+				color: var(--ink);
+				text-decoration: none;
+				transition:
+					border-color 180ms ease,
+					background-color 180ms ease;
+			}
+
+			.drawer-icon svg {
+				display: block;
+				width: 26px;
+				height: 26px;
+			}
+
+			/* LINE keeps its own colour so the channel is recognisable at a
+			   glance; the fill is the darkened green that clears AA. */
+			.drawer-icon.is-line {
+				background: var(--line-fill);
+				border-color: transparent;
+				color: #fff;
+			}
+
+			@media (hover: hover) {
+				.drawer-icon:hover {
+					border-color: var(--ink);
+					background: var(--tint-honey);
+				}
+
+				.drawer-icon.is-line:hover {
+					background: var(--line-fill-dark);
+					border-color: transparent;
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.drawer-icon {
+					transition: none;
+				}
 			}
 
 			/* ---- footer: cocoa band ---- */
@@ -1708,6 +1924,55 @@ const footNav = [
 			@media (min-width: 48em) {
 				.band-inner {
 					padding-block: 4.5rem;
+				}
+			}
+
+			/* ---- back to top ---- */
+
+			.back-to-top {
+				position: fixed;
+				right: max(1rem, env(safe-area-inset-right));
+				bottom: max(1rem, env(safe-area-inset-bottom));
+				z-index: 9;
+				display: grid;
+				place-items: center;
+				width: 2.875rem;
+				height: 2.875rem;
+				padding: 0;
+				border: 1px solid var(--rule);
+				border-radius: 50%;
+				background: var(--paper);
+				box-shadow: var(--shadow-md);
+				color: var(--ink);
+				font-family: var(--font-head);
+				font-size: var(--fs-label);
+				cursor: pointer;
+				opacity: 0;
+				pointer-events: none;
+				transform: translateY(0.75rem);
+				transition: opacity 180ms ease, transform 180ms ease, background-color 180ms ease;
+			}
+
+			.back-to-top.is-visible {
+				opacity: 1;
+				pointer-events: auto;
+				transform: translateY(0);
+			}
+
+			.back-to-top svg {
+				width: 1rem;
+				height: 1rem;
+			}
+
+			@media (hover: hover) {
+				.back-to-top:hover {
+					background: var(--tint-strong);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.back-to-top {
+					transition: none;
 				}
 			}
 		</style>

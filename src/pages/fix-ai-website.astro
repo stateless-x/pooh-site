@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
+import poohRepair from "../assets/images/illustrations/pooh-repair.webp";
 import { fixAiFaq, repairCategories } from "../data/fix-ai";
 import { protectThai } from "../utils/thai";
 
@@ -127,9 +128,12 @@ const breadcrumb = {
 
 			<div class="repair-visual reveal reveal-d1">
 				<ImagePlaceholder
-					alt="ภาพตัวอย่างเว็บไซต์เดียวกันก่อนและหลังเก็บงาน แสดงทั้งหน้าจอมือถือและคอมพิวเตอร์"
-					label="ภาพเปรียบเทียบก่อนและหลัง ใช้เว็บตัวอย่าง ไม่อ้างว่าเป็นผลงานลูกค้า"
+					src={poohRepair}
+					alt="มาสคอตหมี Pooh สามมิติกำลังปรับเว็บไซต์ที่ยุ่งให้เป็นระเบียบ"
+					label="มาสคอต Pooh กำลังเก็บงานเว็บไซต์"
 					ratio="16 / 10"
+					loading="eager"
+					fetchpriority="high"
 					sizes="(min-width: 68rem) 32rem, (min-width: 48rem) 44vw, calc(100vw - 2.75rem)"
 				/>
 			</div>
@@ -524,8 +528,8 @@ const breadcrumb = {
 		width: 1.625rem;
 		height: 1.625rem;
 		margin-top: 0.0625rem;
-		border-radius: 6px;
-		border: 1.5px solid var(--rule);
+		border-radius: 10px;
+		border: 1px solid var(--rule);
 		font-family: var(--font-head);
 		font-weight: 600;
 		font-size: var(--fs-label);

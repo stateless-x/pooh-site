@@ -1,0 +1,83 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ImagePlaceholder from "../components/ImagePlaceholder.astro";
+import blogComingSoon from "../assets/images/illustrations/pooh-blog-coming-soon.webp";
+---
+
+<Layout
+	title="บทความกำลังมา | Pooh"
+	description="Pooh กำลังเตรียมบทความเรื่องระบบธุรกิจ เว็บไซต์ และการเลือกใช้เทคโนโลยีให้เหมาะกับงานจริง"
+	noindex
+>
+	<section class="blog-soon">
+		<div class="shell blog-soon-inner">
+			<div class="blog-copy reveal reveal-eager">
+				<p class="label" lang="en">Blog</p>
+				<h1 lang="en">Coming soon.</h1>
+			</div>
+
+			<div class="blog-visual reveal reveal-d1 reveal-eager">
+				<ImagePlaceholder
+					src={blogComingSoon}
+					alt="มาสคอตหมี Pooh สามมิติกำลังเขียนบทความในสมุดบนโต๊ะทำงาน"
+					label="มาสคอต Pooh กำลังเตรียมบทความ"
+					ratio="16 / 10"
+					loading="eager"
+					fetchpriority="high"
+					sizes="(min-width: 68rem) 34rem, (min-width: 48rem) 48vw, calc(100vw - 2.75rem)"
+				/>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.blog-soon {
+		min-height: min(44rem, calc(100vh - 5.75rem));
+		display: grid;
+		align-items: center;
+		padding-block: 3rem 4rem;
+		background: var(--cream);
+	}
+
+	.blog-soon-inner,
+	.blog-copy {
+		display: grid;
+	}
+
+	.blog-soon-inner {
+		gap: 2.25rem;
+		align-items: center;
+	}
+
+	.blog-copy {
+		gap: 1rem;
+		align-content: center;
+	}
+
+	.blog-copy h1 {
+		font-size: var(--fs-h1);
+		text-wrap: balance;
+	}
+
+	.blog-visual {
+		min-width: 0;
+	}
+
+	.blog-visual :global(.ph) {
+		overflow: hidden;
+		border-radius: var(--radius);
+		box-shadow: var(--shadow-md);
+	}
+
+	@media (min-width: 48em) {
+		.blog-soon {
+			padding-block: 4.5rem 5rem;
+		}
+
+		.blog-soon-inner {
+			grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+			gap: 3.5rem;
+		}
+	}
+</style>

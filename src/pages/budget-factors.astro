@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
+import poohPlanning from "../assets/images/illustrations/pooh-planning.webp";
 import { factors, budgetFaq } from "../data/budget";
 import { protectThai } from "../utils/thai";
 
@@ -64,9 +65,12 @@ const breadcrumb = {
 
 				<div class="budget-visual reveal reveal-d1">
 					<ImagePlaceholder
-						alt="ภาพภูรินท์กำลังสรุปขอบเขตงาน โดยแบ่งส่วนจำเป็นกับส่วนที่ค่อยต่อยอดภายหลัง"
-						label="ภาพภูรินท์กำลังสรุปขอบเขตงานบนกระดาษหรือไวท์บอร์ด"
+						src={poohPlanning}
+						alt="มาสคอตหมี Pooh สามมิติกำลังวางแผนขอบเขตงาน"
+						label="มาสคอต Pooh วางแผนขอบเขตงาน"
 						ratio="16 / 10"
+						loading="eager"
+						fetchpriority="high"
 						sizes="(min-width: 68rem) 32rem, (min-width: 48rem) 44vw, calc(100vw - 2.75rem)"
 					/>
 				</div>
