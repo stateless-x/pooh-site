@@ -1,8 +1,8 @@
 ---
-import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
+import AssetImage from "../components/AssetImage.astro";
 import poohMark from "../assets/brand/pooh-mark.svg";
 ---
 
@@ -13,7 +13,7 @@ import poohMark from "../assets/brand/pooh-mark.svg";
 >
 	<section class="nf">
 		<div class="shell nf-inner">
-			<Image
+			<AssetImage
 				class="nf-bear"
 				src={poohMark}
 				alt=""

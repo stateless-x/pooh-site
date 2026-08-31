@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import AssetImage from "./AssetImage.astro";
 import badgeImage from "../assets/images/icons/3d/badge.png";
 import careImage from "../assets/images/icons/3d/care.png";
 import clockImage from "../assets/images/icons/3d/clock.png";
@@ -340,14 +340,11 @@ const rasterSize = 64;
 
 {
 	imageAsset ? (
-		<Image
+		<AssetImage
 			class:list={["icon", "icon-image", className]}
 			src={imageAsset}
 			width={rasterSize}
 			height={rasterSize}
-			densities={[1, 2]}
-			format="webp"
-			quality="high"
 			alt=""
 			aria-hidden="true"
 			loading={loading}

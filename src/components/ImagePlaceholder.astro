@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import AssetImage from "./AssetImage.astro";
 
 interface Props {
 	/** Real descriptive Thai alt text. Stays correct once a real image is dropped in. */
@@ -48,12 +48,8 @@ const isPlaceholder = !imageSrc;
 >
 	{
 		imageSrc ? (
-			<Image
+			<AssetImage
 				src={imageSrc}
-				widths={widths}
-				sizes={sizes ?? "100vw"}
-				format={format}
-				quality="mid"
 				alt={alt}
 				loading={loading}
 				fetchpriority={fetchpriority}
