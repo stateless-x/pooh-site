@@ -371,12 +371,23 @@ const footNav = [
 				if (!toggle || !drawer || !overlay) return;
 
 				var lastFocused = null;
+				var closeTimer = null;
 
 				function focusables() {
 					return drawer.querySelectorAll("a[href], button:not([disabled])");
 				}
 
 				function open() {
+					// A tap on the trigger should behave as a true toggle. More
+					// importantly, cancel a pending slide-out before reopening: without
+					// this, a quick close/reopen can let the old timeout hide the open
+					// drawer underneath the visitor's finger.
+					if (closeTimer) {
+						window.clearTimeout(closeTimer);
+						closeTimer = null;
+					}
+					if (!drawer.hidden) return;
+
 					lastFocused = document.activeElement;
 					// Unhide first so the transition has a frame to run from.
 					drawer.hidden = false;
@@ -398,6 +409,12 @@ const footNav = [
 				}
 
 				function close() {
+					if (drawer.hidden) return;
+					if (closeTimer) {
+						window.clearTimeout(closeTimer);
+						closeTimer = null;
+					}
+
 					drawer.classList.remove("is-open");
 					overlay.classList.remove("is-open");
 					toggle.setAttribute("aria-expanded", "false");
@@ -410,10 +427,11 @@ const footNav = [
 					function finish() {
 						drawer.hidden = true;
 						overlay.hidden = true;
+						closeTimer = null;
 					}
 					// Wait for the slide-out before hiding, unless motion is reduced.
 					if (reduced) finish();
-					else window.setTimeout(finish, 300);
+					else closeTimer = window.setTimeout(finish, 300);
 
 					// Return focus to whatever opened the drawer, so keyboard users
 					// land back where they were rather than at the top of the page.
@@ -424,7 +442,10 @@ const footNav = [
 					}
 				}
 
-				toggle.addEventListener("click", open);
+				toggle.addEventListener("click", function () {
+					if (drawer.hidden) open();
+					else close();
+				});
 				overlay.addEventListener("click", close);
 				if (closeBtn) closeBtn.addEventListener("click", close);
 
