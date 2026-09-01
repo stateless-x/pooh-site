@@ -1,0 +1,124 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
+import MailButton from "../../components/MailButton.astro";
+import AssetImage from "../../components/AssetImage.astro";
+import poohMark from "../../assets/brand/pooh-mark.svg";
+
+/**
+ * NOTE ON HOSTING: Cloudflare Pages serves the single root /404.html for every
+ * unmatched route, so a miss at /en/anything renders the Thai 404 rather than
+ * this page. This page is correct and reachable at its own URL; making it the
+ * error page for the /en/ tree would need a host redirect rule, which is a
+ * deploy configuration change rather than a build one.
+ */
+---
+
+<Layout
+	lang="en"
+	title="Page Not Found | Pooh"
+	description="That page is not here. Head back to the home page, or email me if you were looking for something specific."
+	noindex
+>
+	<section class="nf">
+		<div class="shell nf-inner">
+			<AssetImage
+				class="nf-bear"
+				src={poohMark}
+				alt=""
+				width="1024"
+				height="1024"
+				loading="eager"
+				aria-hidden="true"
+			/>
+			<p class="label">Not found</p>
+			<h1>That page is not here</h1>
+			<p class="lede">
+				It either moved or the link has a typo in it. Head back to the start,
+				or if you were looking for something specific, just ask me and I will
+				point you at it.
+			</p>
+			<div class="actions">
+				<MailButton label="Email me" />
+				<a class="cta-quiet" href="/en/">
+					Back to the start
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+			<nav class="nf-links" aria-label="Links you might be looking for">
+				<p class="nf-links-label">Or try one of these</p>
+				<ul>
+					<li><a href="/en/work/">Work</a></li>
+					<li><a href="/en/backoffice/">Business systems</a></li>
+					<li><a href="/en/contact/">Contact</a></li>
+				</ul>
+			</nav>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.nf-inner {
+		display: grid;
+		gap: 1.25rem;
+		justify-items: start;
+		max-width: 40rem;
+		padding-block: 3.5rem 4rem;
+	}
+
+	/* The one playful moment on the site. Sits on the plain cream page, never
+	   on a honey-tinted surface. */
+	.nf-bear {
+		display: block;
+		width: 5.5rem;
+		height: 5.5rem;
+	}
+
+	.nf h1 {
+		font-size: var(--fs-h1);
+		text-wrap: balance;
+	}
+
+	.nf .actions {
+		margin-top: 0.5rem;
+	}
+
+	.nf-links {
+		margin-top: 1.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--rule);
+		width: 100%;
+	}
+
+	.nf-links-label {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		margin-bottom: 0.5rem;
+	}
+
+	.nf-links ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.25rem;
+	}
+
+	.nf-links a {
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: var(--fs-body-sm);
+	}
+
+	@media (pointer: coarse) {
+		.nf-links a {
+			min-height: 44px;
+			display: inline-flex;
+			align-items: center;
+		}
+	}
+
+	@media (min-width: 48em) {
+		.nf-inner {
+			padding-block: 5rem 5.5rem;
+		}
+	}
+</style>

@@ -1,6 +1,7 @@
 ---
 import AssetImage from "../components/AssetImage.astro";
 import LineButton from "../components/LineButton.astro";
+import MailButton from "../components/MailButton.astro";
 import poohLockup from "../assets/brand/pooh-lockup-horizontal.svg";
 import poohMark from "../assets/brand/pooh-mark.svg";
 import poohWordmark from "../assets/brand/pooh-wordmark.svg";
@@ -606,23 +607,7 @@ const t = isEn
 					<p class="foot-cta-label">{t.footCtaLabel}</p>
 					{
 						isEn ? (
-							<a class="mail-btn" href={EMAIL_URL}>
-								<span class="mail-btn-mark" aria-hidden="true">
-									<svg
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="1.75"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										focusable="false"
-									>
-										<rect x="3" y="5.5" width="18" height="13" rx="2.5" />
-										<path d="m3.8 7 7.1 5.4a1.8 1.8 0 0 0 2.2 0L20.2 7" />
-									</svg>
-								</span>
-								<span>{t.footCtaButton}</span>
-							</a>
+							<MailButton label={t.footCtaButton} tone="on-dark" size="md" />
 						) : (
 							<LineButton />
 						)
@@ -1471,57 +1456,97 @@ const t = isEn
 				opacity: 0.45;
 			}
 
-			/* ---- mail button ----
-			   The English edition's closing action. It is the outlined
-			   treatment rather than a filled brand colour: LINE green means
-			   "the one action" on the Thai side and must not be borrowed for
-			   a different channel, and the footer band is already cocoa. */
-			.mail-btn {
+			/* ---- primary English call to action ----
+			   The English edition's equivalent of the LINE button: the one loud
+			   control on the page. Cocoa fill rather than a new brand colour,
+			   because green already means "this is the action" on the Thai side
+			   and borrowing it for a different channel would blur both.
+			   Cream on cocoa measures 13.7:1.
+
+			   Global rather than per page: five English pages use it, and a
+			   scoped copy in each would drift. */
+			.mail-cta {
 				display: inline-flex;
 				align-items: center;
 				gap: 0.625rem;
 				padding: 0.8125rem 1.375rem;
 				border-radius: 12px;
-				background: var(--cream);
-				color: var(--cocoa);
+				background: var(--cocoa);
+				color: var(--cream);
 				font-family: var(--font-head);
 				font-weight: 600;
 				font-size: var(--fs-body);
 				line-height: 1.4;
 				text-decoration: none;
 				border: 1px solid transparent;
+				box-shadow: 0 2px 6px rgba(42, 33, 26, 0.24);
 				transition:
 					transform 180ms ease,
 					box-shadow 180ms ease,
 					background-color 180ms ease;
 			}
 
-			.mail-btn-mark {
+			/* Same two steps LineButton carries, so the two editions' primary
+			   buttons sit at matching weights on matching surfaces. */
+			.mail-cta.is-lg {
+				padding: 1rem 1.75rem;
+				font-size: var(--fs-subtitle);
+				gap: 0.75rem;
+			}
+
+			.mail-cta-mark {
 				display: block;
 				width: 1.5rem;
 				height: 1.5rem;
+				flex: none;
 			}
 
-			.mail-btn-mark svg {
+			.mail-cta.is-lg .mail-cta-mark {
+				width: 1.75rem;
+				height: 1.75rem;
+			}
+
+			/* A long label (an email address, a full sentence CTA) must be able
+			   to wrap rather than push the button past a 320px viewport. */
+			.mail-cta > span:last-child {
+				min-width: 0;
+			}
+
+			.mail-cta-mark svg {
 				display: block;
 				width: 100%;
 				height: 100%;
 			}
 
+			/* Inside the cocoa contact band the filled version would vanish, so
+			   it inverts to an outline the way .cta-quiet does there. */
+			.mail-cta.is-on-dark {
+				background: var(--cream);
+				color: var(--cocoa);
+			}
+
 			@media (hover: hover) {
-				.mail-btn:hover {
-					background: #fff;
+				.mail-cta:hover {
+					background: #241a12;
 					transform: translateY(-2px);
-					box-shadow: 0 8px 18px rgba(42, 33, 26, 0.28);
+					box-shadow: 0 8px 18px rgba(42, 33, 26, 0.3);
+				}
+
+				.mail-cta.is-on-dark:hover {
+					background: #fff;
 				}
 			}
 
+			.mail-cta:active {
+				transform: translateY(0);
+			}
+
 			@media (prefers-reduced-motion: reduce) {
-				.mail-btn {
+				.mail-cta {
 					transition: none;
 				}
 
-				.mail-btn:hover {
+				.mail-cta:hover {
 					transform: none;
 				}
 			}

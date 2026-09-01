@@ -1,0 +1,423 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
+import MailButton from "../../components/MailButton.astro";
+import {
+	enWorkflow,
+	enLevels,
+	enEngagements,
+	enBackofficeFaq,
+} from "../../data/en/backoffice";
+import { enBreadcrumb, enFaqPage } from "../../utils/schema-en";
+import { EMAIL } from "../../../site.config.mjs";
+
+const faqSchema = enFaqPage(enBackofficeFaq);
+const breadcrumb = enBreadcrumb(
+	Astro.site,
+	"Business systems",
+	"/en/backoffice/"
+);
+
+const serviceSchema = {
+	"@context": "https://schema.org",
+	"@type": "Service",
+	name: "Business systems and internal software development",
+	serviceType: "Custom business software and internal work systems",
+	description:
+		"Design and build of internal systems covering orders, stock, customer records, team workflow, and owner reporting, shaped around how a business already works. Starts from a single problem area and grows as it earns its place.",
+	provider: {
+		"@type": "Person",
+		name: "Purin Buriwong",
+		alternateName: "Pooh",
+		url: new URL("/en/about/", Astro.site).href,
+	},
+	areaServed: [
+		{ "@type": "Country", name: "Thailand" },
+		{ "@type": "Place", name: "Worldwide, remote" },
+	],
+	url: new URL("/en/backoffice/", Astro.site).href,
+};
+---
+
+<Layout
+	lang="en"
+	title="Custom Business Systems Built Around How You Work | Pooh"
+	description="Orders, stock, customers, and team work in one system your staff will actually use. Built by a senior engineer in Bangkok for owners in Thailand and abroad. Start with your worst bottleneck. Email to talk."
+	schema={[serviceSchema, faqSchema, breadcrumb]}
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<h1>Stop running your business out of six spreadsheets</h1>
+			<p class="lede">
+				Orders in one place, stock in another, customer history in someone's
+				head. It works until it does not, and by then nobody trusts any of the
+				numbers. I build the system that replaces it, starting with whichever
+				part is costing you the most right now.
+			</p>
+			<div class="actions">
+				<MailButton label="Tell me what is broken" />
+				<a class="cta-quiet" href="#workflow">
+					See what that looks like
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+			<p class="hero-note">
+				No cost to ask, and you do not need a specification written first.
+			</p>
+		</div>
+	</section>
+
+	<section
+		class="section band-tint workflow"
+		id="workflow"
+		aria-labelledby="workflow-heading"
+	>
+		<div class="shell">
+			<div class="section-head reveal">
+				<h2 id="workflow-heading">
+					From chasing people for answers to opening it yourself
+				</h2>
+				<p class="lede">
+					You do not have to do all of this at once. Pick the one that is
+					wasting the most time and finish that properly first.
+				</p>
+			</div>
+
+			<ul class="workflow-list">
+				{
+					enWorkflow.map((item, i) => (
+						<li class:list={["workflow-item", "reveal", `reveal-d${i % 3}`]}>
+							<span
+								class:list={[
+									"chip",
+									i % 3 === 1 && "is-amber",
+									i % 3 === 2 && "is-clay",
+								]}
+							>
+								<Icon
+									name={item.icon}
+									size={28}
+									loading={i === 0 ? "eager" : "lazy"}
+									fetchpriority={i === 0 ? "low" : undefined}
+								/>
+							</span>
+							<div class="workflow-problem">
+								<span class="flow-label">Now</span>
+								<h3>{item.problem.title}</h3>
+								<p>{item.problem.body}</p>
+							</div>
+							<div class="workflow-answer">
+								<span class="flow-label">After</span>
+								<h3>{item.answer.title}</h3>
+								<p>{item.answer.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section band-cream levels" aria-labelledby="levels-heading">
+		<div class="shell level-layout">
+			<div class="level-intro reveal">
+				<h2 id="levels-heading">
+					The right size is set by your work, not by your headcount
+				</h2>
+				<p>
+					A five person shop can have genuinely complicated operations. A large
+					company can have exactly one thing that needs fixing. So I look at
+					the problem, who has to use it, and what information has to connect,
+					and I size it from that.
+				</p>
+			</div>
+
+			<ul class="level-list">
+				{
+					enLevels.map((item) => (
+						<li class="level-item">
+							<span class="chip">
+								<Icon name={item.icon} size={26} />
+							</span>
+							<div>
+								<h3>{item.title}</h3>
+								<p>{item.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section
+		class="section band-tint engagement"
+		aria-labelledby="engagement-heading"
+	>
+		<div class="shell engagement-layout">
+			<div class="engagement-intro reveal">
+				<h2 id="engagement-heading">Three ways this usually starts</h2>
+				<p>
+					Some people know exactly what they want built. Some need help working
+					out what is worth building at all. Some already have a team and just
+					need another experienced pair of hands for a while.
+				</p>
+			</div>
+
+			<div class="engagement-options">
+				{
+					enEngagements.map((item, i) => (
+						<article class="engagement-item">
+							<span
+								class:list={["chip", i === 1 && "is-amber", i === 2 && "is-clay"]}
+							>
+								<Icon name={item.icon} size={28} />
+							</span>
+							<h3>{item.title}</h3>
+							<p>{item.body}</p>
+						</article>
+					))
+				}
+			</div>
+
+			<p class="engagement-note reveal">
+				If you already have a system that has stalled, or you need someone who
+				can talk to both your team and your developers without anything getting
+				lost, that is work I take on too. If it started as an AI generated
+				site, <a href="/en/fix-ai-website/">here is what I inspect and repair</a>.
+			</p>
+		</div>
+	</section>
+
+	<section class="section band-cream">
+		<div class="shell narrow">
+			<div class="section-head reveal">
+				<h2>What people ask before they start</h2>
+			</div>
+
+			<div class="faq">
+				{
+					enBackofficeFaq.map((item, i) => (
+						<details class:list={["faq-item", "reveal", `reveal-d${i % 3}`]}>
+							<summary>
+								<span class="faq-q">{item.q}</span>
+								<span class="faq-sign" aria-hidden="true" />
+							</summary>
+							<p class="faq-a">{item.a}</p>
+						</details>
+					))
+				}
+			</div>
+
+			<p class="more reveal">
+				Wondering what a system like this costs? <a href="/en/budget-factors/"
+					>Here is what actually moves the number</a
+				>.
+			</p>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="shell band-inner reveal">
+			<h2>Describe a normal week and I will tell you where to start</h2>
+			<p class="lede">
+				No specification needed. Just tell me who does what, and which part
+				goes wrong most often. That is enough for me to see the shape of it.
+			</p>
+			<div class="actions">
+				<MailButton label={`Email ${EMAIL}`} tone="on-dark" />
+				<a class="cta-quiet" href="/en/work/">
+					See the work
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.narrow {
+		max-width: 48rem;
+	}
+
+	.page-head-inner {
+		max-width: 52rem;
+	}
+
+	.page-head .actions {
+		margin-top: 0.875rem;
+	}
+
+	.hero-note {
+		margin-top: 0.875rem;
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+	}
+
+	.workflow .section-head {
+		max-width: 44rem;
+	}
+
+	.workflow-list,
+	.level-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.workflow-list {
+		border-top: 1px solid var(--rule);
+	}
+
+	.workflow-item {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 0.875rem 1rem;
+		align-items: start;
+		padding-block: 1.375rem;
+		border-bottom: 1px solid var(--rule-soft);
+	}
+
+	.workflow-problem,
+	.workflow-answer,
+	.level-item > div {
+		display: grid;
+		gap: 0.375rem;
+		min-width: 0;
+	}
+
+	.workflow-answer {
+		grid-column: 2;
+		padding-top: 0.875rem;
+		border-top: 1px solid var(--rule-soft);
+	}
+
+	.flow-label {
+		font-family: var(--font-head);
+		font-size: var(--fs-label);
+		font-weight: 500;
+		color: var(--honey-ink);
+	}
+
+	.workflow-item h3,
+	.level-item h3,
+	.engagement-item h3 {
+		font-size: var(--fs-subtitle);
+	}
+
+	.workflow-item p,
+	.level-item p,
+	.engagement-item p,
+	.level-intro > p:last-child,
+	.engagement-intro > p:last-child {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+	}
+
+	.workflow-item p {
+		max-width: 33rem;
+	}
+
+	@media (min-width: 48em) {
+		.workflow-item {
+			grid-template-columns: 4rem minmax(0, 0.9fr) minmax(0, 1fr);
+			gap: 1.75rem;
+			padding-block: 1.75rem;
+		}
+
+		.workflow-answer {
+			grid-column: auto;
+			padding: 0 0 0 1.75rem;
+			border-top: 0;
+			border-left: 1px solid var(--rule);
+		}
+	}
+
+	.level-layout,
+	.engagement-layout {
+		display: grid;
+		gap: 2.25rem;
+		min-width: 0;
+	}
+
+	.level-intro,
+	.engagement-intro {
+		display: grid;
+		gap: 0.875rem;
+		align-content: start;
+		min-width: 0;
+	}
+
+	.level-intro h2,
+	.engagement-intro h2 {
+		font-size: var(--fs-h2-lg);
+		text-wrap: balance;
+	}
+
+	.level-intro > p:last-child,
+	.engagement-intro > p:last-child {
+		max-width: 36rem;
+	}
+
+	.level-list {
+		border-top: 1px solid var(--rule);
+	}
+
+	.level-item {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 1rem;
+		align-items: start;
+		padding-block: 1.25rem;
+		border-bottom: 1px solid var(--rule-soft);
+	}
+
+	@media (min-width: 56em) {
+		.level-layout,
+		.engagement-layout {
+			grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+			gap: 4rem;
+			align-items: start;
+		}
+	}
+
+	.engagement-options {
+		display: grid;
+		border-top: 1px solid var(--rule);
+	}
+
+	.engagement-item {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 0.375rem 1rem;
+		align-items: start;
+		padding-block: 1.25rem;
+		border-bottom: 1px solid var(--rule-soft);
+	}
+
+	.engagement-item .chip {
+		grid-row: 1 / span 2;
+	}
+
+	.engagement-item p {
+		max-width: 33rem;
+	}
+
+	.engagement-note {
+		padding-top: 1.25rem;
+		border-top: 1px solid var(--rule);
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		max-width: 44rem;
+	}
+
+	@media (min-width: 56em) {
+		.engagement-note {
+			grid-column: 2;
+		}
+	}
+
+	.faq-a {
+		max-width: 40rem;
+	}
+</style>

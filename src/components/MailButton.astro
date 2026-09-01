@@ -1,0 +1,61 @@
+---
+/**
+ * The English edition's primary call to action, the counterpart of
+ * LineButton.astro on the Thai side.
+ *
+ * Every English page closes on email, because an email to askpurin@pm.me is
+ * the English edition's success event. LINE appears in the English edition on
+ * /en/contact only, as the secondary option there.
+ *
+ * The envelope is hand-drawn inline in the same 24px, 1.75-stroke, rounded-cap
+ * style as src/components/Icon.astro. No icon library, per the site rules.
+ *
+ * Styling lives in the Layout globals (`.mail-cta`) rather than here, because
+ * the header pill and the footer button reuse the same tokens and a scoped
+ * copy in each place would drift.
+ */
+import { EMAIL_URL } from "../../site.config.mjs";
+
+interface Props {
+	/** Button text. Name the action, not the address, unless the address IS the point. */
+	label?: string;
+	/** "on-dark" inverts the fill for use inside the cocoa contact band. */
+	tone?: "default" | "on-dark";
+	/** "lg" for a hero or a closing band, "md" for the footer, matching LineButton. */
+	size?: "md" | "lg";
+	class?: string;
+}
+
+const {
+	label = "Email me",
+	tone = "default",
+	size = "lg",
+	class: className,
+} = Astro.props;
+---
+
+<a
+	class:list={[
+		"mail-cta",
+		`is-${size}`,
+		tone === "on-dark" && "is-on-dark",
+		className,
+	]}
+	href={EMAIL_URL}
+>
+	<span class="mail-cta-mark" aria-hidden="true">
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="1.75"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			focusable="false"
+		>
+			<rect x="3" y="5.5" width="18" height="13" rx="2.5"></rect>
+			<path d="m3.8 7 7.1 5.4a1.8 1.8 0 0 0 2.2 0L20.2 7"></path>
+		</svg>
+	</span>
+	<span>{label}</span>
+</a>

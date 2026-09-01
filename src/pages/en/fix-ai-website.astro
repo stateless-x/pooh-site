@@ -1,0 +1,566 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
+import Icon from "../../components/Icon.astro";
+import MailButton from "../../components/MailButton.astro";
+import poohRepair from "../../assets/images/illustrations/pooh-repair.webp";
+import { enFixAiFaq, enRepairCategories } from "../../data/en/fix-ai";
+import { enBreadcrumb, enFaqPage } from "../../utils/schema-en";
+import { EMAIL } from "../../../site.config.mjs";
+
+const fitItems = [
+	{
+		title: "There is something real to look at",
+		body: "A link, the project files, or a login to whatever is broken. I do not guess from a description, I look at the actual thing.",
+	},
+	{
+		title: "You know what it is supposed to do",
+		body: "You can say what a visitor or your team should be able to do on it, and where it currently stops working.",
+	},
+	{
+		title: "You are open to rebuilding a part of it",
+		body: "Most of it stays. But when propping up one section costs more than replacing it, I will say so and you get to decide.",
+	},
+] as const;
+
+const notFitItems = [
+	"You need someone watching it around the clock and fixing things immediately.",
+	"There are no source files, no admin access, and nobody can hand anything over.",
+	"It is a large system where every part touches every other part and no piece can be separated out yet.",
+] as const;
+
+const processSteps = [
+	{
+		n: "01",
+		title: "Send me the real thing",
+		body: "The link, the tool you built it with, and what is going wrong. Do not tidy it up first.",
+	},
+	{
+		n: "02",
+		title: "I tell you if it is worth it",
+		body: "What can be kept, what needs rebuilding, and whether repairing it beats starting over. Straight answer, including no.",
+	},
+	{
+		n: "03",
+		title: "We write down the job",
+		body: "The exact list of fixes, what is not included, and what finished means. Agreed before I start.",
+	},
+	{
+		n: "04",
+		title: "Fixed, tested, delivered",
+		body: "I do the list, test what matters, and hand it over. Anything new after that is a new conversation.",
+	},
+] as const;
+
+const faqSchema = enFaqPage(enFixAiFaq);
+const breadcrumb = enBreadcrumb(
+	Astro.site,
+	"Fix an AI built site",
+	"/en/fix-ai-website/"
+);
+---
+
+<Layout
+	lang="en"
+	title="Fix My AI Built Website and Get It Launched | Pooh"
+	description="Your AI built site is nearly done and will not launch. Phones, forms, logins, speed, or search. A senior engineer inspects it, tells you what is worth keeping, and finishes it. One job at a time."
+	schema={[faqSchema, breadcrumb]}
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<p class="label">You are most of the way there</p>
+			<h1>You got to eighty percent with AI. I get you launched.</h1>
+			<p class="lede">
+				<strong
+					>The tool did more than people expected and then stopped short.</strong
+				> That last stretch is almost always the same short list: it will not publish,
+				it breaks on phones, the form goes nowhere, the login is wrong, it is slow,
+				or Google cannot read it. Send me the link and I will tell you exactly what
+				stands between you and live.
+			</p>
+			<div class="actions">
+				<MailButton label="Send me the link" />
+			</div>
+			<p class="head-note">
+				Looking at it costs you nothing and commits you to nothing. If it is
+				not worth repairing, I will say so before you spend anything.
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell repair-intro">
+			<div class="prose reveal">
+				<p>
+					Nothing went wrong here, and you did not make a mistake. Building
+					with AI is genuinely fast and genuinely useful. I use it every day.
+					What it does not give you is the part nobody sees: what happens when
+					a real person on a real phone does something you did not plan for.
+				</p>
+				<p>
+					That is where these projects stall. Not on the design, which usually
+					looks good, but on the plumbing behind it. And plumbing is a bounded
+					problem. It is the kind of thing that takes a few days when you know
+					what you are looking at and a few weeks when you do not.
+				</p>
+				<p class="pullout">
+					I take these on when there is enough there to save and the job has a
+					finish line I can draw.
+				</p>
+				<p>
+					If I open it and everything is wired into everything else, or the
+					files and access are gone, I will not promise you a rescue. I will
+					tell you plainly to stop repairing it, or which part to rebuild, or
+					that someone else is a better fit. That answer is worth having early.
+				</p>
+			</div>
+
+			<div class="repair-visual reveal reveal-d1">
+				<ImagePlaceholder
+					src={poohRepair}
+					alt="Three dimensional illustration of the Pooh mascot tidying up a messy website"
+					label="Pooh mascot repairing a website"
+					ratio="16 / 10"
+					loading="eager"
+					fetchpriority="high"
+					sizes="(min-width: 68rem) 32rem, (min-width: 48rem) 44vw, calc(100vw - 2.75rem)"
+				/>
+			</div>
+		</div>
+	</section>
+
+	<section class="section band-tint">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">What I fix</p>
+				<h2>The six things that stop these sites launching</h2>
+				<p class="lede">
+					Yours will not have all six. Pick the ones actually blocking you and
+					we agree that list before anything starts.
+				</p>
+			</div>
+
+			<div class="sheet reveal">
+				<ol class="checklist">
+					{
+						enRepairCategories.map((item, i) => (
+							<li class="check">
+								<span class="check-n" aria-hidden="true">
+									{String(i + 1).padStart(2, "0")}
+								</span>
+								<div class="check-body">
+									<h3>{item.title}</h3>
+									<p>{item.body}</p>
+								</div>
+							</li>
+						))
+					}
+				</ol>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">Honest scope</p>
+				<h2>Check whether your project is a fit before you write</h2>
+			</div>
+
+			<div class="fit-grid">
+				<div class="fit-card reveal">
+					<p class="fit-kicker">This works when</p>
+					<ul class="fit-list">
+						{
+							fitItems.map((item) => (
+								<li>
+									<strong>{item.title}</strong>
+									<span>{item.body}</span>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+
+				<div class="fit-card is-muted reveal reveal-d1">
+					<p class="fit-kicker">This is not the right service when</p>
+					<ul class="not-fit-list">
+						{notFitItems.map((item) => <li>{item}</li>)}
+					</ul>
+					<p class="fit-note">
+						Not sure which side you are on? Send it anyway. Being told not to
+						repair something is a useful answer, and it costs you nothing to
+						get it.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section band-cream">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">How it works</p>
+				<h2>Inspect first, agree the list, then fix it</h2>
+			</div>
+
+			<ol class="process-list">
+				{
+					processSteps.map((step, i) => (
+						<li class:list={["process-item", "reveal", `reveal-d${i % 2}`]}>
+							<span class="process-n">{step.n}</span>
+							<div>
+								<h3>{step.title}</h3>
+								<p>{step.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell narrow">
+			<div class="section-head reveal">
+				<p class="label">Common questions</p>
+				<h2>What people ask before sending it over</h2>
+			</div>
+
+			<div class="faq">
+				{
+					enFixAiFaq.map((item, i) => (
+						<details class:list={["faq-item", "reveal", `reveal-d${i % 3}`]}>
+							<summary>
+								<span class="faq-q">{item.q}</span>
+								<span class="faq-sign" aria-hidden="true" />
+							</summary>
+							<p class="faq-a">{item.a}</p>
+						</details>
+					))
+				}
+			</div>
+
+			<p class="more reveal">
+				Something else on your mind? <a href="/en/contact/"
+					>See the full list of questions</a
+				> or just ask me directly.
+			</p>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="shell band-inner reveal">
+			<p class="label">Send it over</p>
+			<h2>Send the link. I will tell you what is really wrong with it.</h2>
+			<p class="lede">
+				Include what you built it with, what is going wrong, and what you want
+				people to be able to do on it. I look at the real thing first, and only
+				then do we talk about scope.
+			</p>
+			<div class="actions">
+				<MailButton label={`Email ${EMAIL}`} tone="on-dark" />
+				<a class="cta-quiet" href="/en/work/">
+					See the work
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.narrow {
+		max-width: 48rem;
+	}
+
+	.prose {
+		display: grid;
+		gap: 1.125rem;
+		font-size: var(--fs-body);
+	}
+
+	.prose p:not(.pullout) {
+		color: var(--muted);
+	}
+
+	.prose strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	.repair-intro {
+		display: grid;
+		gap: 2.25rem;
+		min-width: 0;
+	}
+
+	.repair-visual {
+		min-width: 0;
+		align-self: center;
+	}
+
+	.repair-visual :global(.ph) {
+		overflow: hidden;
+		border-radius: var(--radius);
+	}
+
+	@media (min-width: 48em) {
+		.repair-intro {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+			gap: 3.5rem;
+			align-items: center;
+		}
+	}
+
+	/* The sentence the page turns on. Body size, weight from the ink, the
+	   heading face, and the air around it, not from a new type step. */
+	.pullout {
+		display: grid;
+		gap: 0.75rem;
+		margin-block: 0.625rem;
+		color: var(--ink);
+		font-family: var(--font-head);
+		font-weight: 500;
+		line-height: 1.6;
+		max-width: 32rem;
+	}
+
+	.pullout::before {
+		content: "";
+		width: 1.5rem;
+		height: 2px;
+		border-radius: 2px;
+		background: var(--honey);
+	}
+
+	@media (min-width: 48em) {
+		.pullout {
+			margin-block: 1rem;
+		}
+	}
+
+	.page-head .lede strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	.page-head .actions {
+		margin-top: 0.75rem;
+	}
+
+	.head-note {
+		max-width: 38rem;
+		font-size: var(--fs-body-sm);
+		color: var(--muted);
+	}
+
+	/* Scope is part of the offer here, so fit and non-fit sit at equal weight.
+	   A reader can rule themselves in or out without opening an FAQ, and the
+	   muted card keeps a refusal from reading like an alarm. */
+	.fit-grid {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.fit-card {
+		padding: 1.25rem;
+		border: 1px solid var(--rule-soft);
+		border-radius: var(--radius);
+		background: var(--paper);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.fit-card.is-muted {
+		background: var(--cream);
+		box-shadow: none;
+	}
+
+	.fit-kicker {
+		margin-bottom: 1rem;
+		font-family: var(--font-head);
+		font-size: var(--fs-subtitle);
+		font-weight: 600;
+		color: var(--ink);
+	}
+
+	.fit-list,
+	.not-fit-list {
+		display: grid;
+		gap: 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.fit-list li,
+	.not-fit-list li {
+		position: relative;
+		padding-left: 1.5rem;
+		color: var(--muted);
+	}
+
+	.fit-list li::before,
+	.not-fit-list li::before {
+		content: "";
+		position: absolute;
+		top: 0.65em;
+		left: 0;
+		width: 0.5rem;
+		height: 0.5rem;
+		border: 2px solid var(--honey);
+		border-radius: 50%;
+	}
+
+	.fit-list strong,
+	.fit-list span {
+		display: block;
+	}
+
+	.fit-list strong {
+		font-family: var(--font-head);
+		font-weight: 500;
+		color: var(--ink);
+	}
+
+	.fit-note {
+		margin-top: 1.25rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--rule-soft);
+		font-size: var(--fs-body-sm);
+		color: var(--muted);
+	}
+
+	.process-list {
+		display: grid;
+		gap: 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.process-item {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 1rem;
+		align-items: start;
+		padding: 1.25rem;
+		border: 1px solid var(--rule-soft);
+		border-radius: var(--radius);
+		background: var(--paper);
+	}
+
+	.process-n {
+		font-family: var(--font-head);
+		font-size: var(--fs-label);
+		font-weight: 600;
+		color: var(--honey-ink);
+	}
+
+	.process-item h3 {
+		margin-bottom: 0.3125rem;
+		font-size: var(--fs-subtitle);
+		font-weight: 600;
+	}
+
+	.process-item p {
+		font-size: var(--fs-body-sm);
+		color: var(--muted);
+	}
+
+	@media (min-width: 48em) {
+		.fit-grid,
+		.process-list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.fit-card,
+		.process-item {
+			padding: 1.5rem;
+		}
+	}
+
+	/* ---- checklist ----
+	   Six recurring symptoms read as one diagnostic sheet rather than six
+	   equal service packages, which keeps the offer bounded without implying
+	   every project needs every repair. */
+
+	.sheet {
+		max-width: 46rem;
+		padding: 0.5rem 1.25rem;
+		border-radius: var(--radius);
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.checklist {
+		display: grid;
+		gap: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.check {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 0 0.875rem;
+		align-items: start;
+		min-width: 0;
+		padding-block: 1.125rem;
+		border-bottom: 1px solid var(--rule-soft);
+	}
+
+	.check:last-child {
+		border-bottom: 0;
+	}
+
+	.check-n {
+		display: grid;
+		place-items: center;
+		width: 1.625rem;
+		height: 1.625rem;
+		margin-top: 0.0625rem;
+		border-radius: 10px;
+		border: 1px solid var(--rule);
+		font-family: var(--font-head);
+		font-weight: 600;
+		font-size: var(--fs-label);
+		line-height: 1;
+		color: var(--muted);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.check-body {
+		display: grid;
+		gap: 0.3125rem;
+		min-width: 0;
+	}
+
+	.check-body h3 {
+		font-size: var(--fs-subtitle);
+		font-weight: 600;
+	}
+
+	.check-body p {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		max-width: 38rem;
+	}
+
+	@media (min-width: 48em) {
+		.sheet {
+			padding: 0.75rem 2rem;
+		}
+
+		.check {
+			gap: 0 1.25rem;
+			padding-block: 1.375rem;
+		}
+	}
+
+	.faq-a {
+		max-width: 40rem;
+	}
+</style>

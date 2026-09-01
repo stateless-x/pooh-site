@@ -1,0 +1,396 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
+import Icon from "../../components/Icon.astro";
+import MailButton from "../../components/MailButton.astro";
+import poohAtWork from "../../assets/images/illustrations/pooh-at-work.webp";
+import { enPerson, enBreadcrumb } from "../../utils/schema-en";
+import { EMAIL, EMAIL_URL, GITHUB_URL } from "../../../site.config.mjs";
+
+const personSchema = enPerson(Astro.site);
+
+const aboutPageSchema = {
+	"@context": "https://schema.org",
+	"@type": "AboutPage",
+	name: "About Purin Buriwong",
+	url: new URL("/en/about/", Astro.site).href,
+	mainEntity: { "@type": "Person", name: "Purin Buriwong" },
+};
+
+const breadcrumb = enBreadcrumb(Astro.site, "About", "/en/about/");
+
+const facts: { label: string; value: string }[] = [
+	{ label: "Name", value: "Purin Buriwong" },
+	{ label: "Goes by", value: "Pooh" },
+	{ label: "Role", value: "Business Technology Engineer" },
+	{ label: "Based in", value: "Bangkok, Thailand. Works with clients worldwide." },
+	{ label: "Languages", value: "Thai and English" },
+	{
+		label: "Education",
+		value: "Computer Engineering, Mahidol University International College",
+	},
+	{ label: "Experience", value: "More than seven years building software" },
+];
+
+const services: { label: string; href: string }[] = [
+	{ label: "Business systems and internal software", href: "/en/backoffice/" },
+	{ label: "Business websites", href: "/en/work/" },
+	{ label: "Repairing sites that AI started", href: "/en/fix-ai-website/" },
+	{ label: "What drives the budget", href: "/en/budget-factors/" },
+];
+---
+
+<Layout
+	lang="en"
+	title="Purin Buriwong (Pooh), Senior Developer in Bangkok | Pooh"
+	description="Purin Buriwong, known as Pooh. Senior software engineer in Bangkok with seven years of experience, ex-Agoda, founder of pawjai.co. Builds business websites and internal systems. Email to talk."
+	schema={[personSchema, aboutPageSchema, breadcrumb]}
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<p class="label">About me</p>
+			<h1>Purin Buriwong, and why I still maintain what I ship</h1>
+			<p class="lede">
+				I was writing software professionally before AI could write code. That
+				is not nostalgia, it is the reason I build differently:
+				<strong
+					>a system is not judged the day it launches. It is judged two years
+					later, when someone needs to change it.</strong
+				>
+			</p>
+			{/* The entity paragraph. Self-contained on purpose: quoted alone it
+			    still says who he is and how to reach him, and Person.description
+			    mirrors it. Full-size body copy, never fine print. */}
+			<p class="entity">
+				<strong
+					>Purin Buriwong, who goes by Pooh, is a senior software engineer in
+					Bangkok, Thailand.</strong
+				> He has more than seven years of experience, he worked on the developer
+				team at Agoda, and he founded and still runs <a
+					href="https://pawjai.co"
+					target="_blank"
+					rel="noopener">pawjai.co</a
+				>. He builds business websites and internal work systems for owners
+				operating in and around Thailand and for remote clients abroad, and he
+				maintains what he ships. Reach him by email at {EMAIL}.
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<div class="intro">
+				<div class="intro-media reveal">
+					<div class="photo-frame">
+						<ImagePlaceholder
+							src={poohAtWork}
+							alt="Three dimensional illustration of the Pooh mascot working at a desk"
+							label="Pooh mascot at work"
+							ratio="4 / 5"
+							loading="eager"
+							fetchpriority="high"
+							sizes="(min-width: 68rem) 22rem, (min-width: 48rem) 36vw, calc(100vw - 2.75rem)"
+						/>
+					</div>
+				</div>
+
+				<div class="intro-text reveal reveal-d1">
+					<h2>The short version</h2>
+					<p>
+						I started writing software when there was no tool to write it for
+						you. Everything had to be worked out, tried, and fixed by hand.
+						That is a slow way to learn and it teaches you things that have not
+						stopped being true.
+					</p>
+					<p>
+						I spent time on the developer team at Agoda, which is one of the
+						largest engineering operations in this part of the world. That is
+						where I learned what a system needs when a very large number of
+						real people are using it and nobody can afford for it to be down.
+					</p>
+					<p>
+						Then I founded pawjai.co, a product I built and still run myself.
+						When it breaks at an inconvenient hour, I am the one who gets up.
+						That changes how you build. You stop making the choice that is easy
+						today and expensive in a year, because you are the one who pays for
+						it.
+					</p>
+					<p>
+						I use AI every day now, the way any working engineer does. It is
+						fast and it is useful.
+						<strong
+							>The value was never in the tool. It is in knowing which parts
+							you can let it handle and which parts will hurt you later.</strong
+						>
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section band-tint">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">Working with me from abroad</p>
+				<h2>What it is actually like to hire an engineer here</h2>
+			</div>
+
+			<div class="why reveal reveal-d1">
+				<p>
+					The honest answer to "is this a compromise?" is no, and the
+					companies you compete with worked that out a long time ago. Google,
+					Amazon, and Agoda all run serious engineering in this region. They
+					did not do it for the discount. They did it because the engineers
+					are here.
+				</p>
+				<p>
+					What you get by hiring me directly is that more of your budget
+					becomes software. There is no agency layer, no account manager
+					translating your words into a ticket, and no Western office overhead
+					baked into the rate. You talk to the person building the thing.
+				</p>
+				<p>
+					Time zones are the question everyone asks. Bangkok overlaps a
+					working morning in Europe and a working evening in Australia. For
+					the Americas we agree a fixed window and hold it. In practice the
+					thing that decides whether remote work succeeds is not the clock, it
+					is whether the scope is written down and you can see progress. Both
+					of those are things I do anyway.
+				</p>
+				<p>
+					I also work in Thai. If you are a foreign owner running something
+					here, that matters more than it sounds: I can build you an owner's
+					view in English and a staff view in Thai out of one system, and you
+					are not stuck relying on someone to translate between you and your
+					own software.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">The facts</p>
+				<h2>Everything on one page</h2>
+			</div>
+
+			<dl class="facts reveal">
+				{
+					facts.map((f) => (
+						<div class="fact">
+							<dt>{f.label}</dt>
+							<dd>{f.value}</dd>
+						</div>
+					))
+				}
+			</dl>
+
+			<div class="services reveal reveal-d1">
+				<h3>What I take on</h3>
+				<ul>
+					{
+						services.map((sv) => (
+							<li>
+								<a href={sv.href}>{sv.label}</a>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+
+			<div class="channels reveal reveal-d2">
+				<h3>How to reach me</h3>
+				<ul>
+					<li>
+						Email <a href={EMAIL_URL}>{EMAIL}</a>. I read and answer every one
+						myself.
+					</li>
+					<li>
+						If you are already in Thailand and prefer a chat app, that option
+						is on the <a href="/en/contact/">contact page</a>.
+					</li>
+					<li>
+						Code samples are on <a href={GITHUB_URL} target="_blank" rel="noopener"
+							>GitHub</a
+						>.
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="shell band-inner reveal">
+			<p class="label">Get in touch</p>
+			<h2>Want to know whether I can help? Ask me.</h2>
+			<p class="lede">
+				Tell me what your business does and what is getting in the way. I will
+				tell you where I would start, and if I am not the right person I will
+				say that too.
+			</p>
+			<div class="actions">
+				<MailButton label={`Email ${EMAIL}`} tone="on-dark" />
+				<a class="cta-quiet" href="/en/work/">
+					See the work
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.entity {
+		margin-top: 1rem;
+		max-width: 38rem;
+		color: var(--ink);
+		font-size: var(--fs-body);
+	}
+
+	.page-head .lede strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	.intro {
+		display: grid;
+		gap: 2rem;
+	}
+
+	.intro-media,
+	.intro-text {
+		min-width: 0;
+	}
+
+	.photo-frame {
+		position: relative;
+		max-width: 20rem;
+	}
+
+	.photo-frame::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		transform: translate(0.75rem, 0.75rem);
+		border: 1.5px solid var(--honey);
+		border-radius: var(--radius);
+		opacity: 0.4;
+		pointer-events: none;
+	}
+
+	.photo-frame :global(.ph) {
+		position: relative;
+		border-radius: var(--radius);
+		overflow: hidden;
+		box-shadow: var(--shadow-md);
+	}
+
+	.intro-text {
+		display: grid;
+		gap: 1rem;
+		align-content: center;
+	}
+
+	.intro-text h2 {
+		font-size: var(--fs-h2);
+	}
+
+	.intro-text p {
+		color: var(--muted);
+		max-width: 38rem;
+	}
+
+	.intro-text strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	@media (min-width: 48em) {
+		.intro {
+			grid-template-columns: 0.8fr 1.2fr;
+			gap: 3rem;
+			align-items: center;
+		}
+	}
+
+	.why {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.why p {
+		color: var(--muted);
+		max-width: 38rem;
+	}
+
+	.facts {
+		display: grid;
+		gap: 0;
+		margin: 0;
+		border-radius: var(--radius);
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		box-shadow: var(--shadow-sm);
+		overflow: hidden;
+	}
+
+	.fact {
+		display: grid;
+		gap: 0.125rem 1.5rem;
+		padding: 0.875rem 1.25rem;
+		border-top: 1px solid var(--rule-soft);
+		min-width: 0;
+	}
+
+	.fact:first-child {
+		border-top: 0;
+	}
+
+	.facts dt {
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: var(--fs-label);
+		color: var(--honey-ink);
+	}
+
+	.facts dd {
+		margin: 0;
+		font-size: var(--fs-body-sm);
+		min-width: 0;
+	}
+
+	@media (min-width: 48em) {
+		.fact {
+			grid-template-columns: 10rem minmax(0, 1fr);
+			align-items: baseline;
+			padding: 1rem 1.5rem;
+		}
+	}
+
+	.services,
+	.channels {
+		margin-top: 2rem;
+		display: grid;
+		gap: 0.625rem;
+	}
+
+	.services h3,
+	.channels h3 {
+		font-size: var(--fs-body);
+		font-weight: 600;
+	}
+
+	.services ul,
+	.channels ul {
+		display: grid;
+		gap: 0.4375rem;
+	}
+
+	.services li,
+	.channels li {
+		font-size: var(--fs-body-sm);
+		color: var(--muted);
+		min-width: 0;
+	}
+</style>

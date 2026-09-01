@@ -1,0 +1,900 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
+import BrowserFrame from "../../components/BrowserFrame.astro";
+import Icon from "../../components/Icon.astro";
+import MailButton from "../../components/MailButton.astro";
+import poohAtWork from "../../assets/images/illustrations/pooh-at-work.webp";
+import { works } from "../../data/works";
+import { enPerson } from "../../utils/schema-en";
+import { EMAIL, GITHUB_URL } from "../../../site.config.mjs";
+
+// The English teaser has its own rank: the cross-border and multilingual work
+// is the proof this reader is looking for, not the Thai factory systems.
+const featured = works
+	.filter((w) => w.teaserEn)
+	.sort((a, b) => a.teaserEn! - b.teaserEn!);
+
+const offers = [
+	{
+		icon: "flow",
+		tint: "is-clay",
+		title: "Business systems",
+		body: "Orders, stock, customers, and team work in one place, so nobody is chasing anybody for a number.",
+		href: "/en/backoffice/",
+		linkLabel: "See what I build",
+	},
+	{
+		icon: "storefront",
+		tint: "",
+		title: "Business websites",
+		body: "A site that says what you do in the first few seconds and makes getting in touch effortless.",
+		href: "/en/work/",
+		linkLabel: "See the work",
+	},
+	{
+		icon: "help",
+		tint: "is-amber",
+		title: "Fix what AI started",
+		body: "You got most of the way with a tool and stalled. I look at what you have and get it over the line.",
+		href: "/en/fix-ai-website/",
+		linkLabel: "See what I fix",
+	},
+	{
+		icon: "care",
+		tint: "",
+		title: "I maintain what I ship",
+		body: "I still run my own product, so I live with my decisions. After launch I am still here for changes.",
+		href: "/en/about/",
+		linkLabel: "Why that matters",
+	},
+] as const;
+
+const steps = [
+	{
+		n: "01",
+		icon: "listen",
+		title: "Tell me what is broken",
+		body: "I ask about the problem before I talk about a solution.",
+	},
+	{
+		n: "02",
+		icon: "scope",
+		title: "We agree the scope in writing",
+		body: "What gets built, what does not, and roughly how long. Before anyone starts.",
+	},
+	{
+		n: "03",
+		icon: "updates",
+		title: "You see it working as it goes",
+		body: "Real software at each stage, not a progress report at the end.",
+	},
+	{
+		n: "04",
+		icon: "deliver",
+		title: "You launch, and you own it",
+		body: "The code is yours, with a handover so anyone can pick it up.",
+	},
+] as const;
+
+const personSchema = enPerson(Astro.site);
+---
+
+<Layout
+	lang="en"
+	title="Senior Developer in Bangkok for Websites and Business Systems | Pooh"
+	description="Hire a senior software engineer in Bangkok. Ex-Agoda, seven years building software, founder of a live product. Business websites and internal systems for owners in Thailand and clients worldwide. Email to start."
+	schema={personSchema}
+>
+	<section class="hero">
+		<div class="shell hero-inner">
+			<div class="hero-copy reveal reveal-eager">
+				<h1>
+					Senior engineering, without the
+					<span class="mark">senior market price</span>
+				</h1>
+				<p class="hero-sub">
+					I build business websites and the systems that run behind them. I
+					am in Bangkok, I have shipped software for over seven years, and I
+					still run my own product every day. The work is the same standard
+					you would get at home. Your budget just goes further here.
+				</p>
+				<div class="actions">
+					<MailButton label="Email me about your project" />
+					<a class="cta-quiet" href="/en/work/">
+						See the work
+						<Icon name="arrow" size={18} />
+					</a>
+				</div>
+				<p class="hero-note">
+					No cost to ask, no obligation. I answer every email myself.
+				</p>
+			</div>
+
+			<div class="hero-photo reveal reveal-d1 reveal-eager">
+				<div class="photo-frame">
+					<ImagePlaceholder
+						src={poohAtWork}
+						alt="Three dimensional illustration of the Pooh mascot working at a desk"
+						label="Pooh mascot at work"
+						ratio="4 / 5"
+						loading="eager"
+						fetchpriority="high"
+						sizes="(min-width: 68rem) 24rem, (min-width: 48rem) 36vw, calc(100vw - 2.75rem)"
+					/>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="trust">
+		<div class="shell">
+			<ul class="trust-list">
+				<li class="trust-item reveal">
+					<span class="chip"
+						><Icon name="badge" size={28} loading="eager" fetchpriority="low" /></span
+					>
+					<p>Seven years shipping software, including at Agoda</p>
+				</li>
+				<li class="trust-item reveal reveal-d1">
+					<span class="chip is-amber"
+						><Icon name="spark" size={28} loading="eager" fetchpriority="low" /></span
+					>
+					<p>Founder of <span class="nb">pawjai.co</span>, live and running</p>
+				</li>
+				<li class="trust-item reveal reveal-d2">
+					<span class="chip is-clay"
+						><Icon name="plainwords" size={28} loading="eager" fetchpriority="low" /></span
+					>
+					<p>I explain things in words you already use</p>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+	{/* The positioning pillar. Placed high because it is the argument that
+	    decides whether an international reader keeps reading at all: they
+	    arrived wondering whether hiring here is a compromise. It never touches
+	    a number and never uses a discount word. */}
+	<section class="section band-cream apac">
+		<div class="shell apac-inner">
+			<div class="apac-head reveal">
+				<p class="label">Why here</p>
+				<h2>The companies you compete with have hired here for years</h2>
+			</div>
+			<div class="apac-body reveal reveal-d1">
+				<p>
+					Agoda runs one of the largest engineering operations in Asia. So do
+					Google, Amazon, and most of the companies you would name. They did
+					not build teams in this region as an experiment. They did it because
+					the engineers here are excellent and the economics are better.
+				</p>
+				<p>
+					I worked inside that. Same standards, same review culture, same
+					expectation that what you ship survives real users. What changes when
+					you hire me directly is what your budget covers: no agency margin, no
+					Western office, no account manager between you and the person writing
+					the code. More of what you spend turns into working software.
+				</p>
+				<p class="apac-pull">
+					You are not buying less engineering. You are paying for less of
+					everything that is not engineering.
+				</p>
+				<p>
+					That is the whole argument. If you want it tested, send me something
+					real and judge the answer you get back.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section band-tint">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">What I do</p>
+				<h2>Four ways I am usually brought in</h2>
+				<p class="lede">
+					From the site your customers see to the system your staff live in.
+				</p>
+			</div>
+
+			<div class="offers">
+				{
+					offers.map((o, i) => (
+						<a class:list={["offer", "reveal", `reveal-d${i}`]} href={o.href}>
+							<span class:list={["chip", o.tint]}>
+								<Icon name={o.icon} size={28} />
+							</span>
+							<h3>{o.title}</h3>
+							<p>{o.body}</p>
+							<span class="work-link offer-link">
+								{o.linkLabel}
+								<Icon name="arrow" size={16} />
+							</span>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">How it goes</p>
+				<h2>You always know what stage we are at</h2>
+			</div>
+
+			<ol class="steps">
+				{
+					steps.map((s, i) => (
+						<li class:list={["step", "reveal", `reveal-d${i % 2}`]}>
+							<span class="chip">
+								<Icon name={s.icon} size={28} />
+							</span>
+							<div class="step-body">
+								<p class="step-n">Step {s.n}</p>
+								<h3>{s.title}</h3>
+								<p>{s.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<section class="section band-tint">
+		<div class="shell">
+			<div class="section-head reveal">
+				<p class="label">Selected work</p>
+				<h2>Things I built that are live right now</h2>
+			</div>
+
+			<div class="work-list teaser">
+				{
+					featured.map((w, i) => (
+						<article class:list={["work-item", "reveal", `reveal-d${i}`]}>
+							<BrowserFrame
+								domain={w.name}
+								alt={w.en.alt}
+								label={w.en.label}
+								src={w.image}
+								ratio="16 / 10"
+							/>
+							<span class:list={["tag", `is-${w.tint}`]}>{w.en.kind}</span>
+							<h3>{w.name}</h3>
+							<p>{w.en.short}</p>
+							{w.url ? (
+								<a class="work-link" href={w.url} target="_blank" rel="noopener">
+									Open the site
+									<Icon name="external" size={16} />
+								</a>
+							) : (
+								<p class="work-status">{w.en.status}</p>
+							)}
+						</article>
+					))
+				}
+			</div>
+
+			<p class="more reveal">
+				There is more I can walk you through. <a href="/en/work/">See all the work</a>
+			</p>
+		</div>
+	</section>
+
+	<section class="section about">
+		<div class="shell about-inner">
+			<p class="label reveal">About me</p>
+			<div class="about-text reveal reveal-d1">
+				<p>
+					I am Purin Buriwong. Most people call me Pooh. I have been building
+					software professionally for over seven years, which means I started
+					before AI could write code, and I use it now the way an engineer
+					does.
+				</p>
+				<p>
+					I run pawjai.co myself, so I know exactly what it costs to still be
+					responsible for something two years after launch.
+					<a href="/en/about/">More about how I work</a>
+				</p>
+				<p>
+					Work is delivered in stages you can see, and everything is yours at
+					the end. If you ever want someone else to take it over, you can.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="shell band-inner reveal">
+			<p class="label">Get in touch</p>
+			<h2>Tell me what you are trying to build</h2>
+			<p class="lede">
+				Even a rough idea is enough to start. Tell me what your business does
+				and what is getting in the way, and I will tell you straight whether I
+				can help and where I would start.
+			</p>
+			<p class="band-note">
+				I take a limited number of projects at a time so each one gets proper
+				attention.
+			</p>
+			<div class="actions">
+				<MailButton label={`Email ${EMAIL}`} tone="on-dark" />
+				<a class="cta-quiet" href="/en/contact/">
+					Other ways to reach me
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+		</div>
+	</section>
+
+	{/* Quiet reference zone. Same job as the Thai one: keyword-bearing prose
+	    and question-shaped passages an assistant can lift a correct sentence
+	    from, kept subordinate to the page above it. Visible text at the zone's
+	    own size and colour, never hidden. */}
+	<section class="seo-zone" aria-labelledby="seo-zone-heading">
+		<div class="shell seo-inner">
+			<h2 class="label" id="seo-zone-heading">About the service</h2>
+			<div class="seo-cols">
+				<div class="seo-col">
+					<p>
+						<strong
+							>Purin Buriwong, who goes by Pooh, is a senior software engineer
+							in Bangkok, Thailand.</strong
+						> He has more than seven years of experience, he worked on the developer
+						team at Agoda, and he founded and still runs <a
+							href="https://pawjai.co"
+							target="_blank"
+							rel="noopener">pawjai.co</a
+						>. He builds business websites and internal work systems for owners
+						operating in and around Thailand and for remote clients abroad. He
+						works in English and Thai. Reach him by email at {EMAIL}.
+					</p>
+					<p>
+						<strong>Business systems and internal software.</strong> Orders,
+						stock, customer records, team workflow, and the reporting an owner
+						wants to open without asking anyone. Built around how a business
+						already works rather than forcing it into someone else's product.
+						Start with the one job costing you the most time, then connect the
+						rest when it earns its place.
+						<a href="/en/backoffice/">See what that looks like</a>
+					</p>
+				</div>
+				<div class="seo-col">
+					<p>
+						<strong>Business websites for owners who need to be found.</strong>
+						A site that explains what you do in seconds, earns trust from what
+						a visitor can see, and makes contact effortless. Built to be read
+						by search engines and by AI assistants from the start, which is
+						part of the job rather than an upgrade sold afterwards.
+						<a href="/en/work/">See examples</a>
+					</p>
+					<p>
+						<strong>Repairing sites that AI started.</strong> A one round
+						inspection and repair service for a site that is nearly finished
+						and cannot launch. Send the link and he tells you what is worth
+						keeping, what needs rebuilding, and whether repairing it is worth
+						your money at all.
+						<a href="/en/fix-ai-website/">See the scope</a>
+					</p>
+					<p>
+						<strong>Contract work with an existing team.</strong> For companies
+						that already have a team and a roadmap and need another senior
+						engineer for a defined period. Front end, back end, and the
+						structural work that lets a team keep maintaining it afterwards.
+					</p>
+				</div>
+			</div>
+
+			<div class="seo-qa">
+				<div class="seo-qa-item">
+					<h3>Is it worth hiring a developer in Thailand?</h3>
+					<p>
+						Yes, and the largest technology companies in the world settled that
+						question years ago by building engineering operations across Asia.
+						The engineering standard is the same one you would expect at home.
+						What differs is how much of your budget reaches the actual
+						engineering, because you are not also funding a Western office, an
+						agency margin, and an account manager. Judge it the way you would
+						judge any hire: look at shipped work and at the quality of the
+						answer you get when you ask a hard question.
+					</p>
+				</div>
+
+				<div class="seo-qa-item">
+					<h3>I built my site with AI and it will not launch. What now?</h3>
+					<p>
+						Send the link to someone who can read the inside of it before you
+						decide anything. Most stalled AI built sites fail on the same short
+						list: publishing and domains, phone layouts, forms that submit
+						nowhere, logins, speed, and search engines not reading the page.
+						Those are bounded problems with bounded fixes. Purin Buriwong
+						inspects the real site first and tells you whether repairing it is
+						worth the money before any work is agreed.
+						<a href="/en/fix-ai-website/">See what he takes on</a>
+					</p>
+				</div>
+
+				<div class="seo-qa-item">
+					<h3>Can I work with a developer in another time zone?</h3>
+					<p>
+						Yes, and it is ordinary now. Bangkok overlaps a working morning in
+						Europe and a working evening in Australia, and for the Americas a
+						fixed weekly window covers it. What actually determines whether
+						remote work succeeds is not the time difference but whether scope
+						is written down and progress is visible. Purin Buriwong agrees
+						scope before starting and delivers in stages you can see, which is
+						what removes the risk.
+					</p>
+				</div>
+
+				<div class="seo-qa-item">
+					<h3>Who owns the code at the end of a project?</h3>
+					<p>
+						You do. Everything built is handed over with a written explanation
+						of how it works, so your own team or a different developer can pick
+						it up without needing the original author. Nothing is held back as
+						leverage and nothing is locked to one person. That is deliberate:
+						you should keep working with an engineer because the work is good,
+						not because leaving would be expensive.
+						<a href="/en/contact/">See the common questions</a>
+					</p>
+				</div>
+			</div>
+
+			<p class="seo-close">
+				Want to see code first? It is on <a
+					href={GITHUB_URL}
+					target="_blank"
+					rel="noopener">GitHub</a
+				>. Read this far and still have a question? Email {EMAIL} and ask it.
+			</p>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	/* ---- hero ---- */
+
+	.hero-inner {
+		display: grid;
+		gap: 1.5rem;
+		padding-block: 1.5rem 2.25rem;
+	}
+
+	@media (max-width: 47.99em) {
+		.photo-frame :global(.ph img) {
+			aspect-ratio: 3 / 2;
+			max-height: 38vh;
+			object-fit: cover;
+		}
+	}
+
+	.hero-copy {
+		display: grid;
+		gap: 1rem;
+		align-content: start;
+	}
+
+	.hero h1 {
+		font-size: var(--fs-display);
+		line-height: var(--lh-display);
+		text-wrap: balance;
+	}
+
+	/* Same highlighter treatment as the Thai hero: flat tint, no rotation, no
+	   gradient, so a wrapped phrase still reads correctly. */
+	.mark {
+		background: var(--tint-strong);
+		border-radius: 6px;
+		padding: 0 0.25rem;
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
+	}
+
+	@media (min-width: 48em) and (prefers-reduced-motion: no-preference) {
+		:global(html.js) .mark {
+			position: relative;
+			background: transparent;
+			isolation: isolate;
+		}
+
+		:global(html.js) .mark::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			z-index: -1;
+			border-radius: 6px;
+			background: var(--tint-strong);
+			transform: scaleX(0);
+			transform-origin: left center;
+			transition: transform 720ms cubic-bezier(0.22, 0.61, 0.36, 1) 240ms;
+		}
+
+		:global(html.js) .hero-copy.is-in .mark::before {
+			transform: scaleX(1);
+		}
+	}
+
+	.hero-sub {
+		color: var(--muted);
+		font-size: var(--fs-body);
+		max-width: 34rem;
+	}
+
+	.hero .actions {
+		margin-top: 0.5rem;
+	}
+
+	.hero-note {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+	}
+
+	.photo-frame {
+		position: relative;
+		max-width: 22rem;
+	}
+
+	.photo-frame::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		transform: translate(0.75rem, 0.75rem);
+		border: 1.5px solid var(--accent);
+		border-radius: var(--radius);
+		opacity: 0.32;
+		pointer-events: none;
+	}
+
+	.photo-frame :global(.ph) {
+		position: relative;
+		border-radius: var(--radius);
+		overflow: hidden;
+		box-shadow: var(--shadow-md);
+	}
+
+	@media (min-width: 48em) {
+		.hero-inner {
+			grid-template-columns: 1.15fr 0.85fr;
+			gap: 3.5rem;
+			align-items: center;
+			padding-block: 4rem 4.5rem;
+		}
+
+		.photo-frame {
+			max-width: none;
+			margin-left: auto;
+		}
+	}
+
+	/* ---- trust strip ---- */
+
+	.trust {
+		padding-bottom: 2.5rem;
+	}
+
+	.trust-list {
+		display: grid;
+		gap: 0.875rem;
+		padding: 1.25rem;
+		border-radius: var(--radius);
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.trust-item {
+		display: flex;
+		align-items: center;
+		gap: 0.875rem;
+	}
+
+	.trust-item p {
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: var(--fs-body-sm);
+		line-height: 1.5;
+		min-width: 0;
+	}
+
+	@media (min-width: 48em) {
+		.trust {
+			padding-bottom: 3.5rem;
+		}
+
+		.trust-list {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1.5rem 1.75rem;
+			padding: 1.5rem 1.75rem;
+		}
+	}
+
+	/* ---- the positioning argument ----
+	   Warm cream band with honey edges, the same device the Thai page uses for
+	   its conversion wedge: this is the emotional centre of the English page,
+	   so it gets the same treatment rather than a new one. */
+	.apac {
+		border-top: 1px solid rgba(243, 178, 26, 0.34);
+		border-bottom: 1px solid rgba(243, 178, 26, 0.34);
+	}
+
+	.apac-inner {
+		display: grid;
+		gap: 0;
+	}
+
+	.apac-head {
+		display: grid;
+		gap: 0.875rem;
+		max-width: 46rem;
+		margin-bottom: 2.25rem;
+	}
+
+	.apac-head .label {
+		color: var(--honey-ink);
+	}
+
+	.apac-head .label::before {
+		background: var(--honey);
+	}
+
+	.apac-head h2 {
+		font-size: var(--fs-h2-lg);
+		text-wrap: balance;
+	}
+
+	.apac-body {
+		display: grid;
+		gap: 1rem;
+		max-width: 44rem;
+		min-width: 0;
+	}
+
+	/* The pullout is a sibling of these, so it is excluded here rather than
+	   fighting the rule with !important. */
+	.apac-body p:not(.apac-pull) {
+		color: var(--muted);
+	}
+
+	/* The sentence the section turns on. Body size, weight from the heading
+	   face and the honey rule above it, matching the /fix-ai-website pullout
+	   rather than inventing a new type step. */
+	.apac-pull {
+		display: grid;
+		gap: 0.75rem;
+		margin-block: 0.5rem;
+		color: var(--ink);
+		font-family: var(--font-head);
+		font-weight: 500;
+		line-height: 1.6;
+		max-width: 32rem;
+	}
+
+	.apac-pull::before {
+		content: "";
+		width: 1.5rem;
+		height: 2px;
+		border-radius: 2px;
+		background: var(--honey);
+	}
+
+	/* ---- offers ---- */
+
+	.offers {
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.offer {
+		display: grid;
+		gap: 0.75rem;
+		align-content: start;
+		padding: 1.5rem;
+		border-radius: var(--radius);
+		background: var(--paper);
+		border: 1px solid var(--rule-soft);
+		box-shadow: var(--shadow-sm);
+		color: inherit;
+		text-decoration: none;
+		transition:
+			transform 220ms ease,
+			box-shadow 220ms ease;
+	}
+
+	@media (hover: hover) {
+		.offer:hover {
+			transform: translateY(-4px);
+			box-shadow: var(--shadow-md);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.offer {
+			transition: none;
+		}
+
+		.offer:hover {
+			transform: none;
+		}
+	}
+
+	.offer-link {
+		margin-top: auto;
+		padding-top: 0.25rem;
+		font-size: var(--fs-body-sm);
+	}
+
+	.offer h3 {
+		font-size: var(--fs-subtitle);
+	}
+
+	.offer p {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+	}
+
+	@media (min-width: 48em) {
+		.offers {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.5rem;
+		}
+
+		.offer {
+			padding: 1.75rem;
+		}
+	}
+
+	@media (min-width: 64em) {
+		.offers {
+			gap: 1.75rem;
+		}
+	}
+
+	/* ---- work teaser ---- */
+
+	@media (min-width: 48em) {
+		.teaser {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.5rem;
+		}
+	}
+
+	@media (min-width: 64em) {
+		.teaser {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.work-status {
+		margin-top: 0.375rem;
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+	}
+
+	/* ---- about ---- */
+
+	.about-inner {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.about-text {
+		display: grid;
+		gap: 1rem;
+		/* English runs longer than Thai on the same measure, so this is wider
+		   than the Thai page's 33rem. */
+		max-width: 38rem;
+		font-size: var(--fs-body);
+	}
+
+	@media (min-width: 48em) {
+		.about-inner {
+			grid-template-columns: 12rem 1fr;
+			gap: 2.5rem;
+		}
+	}
+
+	.band-note {
+		margin-top: -0.25rem;
+		color: rgba(255, 249, 237, 0.72);
+		font-size: var(--fs-body-sm);
+		max-width: 32rem;
+	}
+
+	/* ---- reference zone ---- */
+
+	.seo-zone {
+		background: var(--paper);
+	}
+
+	.seo-inner {
+		display: grid;
+		gap: 1.25rem;
+		padding-block: 3rem 3.5rem;
+	}
+
+	.seo-zone .label {
+		font-size: var(--fs-label);
+	}
+
+	.seo-cols {
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.seo-col {
+		display: grid;
+		gap: 1rem;
+		align-content: start;
+		min-width: 0;
+	}
+
+	.seo-col p {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		line-height: 1.75;
+		max-width: 34rem;
+	}
+
+	.seo-col strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	.seo-qa {
+		display: grid;
+		gap: 1.5rem;
+		margin-top: 2rem;
+		padding-top: 1.75rem;
+		border-top: 1px solid var(--rule-soft);
+	}
+
+	.seo-qa-item {
+		display: grid;
+		gap: 0.375rem;
+		min-width: 0;
+	}
+
+	.seo-qa-item h3 {
+		font-size: var(--fs-body-sm);
+		font-weight: 600;
+		color: var(--ink);
+	}
+
+	.seo-qa-item p {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		line-height: 1.75;
+		max-width: 34rem;
+	}
+
+	@media (min-width: 48em) {
+		.seo-qa {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.75rem 2.5rem;
+		}
+	}
+
+	.seo-close {
+		margin-top: 1.75rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid var(--rule-soft);
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		max-width: 34rem;
+	}
+
+	@media (min-width: 48em) {
+		.seo-inner {
+			padding-block: 3.5rem 4rem;
+		}
+
+		.seo-cols {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 2.5rem;
+		}
+	}
+</style>

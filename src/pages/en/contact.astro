@@ -1,0 +1,405 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
+import MailButton from "../../components/MailButton.astro";
+import { enFaq } from "../../data/en/faq";
+import { enBreadcrumb, enFaqPage } from "../../utils/schema-en";
+import { EMAIL, EMAIL_URL, LINE_URL, LINE_ID } from "../../../site.config.mjs";
+
+const points = [
+	{
+		n: "01",
+		icon: "storefront",
+		title: "What your business does",
+		body: "A couple of lines. What you sell or do, and who buys it. That is genuinely enough to start.",
+	},
+	{
+		n: "02",
+		icon: "help",
+		title: "What is going wrong",
+		body: "A new site, an old one that is failing you, or work your team is still doing by hand. Describe the problem, not the solution.",
+	},
+	{
+		n: "03",
+		icon: "clock",
+		title: "Any date you are working to",
+		body: "If something has to be live by a certain day, say so now. It changes what I would recommend.",
+	},
+] as const;
+
+const faqSchema = enFaqPage(enFaq);
+const breadcrumb = enBreadcrumb(Astro.site, "Contact", "/en/contact/");
+---
+
+<Layout
+	lang="en"
+	title="Contact Purin Buriwong, Developer in Bangkok | Pooh"
+	description="Email askpurin@pm.me to talk about a website or a business system. No cost to ask and no obligation. A senior engineer in Bangkok who answers every message himself."
+	schema={[faqSchema, breadcrumb]}
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<p class="label">Contact</p>
+			<h1>Email me. You do not have to have it figured out yet.</h1>
+			<p class="lede">
+				Most people who write to me are not sure what they need. That is fine,
+				and working it out is the first part of the job.
+			</p>
+		</div>
+	</section>
+
+	<section class="card-wrap">
+		<div class="shell narrow">
+			<div class="mail-card reveal reveal-eager">
+				<p class="label">Email</p>
+				<div class="id-row">
+					<p class="mail-id" id="mail-id">{EMAIL}</p>
+					<button class="copy" type="button" data-copy-id={EMAIL} hidden>
+						<span class="copy-label">Copy address</span>
+					</button>
+				</div>
+				<p class="copy-status" role="status" aria-live="polite"></p>
+				<p class="mail-note">
+					This goes straight to me. No inbox shared with a team, no assistant
+					screening it, no automated reply.
+				</p>
+				<MailButton label="Open your email app" />
+				<p class="mail-hint">
+					No cost to ask and no obligation. If I am not the right person for
+					it, I will tell you and say who might be.
+				</p>
+			</div>
+
+			{/* LINE appears here and nowhere else in the English edition. It is
+			    the secondary option, for the reader who is already in Thailand
+			    and lives in that app. Email stays the primary action. */}
+			<p class="alt-channel reveal reveal-d1">
+				Already in Thailand and would rather use LINE? That is faster for you.
+				<a href={LINE_URL}>Add {LINE_ID}</a> and message me there.
+			</p>
+		</div>
+	</section>
+
+	<section class="section say">
+		<div class="shell narrow">
+			<div class="section-head reveal">
+				<p class="label">What to write</p>
+				<h2>Three things, and we can start properly from your first email</h2>
+			</div>
+
+			<ol class="steps">
+				{
+					points.map((p, i) => (
+						<li class:list={["step", "reveal", `reveal-d${i}`]}>
+							<span class="chip">
+								<Icon name={p.icon} size={24} />
+							</span>
+							<div class="step-body">
+								<p class="step-n">{p.n}</p>
+								<h3>{p.title}</h3>
+								<p>{p.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+
+			<p class="closing reveal">
+				Do not spend an evening writing a specification. Send me the rough
+				version and I will ask the questions that matter.
+			</p>
+
+			<p class="more reveal">
+				Wondering what drives the cost? <a href="/en/budget-factors/"
+					>Here is what actually moves it</a
+				>.
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell narrow">
+			<div class="section-head reveal">
+				<p class="label">Common questions</p>
+				<h2>What people ask before they write</h2>
+			</div>
+
+			<div class="faq">
+				{
+					enFaq.map((item, i) => (
+						<details class:list={["faq-item", "reveal", `reveal-d${i % 3}`]}>
+							<summary>
+								<span class="faq-q">{item.q}</span>
+								<span class="faq-sign" aria-hidden="true" />
+							</summary>
+							<p class="faq-a">{item.a}</p>
+						</details>
+					))
+				}
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<script>
+	// The copy control ships hidden and is only unhidden here, so a visitor
+	// without JS never meets a dead button: for them the address is still
+	// selectable text and the email button still works.
+	const button = document.querySelector<HTMLButtonElement>(".copy");
+	const status = document.querySelector<HTMLParagraphElement>(".copy-status");
+
+	if (button && status && navigator.clipboard) {
+		button.hidden = false;
+
+		let clear: number | undefined;
+
+		button.addEventListener("click", async () => {
+			const id = button.dataset.copyId ?? "";
+			window.clearTimeout(clear);
+
+			try {
+				await navigator.clipboard.writeText(id);
+				status.textContent = "Copied";
+				status.dataset.state = "done";
+			} catch {
+				// Never claim a copy that did not happen.
+				status.textContent = "Could not copy. Select the address to copy it yourself.";
+				status.dataset.state = "failed";
+			}
+
+			clear = window.setTimeout(() => {
+				status.textContent = "";
+				delete status.dataset.state;
+			}, 4000);
+		});
+	}
+</script>
+
+<style>
+	.narrow {
+		max-width: 48rem;
+	}
+
+	/* This page is an arrival, not another brochure page: one column all the
+	   way down, no alternating bands, and the whole first screen spent on the
+	   one action. */
+	.card-wrap {
+		padding-top: 1.75rem;
+		padding-bottom: 0.5rem;
+	}
+
+	@media (min-width: 48em) {
+		.card-wrap {
+			padding-top: 2.5rem;
+		}
+	}
+
+	.mail-card {
+		display: grid;
+		gap: 0.875rem;
+		justify-items: start;
+		padding: 1.75rem 1.5rem 2rem;
+		border-radius: var(--radius);
+		background: var(--paper);
+		border: 1px solid var(--rule);
+		box-shadow: var(--shadow-md);
+	}
+
+	/* Set at display size, which promises the address is meant to be taken.
+	   The copy control sits on the same line so the promise is kept. */
+	.mail-id {
+		font-family: var(--font-head);
+		font-weight: 600;
+		/* --fs-h1, a documented ramp step, rather than the `display-id` step
+		   the Thai page's LINE ID uses. `display-id` floors at 2.25rem, which
+		   suits an eight character handle; an email address is more than three
+		   times that length and would dominate the card and break badly at
+		   320. This is the largest documented step the string can carry. */
+		font-size: var(--fs-h1);
+		line-height: 1.15;
+		letter-spacing: 0.01em;
+		color: var(--ink);
+		overflow-wrap: anywhere;
+	}
+
+	.id-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem 1rem;
+	}
+
+	/* The display below is an author style, so it outranks the UA sheet's
+	   [hidden] rule and would paint the button while it is still hidden. */
+	.copy[hidden] {
+		display: none;
+	}
+
+	.copy {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		min-height: 40px;
+		padding: 0.5rem 0.9375rem;
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: var(--fs-body-sm);
+		line-height: 1.4;
+		color: var(--accent);
+		background: var(--paper);
+		border: 1px solid var(--rule);
+		border-radius: 12px;
+		cursor: pointer;
+		transition:
+			border-color 180ms ease,
+			background-color 180ms ease;
+	}
+
+	@media (hover: hover) {
+		.copy:hover {
+			border-color: var(--accent);
+			background: var(--tint);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.copy {
+			transition: none;
+		}
+	}
+
+	@media (pointer: coarse) {
+		.copy {
+			min-height: 44px;
+		}
+	}
+
+	/* Empty until something happened, so it never reserves a blank line.
+	   Collapsed rather than display:none: a live region removed from the box
+	   tree as its text changes is not announced by every screen reader. */
+	.copy-status {
+		font-size: var(--fs-body-sm);
+		color: var(--muted);
+	}
+
+	.copy-status:empty {
+		height: 0;
+		overflow: hidden;
+		margin-top: -0.875rem;
+	}
+
+	.copy-status[data-state="done"] {
+		color: var(--ink);
+	}
+
+	.copy-status[data-state="failed"] {
+		color: var(--scarf-ink);
+	}
+
+	.mail-note,
+	.mail-hint {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		max-width: 34rem;
+	}
+
+	/* The secondary channel, deliberately quieter than the email card and
+	   never a second button, so the primary action stays unambiguous. */
+	.alt-channel {
+		margin-top: 1.25rem;
+		text-align: center;
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+	}
+
+	.alt-channel a {
+		color: var(--ink);
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+		text-decoration-thickness: 1px;
+		text-decoration-color: var(--rule);
+		transition: text-decoration-color 180ms ease;
+	}
+
+	@media (hover: hover) {
+		.alt-channel a:hover {
+			text-decoration-color: currentColor;
+		}
+	}
+
+	@media (min-width: 48em) {
+		.mail-card {
+			padding: 2.25rem 2.5rem;
+		}
+	}
+
+	/* ---- what to write ----
+	   These three are things to type, so they stack as one draft message the
+	   reader goes through top to bottom: no columns at any width, a smaller
+	   mark so the words lead, hairlines instead of three separate cards. */
+
+	.say .section-head {
+		margin-bottom: 1.5rem;
+	}
+
+	.steps {
+		gap: 0;
+		max-width: 42rem;
+	}
+
+	.step {
+		align-items: start;
+		gap: 0 1rem;
+		padding: 1.25rem 0;
+		border: 0;
+		border-bottom: 1px solid var(--rule-soft);
+		border-radius: 0;
+		background: none;
+		box-shadow: none;
+	}
+
+	.step:last-of-type {
+		border-bottom: 0;
+	}
+
+	/* These rows are no longer cards, so the shared card lift goes with the
+	   card: a hairline row rising 3px and growing a shadow under nothing. */
+	@media (hover: hover) {
+		.step:hover {
+			transform: none;
+			box-shadow: none;
+		}
+	}
+
+	.chip {
+		width: 3.5rem;
+		height: 3.5rem;
+	}
+
+	@media (min-width: 48em) {
+		.steps {
+			grid-template-columns: 1fr;
+			gap: 0;
+		}
+
+		.step {
+			gap: 0 1.25rem;
+			padding: 1.375rem 0;
+		}
+	}
+
+	.closing {
+		margin-top: 1.5rem;
+		color: var(--ink);
+		max-width: 38rem;
+	}
+
+	.more {
+		margin-top: 3.5rem;
+	}
+
+	/* English runs longer than Thai on the same measure. */
+	.faq-a {
+		max-width: 40rem;
+	}
+</style>

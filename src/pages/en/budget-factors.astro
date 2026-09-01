@@ -1,0 +1,322 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
+import Icon from "../../components/Icon.astro";
+import MailButton from "../../components/MailButton.astro";
+import poohPlanning from "../../assets/images/illustrations/pooh-planning.webp";
+import { enFactors, enBudgetFaq } from "../../data/en/budget";
+import { enBreadcrumb, enFaqPage } from "../../utils/schema-en";
+import { EMAIL } from "../../../site.config.mjs";
+
+const faqSchema = enFaqPage(enBudgetFaq);
+const breadcrumb = enBreadcrumb(
+	Astro.site,
+	"What drives the budget",
+	"/en/budget-factors/"
+);
+---
+
+<Layout
+	lang="en"
+	title="What Actually Drives the Cost of a Website or System | Pooh"
+	description="Six things decide what a website or business system costs, and scope outweighs all of them. An honest explanation from a Bangkok engineer, so you can compare quotes properly. Email for an estimate."
+	schema={[faqSchema, breadcrumb]}
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<p class="label">Budget</p>
+			<h1>What actually drives the cost, and why quotes differ so wildly</h1>
+			<p class="lede">
+				<strong
+					>Anyone who gives you a number before seeing your project is
+					guessing.</strong
+				> "A website" covers everything from one page to a system a whole company
+				runs on, which is why two quotes for the same request can be worlds apart.
+				This page explains what actually moves the number, so you can have a real
+				conversation about it instead of comparing two things that were never the
+				same job.
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<div class="budget-overview">
+				<div class="section-head reveal">
+					<p class="label">Six things that move it</p>
+					<h2>Why two projects that sound identical are not</h2>
+				</div>
+
+				<div class="budget-visual reveal reveal-d1">
+					<ImagePlaceholder
+						src={poohPlanning}
+						alt="Three dimensional illustration of the Pooh mascot planning out a project scope"
+						label="Pooh mascot planning a project scope"
+						ratio="16 / 10"
+						loading="eager"
+						fetchpriority="high"
+						sizes="(min-width: 68rem) 32rem, (min-width: 48rem) 44vw, calc(100vw - 2.75rem)"
+					/>
+				</div>
+			</div>
+
+			<ol class="factors">
+				{
+					enFactors.map((item, i) => (
+						<li class:list={["factor", "reveal", `reveal-d${i % 3}`]}>
+							<span class="factor-n" aria-hidden="true">
+								{String(i + 1).padStart(2, "0")}
+							</span>
+							<div class="factor-body">
+								<h3>{item.title}</h3>
+								<p>{item.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<section class="section band-tint">
+		<div class="shell narrow">
+			<div class="section-head reveal">
+				<p class="label">Getting more for the same money</p>
+				<h2>Two ways to make your budget go further</h2>
+			</div>
+
+			<div class="lever-list reveal">
+				<div class="lever">
+					<h3>Build the smallest useful version first</h3>
+					<p>
+						The most expensive way to build software is to plan all of it,
+						build all of it, and discover at the end that you were wrong about
+						a third of it. Build the part that has to work, launch it, then let
+						what people actually do tell you what to build next. You spend
+						less, and you are live months earlier.
+					</p>
+				</div>
+				<div class="lever">
+					<h3>Hire where the engineering is, not where the office is</h3>
+					<p>
+						The largest technology companies in the world have run engineering
+						across Asia for two decades, and they did not do it as an
+						experiment. When you hire me directly you are not paying for an
+						agency layer, a Western office, or an account manager standing
+						between you and the person writing your code. The engineering is
+						the same standard. More of your budget simply reaches it.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell narrow">
+			<div class="section-head reveal">
+				<p class="label">Common questions</p>
+				<h2>What people ask about money</h2>
+			</div>
+
+			<div class="faq">
+				{
+					enBudgetFaq.map((item, i) => (
+						<details class:list={["faq-item", "reveal", `reveal-d${i % 3}`]}>
+							<summary>
+								<span class="faq-q">{item.q}</span>
+								<span class="faq-sign" aria-hidden="true" />
+							</summary>
+							<p class="faq-a">{item.a}</p>
+						</details>
+					))
+				}
+			</div>
+
+			<p class="more reveal">
+				Want to see what a system like this involves? <a href="/en/backoffice/"
+					>Here is what I build</a
+				>, and <a href="/en/work/">here is what it has looked like</a>.
+			</p>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="shell band-inner reveal">
+			<p class="label">Get an estimate</p>
+			<h2>Describe it and I will tell you which end of the range it sits at</h2>
+			<p class="lede">
+				You should not have to guess. Tell me what your business does and what
+				you want built, and I will tell you the size of the job, what I would
+				cut to bring it down, and what is not worth building at all.
+			</p>
+			<div class="actions">
+				<MailButton label={`Email ${EMAIL}`} tone="on-dark" />
+				<a class="cta-quiet" href="/en/contact/">
+					Other ways to reach me
+					<Icon name="arrow" size={18} />
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.narrow {
+		max-width: 48rem;
+	}
+
+	.page-head .lede strong {
+		color: var(--ink);
+		font-weight: 500;
+	}
+
+	.budget-overview {
+		display: grid;
+		gap: 2rem;
+		margin-bottom: 2.25rem;
+	}
+
+	.budget-overview .section-head {
+		margin-bottom: 0;
+	}
+
+	.budget-visual {
+		min-width: 0;
+	}
+
+	.budget-visual :global(.ph) {
+		overflow: hidden;
+		border-radius: var(--radius);
+	}
+
+	@media (min-width: 48em) {
+		.budget-overview {
+			grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+			gap: 3.5rem;
+			align-items: center;
+			margin-bottom: 3.5rem;
+		}
+	}
+
+	/* ---- factors ----
+	   The page argues that no single number exists because six things move it,
+	   so the six read as one continuous scale rather than six equal cards: a
+	   single column with an unbroken rule running its full height and a honey
+	   tick at each stop. The ticks stay the same size on purpose, because the
+	   copy names scope as the largest driver and it comes first; a mark that
+	   grew downward would state the opposite of what the page says. */
+
+	.factors {
+		display: grid;
+		gap: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		max-width: 44rem;
+	}
+
+	.factor {
+		position: relative;
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 0 1.25rem;
+		align-items: start;
+		min-width: 0;
+		padding: 1.25rem 0 1.5rem;
+	}
+
+	.factor::before {
+		content: "";
+		position: absolute;
+		left: 0.53125rem;
+		top: 0;
+		bottom: 0;
+		width: 1px;
+		background: var(--rule);
+	}
+
+	.factor:first-child::before {
+		top: 1.5rem;
+	}
+
+	.factor:last-child::before {
+		bottom: auto;
+		height: 1.5rem;
+	}
+
+	.factor-n {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		justify-items: center;
+		gap: 0.375rem;
+		width: 1.0625rem;
+		padding-block: 0.9375rem;
+		font-family: var(--font-head);
+		font-weight: 600;
+		font-size: var(--fs-label);
+		line-height: 1;
+		color: var(--honey-ink);
+		font-variant-numeric: tabular-nums;
+		background: var(--cream);
+	}
+
+	.factor-n::before {
+		content: "";
+		width: 0.6875rem;
+		height: 3px;
+		border-radius: 2px;
+		background: var(--honey);
+	}
+
+	.factor-body {
+		display: grid;
+		gap: 0.375rem;
+		min-width: 0;
+	}
+
+	.factor-body h3 {
+		font-size: var(--fs-subtitle);
+		font-weight: 600;
+	}
+
+	.factor-body p {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		max-width: 38rem;
+	}
+
+	@media (min-width: 48em) {
+		.factor {
+			gap: 0 1.75rem;
+			padding: 1.5rem 0 1.75rem;
+		}
+	}
+
+	/* ---- the two levers ----
+	   Deliberately two blocks, not a card grid: these are arguments to read,
+	   not options to pick between. */
+	.lever-list {
+		display: grid;
+		gap: 1.75rem;
+	}
+
+	.lever {
+		display: grid;
+		gap: 0.5rem;
+	}
+
+	.lever h3 {
+		font-size: var(--fs-subtitle);
+		font-weight: 600;
+	}
+
+	.lever p {
+		color: var(--muted);
+		max-width: 38rem;
+	}
+
+	.faq-a {
+		max-width: 40rem;
+	}
+</style>
