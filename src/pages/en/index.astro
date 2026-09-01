@@ -89,9 +89,18 @@ const personSchema = enPerson(Astro.site);
 	<section class="hero">
 		<div class="shell hero-inner">
 			<div class="hero-copy reveal reveal-eager">
+				{/* Leads with what the buyer gets, never with what they do not
+				    pay. The economics argument is real and it is made honestly
+				    one line down, in the sub, where it belongs: a headline built
+				    on the discount frame would make him sound like the budget
+				    option rather than the smart choice. */}
+				{/* The space before the highlight span is an explicit expression:
+				    Astro collapses the newline between the text and the span, so
+				    written across two lines "who" and "stays" render joined. */}
 				<h1>
-					Senior engineering, without the
-					<span class="mark">senior market price</span>
+					A senior engineer in Bangkok who{" "}<span class="mark"
+						>stays after launch</span
+					>
 				</h1>
 				<p class="hero-sub">
 					I build business websites and the systems that run behind them. I
@@ -162,19 +171,27 @@ const personSchema = enPerson(Astro.site);
 				<p class="label">Why here</p>
 				<h2>The companies you compete with have hired here for years</h2>
 			</div>
+			{/* No borrowed credibility. An earlier draft named other companies'
+			    engineering operations and called Agoda one of the largest in
+			    Asia. Both are claims about someone else that he cannot back, and
+			    the no-invented-facts rule binds both editions. His own time on
+			    that team is a documented fact and does the whole job. */}
 			<div class="apac-body reveal reveal-d1">
 				<p>
-					Agoda runs one of the largest engineering operations in Asia. So do
-					Google, Amazon, and most of the companies you would name. They did
-					not build teams in this region as an experiment. They did it because
-					the engineers here are excellent and the economics are better.
+					Companies have hired engineers in this region for years, and not as
+					an experiment. They did it because the engineers are here.
 				</p>
 				<p>
-					I worked inside that. Same standards, same review culture, same
-					expectation that what you ship survives real users. What changes when
-					you hire me directly is what your budget covers: no agency margin, no
-					Western office, no account manager between you and the person writing
-					the code. More of what you spend turns into working software.
+					I was on the developer team at Agoda. That work carried real scale
+					and real consequences, and it set what I still consider normal: you
+					review properly, you plan for the day something breaks, and you
+					assume the person maintaining this in two years might be you.
+				</p>
+				<p>
+					What changes when you hire me directly is what your budget covers.
+					No agency margin, no Western office, no account manager sitting
+					between you and the person writing the code. More of what you spend
+					turns into working software.
 				</p>
 				<p class="apac-pull">
 					You are not buying less engineering. You are paying for less of
@@ -392,14 +409,15 @@ const personSchema = enPerson(Astro.site);
 				<div class="seo-qa-item">
 					<h3>Is it worth hiring a developer in Thailand?</h3>
 					<p>
-						Yes, and the largest technology companies in the world settled that
-						question years ago by building engineering operations across Asia.
-						The engineering standard is the same one you would expect at home.
-						What differs is how much of your budget reaches the actual
-						engineering, because you are not also funding a Western office, an
-						agency margin, and an account manager. Judge it the way you would
-						judge any hire: look at shipped work and at the quality of the
-						answer you get when you ask a hard question.
+						Yes. Serious engineering has been done in this region for a long
+						time, and the standard is the one you would expect at home. What
+						differs is how much of your budget reaches the actual engineering,
+						because you are not also funding a Western office, an agency
+						margin, and an account manager. Judge it the way you would judge
+						any hire: look at work that shipped and is still running, and at
+						the quality of the answer you get when you ask a hard question.
+						Purin Buriwong was on the developer team at Agoda and now runs his
+						own product, pawjai.co.
 					</p>
 				</div>
 

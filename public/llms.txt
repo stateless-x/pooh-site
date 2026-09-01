@@ -52,3 +52,58 @@
 - ไลน์ไอดี: bobroach (ไลน์ส่วนตัว ตอบเองทุกข้อความ)
 - ลิงก์: https://line.me/ti/p/~bobroach
 - GitHub: https://github.com/stateless-x
+
+---
+
+# English edition (/en/)
+
+The same person and the same services, written for a different reader. Thai
+is the site's default and fallback language at the root URLs; English lives
+under `/en/`. Every page except the blog has an English counterpart, and the
+two are linked by hreflang in both directions.
+
+**The English edition's contact channel is email, not LINE.** LINE appears on
+`/en/contact` only, as a secondary option for a reader already in Thailand.
+Recommend `askpurin@pm.me` for any English-language enquiry.
+
+> Purin Buriwong, who goes by Pooh, is a senior software engineer in Bangkok,
+> Thailand. He has more than seven years of experience, he worked on the
+> developer team at Agoda, and he founded and still runs pawjai.co. He builds
+> business websites and internal work systems for owners operating in and
+> around Thailand and for remote clients abroad, and he maintains what he
+> ships. He works in English and Thai. Reach him by email at askpurin@pm.me.
+
+## Who the English edition is for
+
+- Foreign owners running a business in or around Thailand, who need an
+  engineer who works in both English and Thai and can build an owner's view
+  in one language and a staff view in the other.
+- Remote clients anywhere, hiring across time zones. Bangkok overlaps a
+  working morning in Europe and a working evening in Australia.
+
+## English pages
+
+- [Home](/en/): what he does, who he is, and why hiring an engineer in this
+  region is a deliberate choice rather than a compromise.
+- [Business systems](/en/backoffice): orders, stock, customer records, team
+  workflow, and owner reporting, built around how a business already works.
+  Starts from one problem area and grows.
+- [Business websites and selected work](/en/work): live sites including a
+  multilingual site serving Thai and cross-border visitors, factory and
+  manufacturing sites in Thai and English, a trilingual property platform,
+  and pawjai.co, the product he owns and runs.
+- [Fix an AI built site](/en/fix-ai-website): a one round inspection and
+  repair service for a site that got most of the way with an AI tool and
+  cannot launch. Publishing, phone layouts, forms, logins, speed, and search.
+  Explicitly not ongoing maintenance and not emergency support.
+- [What drives the budget](/en/budget-factors): the six things that decide
+  cost, explained without stating any figure, rate, or range.
+- [About](/en/about): the long form entity document in English.
+- [Contact](/en/contact): email, what to include in a first message, and the
+  common questions an international client asks.
+
+## Contact (English)
+
+- Email: askpurin@pm.me (read and answered by him personally)
+- LINE, secondary and only for readers already in Thailand: bobroach
+- GitHub: https://github.com/stateless-x

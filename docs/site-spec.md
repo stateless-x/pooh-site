@@ -1,5 +1,12 @@
 # Site Spec: ภูรินท์ — Freelance Developer Site (Thai)
 
+> **Scope.** This document describes the **Thai edition** at the root URLs
+> unless a section says otherwise. Since 2026-09-01 the site also ships an
+> **English edition under `/en/`** with a deliberately different voice,
+> audience, and contact channel. Its rules are in the "English edition"
+> section at the end of this file, and audits must judge each edition against
+> its own. See `docs/adr/0001-english-edition-diverges-from-thai-voice.md`.
+
 Personal site for a Thai freelance developer. Goal: make a potential client trust
 and contact him within one visit. All visible copy is Thai. Contact channel is
 personal LINE ID `bobroach` (NOT a LINE OA — do not call it OA).
@@ -502,6 +509,11 @@ about employers, dates, or outcomes may be added.
   the About strip (`เคยร่วมทีมพัฒนาที่ Agoda มาก่อน`). Never a badge, never a
   headline credential. The audit asserts <= 1 visible occurrence and 0 in
   titles / metas / og / JSON-LD / llms.txt.
+  **Thai edition only** (scoped 2026-09-01). The English edition may cite the
+  Agoda experience wherever it builds trust, meta and JSON-LD included; the
+  count assertion must be run against Thai pages only. What still binds both
+  editions is that it stays *his* experience: never embellished into a claim
+  about Agoda's size, ranking, or importance.
 - **Agoda is the ONLY past workplace that may appear on the site.** An earlier
   resume listed other employers; the owner confirmed it was outdated. Do not
   add London Stock Exchange Group, Accenture, or BluePi anywhere: not in visible
@@ -515,6 +527,12 @@ about employers, dates, or outcomes may be added.
 
 Still forbidden: years of experience, client counts, testimonials, ratings, or
 any metric. **Phone and email must never appear.** LINE is the only channel.
+
+> **Thai edition only** (scoped 2026-09-01). The email rule above was already
+> narrowed once for the Thai side, where `askpurin@pm.me` is the quiet second
+> channel. It does **not** apply to the English edition at all: `/en/` drives
+> to email as its primary channel and LINE appears there only on
+> `/en/contact`. See the English edition section at the end of this file.
 
 ### Pricing rule v2 (2026-08-28): magnitude words only
 
@@ -643,6 +661,13 @@ Two exceptions are now permitted in visible copy:
 Every other jargon ban stands: no API, CRUD, database, deploy, framework,
 responsive, stack, SaaS in visible copy. The audit greps are updated to allow
 these two and to assert the "Vibe Coding" count is exactly one.
+
+> **Thai edition only** (scoped 2026-09-01). The English edition relaxes the
+> jargon ban: technical vocabulary is allowed where it builds trust, because
+> its reader is often evaluating engineering capability directly. The
+> jargon grep and the "Vibe Coding" count must both be run against Thai pages
+> only. English copy must still be readable at grade 5 by a non-technical
+> owner. See the English edition section at the end of this file.
 
 ### Industries: two weights, one list (2026-08-31)
 
@@ -1023,8 +1048,158 @@ and `หนึ่งใน...ที่สุด` calques. A grep for all four is
 
 ---
 
+# English edition (2026-09-01)
+
+Everything above this heading describes the **Thai edition** unless it says
+otherwise. This section is the English edition's own rule set. Decision and
+rationale: `docs/adr/0001-english-edition-diverges-from-thai-voice.md`.
+Domain language: `CONTEXT.md`.
+
+**Audit each edition against its own rules.** A grep that asserts a Thai rule
+over `dist/en/` will report failures that are the English edition doing
+exactly what it was designed to do. Scope every Thai-only assertion to paths
+outside `/en/`.
+
+## Routing
+
+Astro built-in i18n, `defaultLocale: 'th'`, `locales: ['th', 'en']`,
+`routing: { prefixDefaultLocale: false }`. Thai therefore keeps every existing
+root URL untouched and English lives under `/en/`. Thai is the fallback
+language.
+
+Verified at the time of the change: a build of `main` diffed against a build
+of this branch shows **no removed line on any of the nine Thai pages except
+the CSS filename hash**. No Thai URL and no Thai visible string changed.
+
+## Pages
+
+Eight English pages: `/en/`, `/en/about`, `/en/work`, `/en/contact`,
+`/en/backoffice`, `/en/fix-ai-website`, `/en/budget-factors`, `/en/404`.
+
+**No English blog.** `/blog` is Thai-only, which is why `src/utils/locale.ts`
+maps paths explicitly rather than prefixing: a naive `"/en" + pathname` would
+emit an hreflang pointing at a 404 and would bounce a detected English reader
+into nothing.
+
+`/en/404` builds and renders correctly at its own URL, but Cloudflare Pages
+serves the single root `/404.html` for every unmatched route, so a real miss
+at `/en/anything` renders the **Thai** 404. Making the English 404 the error
+page for the `/en/` tree needs a host redirect rule, which is deploy
+configuration rather than a build change. Do not claim locale-aware 404
+serving without adding that rule.
+
+## Audience and success event
+
+| | Thai | English |
+| --- | --- | --- |
+| Reader | Thai SME owner, often on a phone | Foreign owner in or around Thailand; remote international client |
+| Traffic temperature | Warmer, often referral-checked | Colder, comparing against a global market |
+| Success event | A message to personal LINE `bobroach` | An email to `askpurin@pm.me` |
+| Primary channel surface | LINE everywhere | Email everywhere; LINE on `/en/contact` only |
+
+## Voice
+
+Direct, persuasive, conversion-driven, at a **grade-5 reading level**. Short
+sentences, one idea each, everyday words, active voice. Each page identifies
+the reader's pain, hooks fast, makes the offer concrete, handles the top
+objection, and closes on one email CTA.
+
+It must read as though a sharp native English copywriter wrote it. The
+translation test applies line by line: if a native speaker could plausibly say
+"this reads translated", rewrite it.
+
+## Positioning: APAC economics
+
+The core pillar. Serious companies already hire senior engineers in this
+region deliberately, so the buyer gets the same senior quality while their
+budget reaches further. Framed as **value arbitrage and smart buying**.
+
+Hard bans, English only, all four checked by the audit:
+
+1. The words **cheap, affordable, low-cost, budget-friendly, inexpensive**
+   never appear.
+2. **No figure, rate, range, or currency** appears, on any page. This is the
+   shared no-pricing rule; `/en/budget-factors` answers the cost question in
+   magnitude language the way the Thai page uses หลักพัน / หลักหมื่น / หลักแสน.
+3. **A headline leads with what the buyer gets, never with what they do not
+   pay.** An earlier home H1 read "Senior engineering, without the senior
+   market price": it passed the word grep and contained no figure, and it was
+   still the discount frame with the banned word removed. The economics
+   argument belongs one line down, in a subordinate position.
+4. **No borrowed credibility.** The argument is made from his own documented
+   experience. An earlier draft named other companies' engineering operations
+   and called Agoda "one of the largest in Asia"; both are claims about third
+   parties he cannot back, and the no-invented-facts rule binds both editions.
+
+## Relaxations, English only
+
+- Technical vocabulary is allowed where it builds trust: ex-Agoda experience,
+  "I maintain what I ship", naming real systems, "front end" and "back end".
+  Still grade-5 readable by a non-technical owner.
+- Agoda may appear more than once, meta and JSON-LD included. The site-wide
+  count assertion is Thai-only.
+- Email is the primary channel, contradicting the Thai "LINE is the only
+  channel" rule by design.
+
+## Rules that still bind both editions
+
+No price figures or amounts. No emoji. No em dashes or en dashes. No invented
+facts, which includes borrowed third-party credibility. No icon libraries:
+only `src/components/Icon.astro` and the two hand-drawn buttons
+(`LineButton.astro`, `MailButton.astro`). Every image is
+`ImagePlaceholder.astro` with real descriptive alt text in that page's own
+language.
+
+## Shared plumbing
+
+- **hreflang on every page in both editions**: `th`, `en`, and `x-default`.
+  x-default points at Thai because Thai is the fallback. `/blog` correctly
+  emits no `en` alternate.
+- **`src/utils/locale.ts` is the single path map.** Four consumers read it and
+  must never disagree: hreflang, the switcher href, the detection script, and
+  nav `aria-current`. Canonical and alternates are built from the same
+  normalisation, so a crawler never sees a mismatched URL pair.
+- **Sitemap**: `@astrojs/sitemap`'s `i18n.locales` is a **`Record<string, string>`**
+  (`{ th: 'th-TH', en: 'en-US' }`), a different shape from `astro.config`'s own
+  `i18n.locales` string array. It emits `xhtml:link` alternates per URL. Both
+  404s stay excluded, being noindex.
+- **Language switcher**, desktop header and mobile drawer, every page of both
+  editions. It sits **beside the header action, never inside the nav row**:
+  the inline row is also the no-JS fallback and the measured four-item ceiling
+  still holds. Measured at 320 with the `js` class removed, on both editions:
+  no horizontal scroll, and the switcher adds zero height because it shares a
+  wrapped row with the header CTA.
+- **Browser-language detection**, Thai pages only, a few dependency-free
+  inline lines. An explicit stored choice (`lang`) always wins. A first-visit
+  flag (`langseen`) is set whether or not a redirect happens, so a visitor who
+  switches back to Thai is never bounced again. It can only ever send someone
+  to that page's own English counterpart, computed server-side from the map.
+  Thai is the fallback whenever it cannot decide.
+
+## Audit pipeline additions
+
+Two passes, for the same reason the Thai pipeline needs them:
+
+1. **Word bans over raw `dist/`**: the discount words, emoji, and em/en dashes.
+   Safe, because no CSS value or SVG path data contains them.
+2. **Price figures over TAG-STRIPPED VISIBLE TEXT only.** `srcset` widths,
+   `viewBox` values, CSS lengths, and the footer wordmark path data are wall
+   to wall numerals and false-positive every page on a raw grep.
+
+Plus four structural assertions worth keeping: every hreflang target resolves
+to a route that was actually built; LINE appears in `/en/` on `/en/contact`
+and nowhere else; `<html lang>` matches the edition; and no Thai text or Thai
+`alt`/`aria-label` survives on an English page except the switcher's own
+`ไทย` label and the `สายมู.com` project name.
+
+---
+
 FRESH before → after: F 3→3 · R 3→3 (domain, crawler policy, entity fields,
-and the Agoda relocation all dated and stated as checkable rules) · E 2→2 ·
-S 3→3 · H 3→3 (the robots.txt manual sync, the alias array rationale, and the
-English-paragraph exception are all directly actionable)
-Total: 14/15 (A) → 14/15 (A)
+the Agoda relocation, and now the per-edition scoping of the LINE-only, Agoda
+count, and jargon rules all dated and stated as checkable rules) · E 2→3
+(the English edition section records the rejected home H1 and the borrowed
+credibility draft as worked examples, so the bans are demonstrated rather than
+only asserted) · S 3→3 · H 3→3 (the robots.txt manual sync, the alias array
+rationale, the sitemap i18n shape trap, and the Cloudflare 404 limitation are
+all directly actionable)
+Total: 14/15 (A) → 15/15 (A)

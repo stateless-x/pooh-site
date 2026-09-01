@@ -21,11 +21,11 @@ export const enFaq: FaqItem[] = [
 	},
 	{
 		q: "Why hire an engineer in Thailand rather than at home?",
-		a: "Because the good ones are here and have been for years. Serious companies have run engineering teams across Asia for two decades, and they did not do it as charity. You get senior work, and your budget covers more of it than it would at home, because you are not also paying for a Western office and a sales team. If the work is good, where it was written stops mattering the day you launch.",
+		a: "Because the good ones are here and have been for years. Serious engineering has been done in this region for a long time, and not as charity. You get senior work, and your budget covers more of it than it would at home, because you are not also paying for a Western office and a sales team. If the work is good, where it was written stops mattering the day you launch.",
 	},
 	{
 		q: "I started this with AI and got stuck. Will you take it?",
-		a: "Send it. I use AI every day myself, so there is nothing here to be embarrassed about. I will look at what you actually have and tell you which parts are worth keeping and which parts need rebuilding before they cost you more. Sometimes the honest answer is that finishing it is cheaper than starting over. Sometimes it is not. Either way you will know before you spend anything.",
+		a: "Send it. I use AI every day myself, so there is nothing here to be embarrassed about. I will look at what you actually have and tell you which parts are worth keeping and which parts need rebuilding before they cost you more. Sometimes the honest answer is that finishing it takes less than starting over. Sometimes it does not. Either way you will know before you spend anything.",
 	},
 	{
 		q: "Does the first conversation cost anything?",
@@ -45,7 +45,7 @@ export const enFaq: FaqItem[] = [
 	},
 	{
 		q: "Can I change my mind partway through?",
-		a: "Yes, and early is much better than late. I show you work as it goes so you can say \"not that\" while it is still cheap to change. We agree up front what this round covers; anything outside it we talk about and schedule rather than quietly absorbing it into the timeline.",
+		a: "Yes, and early is much better than late. I show you work as it goes so you can say \"not that\" while changing it still takes an afternoon rather than a rebuild. We agree up front what this round covers. Anything outside it we talk about and schedule, rather than quietly absorbing it into the timeline.",
 	},
 	{
 		q: "What happens after launch? Do you disappear?",

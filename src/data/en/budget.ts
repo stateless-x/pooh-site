@@ -61,7 +61,7 @@ export const enBudgetFaq: QA[] = [
 	},
 	{
 		q: "Why does hiring an engineer in Asia work in my favour?",
-		a: "It is the same reason serious companies have built engineering teams across Asia for two decades: the talent is senior, and the same budget reaches further than it does in London, Sydney, or San Francisco. You are not buying less. You are buying the same standard of engineering without paying for a Western office and a Western sales team on top of it.",
+		a: "For the same reason serious engineering has been done in this region for a long time: the talent is here, and the same budget reaches further than it does in London, Sydney, or San Francisco. You are not buying less. You are buying the same standard of engineering without paying for a Western office and a Western sales team on top of it.",
 	},
 	{
 		q: "How do payments work?",
