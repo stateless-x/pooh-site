@@ -1,0 +1,15 @@
+{
+  // Static-assets worker for pooh.fyi. Having this file present stops
+  // `npx wrangler deploy` from running its auto-config step, which would
+  // otherwise inject the @astrojs/cloudflare adapter at deploy time and
+  // rebuild into a different output layout.
+  "name": "pooh-site",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    // Serve the nearest 404.html for unmatched paths, so /en/* misses get
+    // dist/en/404.html (copied there by the build script) and everything
+    // else falls back to the Thai dist/404.html.
+    "not_found_handling": "404-page"
+  }
+}
