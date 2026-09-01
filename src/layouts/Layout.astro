@@ -7,10 +7,16 @@ import poohWordmark from "../assets/brand/pooh-wordmark.svg";
 import {
 	SITE_NAME,
 	PERSON_NAME,
+	PERSON_FULL_NAME,
+	ALIASES,
+	PERSON_TITLE,
 	IDENTITY_PHRASE,
 	LINE_URL,
+	EMAIL,
+	EMAIL_URL,
 	GITHUB_URL,
 } from "../../site.config.mjs";
+import { alternates, normalize, switchTarget, type Lang } from "../utils/locale";
 
 interface Props {
 	title: string;
@@ -19,19 +25,51 @@ interface Props {
 	schema?: Record<string, unknown> | Record<string, unknown>[];
 	/** Keep the page out of search results (used by 404). */
 	noindex?: boolean;
+	/**
+	 * Which edition this page belongs to. Thai is the default so every
+	 * existing page keeps its behaviour without passing anything; the English
+	 * pages under src/pages/en/ pass "en".
+	 */
+	lang?: Lang;
 }
 
-const { title, description, schema, noindex = false } = Astro.props;
+const { title, description, schema, noindex = false, lang = "th" } = Astro.props;
+const isEn = lang === "en";
 
-const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const path = normalize(Astro.url.pathname);
 
-// Every absolute URL derives from `site` in astro.config.mjs, which currently
-// holds a placeholder the owner must replace before deploy.
-const canonical = new URL(Astro.url.pathname, Astro.site);
+// Every absolute URL derives from `site` in astro.config.mjs.
+// Canonical and the hreflang alternates are built from the SAME normalised
+// paths, so the pair a crawler reads always agrees with itself.
+const pair = alternates(Astro.url.pathname);
+const canonical = new URL(isEn ? (pair.en ?? path) : (pair.th ?? path), Astro.site);
 // 1200x630 crop of the pooh-portfolio illustration, regenerated from
 // src/assets/images/illustrations/pooh-portfolio.webp (see public/og.jpg).
 const ogImage = new URL("/og.jpg", Astro.site);
-const ogImageAlt = `${PERSON_NAME} ${IDENTITY_PHRASE} รับทำเว็บไซต์และระบบสำหรับธุรกิจ`;
+const ogImageAlt = isEn
+	? `${PERSON_TITLE} Purin Buriwong builds business websites and work systems`
+	: `${PERSON_NAME} ${IDENTITY_PHRASE} รับทำเว็บไซต์และระบบสำหรับธุรกิจ`;
+
+// hreflang. x-default points at Thai because Thai is the fallback language:
+// a visitor whose language matches neither entry lands on the Thai edition.
+// A page with no counterpart (the Thai-only blog) simply emits no en entry
+// rather than a link into a 404.
+const hreflangs: { hreflang: string; href: string }[] = [
+	...(pair.th ? [{ hreflang: "th", href: new URL(pair.th, Astro.site).href }] : []),
+	...(pair.en ? [{ hreflang: "en", href: new URL(pair.en, Astro.site).href }] : []),
+	...(pair.th
+		? [{ hreflang: "x-default", href: new URL(pair.th, Astro.site).href }]
+		: []),
+];
+
+// The switcher's destination in the other edition, resolved server-side from
+// the one path map. Undefined on a page with no counterpart, which renders
+// the other language as plain text instead of a broken link.
+const switchHref = switchTarget(Astro.url.pathname, isEn ? "th" : "en");
+// The same map decides where a first-time English-preferring visitor is sent.
+// Computing it here rather than in the browser keeps the detection script to
+// a few dependency-free lines and stops the map being duplicated in JS.
+const detectHref = isEn ? undefined : pair.en;
 
 const schemaBlocks = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 
@@ -43,7 +81,7 @@ const schemaBlocks = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 // (measured), and dropping a destination would have been worse than dropping a
 // link the logo already provides. The logo carries aria-label "Pooh หน้าแรก",
 // so home stays reachable and named for assistive tech.
-const nav = [
+const navTh = [
 	{ href: "/backoffice", label: "ระบบธุรกิจ" },
 	{ href: "/budget-factors", label: "งบประมาณ" },
 	{ href: "/work", label: "ผลงาน" },
@@ -51,17 +89,81 @@ const nav = [
 	{ href: "/contact", label: "ติดต่อ" },
 ];
 
-// The footer still lists home explicitly, where there is room for it.
-const footNav = [
-	{ href: "/", label: "หน้าแรก" },
-	...nav,
-	{ href: "/about", label: "เกี่ยวกับผม" },
-	{ href: "/fix-ai-website", label: "รับแก้เว็บที่สร้างด้วย AI" },
+// The English nav has no blog: the blog is Thai-only, so listing it here
+// would send an English reader into Thai copy. Four items, which is also the
+// measured ceiling for the inline row at 320px.
+const navEn = [
+	{ href: "/en/backoffice/", label: "Systems" },
+	{ href: "/en/budget-factors/", label: "Budget" },
+	{ href: "/en/work/", label: "Work" },
+	{ href: "/en/contact/", label: "Contact" },
 ];
 
+const nav = isEn ? navEn : navTh;
+
+// The footer still lists home explicitly, where there is room for it.
+const footNav = isEn
+	? [
+			{ href: "/en/", label: "Home" },
+			...navEn,
+			{ href: "/en/about/", label: "About" },
+			{ href: "/en/fix-ai-website/", label: "Fix an AI built site" },
+		]
+	: [
+			{ href: "/", label: "หน้าแรก" },
+			...navTh,
+			{ href: "/about", label: "เกี่ยวกับผม" },
+			{ href: "/fix-ai-website", label: "รับแก้เว็บที่สร้างด้วย AI" },
+		];
+
+// Every string of chrome the layout renders, in both editions. The English
+// side is not a translation of the Thai: it names the same destinations the
+// way an English reader would.
+//
+// The header and footer calls to action are the load-bearing difference.
+// English drives to email, so the header pill and the footer button are both
+// email; LINE appears on the English side only on /en/contact, as the
+// secondary option. Thai keeps LINE everywhere, unchanged.
+const t = isEn
+	? {
+			skip: "Skip to main content",
+			navLabel: "Main menu",
+			drawerNavLabel: "Drawer menu",
+			homeAria: "Pooh home",
+			openMenu: "Open menu",
+			closeMenu: "Close menu",
+			headCta: "Email me",
+			headCtaHref: EMAIL_URL,
+			headCtaAria: `Email ${EMAIL}`,
+			backToTop: "Back to top",
+			githubAria: "See code samples on GitHub",
+			footNote: "Freelance developer building business websites and work systems.",
+			footCtaLabel: "Tell me what you need",
+			footCtaButton: "Email me",
+			footCtaNote: "One person reads every message. I reply myself.",
+			home: "Home",
+		}
+	: {
+			skip: "ข้ามไปยังเนื้อหาหลัก",
+			navLabel: "เมนูหลัก",
+			drawerNavLabel: "เมนูในลิ้นชัก",
+			homeAria: "Pooh หน้าแรก",
+			openMenu: "เปิดเมนู",
+			closeMenu: "ปิดเมนู",
+			headCta: "ทักไลน์",
+			headCtaHref: LINE_URL,
+			headCtaAria: undefined,
+			backToTop: "กลับไปด้านบน",
+			githubAria: "ดูตัวอย่างโค้ดบน GitHub",
+			footNote: "รับงานอิสระ ออกแบบและพัฒนาเว็บไซต์และระบบสำหรับธุรกิจ",
+			footCtaLabel: "คุยกันได้เลยครับ",
+			footCtaButton: undefined,
+			footCtaNote: "ไลน์ส่วนตัว ตอบเองทุกข้อความ",
+			home: "หน้าแรก",
+		};
 ---
 
-<html lang="th">
+<html lang={lang}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -80,8 +182,18 @@ const footNav = [
 		    manifest keeps honey as the brand theme colour. */}
 		<meta name="theme-color" content="#FFF9ED" />
 		<link rel="canonical" href={canonical.href} />
+		{/* Both editions declare the same alternate set, so a crawler landing
+		    on either one finds the other. x-default points at Thai: Thai is
+		    the fallback for a visitor whose language matches neither. */}
+		{
+			hreflangs.map((alt) => (
+				<link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+			))
+		}
 		<meta property="og:type" content="website" />
-		<meta property="og:locale" content="th_TH" />
+		<meta property="og:locale" content={isEn ? "en_US" : "th_TH"} />
+		{isEn && <meta property="og:locale:alternate" content="th_TH" />}
+		{!isEn && pair.en && <meta property="og:locale:alternate" content="en_US" />}
 		<meta property="og:site_name" content={SITE_NAME} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
@@ -117,16 +229,60 @@ const footNav = [
 		<script is:inline>
 			document.documentElement.classList.add("js");
 		</script>
+		{/* Browser-language detection. Thai pages only, and only for a visitor
+		    who has neither chosen a language nor been offered this redirect
+		    before. Thai is always the fallback: nothing here can send a
+		    visitor anywhere except to this page's own English counterpart,
+		    and only when English clearly outranks Thai in their preferences.
+
+		    Two separate guards stop the flash-loop. `lang` is the explicit
+		    choice from the switcher and always wins. `langseen` is set on the
+		    first visit whether or not a redirect happened, so a visitor who
+		    switches back to Thai is never bounced again.
+
+		    The destination is interpolated from the same path map the
+		    hreflang tags use, so it can never point at a page that does not
+		    exist. Pages with no English counterpart render no script. */}
+		{
+			detectHref && (
+				<script is:inline define:vars={{ detectHref }}>
+					(function () {
+						try {
+							var chosen = localStorage.getItem("lang");
+							if (chosen === "en") {
+								location.replace(detectHref);
+								return;
+							}
+							if (chosen || localStorage.getItem("langseen")) return;
+							localStorage.setItem("langseen", "1");
+							var langs = navigator.languages || [navigator.language || ""];
+							for (var i = 0; i < langs.length; i++) {
+								var l = String(langs[i]).toLowerCase();
+								// First hit wins: Thai ahead of English means stay.
+								if (l.indexOf("th") === 0) return;
+								if (l.indexOf("en") === 0) {
+									location.replace(detectHref);
+									return;
+								}
+							}
+						} catch (e) {
+							// Private mode can throw on localStorage. Thai is the
+							// fallback, so doing nothing is the correct outcome.
+						}
+					})();
+				</script>
+			)
+		}
 	</head>
 	<body>
-		<a class="skip" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+		<a class="skip" href="#main">{t.skip}</a>
 
 		<header class="site-head">
 			<div class="shell head-inner">
 				{/* Lockup at 44px tall renders 110px wide, clearing the brand's
 				    100px minimum. Below 26em the header is too tight for that, so
 				    the mark alone is used, per the same rule. */}
-				<a class="site-logo-link" href="/" aria-label="Pooh หน้าแรก">
+				<a class="site-logo-link" href={isEn ? "/en/" : "/"} aria-label={t.homeAria}>
 					<AssetImage
 						class="site-logo site-logo-lockup"
 						src={poohLockup}
@@ -148,14 +304,16 @@ const footNav = [
 				    js class it simply renders as a normal row at every width, which
 				    keeps the existing no-JS guarantee with no checkbox hack. The
 				    drawer only takes over once JS has marked the document. */}
-				<nav class="nav-inline" aria-label="เมนูหลัก">
+				<nav class="nav-inline" aria-label={t.navLabel}>
 					<ul>
 						{
 							nav.map((item) => (
 								<li>
 									<a
 										href={item.href}
-										aria-current={path === item.href ? "page" : undefined}
+										aria-current={
+											path === normalize(item.href) ? "page" : undefined
+										}
 									>
 										{item.label}
 									</a>
@@ -172,15 +330,65 @@ const footNav = [
 				    colour on the site above the logo. An outlined cocoa pill
 				    reads as part of the header, and green stays the one colour
 				    that means "this is the action". */}
-				<a class="head-cta" href={LINE_URL}>
+				{/* The TH/EN switch is a control, not a destination, so it sits
+				    beside the header action rather than inside the nav row: the
+				    inline row is also the no-JS fallback and a fifth item in it
+				    wraps at 320, 360, 375 and 414 (measured, see site-spec).
+				    Two short glyph-width labels, and the current language is
+				    plain text with aria-current rather than a link to itself. */}
+				<div class="lang-switch" role="group" aria-label={isEn ? "Language" : "ภาษา"}>
+					{
+						isEn && switchHref ? (
+							<a href={switchHref} data-lang-pick="th" hreflang="th" lang="th">
+								ไทย
+							</a>
+						) : (
+							<span aria-current={!isEn ? "true" : undefined} lang="th">
+								ไทย
+							</span>
+						)
+					}
+					<span class="lang-sep" aria-hidden="true"></span>
+					{
+						!isEn && switchHref ? (
+							<a href={switchHref} data-lang-pick="en" hreflang="en" lang="en">
+								EN
+							</a>
+						) : (
+							<span aria-current={isEn ? "true" : undefined} lang="en">
+								EN
+							</span>
+						)
+					}
+				</div>
+
+				<a class="head-cta" href={t.headCtaHref} aria-label={t.headCtaAria}>
 					<span class="head-cta-mark" aria-hidden="true">
-						<svg viewBox="0 0 24 24" fill="none" focusable="false">
-							<path
-								d="M12 3.2c-5 0-9 3.2-9 7.2 0 3.6 3 6.6 7.1 7.1.3.06.6.2.7.4.1.2.06.5.03.7l-.1.7c-.04.2-.2.9.7.5s4.9-2.9 6.7-5c1.2-1.3 1.8-2.7 1.8-4.4 0-4-4-7.2-9-7.2Z"
-								fill="currentColor"></path>
-						</svg>
+						{
+							isEn ? (
+								<svg
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="1.75"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									focusable="false"
+								>
+									<rect x="3" y="5.5" width="18" height="13" rx="2.5" />
+									<path d="m3.8 7 7.1 5.4a1.8 1.8 0 0 0 2.2 0L20.2 7" />
+								</svg>
+							) : (
+								<svg viewBox="0 0 24 24" fill="none" focusable="false">
+									<path
+										d="M12 3.2c-5 0-9 3.2-9 7.2 0 3.6 3 6.6 7.1 7.1.3.06.6.2.7.4.1.2.06.5.03.7l-.1.7c-.04.2-.2.9.7.5s4.9-2.9 6.7-5c1.2-1.3 1.8-2.7 1.8-4.4 0-4-4-7.2-9-7.2Z"
+										fill="currentColor"
+									/>
+								</svg>
+							)
+						}
 					</span>
-					<span class="head-cta-label">ทักไลน์</span>
+					<span class="head-cta-label">{t.headCta}</span>
 				</a>
 
 				<button
@@ -188,7 +396,7 @@ const footNav = [
 					type="button"
 					aria-expanded="false"
 					aria-controls="nav-drawer"
-					aria-label="เปิดเมนู"
+					aria-label={t.openMenu}
 				>
 					<svg
 						viewBox="0 0 24 24"
@@ -211,7 +419,7 @@ const footNav = [
 
 		<div class="nav-drawer" id="nav-drawer" hidden>
 			<div class="drawer-head">
-				<a class="drawer-brand" href="/" aria-label={`${SITE_NAME} หน้าแรก`}>
+				<a class="drawer-brand" href={isEn ? "/en/" : "/"} aria-label={t.homeAria}>
 					<AssetImage
 						class="drawer-bear"
 						src={poohMark}
@@ -230,7 +438,7 @@ const footNav = [
 						loading="lazy"
 					/>
 				</a>
-				<button class="drawer-close" type="button" aria-label="ปิดเมนู">
+				<button class="drawer-close" type="button" aria-label={t.closeMenu}>
 					<svg
 						viewBox="0 0 24 24"
 						fill="none"
@@ -246,17 +454,16 @@ const footNav = [
 				</button>
 			</div>
 
-			<nav class="drawer-nav" aria-label="เมนูในลิ้นชัก">
+			<nav class="drawer-nav" aria-label={t.drawerNavLabel}>
 				<ul>
-					<li>
-						<a href="/" aria-current={path === "/" ? "page" : undefined}>หน้าแรก</a>
-					</li>
 					{
-						footNav.slice(1).map((item) => (
+						footNav.map((item) => (
 							<li>
 								<a
 									href={item.href}
-									aria-current={path === item.href ? "page" : undefined}
+									aria-current={
+										path === normalize(item.href) ? "page" : undefined
+									}
 								>
 									{item.label}
 								</a>
@@ -266,24 +473,77 @@ const footNav = [
 				</ul>
 			</nav>
 
+			{/* The switch again inside the drawer, because below 48em the header
+			    row collapses to the logo and the toggle and the header copy is
+			    hidden. A visitor on a phone must still be able to change
+			    language on every page. */}
+			<div class="drawer-lang" role="group" aria-label={isEn ? "Language" : "ภาษา"}>
+				{
+					isEn && switchHref ? (
+						<a href={switchHref} data-lang-pick="th" hreflang="th" lang="th">
+							ไทย
+						</a>
+					) : (
+						<span aria-current={!isEn ? "true" : undefined} lang="th">
+							ไทย
+						</span>
+					)
+				}
+				{
+					!isEn && switchHref ? (
+						<a href={switchHref} data-lang-pick="en" hreflang="en" lang="en">
+							English
+						</a>
+					) : (
+						<span aria-current={isEn ? "true" : undefined} lang="en">
+							English
+						</span>
+					)
+				}
+			</div>
+
 			{/* Square icon pair rather than a full-width button: the drawer is
 			    already a list of text rows, so two 1:1 tiles read as "ช่องทาง"
 			    instead of a third nav item. LINE keeps its own green; GitHub
 			    stays in the header's ink so the green still means one thing. */}
+			{/* English drives to email, so the drawer's channel tile is email
+			    rather than LINE. LINE appears in the English edition only on
+			    /en/contact, as the secondary option there. */}
 			<div class="drawer-foot">
-				<a class="drawer-icon is-line" href={LINE_URL} aria-label="ทักไลน์">
-					<svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-						<path
-							d="M12 3.2c-5 0-9 3.2-9 7.2 0 3.6 3 6.6 7.1 7.1.3.06.6.2.7.4.1.2.06.5.03.7l-.1.7c-.04.2-.2.9.7.5s4.9-2.9 6.7-5c1.2-1.3 1.8-2.7 1.8-4.4 0-4-4-7.2-9-7.2Z"
-							fill="currentColor"></path>
-					</svg>
-				</a>
+				{
+					isEn ? (
+						<a class="drawer-icon is-mail" href={EMAIL_URL} aria-label={`Email ${EMAIL}`}>
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.75"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+								focusable="false"
+							>
+								<rect x="3" y="5.5" width="18" height="13" rx="2.5" />
+								<path d="m3.8 7 7.1 5.4a1.8 1.8 0 0 0 2.2 0L20.2 7" />
+							</svg>
+						</a>
+					) : (
+						<a class="drawer-icon is-line" href={LINE_URL} aria-label="ทักไลน์">
+							<svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+								<path
+									d="M12 3.2c-5 0-9 3.2-9 7.2 0 3.6 3 6.6 7.1 7.1.3.06.6.2.7.4.1.2.06.5.03.7l-.1.7c-.04.2-.2.9.7.5s4.9-2.9 6.7-5c1.2-1.3 1.8-2.7 1.8-4.4 0-4-4-7.2-9-7.2Z"
+									fill="currentColor"
+								/>
+							</svg>
+						</a>
+					)
+				}
 				<a
 					class="drawer-icon"
 					href={GITHUB_URL}
 					target="_blank"
 					rel="noopener"
-					aria-label="ดูตัวอย่างโค้ดบน GitHub"
+					aria-label={t.githubAria}
 				>
 					<svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
 						<path
@@ -325,10 +585,8 @@ const footNav = [
 							<path fill="currentColor" d="M463.00 558.00Q463.00 519.00 450.50 485.00Q438.00 451.00 415.00 426.00Q392.00 401.00 359.50 386.50Q327.00 372.00 286.00 372.00Q245.00 372.00 211.00 386.50Q177.00 401.00 152.00 426.00Q127.00 451.00 113.00 485.00Q99.00 519.00 99.00 558.00Q99.00 597.00 113.00 631.00Q127.00 665.00 152.00 690.00Q177.00 715.00 211.00 729.50Q245.00 744.00 286.00 744.00Q327.00 744.00 359.50 729.50Q392.00 715.00 415.00 690.00Q438.00 665.00 450.50 631.00Q463.00 597.00 463.00 558.00ZM36.00 324.00L102.00 324.00L102.00 402.00L104.00 402.00Q120.00 378.00 142.00 361.00Q164.00 344.00 188.00 333.00Q212.00 322.00 237.50 317.00Q263.00 312.00 286.00 312.00Q341.00 312.00 386.50 330.50Q432.00 349.00 465.00 382.00Q498.00 415.00 516.50 460.00Q535.00 505.00 535.00 558.00Q535.00 611.00 516.50 656.00Q498.00 701.00 465.00 734.00Q432.00 767.00 386.50 785.50Q341.00 804.00 286.00 804.00Q263.00 804.00 237.50 799.00Q212.00 794.00 188.00 783.00Q164.00 772.00 142.00 755.00Q120.00 738.00 104.00 714.00L102.00 714.00L102.00 1080.00L36.00 1080.00ZM1044.00 558.00Q1044.00 519.00 1031.50 485.00Q1019.00 451.00 996.00 426.00Q973.00 401.00 940.50 386.50Q908.00 372.00 867.00 372.00Q826.00 372.00 793.50 386.50Q761.00 401.00 738.50 426.00Q716.00 451.00 703.50 485.00Q691.00 519.00 691.00 558.00Q691.00 597.00 703.50 631.00Q716.00 665.00 738.50 690.00Q761.00 715.00 793.50 729.50Q826.00 744.00 867.00 744.00Q908.00 744.00 940.50 729.50Q973.00 715.00 996.00 690.00Q1019.00 665.00 1031.50 631.00Q1044.00 597.00 1044.00 558.00ZM1116.00 558.00Q1116.00 611.00 1097.50 656.00Q1079.00 701.00 1046.00 734.00Q1013.00 767.00 967.50 785.50Q922.00 804.00 867.00 804.00Q813.00 804.00 767.50 785.50Q722.00 767.00 689.00 734.00Q656.00 701.00 637.50 656.00Q619.00 611.00 619.00 558.00Q619.00 505.00 637.50 460.00Q656.00 415.00 689.00 382.00Q722.00 349.00 767.50 330.50Q813.00 312.00 867.00 312.00Q922.00 312.00 967.50 330.50Q1013.00 349.00 1046.00 382.00Q1079.00 415.00 1097.50 460.00Q1116.00 505.00 1116.00 558.00ZM1633.00 558.00Q1633.00 519.00 1620.50 485.00Q1608.00 451.00 1585.00 426.00Q1562.00 401.00 1529.50 386.50Q1497.00 372.00 1456.00 372.00Q1415.00 372.00 1382.50 386.50Q1350.00 401.00 1327.50 426.00Q1305.00 451.00 1292.50 485.00Q1280.00 519.00 1280.00 558.00Q1280.00 597.00 1292.50 631.00Q1305.00 665.00 1327.50 690.00Q1350.00 715.00 1382.50 729.50Q1415.00 744.00 1456.00 744.00Q1497.00 744.00 1529.50 729.50Q1562.00 715.00 1585.00 690.00Q1608.00 665.00 1620.50 631.00Q1633.00 597.00 1633.00 558.00ZM1705.00 558.00Q1705.00 611.00 1686.50 656.00Q1668.00 701.00 1635.00 734.00Q1602.00 767.00 1556.50 785.50Q1511.00 804.00 1456.00 804.00Q1402.00 804.00 1356.50 785.50Q1311.00 767.00 1278.00 734.00Q1245.00 701.00 1226.50 656.00Q1208.00 611.00 1208.00 558.00Q1208.00 505.00 1226.50 460.00Q1245.00 415.00 1278.00 382.00Q1311.00 349.00 1356.50 330.50Q1402.00 312.00 1456.00 312.00Q1511.00 312.00 1556.50 330.50Q1602.00 349.00 1635.00 382.00Q1668.00 415.00 1686.50 460.00Q1705.00 505.00 1705.00 558.00ZM1821.00 36.00L1887.00 36.00L1887.00 399.00L1889.00 399.00Q1900.00 380.00 1917.00 364.00Q1934.00 348.00 1955.00 336.50Q1976.00 325.00 1999.50 318.50Q2023.00 312.00 2046.00 312.00Q2136.00 312.00 2179.00 359.50Q2222.00 407.00 2222.00 495.00L2222.00 792.00L2156.00 792.00L2156.00 533.00Q2156.00 455.00 2129.00 413.50Q2102.00 372.00 2029.00 372.00Q2024.00 372.00 2001.00 376.00Q1978.00 380.00 1952.50 398.00Q1927.00 416.00 1907.00 452.00Q1887.00 488.00 1887.00 552.00L1887.00 792.00L1821.00 792.00Z" />
 						</svg>
 					</div>
-					<p class="foot-note">
-						รับงานอิสระ ออกแบบและพัฒนาเว็บไซต์และระบบสำหรับธุรกิจ
-					</p>
-					<nav class="foot-nav" aria-label="เมนูท้ายหน้า">
+					<p class="foot-note">{t.footNote}</p>
+					<nav class="foot-nav" aria-label={isEn ? "Footer menu" : "เมนูท้ายหน้า"}>
 						<ul>
 							{
 								footNav.map((item) => (
@@ -340,15 +598,41 @@ const footNav = [
 						</ul>
 					</nav>
 				</div>
+				{/* The channel is the whole difference between the editions:
+				    Thai closes on LINE, English closes on email. The English
+				    footer therefore renders a mail button, never the LINE one,
+				    so LINE stays confined to /en/contact. */}
 				<div class="foot-cta">
-					<p class="foot-cta-label">คุยกันได้เลยครับ</p>
-					<LineButton />
-					<p class="foot-note">ไลน์ส่วนตัว ตอบเองทุกข้อความ</p>
+					<p class="foot-cta-label">{t.footCtaLabel}</p>
+					{
+						isEn ? (
+							<a class="mail-btn" href={EMAIL_URL}>
+								<span class="mail-btn-mark" aria-hidden="true">
+									<svg
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="1.75"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										focusable="false"
+									>
+										<rect x="3" y="5.5" width="18" height="13" rx="2.5" />
+										<path d="m3.8 7 7.1 5.4a1.8 1.8 0 0 0 2.2 0L20.2 7" />
+									</svg>
+								</span>
+								<span>{t.footCtaButton}</span>
+							</a>
+						) : (
+							<LineButton />
+						)
+					}
+					<p class="foot-note">{t.footCtaNote}</p>
 				</div>
 			</div>
 		</footer>
 
-		<button class="back-to-top" type="button" aria-label="กลับไปด้านบน" data-back-to-top>
+		<button class="back-to-top" type="button" aria-label={t.backToTop} data-back-to-top>
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
 				<path d="M12 19V5" />
 				<path d="m6.5 10.5 5.5-5.5 5.5 5.5" />
@@ -430,6 +714,28 @@ const footNav = [
 						if (el.getBoundingClientRect().top < window.innerHeight) show(el);
 					}
 				});
+			})();
+		</script>
+
+		{/* Records the visitor's explicit language choice. This is the value
+		    the detection script above checks first, so once someone picks a
+		    language the browser's preference never overrides them again.
+		    `langseen` is set alongside it so a visitor who switches back to
+		    Thai is not bounced to English by a later first-visit check. */}
+		<script is:inline>
+			(function () {
+				var picks = document.querySelectorAll("[data-lang-pick]");
+				for (var i = 0; i < picks.length; i++) {
+					picks[i].addEventListener("click", function () {
+						try {
+							localStorage.setItem("lang", this.getAttribute("data-lang-pick"));
+							localStorage.setItem("langseen", "1");
+						} catch (e) {
+							// Storage refused: the click still navigates, the
+							// choice simply is not remembered for next time.
+						}
+					});
+				}
 			})();
 		</script>
 
@@ -1052,6 +1358,186 @@ const footNav = [
 
 				.site-head nav ul {
 					gap: 2rem;
+				}
+			}
+
+			/* ---- language switch ----
+			   A control, not a destination, so it never joins the nav row:
+			   the inline row is also the no-JS fallback and a fifth item in
+			   it wraps at 320. Two short labels with a hairline between them
+			   read as one switch rather than two links. The current language
+			   is plain text, so the only thing that looks clickable is the
+			   thing that does something. */
+			.lang-switch {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				align-self: center;
+				margin-left: auto;
+				font-family: var(--font-head);
+				font-weight: 500;
+				font-size: var(--fs-label);
+				line-height: 1;
+			}
+
+			/* The header CTA also claims margin-left:auto. With the switch
+			   present the switch takes the gap and the CTA sits beside it. */
+			.lang-switch + .head-cta {
+				margin-left: 0.75rem;
+			}
+
+			.lang-switch a {
+				color: var(--muted);
+				text-decoration: none;
+				/* Padding, not height: the row is baseline-aligned and a taller
+				   box would push the header. Coarse pointers get the real 44px
+				   target below. */
+				padding: 0.25rem 0.125rem;
+			}
+
+			.lang-switch a:hover {
+				color: var(--ink);
+				text-decoration: underline;
+			}
+
+			.lang-switch span[aria-current] {
+				color: var(--ink);
+				font-weight: 600;
+			}
+
+			/* Neither current nor available: the page has no counterpart in
+			   that language, so the label stays but reads as unavailable. */
+			.lang-switch span:not([aria-current]) {
+				color: var(--rule);
+			}
+
+			.lang-sep {
+				width: 1px;
+				height: 0.875rem;
+				background: var(--rule);
+			}
+
+			@media (pointer: coarse) {
+				.lang-switch a {
+					min-height: 44px;
+					display: inline-flex;
+					align-items: center;
+				}
+			}
+
+			/* Phones hide the header CTA and collapse the row to the logo plus
+			   the toggle, so the switch goes with it and the drawer carries
+			   the language choice instead. */
+			@media (max-width: 47.99em) {
+				html.js .lang-switch {
+					display: none;
+				}
+			}
+
+			/* Drawer copy of the switch: full words rather than the compact
+			   header labels, because there is room and a phone visitor should
+			   not have to decode "EN". */
+			.drawer-lang {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				flex-wrap: wrap;
+				padding-top: 0.875rem;
+				border-top: 1px solid var(--rule-soft);
+				font-family: var(--font-head);
+				font-weight: 500;
+				font-size: var(--fs-body-sm);
+			}
+
+			.drawer-lang a,
+			.drawer-lang span {
+				display: inline-flex;
+				align-items: center;
+				min-height: 44px;
+				padding: 0 0.625rem;
+				border-radius: 10px;
+				border: 1px solid var(--rule);
+				color: var(--muted);
+				text-decoration: none;
+			}
+
+			.drawer-lang span[aria-current] {
+				background: var(--tint-strong);
+				border-color: transparent;
+				color: var(--cocoa);
+			}
+
+			.drawer-lang span:not([aria-current]) {
+				opacity: 0.45;
+			}
+
+			/* ---- mail button ----
+			   The English edition's closing action. It is the outlined
+			   treatment rather than a filled brand colour: LINE green means
+			   "the one action" on the Thai side and must not be borrowed for
+			   a different channel, and the footer band is already cocoa. */
+			.mail-btn {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.625rem;
+				padding: 0.8125rem 1.375rem;
+				border-radius: 12px;
+				background: var(--cream);
+				color: var(--cocoa);
+				font-family: var(--font-head);
+				font-weight: 600;
+				font-size: var(--fs-body);
+				line-height: 1.4;
+				text-decoration: none;
+				border: 1px solid transparent;
+				transition:
+					transform 180ms ease,
+					box-shadow 180ms ease,
+					background-color 180ms ease;
+			}
+
+			.mail-btn-mark {
+				display: block;
+				width: 1.5rem;
+				height: 1.5rem;
+			}
+
+			.mail-btn-mark svg {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+
+			@media (hover: hover) {
+				.mail-btn:hover {
+					background: #fff;
+					transform: translateY(-2px);
+					box-shadow: 0 8px 18px rgba(42, 33, 26, 0.28);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.mail-btn {
+					transition: none;
+				}
+
+				.mail-btn:hover {
+					transform: none;
+				}
+			}
+
+			/* Mail tile in the drawer, matching the LINE tile's weight on the
+			   Thai side: cocoa fill, cream glyph, 12.5:1. */
+			.drawer-icon.is-mail {
+				background: var(--cocoa);
+				border-color: transparent;
+				color: var(--cream);
+			}
+
+			@media (hover: hover) {
+				.drawer-icon.is-mail:hover {
+					background: #241a12;
+					border-color: transparent;
 				}
 			}
 
