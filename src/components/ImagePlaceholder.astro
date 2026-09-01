@@ -49,6 +49,7 @@ const isPlaceholder = !imageSrc;
 	{
 		imageSrc ? (
 			<AssetImage
+				class="ph-image"
 				src={imageSrc}
 				alt={alt}
 				loading={loading}
@@ -70,7 +71,7 @@ const isPlaceholder = !imageSrc;
 		background: var(--tint);
 	}
 
-	.ph img,
+	.ph :global(.ph-image),
 	.ph-placeholder {
 		display: block;
 		width: 100%;
