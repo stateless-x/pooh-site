@@ -26,5 +26,5 @@ An international visitor sends an email to askpurin@pm.me. LINE remains availabl
 The existing Thai site at the root URLs, unchanged. Thai is the fallback language when detection cannot decide.
 
 ### Voice (English)
-Full wolf: direct, persuasive, conversion-driven copy at a grade-5 reading level. May name real technical things when they build trust. Deliberately diverges from the Thai voice (see ADR 0001).
-- **Not to be confused with:** the Thai voice — warm, honest, plain, no hype, no technical vocabulary.
+The same warm, honest, plain first-person voice as the Thai edition, in grade-5 English, carried by persuasion structure (clear offer, handled objection, one email CTA) rather than persuasive tone (formerly "full wolf", rejected as arrogant — see ADR 0002). May name real technical things when they build trust. Identity is stated plainly: a freelance developer based in Bangkok, Thailand, taking remote work.
+- **Not to be confused with:** the Thai voice — same warmth, but Thai additionally bans all technical vocabulary.

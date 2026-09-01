@@ -1,7 +1,7 @@
 # 0001. The English edition uses a persuasion-first voice that diverges from the Thai brand voice
 
 Date: 2026-09-01
-Status: accepted
+Status: superseded by 0002
 
 ## Context
 
