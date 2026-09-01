@@ -283,7 +283,7 @@ const t = isEn
 		<a class="skip" href="#main">{t.skip}</a>
 
 		<header class="site-head">
-			<div class="shell head-inner">
+			<div class:list={["shell", "head-inner", { "is-en": isEn }]}>
 				{/* Lockup at 44px tall renders 110px wide, clearing the brand's
 				    100px minimum. Below 26em the header is too tight for that, so
 				    the mark alone is used, per the same rule. */}
@@ -1230,6 +1230,13 @@ const t = isEn
 				justify-content: space-between;
 				gap: 0.5rem 1.5rem;
 				padding-block: 1.125rem;
+			}
+
+			/* Baseline alignment reads fine with Thai glyphs but drops the
+			   Latin nav labels visibly below the logo, so the English header
+			   centers instead. Thai keeps baseline untouched. */
+			.head-inner.is-en {
+				align-items: center;
 			}
 
 			/* ---- logo ----
