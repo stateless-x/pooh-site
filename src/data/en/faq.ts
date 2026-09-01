@@ -17,7 +17,7 @@ export interface FaqItem {
 export const enFaq: FaqItem[] = [
 	{
 		q: "I am not in Thailand. Can we still work together?",
-		a: "Yes. Most of my work happens over email and calls anyway, and that does not change with an ocean in between. I am in Bangkok, which overlaps a working morning in Europe and a working evening in Australia. If you are in the Americas we settle on a fixed window that works for both of us and stick to it. Distance has never been the hard part; being unclear about scope is.",
+		a: "Yes. Most of my work happens over email and calls anyway, and that does not change with an ocean in between. I am in Bangkok, which overlaps a working morning in Europe and a working evening in Australia. If you are in the Americas we settle on a fixed window that works for both of us and stick to it. Distance has never been the hard part. Being unclear about scope is.",
 	},
 	{
 		q: "Why hire an engineer in Thailand rather than at home?",
@@ -53,6 +53,6 @@ export const enFaq: FaqItem[] = [
 	},
 	{
 		q: "What do you need from me to start?",
-		a: "Almost nothing. Tell me what your business does, what is going wrong now, and what you want people to be able to do. If you have a site, files, or notes already, send them. If you do not, that is fine too. You do not need a specification to email me; that is what the first conversation is for.",
+		a: "Almost nothing. Tell me what your business does, what is going wrong now, and what you want people to be able to do. If you have a site, files, or notes already, send them. If you do not, that is fine too. You do not need a specification to email me. That is what the first conversation is for.",
 	},
 ];

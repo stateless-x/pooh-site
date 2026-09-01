@@ -111,7 +111,7 @@ export const enEngagements: { icon: string; title: string; body: string }[] = [
 	{
 		icon: "contract",
 		title: "Join your team on contract",
-		body: "Right for a company that already has a team and a clear roadmap but needs another senior pair of hands for a defined stretch of time.",
+		body: "Right for a company that already has a team and a clear roadmap and needs a senior engineer alongside them for a defined stretch of time.",
 	},
 ];
 
