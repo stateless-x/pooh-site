@@ -17,7 +17,7 @@ export interface FaqItem {
 export const enFaq: FaqItem[] = [
 	{
 		q: "Can I hire a freelance developer in Thailand for remote work?",
-		a: "Yes, and a good part of my work is exactly that. I am based in Bangkok, Thailand, and I take remote projects with clients abroad alongside customers here. Bangkok is seven hours ahead of London, and close to the working day in Australia and Singapore. For clients in the Americas we agree one time each week that suits us both. What makes it work is the same anywhere: the scope written down, and you seeing the work as it goes rather than only at the end.",
+		a: "Yes, and a good part of my work is exactly that. I am based in Bangkok, Thailand, and I take remote projects with clients abroad alongside customers here. Bangkok is six or seven hours ahead of London, and close to the working day in Australia and Singapore. For clients in the Americas we agree one time each week that suits us both. What makes it work is the same anywhere: the scope written down, and you seeing the work as it goes rather than only at the end.",
 	},
 	{
 		q: "I started this with AI and got stuck. Will you take it?",
