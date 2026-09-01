@@ -1081,12 +1081,12 @@ maps paths explicitly rather than prefixing: a naive `"/en" + pathname` would
 emit an hreflang pointing at a 404 and would bounce a detected English reader
 into nothing.
 
-`/en/404` builds and renders correctly at its own URL, but Cloudflare Pages
-serves the single root `/404.html` for every unmatched route, so a real miss
-at `/en/anything` renders the **Thai** 404. Making the English 404 the error
-page for the `/en/` tree needs a host redirect rule, which is deploy
-configuration rather than a build change. Do not claim locale-aware 404
-serving without adding that rule.
+Cloudflare serves the **nearest** `404.html` for an unmatched route, walking
+up the directory tree from the request path. Astro builds the English 404 as
+`en/404/index.html`, so the build script copies it to `dist/en/404.html`; a
+miss under `/en/` then renders the English 404 and a miss anywhere else
+renders the root Thai one. No host configuration is involved, but the copy
+lives in `package.json`'s build script, so a new build pipeline must keep it.
 
 ## Audience and success event
 

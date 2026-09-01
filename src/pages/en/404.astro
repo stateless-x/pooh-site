@@ -6,11 +6,11 @@ import AssetImage from "../../components/AssetImage.astro";
 import poohMark from "../../assets/brand/pooh-mark.svg";
 
 /**
- * NOTE ON HOSTING: Cloudflare Pages serves the single root /404.html for every
- * unmatched route, so a miss at /en/anything renders the Thai 404 rather than
- * this page. This page is correct and reachable at its own URL; making it the
- * error page for the /en/ tree would need a host redirect rule, which is a
- * deploy configuration change rather than a build one.
+ * NOTE ON HOSTING: Cloudflare serves the NEAREST 404.html for an unmatched
+ * route, walking up the directory tree from the request path. Astro builds
+ * this page as en/404/index.html, so the build script copies it to
+ * dist/en/404.html; with that file in place a miss under /en/ renders this
+ * page and a miss anywhere else renders the root Thai 404.
  */
 ---
 
