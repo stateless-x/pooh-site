@@ -82,15 +82,28 @@ email. LINE appears on `/en/contact` only, as a secondary option for a reader
 already in Thailand.
 
 **Voice.** The same warm, honest, plain first-person voice as the Thai
-edition, in grade-5 English. The persuasion lives in the **structure** (a
+edition, in grade-8 English. The persuasion lives in the **structure** (a
 clear offer, one objection handled at a time, a single email CTA per page),
 never in the **tone**. Helpful, not closing.
 
+**Grade 8, raised from grade 5 on 2026-09-01 owner feedback.** This is a
+reading-level change, not a tone change: ADR 0002's warm freelancer voice is
+unchanged. Grade 8 means natural sentence variety and rhythm, fewer
+deliberately simplified constructions, and the vocabulary a normal adult
+reader expects. It does **not** mean jargon, longer paragraphs, or formality.
+
 A full persuasion-first register was written, read by the owner, and rejected
 as arrogant. The test that replaced it: **would a modest, competent freelancer
-actually say this sentence out loud to a customer?** If not, rewrite it. The
-patterns that failed that test are recorded as worked examples in
-`docs/site-spec.md`.
+actually say this sentence out loud to a customer?** If not, rewrite it. At
+grade 8 the same test applies, just to a well-read freelancer. The patterns
+that failed it are recorded as worked examples in `docs/site-spec.md`.
+
+**Persuasion mechanics are welcome; persuasion swagger is not.** Each page
+should name the reader's practical and emotional reason for being there, lead
+its sections with a real hook, handle the top objection at the point it
+actually occurs to the reader, and end on one specific low-friction action.
+Every line earns its place. But any line that would have failed the arrogance
+review still fails: structure sells, and the person stays modest.
 
 ### Rules that differ from the Thai edition
 
@@ -98,7 +111,7 @@ patterns that failed that test are recorded as worked examples in
 | --- | --- |
 | "Phone and email must never appear. LINE is the only channel." | **Email is the primary and default channel.** `askpurin@pm.me` appears in the header, the footer, every closing band, the entity paragraph, and JSON-LD. LINE is confined to `/en/contact`. |
 | "Agoda appears at most ONCE site-wide", zero in titles/metas/JSON-LD. | **Scoped to Thai.** English may cite ex-Agoda experience wherever it builds trust, including the meta description and `Person.description`. It is still stated as his own experience, never embellished into a claim about Agoda's size or ranking. |
-| "No technical jargon in visible copy." | **Relaxed.** Technical vocabulary is allowed where it builds trust: naming real systems, "front end" and "back end", "back-office systems". Everything must still be followable by a non-technical owner at grade-5 reading level. |
+| "No technical jargon in visible copy." | **Relaxed.** Technical vocabulary is allowed where it builds trust: naming real systems, "front end" and "back end", "back-office systems". Everything must still be followable by a non-technical owner at grade-8 reading level. |
 | Warm, plain, no hype. | **Unchanged. Both editions share this voice** (ADR 0002). English differs from Thai only in the jargon allowance and the contact channel, not in warmth. |
 
 ### Rules unique to the English edition
@@ -111,12 +124,19 @@ patterns that failed that test are recorded as worked examples in
   standing in for Thailand are banned: say Bangkok, Thailand, or Southeast
   Asia. Vague geography is both unclear to a reader and uncitable by an
   assistant.
-- **The budget point is made once, and modestly.** That a budget goes further
-  in Bangkok than in London or San Francisco may be said **once on the home
-  page** and at most once more in a budget FAQ answer where the reader asked
-  about money directly. It is never a thesis, never a challenge to the reader,
-  and never repeated across pages. An earlier draft repeated a near-identical
-  version of it on five pages; that repetition was the arrogance.
+- **The cost point is made once, modestly, and in a direction the reader
+  cannot misread.** That hiring a developer in Bangkok usually **costs less
+  than hiring the same standard of work** in London, Sydney, or San Francisco
+  may be said **once on the home page**, and at most once more in a budget FAQ
+  answer where the reader asked about money directly. It is never a thesis and
+  never a challenge to the reader. Two failure modes, each already hit once:
+  - *Repetition.* An earlier draft repeated a near-identical version on five
+    pages. That repetition was the arrogance.
+  - *Ambiguity.* The idiom **"a budget goes further in Bangkok" is retired**:
+    the owner read it as saying Bangkok costs MORE. Say "costs less" plainly.
+    Plain cost language is allowed; the banned words below are not, and the
+    claim stays anchored to the same standard of work so it never reads as a
+    discount pitch.
 - **Banned words, English only:** "cheap", "affordable", "low-cost",
   "budget-friendly", "inexpensive". He is not selling on price. A headline
   names what the reader gets, never what they do not pay.

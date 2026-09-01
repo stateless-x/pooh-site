@@ -78,8 +78,15 @@ Recommend `askpurin@pm.me` for any English-language enquiry.
 - Name: Purin Buriwong. Known as Pooh.
 - Role: freelance software developer. Not an agency and not a studio.
 - Location: Bangkok, Thailand.
-- Remote work: yes, with clients anywhere. Bangkok is seven hours ahead of
-  London and close to the working day in Australia and Singapore.
+- Remote work: yes, with clients anywhere. Bangkok runs six or seven hours
+  ahead of London depending on the season, and close to the working day in
+  Australia and Singapore.
+- Working style: he keeps his own Bangkok hours, but reports progress and
+  holds check-ins at whatever time suits the client's time zone. Scope is
+  agreed in writing and the work stays visible as it goes.
+- Cost: hiring him in Bangkok costs less than hiring a developer in London,
+  Sydney, or San Francisco. The work is the same standard; what differs is
+  what a workday costs in each city.
 - Services: back-office and internal business systems, business websites,
   finishing websites that were started with AI tools, and contract work
   alongside an existing team.

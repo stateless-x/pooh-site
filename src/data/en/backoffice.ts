@@ -57,7 +57,7 @@ export const enWorkflow: {
 		icon: "teamwork",
 		problem: {
 			title: "You find out who is doing what by asking",
-			body: "Every status update costs someone an interruption, and the answer is out of date by the afternoon.",
+			body: "Every status update costs somebody an interruption, and whatever answer you get is out of date by the afternoon.",
 		},
 		answer: {
 			title: "Work you can see",
@@ -68,7 +68,7 @@ export const enWorkflow: {
 		icon: "report",
 		problem: {
 			title: "You wait on someone to tell you how the business is doing",
-			body: "You want to know what sold and what is running low, and you have to ask a person to build a file first.",
+			body: "You want to know what sold and what is running low, and somebody has to assemble a file before you can find out.",
 		},
 		answer: {
 			title: "Numbers you open yourself",
@@ -87,7 +87,7 @@ export const enLevels: { icon: string; title: string; body: string }[] = [
 	{
 		icon: "teamwork",
 		title: "Get the team working off the same information",
-		body: "Right when several people need the same facts, hand work between each other, and want to see where something stands without asking.",
+		body: "Right when several people rely on the same information, hand work between each other, and want to see where something stands without having to ask.",
 	},
 	{
 		icon: "overview",

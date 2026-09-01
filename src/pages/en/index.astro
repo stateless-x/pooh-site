@@ -20,7 +20,7 @@ const offers = [
 		icon: "flow",
 		tint: "is-clay",
 		title: "Back-office systems",
-		body: "Orders, stock, customers, and team work in one place, so nobody is chasing anybody for a number.",
+		body: "Orders, stock, customers, and team workload in one place, so nobody is chasing anybody for a number.",
 		href: "/en/backoffice/",
 		linkLabel: "See what I build",
 	},
@@ -28,7 +28,7 @@ const offers = [
 		icon: "storefront",
 		tint: "",
 		title: "Business websites",
-		body: "A site that says what you do in the first few seconds and makes getting in touch effortless.",
+		body: "A site that explains what you do within seconds, and makes getting in touch effortless.",
 		href: "/en/work/",
 		linkLabel: "See the work",
 	},
@@ -36,7 +36,7 @@ const offers = [
 		icon: "help",
 		tint: "is-amber",
 		title: "Finishing what AI started",
-		body: "You got most of the way with a tool and got stuck. I look at what you have and help you finish it.",
+		body: "You got most of the way with a tool and then stalled. I look at what you have and help you finish.",
 		href: "/en/fix-ai-website/",
 		linkLabel: "See what I fix",
 	},
@@ -44,7 +44,7 @@ const offers = [
 		icon: "care",
 		tint: "",
 		title: "Looking after it afterwards",
-		body: "I still run my own product, so I know what it takes. After launch I am here for changes and fixes.",
+		body: "I run my own product, so I know what maintaining one costs. After launch I am here for changes and fixes.",
 		href: "/en/about/",
 		linkLabel: "A bit about me",
 	},
@@ -55,25 +55,25 @@ const steps = [
 		n: "01",
 		icon: "listen",
 		title: "You tell me what is going wrong",
-		body: "I ask about the problem first, before talking about what to build.",
+		body: "I ask about the problem properly before anyone talks about what to build.",
 	},
 	{
 		n: "02",
 		icon: "scope",
 		title: "We agree the scope in writing",
-		body: "What gets built, what does not, and roughly how long. Before anyone starts.",
+		body: "What gets built, what does not, and roughly how long, settled before I start.",
 	},
 	{
 		n: "03",
 		icon: "updates",
-		title: "You see it working as it goes",
-		body: "Real software at each stage, not a progress report at the end.",
+		title: "You watch it come together",
+		body: "Working software at each stage, reported on your clock, not a summary at the end.",
 	},
 	{
 		n: "04",
 		icon: "deliver",
 		title: "You launch, and you own it",
-		body: "The code is yours, with a handover so anyone can pick it up.",
+		body: "The code is yours, with a written handover so anyone can pick it up later.",
 	},
 ] as const;
 
@@ -108,8 +108,9 @@ const personSchema = enPerson(Astro.site);
 				<p class="hero-sub">
 					Hi, I am Pooh, a freelance developer based in Bangkok, Thailand. I
 					build the back-office systems that keep a business running day to
-					day, and the websites that bring customers to it. Then I stay around
-					after launch to look after what I built.
+					day, along with the websites that bring customers to it. And I stay
+					around after launch, because that is usually when the useful
+					questions start.
 				</p>
 				<div class="actions">
 					<MailButton label="Email me about your project" />
@@ -180,29 +181,45 @@ const personSchema = enPerson(Astro.site);
 			</div>
 			<div class="remote-body reveal reveal-d1">
 				<p>
-					I am in Bangkok, Thailand. If you are in Europe, my afternoon is
-					your morning. If you are in Australia or Singapore, we are close
-					enough that it barely matters. If you are in the Americas, we pick
-					one time that suits us both each week and keep it.
+					I am based in Bangkok, Thailand. If you are in Europe, my afternoon
+					lands in your morning. Australia and Singapore are close enough that
+					it barely registers. For clients in the Americas, we agree on one
+					slot each week that genuinely works for both of us, and we keep it.
 				</p>
+				{/* The owner's working-style promise, integrated with the existing
+				    scope-and-visibility material rather than bolted on as its own
+				    paragraph: he keeps his own Bangkok hours, but the updates
+				    arrive on the client's clock. */}
 				<p>
-					In practice the time difference is rarely the hard part. What
-					actually helps is writing the scope down and showing you the work as
-					it goes, so you are never wondering what is happening. I do that
-					anyway, whether you are around the corner or on the other side of
-					the world.
+					I work my own hours here in Bangkok, but you should never have to do
+					time-zone arithmetic to find out how your project is going. Progress
+					updates and check-ins happen at whatever time suits you, in your time
+					zone. In between, the scope stays written down and the work stays
+					visible as it goes, so nothing about it should feel like guesswork.
+					That is how I work with everyone, whether you are across town or on
+					the other side of the world.
 				</p>
 				<p>
 					I also work in Thai. If you run a business in Thailand and your team
-					does not use English, I can give you an owner's view in English and
-					a staff view in Thai from the same system, so nothing gets lost in
-					between.
+					does not use English, I can give you an owner's view in English and a
+					staff view in Thai from the same system, so nothing gets lost between
+					the two.
 				</p>
+				{/* THE CANONICAL COST LINES. An earlier draft said a budget "tends
+				    to go further in Bangkok", which the owner read as meaning it
+				    costs MORE. Idioms are banned anywhere near money here: short
+				    declarative sentences, the word "less" doing the work, and the
+				    same-standard anchor so it never collapses into "the cheap
+				    option". These three sentences appear in the same construction
+				    on /en/, /en/budget-factors, and the budget FAQ, so a reader
+				    who sees it twice sees the identical claim. */}
 				<p>
-					One more thing that is fair to mention: hiring me directly means
-					there is no agency in the middle, and a budget tends to go further
-					in Bangkok than it would in London or San Francisco. That is a nice
-					side effect, not the reason to pick me. Look at the work first.
+					One thing worth stating plainly. Hiring me in Bangkok costs less than
+					hiring a developer in London, Sydney, or San Francisco. The work is
+					the same standard. What changes is what a workday costs in each city.
+					Going direct also means no agency is taking a cut in between. I would
+					treat all of that as a useful side effect rather than a reason to
+					hire anyone. Judge the work first.
 				</p>
 			</div>
 		</div>
@@ -310,19 +327,21 @@ const personSchema = enPerson(Astro.site);
 			<p class="label reveal">About me</p>
 			<div class="about-text reveal reveal-d1">
 				<p>
-					I am Purin Buriwong, and most people call me Pooh. I am a freelance
-					developer in Bangkok, Thailand. I have been building software for
-					over seven years, so I started before AI could write code, and I use
-					it now the way a developer does.
+					I am Purin Buriwong, though most people call me Pooh. I am a
+					freelance developer in Bangkok, Thailand, and I have been building
+					software for over seven years. That means I started before AI could
+					write code, and I use it now the way a developer does rather than as
+					a shortcut around understanding things.
 				</p>
 				<p>
-					I also run pawjai.co myself, which means I know what it is like to
-					still be looking after something two years after launch.
+					I also run pawjai.co myself, so I know what it is like to still be
+					looking after something two years after launch.
 					<a href="/en/about/">A bit more about how I work</a>
 				</p>
 				<p>
-					Work is delivered in stages you can see, and everything is yours at
-					the end. If you ever want someone else to take it over, you can.
+					Work arrives in stages you can see, and everything is yours at the
+					end. If you ever want someone else to take it over, nothing stops
+					you.
 				</p>
 			</div>
 		</div>
@@ -441,12 +460,14 @@ const personSchema = enPerson(Astro.site);
 				<div class="seo-qa-item">
 					<h3>How do time zones work with a developer in Bangkok?</h3>
 					<p>
-						Bangkok is six or seven hours ahead of London and close to the working day
-						in Australia and Singapore, so an afternoon in Bangkok is a morning
-						in Europe. For clients in the Americas, one agreed time each week
-						usually covers it. In practice the time difference matters less
-						than having the scope written down and being able to see the work
-						as it goes, which is how Purin Buriwong works with every client.
+						Bangkok runs six or seven hours ahead of London depending on the
+						season, and sits close to the working day in Australia and
+						Singapore, so an afternoon in Bangkok is a morning in Europe. For
+						clients in the Americas, one agreed time each week usually covers
+						it. Purin Buriwong keeps his own hours in Bangkok but reports
+						progress at whatever time suits the client's own time zone. In
+						practice the time difference matters far less than having the scope
+						written down and being able to watch the work as it goes.
 					</p>
 				</div>
 

@@ -27,7 +27,7 @@ export const enRepairCategories: { title: string; body: string }[] = [
 	},
 	{
 		title: "It looks right on a laptop and falls apart on a phone",
-		body: "Text running off the edge, buttons too small to hit, a menu that will not open. Most of your visitors are on a phone, so this is not a cosmetic issue. It is the whole shop window.",
+		body: "Text running off the edge, buttons too small to tap, a menu that refuses to open. Most of your visitors arrive on a phone, so this is not a cosmetic problem. It is the whole shop window.",
 	},
 	{
 		title: "Forms submit into nowhere",
@@ -42,15 +42,15 @@ export const enRepairCategories: { title: string; body: string }[] = [
 		body: "That usually means things are tangled together underneath. I look for what is actually causing it, keep the parts that work, and rebuild only the parts that keep causing trouble, so the next change is less of a gamble.",
 	},
 	{
-		title: "Google cannot read it, or has not found it",
-		body: "Page titles, descriptions, the real content, and what shows up when someone shares a link. If search engines cannot make sense of your site, you are invisible no matter how good it looks.",
+		title: "Google cannot read it, or has not found it yet",
+		body: "Page titles, descriptions, the actual content, and what appears when someone shares a link. If search engines cannot make sense of your site, you are effectively invisible no matter how good it looks.",
 	},
 ];
 
 export const enFixAiFaq: QA[] = [
 	{
 		q: "What kind of AI built sites do you take on?",
-		a: "Business sites, service and landing pages, and small systems with a clear purpose. The best fit is a site that is nearly there but stuck on publishing, phones, forms, logins, speed, or search. I look at the real thing before I say yes to anything, then tell you exactly which parts I will fix.",
+		a: "Business sites, service and landing pages, and small systems with a clear purpose. The best fit is a site that is nearly there but stuck on publishing, phone layouts, forms, logins, speed, or search. I look at the real thing before agreeing to anything, then tell you exactly which parts I would fix.",
 	},
 	{
 		q: "What would you turn down?",

@@ -666,7 +666,7 @@ these two and to assert the "Vibe Coding" count is exactly one.
 > jargon ban: technical vocabulary is allowed where it builds trust, because
 > its reader is often evaluating engineering capability directly. The
 > jargon grep and the "Vibe Coding" count must both be run against Thai pages
-> only. English copy must still be readable at grade 5 by a non-technical
+> only. English copy must still be readable at grade 8 by a non-technical
 > owner. See the English edition section at the end of this file.
 
 ### Industries: two weights, one list (2026-08-31)
@@ -1100,21 +1100,50 @@ lives in `package.json`'s build script, so a new build pipeline must keep it.
 ## Voice (rewritten 2026-09-01, ADR 0002)
 
 **The same warm, honest, plain first-person voice as the Thai edition, in
-grade-5 English.** Short sentences, one idea each, everyday words, active
-voice. Persuasion lives in the **structure** and not in the tone: a clear
-offer, one objection handled at a time, a single email CTA per page. Helpful,
-not closing.
+grade-8 English.** Persuasion lives in the **structure** and not in the tone:
+a clear offer, one objection handled at a time, a single email CTA per page.
+Helpful, not closing.
 
 The person the copy has to sound like: **a freelance developer based in
 Bangkok, Thailand, who takes remote work and builds business websites and
 back-office systems for customers.** Write that person, proudly and plainly.
 
-Two tests, applied line by line:
+### Reading level: grade 8 (raised from grade 5, 2026-09-01)
+
+Owner feedback. **This is a reading-level change, not a tone change** — ADR
+0002's voice is untouched, and every rule below still applies.
+
+| Grade 8 means | Grade 8 does NOT mean |
+| --- | --- |
+| Natural sentence variety and rhythm | Longer paragraphs |
+| The vocabulary a normal adult reader expects | Jargon or Latinate padding |
+| Fewer deliberately simplified constructions | Formality or corporate register |
+| Subordinate clauses where they read naturally | Nested clause chains |
+
+The earlier grade-5 target produced copy that was correct but slightly
+flattened: a run of uniformly short declaratives reads as simplified-for-you
+rather than plainly written, which is its own kind of condescension.
+
+### Persuasion mechanics, without the swagger
+
+Structure may work hard. Each page should name the reader's practical and
+emotional reason for being there, lead its sections with a real hook, handle
+the top objection at the point it actually occurs to the reader, and close on
+one specific low-friction action. Flabby lines get cut.
+
+**A line that would have failed the arrogance review still fails.** Structure
+sells; the person stays modest. The rejected patterns below are the boundary.
+
+### Three tests, applied line by line
 
 1. **The read-aloud test.** Would a modest, competent freelancer actually say
-   this sentence out loud to a customer? If not, rewrite it.
+   this sentence out loud to a customer? If not, rewrite it. At grade 8, the
+   same test, just to a well-read freelancer.
 2. **The translation test.** Could a native speaker plausibly say "this reads
    translated"? If so, rewrite it.
+3. **The inversion test**, for anything about money. Could a distracted reader
+   take the sentence to mean the opposite? If so, rewrite it. See the cost
+   construction below.
 
 ### The rejected draft, kept as worked examples
 
@@ -1159,12 +1188,33 @@ home page answers, plainly, what working with him from another country is
 like: where he is, how the hours line up, that you talk to him rather than an
 account manager, and that he works in Thai as well as English.
 
-**The budget point is made once and modestly.** That a budget goes further in
-Bangkok than in London or San Francisco may appear **once on the home page**,
-and at most once more in a budget FAQ answer where the reader asked about
-money directly. Never as a thesis, never as a challenge, never repeated across
-pages. It is stated as a side effect and is followed by pointing the reader at
-the work instead.
+**The cost point is made once, modestly, and unambiguously.** That hiring a
+developer in Bangkok usually **costs less than hiring the same standard of
+work** in London, Sydney, or San Francisco may appear **once on the home
+page**, and at most once more in a budget FAQ answer where the reader asked
+about money directly. Never as a thesis, never as a challenge, never repeated
+across pages. It is stated as a side effect and followed by pointing the
+reader at the work instead.
+
+**The idiom "a budget goes further in Bangkok" is retired** (owner feedback,
+round 3, raised twice). He read it as saying Bangkok costs MORE, and he was
+right that it is ambiguous: "goes further" needs the reader to already know
+which direction the comparison runs. **No idioms anywhere near money.**
+
+The canonical construction, used verbatim in structure wherever the claim
+appears so a reader who meets it twice meets the identical claim:
+
+> Hiring me in Bangkok costs less than hiring a developer in London, Sydney,
+> or San Francisco. The work is the same standard. What changes is what a
+> workday costs in each city.
+
+Why it is built this way: short declarative sentences a distracted reader
+cannot invert, the word **less** carrying the comparison, and the
+same-standard sentence immediately after so "costs less" never collapses into
+"is the cheap option". Plain cost language is allowed and always was; what is
+banned is the discount vocabulary below. It currently appears in exactly two
+places, the home `.remote` section and the `/en/budget-factors` FAQ answer
+about cost.
 
 Hard bans, English only, all checked by the audit:
 
@@ -1205,7 +1255,7 @@ English edition states the same facts in the same words across every surface:
 
 - Technical vocabulary is allowed where it builds trust: ex-Agoda experience,
   naming real systems, "front end" and "back end", "back-office systems".
-  Still grade-5 readable by a non-technical owner.
+  Still grade-8 readable by a non-technical owner.
 - Agoda may appear more than once, meta and JSON-LD included. The site-wide
   count assertion is Thai-only.
 - Email is the primary channel, contradicting the Thai "LINE is the only

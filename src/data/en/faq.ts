@@ -17,11 +17,11 @@ export interface FaqItem {
 export const enFaq: FaqItem[] = [
 	{
 		q: "Can I hire a freelance developer in Thailand for remote work?",
-		a: "Yes, and a good part of my work is exactly that. I am based in Bangkok, Thailand, and I take remote projects with clients abroad alongside customers here. Bangkok is six or seven hours ahead of London, and close to the working day in Australia and Singapore. For clients in the Americas we agree one time each week that suits us both. What makes it work is the same anywhere: the scope written down, and you seeing the work as it goes rather than only at the end.",
+		a: "Yes, and a good share of my work is exactly that. I am based in Bangkok, Thailand, and I take on remote projects with clients abroad alongside customers here. Bangkok runs six or seven hours ahead of London depending on the season, and sits close to the working day in Australia and Singapore. For clients in the Americas we settle on one weekly slot that suits us both. I keep my own hours here, but I report progress at whatever time works in your time zone, so you are never the one staying up for an update. Beyond that, what makes remote work succeed is the same everywhere: the scope written down, and the work visible as it goes rather than only at the end.",
 	},
 	{
 		q: "I started this with AI and got stuck. Will you take it?",
-		a: "Please do send it. I use AI every day myself, so there is really nothing to be embarrassed about here. I will look at what you have and tell you which parts are worth keeping and which parts are better rebuilt. Sometimes finishing what you have is the shorter road, sometimes it is not. Either way you will know before you spend anything.",
+		a: "Please do send it over. I use AI every day myself, so there is genuinely nothing to be embarrassed about here. I will go through what you have and tell you which parts are worth keeping and which are better rebuilt. Sometimes finishing what exists is the shorter road, and sometimes it is not. Either way you will know before you spend anything.",
 	},
 	{
 		q: "Does the first conversation cost anything?",
@@ -29,19 +29,19 @@ export const enFaq: FaqItem[] = [
 	},
 	{
 		q: "Who owns the code when we are done?",
-		a: "You do. All of it, plus a written handover so your own team or another developer can pick it up without needing to call me. Nothing is tied to me and nothing is held back. If you want to move it somewhere else in a year, that is fine and it should be easy.",
+		a: "You do, all of it, along with a written handover so your own team or another developer can pick it up without having to call me. Nothing is tied to me and nothing is held back. If you decide to move it elsewhere in a year, that is entirely fine, and it should be straightforward.",
 	},
 	{
 		q: "How do payments work? Do I pay everything up front?",
-		a: "No. Payment is staged against progress, agreed at the start, so you see working software before you release the next stage. You are never handing over a lump sum and waiting to find out what comes back.",
+		a: "No. Payment is staged against progress and agreed at the outset, so you see working software before you release the next stage. You are never handing over a lump sum and waiting to discover what comes back.",
 	},
 	{
 		q: "How long will it take?",
-		a: "It depends on the size of the job and what you already have ready. After we talk I give you a real estimate, then split the work into stages so you see something working early instead of waiting until the end to find out we understood each other differently.",
+		a: "That depends on the size of the job and how much you already have ready. Once we have talked it through I give you a realistic estimate, then break the work into stages so you see something working early. Far better to catch a misunderstanding in week two than at handover.",
 	},
 	{
 		q: "Can I change my mind partway through?",
-		a: "Yes, and early is much better than late. I show you work as it goes so you can say \"not that\" while changing it still takes an afternoon rather than a rebuild. We agree up front what this round covers. Anything outside it we talk about and schedule, rather than quietly absorbing it into the timeline.",
+		a: "Yes, and early is far better than late. I show you the work as it goes so you can say \"not that\" while changing it still takes an afternoon rather than a rebuild. We agree up front what this round covers, and anything outside it we discuss and schedule properly, rather than quietly absorbing it into the timeline.",
 	},
 	{
 		q: "What happens after launch? Do you disappear?",
