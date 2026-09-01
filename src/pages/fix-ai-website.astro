@@ -225,7 +225,71 @@ const breadcrumb = {
 		</div>
 	</section>
 
-	<section class="section">
+	{/* ข้อตกลงการทำงาน วางไว้ต่อจากขั้นตอนการทำงานและก่อนคำถามที่พบบ่อย
+	    ซึ่งเป็นจุดที่คนอ่านเพิ่งเห็นภาพว่างานเดินยังไงและกำลังชั่งใจเรื่องเงื่อนไข
+	    ทั้งสองข้อเขียนในมุมที่ว่าเป็นการปกป้องงานของลูกค้าเอง ไม่ใช่การกันตัว
+	    ห้ามใช้ศัพท์เทคนิคตามกฎของฉบับภาษาไทย จึงพูดเรื่องไฟล์และเวอร์ชัน
+	    ด้วยคำที่เจ้าของธุรกิจใช้กันจริง */}
+	<section class="section agreement" aria-labelledby="agreement-heading">
+		<div class="shell narrow">
+			<div class="section-head reveal">
+				<p class="label">บอกไว้ก่อนตั้งแต่ต้น</p>
+				<h2 id="agreement-heading">สองเรื่องเกี่ยวกับการดูแลไฟล์งานระหว่างทำ</h2>
+				<p class="lede">
+					สองข้อนี้เป็นเรื่องปกติของการทำงานครับ
+					และมีไว้ด้วยเหตุผลเดียวกันคือให้งานที่คุณได้รับ
+					เป็นตัวเดียวกับที่เราเข้าใจตรงกันทั้งคู่
+				</p>
+			</div>
+
+			<ol class="agreement-list reveal">
+				<li class="agreement-item">
+					<span class="agreement-n" aria-hidden="true">01</span>
+					<div class="agreement-body">
+						<h3>ระหว่างที่ผมทำ ให้ยึดไฟล์ชุดที่ส่งมาเป็นตัวหลัก</h3>
+						<p>
+							ตอนตกลงงานกัน ผมจะรับไฟล์<span class="nb">ชุดล่าสุด</span>ที่คุณส่งมา
+							แล้วนับจากนั้นให้ถือว่าไฟล์ชุดนั้นเป็นตัวหลักตัวเดียว
+							ถ้าระหว่างที่ผมทำอยู่ คุณ เครื่องมือที่ใช้ หรือคนอื่น
+							ยังแก้ไฟล์ฝั่งของคุณไปด้วย ผมจะเอาสองฝั่งมารวมกันให้ไม่ได้ครับ
+							การไล่รวมงานสองชุดและตัดสินว่าตรงไหนจะเอาของใคร
+							เป็นงานที่ละเอียดมากและต้องเป็นฝั่งคุณจัดการเอง
+						</p>
+						<p>
+							วิธีที่ง่ายกว่าคือพักการแก้ฝั่งคุณไว้ก่อนระหว่างที่งานอยู่กับผม
+							หรือบอกมาว่าอยากแก้ตรงไหน แล้วให้ผมแก้ในไฟล์ชุดที่ทำอยู่เลย
+						</p>
+					</div>
+				</li>
+
+				<li class="agreement-item">
+					<span class="agreement-n" aria-hidden="true">02</span>
+					<div class="agreement-body">
+						<h3>หลังส่งมอบแล้ว ส่วนที่คุณแก้เองอยู่นอกความรับผิดชอบของผม</h3>
+						<p>
+							พอส่งมอบงานแล้ว เว็บเป็นของคุณ จะแก้เองก็ทำได้เต็มที่ครับ
+							แต่ถ้าสิ่งที่แก้หลังส่งมอบทำให้บางอย่างใช้งานไม่ได้
+							แล้วอยากให้ผมช่วยแก้ให้ ส่วนนั้นนับเป็นงานใหม่และมี<span class="nb">ค่าใช้จ่าย</span>เพิ่ม
+						</p>
+						<p>
+							เหตุผลตรง ๆ คือผมยังลงมือแก้ให้ทันทีไม่ได้
+							จนกว่าจะรู้ว่ามีอะไรเปลี่ยนไปบ้างและกระทบถึงส่วนไหนอีก
+							การไล่ดูตรงนี้คืองานส่วนใหญ่ และเป็นส่วนที่กันไม่ให้เรื่องเล็ก
+							กลายเป็นเรื่องใหญ่ทีหลัง ไม่ใช่การคิดเพิ่มเพื่อเอาผิดกันครับ
+							แต่เป็นสิ่งที่ต้องทำถ้าอยากให้งานออกมาเรียบร้อยจริง
+						</p>
+					</div>
+				</li>
+			</ol>
+
+			<p class="agreement-note reveal">
+				ถ้าไม่แน่ใจว่าเรื่องไหนเข้าข่ายบ้าง ทักมาถามผมก่อนแก้ได้เลยครับ
+				ถามก่อนไม่มี<span class="nb">ค่าใช้จ่าย</span> และใช้เวลาแป๊บเดียว
+			</p>
+		</div>
+	</section>
+
+	<section class="section band-tint">
 		<div class="shell narrow">
 			<div class="section-head reveal">
 				<p class="label">คำถามที่เจอบ่อย</p>
@@ -435,6 +499,75 @@ const breadcrumb = {
 		border-top: 1px solid var(--rule-soft);
 		font-size: var(--fs-body-sm);
 		color: var(--muted);
+	}
+
+	/* ---- ข้อตกลงการทำงาน ----
+	   ตั้งใจให้เงียบกว่าเช็กลิสต์อาการด้านบน ไม่ใช้การ์ดและไม่ใช้เงา
+	   เป็นแค่รายการมีเลขบนพื้นหน้าเว็บ เพราะสองข้อนี้คือเรื่องที่อ่านครั้งเดียว
+	   แล้วจำไว้ ไม่ใช่ตัวเลือกที่ต้องเอามาเทียบกัน ถ้าใส่กรอบให้
+	   กฎที่สมเหตุสมผลสองข้อจะดูเหมือนตัวหนังสือเล็ก ๆ ท้ายสัญญาแทน */
+
+	.agreement-list {
+		display: grid;
+		gap: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		max-width: 44rem;
+		border-top: 1px solid var(--rule);
+	}
+
+	.agreement-item {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 0 1.25rem;
+		align-items: start;
+		min-width: 0;
+		padding-block: 1.5rem;
+		border-bottom: 1px solid var(--rule-soft);
+	}
+
+	.agreement-n {
+		font-family: var(--font-head);
+		font-weight: 600;
+		font-size: var(--fs-label);
+		/* สูงกว่าฝั่งอังกฤษเล็กน้อย ให้เลขตรงกับบรรทัดแรกของหัวข้อภาษาไทย
+		   ซึ่งมีระยะบรรทัด 1.35 และสูงกว่าบรรทัดละติน */
+		line-height: 2.05;
+		color: var(--honey-ink);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.agreement-body {
+		display: grid;
+		gap: 0.5rem;
+		min-width: 0;
+	}
+
+	.agreement-body h3 {
+		font-size: var(--fs-subtitle);
+		font-weight: 600;
+	}
+
+	.agreement-body p {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		/* ไทยอ่านสบายในบรรทัดที่สั้นกว่าละติน ตามกฎ measure ใน site-spec */
+		max-width: 34rem;
+	}
+
+	.agreement-note {
+		margin-top: 1.5rem;
+		color: var(--ink);
+		font-size: var(--fs-body-sm);
+		max-width: 34rem;
+	}
+
+	@media (min-width: 48em) {
+		.agreement-item {
+			gap: 0 1.75rem;
+			padding-block: 1.75rem;
+		}
 	}
 
 	.process-list {

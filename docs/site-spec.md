@@ -1008,6 +1008,52 @@ title, H1 context, internal links, FAQ, and `llms.txt`, but avoids repeating it
 unnaturally. Its FAQPage data renders from the same Thai answers as the visible
 FAQ.
 
+### Working agreement section (2026-09-02, both languages)
+
+`/fix-ai-website` and `/en/fix-ai-website` each carry a working-agreement
+section, added on owner request. It is the reason the Thai page is exempt from
+the byte-unchanged baseline (see "The Thai-unchanged check, and its one
+exception").
+
+**Placement:** immediately after the process steps and before the FAQ, on both
+pages. That is where a reader has just seen how the job runs and is weighing
+terms. It is deliberately **not** below the FAQ, where terms read as fine
+print nobody scrolled to.
+
+**Two rules, same meaning in both languages, neither a translation:**
+
+1. *During the job.* He works from the latest version handed over, and that
+   copy becomes the single working version. Parallel edits on the client's
+   side cannot be folded in; combining the two and resolving the clashes is
+   the client's to arrange. The section offers the easy alternative rather
+   than stopping at the rule: pause your edits, or ask him to make the change
+   in the copy he already has.
+2. *After delivery.* Changes the client makes themselves are outside his
+   responsibility, and fixing a resulting break is separate, separately
+   charged work. **The reasoning is the persuasive part and must be kept:** he
+   has to investigate what changed and how far the effects reach before he can
+   safely touch anything. Stated as what careful work costs, never as a
+   penalty.
+
+**Framing rule.** Both are written as protection for the client's project, not
+as a defensive wall. The risk being managed is the client's site breaking, not
+his liability. The section closes by inviting a free question before the reader
+changes anything, so it ends on an open door rather than a boundary.
+
+**Cost language.** "Charged as new work" and `มีค่าใช้จ่ายเพิ่ม` are
+*conditions*, not figures, and are permitted under the no-pricing rule. No
+amount, rate, or range appears.
+
+**Thai jargon.** The Thai copy carries the full no-technical-vocabulary rule.
+It talks about `ไฟล์ชุดล่าสุด` and `ไฟล์ชุดนั้นเป็นตัวหลักตัวเดียว` the way an
+owner would, and never says merge, conflict, เวอร์ชันคอนโทรล, or โค้ด. The
+English copy may say "merge those changes and resolve the conflicts", since
+English relaxes jargon and this reader built a site with an AI tool.
+
+Each page also gains matching FAQ entries rendered from the same data as the
+FAQPage schema. The English ones are phrased as an assistant would be asked
+("Can I keep editing my site while a developer is working on it?").
+
 ### Thai loanword line breaks
 
 Thai has no spaces, so browsers break lines using a dictionary. Loanwords are
@@ -1070,6 +1116,34 @@ language.
 Verified at the time of the change: a build of `main` diffed against a build
 of this branch shows **no removed line on any of the nine Thai pages except
 the CSS filename hash**. No Thai URL and no Thai visible string changed.
+
+### The Thai-unchanged check, and its one exception
+
+The English edition was built under a hard rule that the Thai edition stays
+byte-identical, and that rule held through every commit of the English work.
+The verification is a diff of a `main` build against a branch build, checking
+for **removed** lines only. Additions are expected and harmless: the hreflang
+tags, `og:locale:alternate`, the language switcher, and the detection script
+are additive head and chrome markup that change no Thai copy.
+
+**Exception, from the working-agreement commit onward: `/fix-ai-website`.**
+The owner asked for a working-agreement section on the fix-AI page in **both**
+languages, which made it the first deliberate change to Thai visible copy. The
+Thai page therefore no longer matches the pre-English baseline, and that is
+correct rather than a regression.
+
+The check is now scoped accordingly:
+
+- **Every Thai page except `/fix-ai-website`** must still show zero removed
+  lines against the pre-English baseline. This is the assertion that actually
+  protects the Thai edition, and it must keep passing.
+- **`/fix-ai-website` is exempt from the baseline comparison.** Review its Thai
+  copy against the Thai voice rules directly, the way any Thai page would be
+  reviewed, rather than against the old build.
+
+Do not widen this exception silently. A second deliberate Thai copy change
+needs its own owner request and its own line here; the value of the check is
+that the exception list is short enough to read.
 
 ## Pages
 

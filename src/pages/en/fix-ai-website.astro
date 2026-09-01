@@ -226,7 +226,73 @@ const breadcrumb = enBreadcrumb(
 		</div>
 	</section>
 
-	<section class="section">
+	{/* The working agreement. Placed immediately after the process steps and
+	    before the FAQ, where a reader has just seen how the job runs and is
+	    weighing terms. Both rules are framed as protection for the reader's
+	    project rather than as a defensive wall: the risk being managed is
+	    their site breaking, not his liability. */}
+	<section class="section agreement" aria-labelledby="agreement-heading">
+		<div class="shell narrow">
+			<div class="section-head reveal">
+				<p class="label">Worth knowing up front</p>
+				<h2 id="agreement-heading">Two things about how we handle the files</h2>
+				<p class="lede">
+					Neither of these is unusual, and both exist for the same reason: to
+					make sure the version you end up with is the one we both think it
+					is.
+				</p>
+			</div>
+
+			<ol class="agreement-list reveal">
+				<li class="agreement-item">
+					<span class="agreement-n" aria-hidden="true">01</span>
+					<div class="agreement-body">
+						<h3>While I am working, your copy is the one we build on</h3>
+						<p>
+							When we agree the job, I take the latest version you hand over,
+							and from that point it becomes the single working copy. If you,
+							your tool, or another developer carries on editing your own copy
+							in parallel, I will not be able to fold those edits into mine.
+							Merging the two and resolving the conflicts would be yours to
+							arrange, and it is genuinely fiddly work.
+						</p>
+						<p>
+							So it is far simpler to pause your own edits while I have the
+							job, or to tell me what you want changed and let me make the
+							change in the version I am already working in.
+						</p>
+					</div>
+				</li>
+
+				<li class="agreement-item">
+					<span class="agreement-n" aria-hidden="true">02</span>
+					<div class="agreement-body">
+						<h3>After I hand it back, changes you make are your own</h3>
+						<p>
+							Once the finished work is delivered the site is yours to edit,
+							and I would encourage that. But if a change made after handover
+							breaks something, putting it right is separate work and is
+							charged as new work.
+						</p>
+						<p>
+							The honest reason is that I cannot safely touch it until I know
+							what changed and how far the effects reach. That investigation
+							is most of the job, and it is the part that stops a small fix
+							quietly turning into a bigger problem. It is not a penalty. It
+							is simply what careful work costs.
+						</p>
+					</div>
+				</li>
+			</ol>
+
+			<p class="agreement-note reveal">
+				If you are ever unsure whether something counts, just ask me before you
+				change it. That conversation is free and it takes a minute.
+			</p>
+		</div>
+	</section>
+
+	<section class="section band-tint">
 		<div class="shell narrow">
 			<div class="section-head reveal">
 				<p class="label">Common questions</p>
@@ -435,6 +501,72 @@ const breadcrumb = enBreadcrumb(
 		border-top: 1px solid var(--rule-soft);
 		font-size: var(--fs-body-sm);
 		color: var(--muted);
+	}
+
+	/* ---- working agreement ----
+	   Deliberately quieter than the repair checklist above it: no cards and no
+	   shadows, just numbered rows on the page background. These are terms to
+	   read once and remember, not options to compare, and a boxed treatment
+	   would make two reasonable rules look like fine print. */
+
+	.agreement-list {
+		display: grid;
+		gap: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		max-width: 44rem;
+		border-top: 1px solid var(--rule);
+	}
+
+	.agreement-item {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 0 1.25rem;
+		align-items: start;
+		min-width: 0;
+		padding-block: 1.5rem;
+		border-bottom: 1px solid var(--rule-soft);
+	}
+
+	.agreement-n {
+		font-family: var(--font-head);
+		font-weight: 600;
+		font-size: var(--fs-label);
+		line-height: 1.9;
+		color: var(--honey-ink);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.agreement-body {
+		display: grid;
+		gap: 0.5rem;
+		min-width: 0;
+	}
+
+	.agreement-body h3 {
+		font-size: var(--fs-subtitle);
+		font-weight: 600;
+	}
+
+	.agreement-body p {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		max-width: 38rem;
+	}
+
+	.agreement-note {
+		margin-top: 1.5rem;
+		color: var(--ink);
+		font-size: var(--fs-body-sm);
+		max-width: 38rem;
+	}
+
+	@media (min-width: 48em) {
+		.agreement-item {
+			gap: 0 1.75rem;
+			padding-block: 1.75rem;
+		}
 	}
 
 	.process-list {

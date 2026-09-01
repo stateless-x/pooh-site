@@ -69,6 +69,14 @@ export const enFixAiFaq: QA[] = [
 		a: "The link, the tool you built it with, and a sentence about what is going wrong. If you have the files or an admin login, mention it. Do not tidy anything up first. I want to see the actual state of it, because the mess is the information I need to give you a real answer.",
 	},
 	{
+		q: "Can I keep editing my site while a developer is working on it?",
+		a: "Better not to, and this applies to most developers rather than just me. When I start a job I take the latest version you hand over, and that becomes the single working copy. If you keep editing your own copy at the same time, the two drift apart, and merging them and resolving the conflicts falls to you. Far simpler to pause your edits for the duration, or tell me what you want changed so I can make it in the version I already have.",
+	},
+	{
+		q: "What happens if I change something after you hand the work back?",
+		a: "The site is yours, so you are free to change it. But once I have handed it back, changes you make yourself are outside what I am responsible for. If one of them breaks something and you would like me to fix it, that is separate work and is charged as new work, because I first have to investigate what changed and how far the effects reach before I can safely touch anything. If you are unsure whether a change is risky, ask me before you make it. That conversation costs nothing.",
+	},
+	{
 		q: "I feel stupid asking. Is this a normal thing to need help with?",
 		a: "It is extremely normal, and no, you did nothing wrong. These tools genuinely get you most of the way, and then the last stretch turns out to need someone who has shipped things before. I use AI every day myself. Getting stuck at this exact point is the rule, not the exception.",
 	},
