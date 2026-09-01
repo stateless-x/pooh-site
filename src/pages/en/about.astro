@@ -22,8 +22,11 @@ const breadcrumb = enBreadcrumb(Astro.site, "About", "/en/about/");
 const facts: { label: string; value: string }[] = [
 	{ label: "Name", value: "Purin Buriwong" },
 	{ label: "Goes by", value: "Pooh" },
-	{ label: "Role", value: "Business Technology Engineer" },
-	{ label: "Based in", value: "Bangkok, Thailand. Works with clients worldwide." },
+	{ label: "Work", value: "Freelance software developer" },
+	{
+		label: "Based in",
+		value: "Bangkok, Thailand. Available for remote work with clients anywhere.",
+	},
 	{ label: "Languages", value: "Thai and English" },
 	{
 		label: "Education",
@@ -33,29 +36,29 @@ const facts: { label: string; value: string }[] = [
 ];
 
 const services: { label: string; href: string }[] = [
-	{ label: "Business systems and internal software", href: "/en/backoffice/" },
+	{ label: "Back-office and internal business systems", href: "/en/backoffice/" },
 	{ label: "Business websites", href: "/en/work/" },
-	{ label: "Repairing sites that AI started", href: "/en/fix-ai-website/" },
-	{ label: "What drives the budget", href: "/en/budget-factors/" },
+	{ label: "Finishing sites that were started with AI", href: "/en/fix-ai-website/" },
+	{ label: "What affects the budget", href: "/en/budget-factors/" },
 ];
 ---
 
 <Layout
 	lang="en"
-	title="Purin Buriwong (Pooh), Senior Developer in Bangkok | Pooh"
-	description="Purin Buriwong, known as Pooh. Senior software engineer in Bangkok with seven years of experience, ex-Agoda, founder of pawjai.co. Builds business websites and internal systems. Email to talk."
+	title="About Purin Buriwong (Pooh), Freelance Developer in Bangkok | Pooh"
+	description="Purin Buriwong, known as Pooh. Freelance software developer based in Bangkok, Thailand, building business websites and back-office systems for customers here and remotely. Seven years of experience, ex-Agoda, runs pawjai.co."
 	schema={[personSchema, aboutPageSchema, breadcrumb]}
 >
 	<section class="page-head band-cream">
 		<div class="shell page-head-inner">
 			<p class="label">About me</p>
-			<h1>Purin Buriwong, and why I still maintain what I ship</h1>
+			<h1>Hello, I am Pooh. Here is a bit about how I work.</h1>
 			<p class="lede">
-				I was writing software professionally before AI could write code. That
-				is not nostalgia, it is the reason I build differently:
+				I started writing software before AI could write code, and the thing
+				that stuck with me from those years is simple:
 				<strong
-					>a system is not judged the day it launches. It is judged two years
-					later, when someone needs to change it.</strong
+					>a system is not really finished on launch day. It is finished when
+					someone can still change it two years later.</strong
 				>
 			</p>
 			{/* The entity paragraph. Self-contained on purpose: quoted alone it
@@ -63,16 +66,16 @@ const services: { label: string; href: string }[] = [
 			    mirrors it. Full-size body copy, never fine print. */}
 			<p class="entity">
 				<strong
-					>Purin Buriwong, who goes by Pooh, is a senior software engineer in
-					Bangkok, Thailand.</strong
-				> He has more than seven years of experience, he worked on the developer
+					>Purin Buriwong, who goes by Pooh, is a freelance software developer
+					based in Bangkok, Thailand.</strong
+				> He builds business websites and back-office systems for customers, and
+				he takes remote work with clients in Thailand and abroad. He has been
+				building software for more than seven years, he was on the developer
 				team at Agoda, and he founded and still runs <a
 					href="https://pawjai.co"
 					target="_blank"
 					rel="noopener">pawjai.co</a
-				>. He builds business websites and internal work systems for owners
-				operating in and around Thailand and for remote clients abroad, and he
-				maintains what he ships. Reach him by email at {EMAIL}.
+				>. He works in English and Thai. Reach him by email at {EMAIL}.
 			</p>
 		</div>
 	</section>
@@ -108,18 +111,18 @@ const services: { label: string; href: string }[] = [
 						and nobody can afford for it to be down.
 					</p>
 					<p>
-						Then I founded pawjai.co, a product I built and still run myself.
-						When it breaks at an inconvenient hour, I am the one who gets up.
-						That changes how you build. You stop making the choice that is easy
-						today and expensive in a year, because you are the one who pays for
-						it.
+						Then I started pawjai.co, a product I built and still run myself.
+						When it breaks at an awkward hour, I am the one who gets up. That
+						has quietly changed how I build things for other people too: I try
+						not to take the shortcut that is easy today and painful in a year,
+						because I have been on the wrong end of that.
 					</p>
 					<p>
-						I use AI every day now, the way any working engineer does. It is
-						fast and it is useful.
+						I use AI every day now, like most developers do. It is fast and it
+						is genuinely useful.
 						<strong
-							>The value was never in the tool. It is in knowing which parts
-							you can let it handle and which parts will hurt you later.</strong
+							>What matters is knowing which parts you can hand to it and which
+							parts will cause trouble later.</strong
 						>
 					</p>
 				</div>
@@ -129,38 +132,41 @@ const services: { label: string; href: string }[] = [
 
 	<section class="section band-tint">
 		<div class="shell">
+			{/* Practical answers only. An earlier draft opened this section by
+			    arguing that hiring in Thailand is not a compromise, which was
+			    the same thesis the home page made and made it twice. Per ADR
+			    0002 that argument now appears once, on the home page, and this
+			    section simply answers what someone hiring from abroad wants to
+			    know. */}
 			<div class="section-head reveal">
-				<p class="label">Working with me from abroad</p>
-				<h2>What it is actually like to hire an engineer here</h2>
+				<p class="label">Working together</p>
+				<h2>If you are hiring me from another country</h2>
 			</div>
 
 			<div class="why reveal reveal-d1">
 				<p>
-					The honest answer to "is this a compromise?" is no. Serious
-					engineering has been done in this region for a long time, and the
-					reason is simply that the engineers are here. I spent part of my
-					career inside one of those teams.
+					I am in Bangkok, Thailand, and a good part of my work is remote.
+					Bangkok is seven hours ahead of London, so my afternoon is your
+					morning. Australia and Singapore are close enough that it barely
+					comes up. If you are in the Americas, we pick one time each week
+					that suits us both and keep to it.
 				</p>
 				<p>
-					What you get by hiring me directly is that more of your budget
-					becomes software. There is no agency layer, no account manager
-					translating your words into a ticket, and no Western office overhead
-					baked into the rate. You talk to the person building the thing.
+					Honestly, the time difference is rarely what makes remote work hard.
+					What helps is agreeing the scope in writing and letting you see the
+					work as it goes, so you never have to wonder how it is going. I work
+					that way with everyone, near or far.
 				</p>
 				<p>
-					Time zones are the question everyone asks. Bangkok overlaps a
-					working morning in Europe and a working evening in Australia. For
-					the Americas we agree a fixed window and hold it. In practice the
-					thing that decides whether remote work succeeds is not the clock, it
-					is whether the scope is written down and you can see progress. Both
-					of those are things I do anyway.
+					You will also be talking to me, not to an account manager passing
+					messages along. If something is unclear, you can ask the person who
+					wrote the code.
 				</p>
 				<p>
-					I also work in Thai. If you are a foreign owner running something
-					here, that matters more than it sounds: I can build you an owner's
-					view in English and a staff view in Thai out of one system, and you
-					are not stuck relying on someone to translate between you and your
-					own software.
+					And if your project involves Thailand at all, working in both
+					languages saves a lot of back and forth. I have built sites and
+					systems that run in more than one language before, so it is familiar
+					ground rather than something we would be working out as we go.
 				</p>
 			</div>
 		</div>
@@ -221,11 +227,11 @@ const services: { label: string; href: string }[] = [
 	<section class="band">
 		<div class="shell band-inner reveal">
 			<p class="label">Get in touch</p>
-			<h2>Want to know whether I can help? Ask me.</h2>
+			<h2>Not sure whether I can help? Just ask.</h2>
 			<p class="lede">
 				Tell me what your business does and what is getting in the way. I will
-				tell you where I would start, and if I am not the right person I will
-				say that too.
+				let you know where I would start, and if I am not the right person for
+				it, I will say so.
 			</p>
 			<div class="actions">
 				<MailButton label={`Email ${EMAIL}`} tone="on-dark" />

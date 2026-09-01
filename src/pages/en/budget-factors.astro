@@ -18,23 +18,22 @@ const breadcrumb = enBreadcrumb(
 
 <Layout
 	lang="en"
-	title="What Actually Drives the Cost of a Website or System | Pooh"
-	description="Six things decide what a website or business system costs, and scope outweighs all of them. An honest explanation from a Bangkok engineer, so you can compare quotes properly. Email for an estimate."
+	title="What Affects the Cost of a Website or System | Pooh"
+	description="Six things affect what a website or back-office system costs, and scope matters most. A plain explanation from a freelance developer in Bangkok, Thailand, so you can compare quotes fairly. Email for an estimate."
 	schema={[faqSchema, breadcrumb]}
 >
 	<section class="page-head band-cream">
 		<div class="shell page-head-inner">
 			<p class="label">Budget</p>
-			<h1>What actually drives the cost, and why quotes differ so wildly</h1>
+			<h1>What affects the cost, and why quotes can look so different</h1>
 			<p class="lede">
 				<strong
-					>Anyone who gives you a number before seeing your project is
-					guessing.</strong
-				> "A website" covers everything from one page to a system a whole company
-				runs on, which is why two quotes for the same request can be worlds apart.
-				This page explains what actually moves the number, so you can have a real
-				conversation about it instead of comparing two things that were never the
-				same job.
+					>I cannot give you a number before I have seen your project, and I
+					would be guessing if I tried.</strong
+				> "A website" covers everything from a single page to a system a whole company
+				runs on, so two quotes for what sounds like the same request can be
+				very far apart. Here is what actually moves it, so you have something
+				concrete to compare against.
 			</p>
 		</div>
 	</section>
@@ -80,31 +79,36 @@ const breadcrumb = enBreadcrumb(
 
 	<section class="section band-tint">
 		<div class="shell narrow">
+			{/* Practical advice a customer can act on, including advice that
+			    costs him work. An earlier draft made the second item an argument
+			    for hiring in Bangkok, which is the same point the home page
+			    makes; per ADR 0002 that point is made once and not repeated on
+			    every page. */}
 			<div class="section-head reveal">
-				<p class="label">Getting more for the same money</p>
-				<h2>Two ways to make your budget go further</h2>
+				<p class="label">Keeping the cost down</p>
+				<h2>Two things that genuinely help</h2>
 			</div>
 
 			<div class="lever-list reveal">
 				<div class="lever">
-					<h3>Build the smallest useful version first</h3>
+					<h3>Start with the smallest version that is actually useful</h3>
 					<p>
 						The most expensive way to build software is to plan all of it,
-						build all of it, and discover at the end that you were wrong about
-						a third of it. Build the part that has to work, launch it, then let
-						what people actually do tell you what to build next. You spend
-						less, and you are live months earlier.
+						build all of it, and find out at the end that a third of it was
+						wrong. It is usually better to build the part that has to work,
+						put it in front of real people, and let what they do decide what
+						comes next. You spend less, and you are up and running much
+						sooner.
 					</p>
 				</div>
 				<div class="lever">
-					<h3>Hire where the engineering is, not where the office is</h3>
+					<h3>Tell me what you are not sure about</h3>
 					<p>
-						Serious engineering has been done in this region for a long time,
-						for the simple reason that the engineers are here. When you hire
-						me directly you are not paying for an agency layer, a Western
-						office, or an account manager standing between you and the person
-						writing your code. The engineering is the same standard. More of
-						your budget simply reaches it.
+						If part of the plan is a guess, say so. I would much rather leave
+						it out of this round and add it once you know, than build
+						something we both suspect will change. Quite often the most useful
+						thing I can tell you is that a piece does not need building yet at
+						all, and I would rather say that than quietly put it on the list.
 					</p>
 				</div>
 			</div>
@@ -143,11 +147,12 @@ const breadcrumb = enBreadcrumb(
 	<section class="band">
 		<div class="shell band-inner reveal">
 			<p class="label">Get an estimate</p>
-			<h2>Describe it and I will tell you which end of the range it sits at</h2>
+			<h2>Tell me about it and I will give you a rough idea</h2>
 			<p class="lede">
-				You should not have to guess. Tell me what your business does and what
-				you want built, and I will tell you the size of the job, what I would
-				cut to bring it down, and what is not worth building at all.
+				You should not have to guess at this on your own. Tell me what your
+				business does and what you would like built, and I will come back with
+				the size of the job, what I would leave out to bring it down, and
+				anything I think you do not need yet.
 			</p>
 			<div class="actions">
 				<MailButton label={`Email ${EMAIL}`} tone="on-dark" />

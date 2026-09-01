@@ -16,16 +16,12 @@ export interface FaqItem {
 
 export const enFaq: FaqItem[] = [
 	{
-		q: "I am not in Thailand. Can we still work together?",
-		a: "Yes. Most of my work happens over email and calls anyway, and that does not change with an ocean in between. I am in Bangkok, which overlaps a working morning in Europe and a working evening in Australia. If you are in the Americas we settle on a fixed window that works for both of us and stick to it. Distance has never been the hard part. Being unclear about scope is.",
-	},
-	{
-		q: "Why hire an engineer in Thailand rather than at home?",
-		a: "Because the good ones are here and have been for years. Serious engineering has been done in this region for a long time, and not as charity. You get senior work, and your budget covers more of it than it would at home, because you are not also paying for a Western office and a sales team. If the work is good, where it was written stops mattering the day you launch.",
+		q: "Can I hire a freelance developer in Thailand for remote work?",
+		a: "Yes, and a good part of my work is exactly that. I am based in Bangkok, Thailand, and I take remote projects with clients abroad alongside customers here. Bangkok is seven hours ahead of London, and close to the working day in Australia and Singapore. For clients in the Americas we agree one time each week that suits us both. What makes it work is the same anywhere: the scope written down, and you seeing the work as it goes rather than only at the end.",
 	},
 	{
 		q: "I started this with AI and got stuck. Will you take it?",
-		a: "Send it. I use AI every day myself, so there is nothing here to be embarrassed about. I will look at what you actually have and tell you which parts are worth keeping and which parts need rebuilding before they cost you more. Sometimes the honest answer is that finishing it takes less than starting over. Sometimes it does not. Either way you will know before you spend anything.",
+		a: "Please do send it. I use AI every day myself, so there is really nothing to be embarrassed about here. I will look at what you have and tell you which parts are worth keeping and which parts are better rebuilt. Sometimes finishing what you have is the shorter road, sometimes it is not. Either way you will know before you spend anything.",
 	},
 	{
 		q: "Does the first conversation cost anything?",
@@ -33,7 +29,7 @@ export const enFaq: FaqItem[] = [
 	},
 	{
 		q: "Who owns the code when we are done?",
-		a: "You do. All of it, plus a written handover so your team or your next developer can pick it up without calling me. Nothing is locked to me and nothing is held back as leverage. If you want to move it elsewhere in a year, you can, and that is the point: you should be working with me because it is working, not because leaving is expensive.",
+		a: "You do. All of it, plus a written handover so your own team or another developer can pick it up without needing to call me. Nothing is tied to me and nothing is held back. If you want to move it somewhere else in a year, that is fine and it should be easy.",
 	},
 	{
 		q: "How do payments work? Do I pay everything up front?",
@@ -49,7 +45,7 @@ export const enFaq: FaqItem[] = [
 	},
 	{
 		q: "What happens after launch? Do you disappear?",
-		a: "No. I still run pawjai.co myself, which means I live with my own decisions long after launch and build accordingly. After I hand over, I stay available for changes and additions as your business grows, and I write down how everything works so your team can handle the small things without waiting on me.",
+		a: "No. I still run pawjai.co myself, so I know what it is like to be looking after something long after it launched, and I build with that in mind. After I hand over, I am still around for changes and additions as your business grows. I also write down how everything works, so your team can handle the small things without waiting on me.",
 	},
 	{
 		q: "What do you need from me to start?",

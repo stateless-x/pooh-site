@@ -58,27 +58,39 @@ Stack (incumbent): Astro 7 static, plain CSS (no Tailwind, no client framework),
 
 ## English edition carve-out
 
-Added 2026-09-01. Decision and rationale: `docs/adr/0001-english-edition-diverges-from-thai-voice.md`.
+Added 2026-09-01. Decision and rationale:
+`docs/adr/0001-english-edition-diverges-from-thai-voice.md`, whose **voice
+portion is superseded by**
+`docs/adr/0002-english-voice-warm-freelancer-not-wolf.md`.
 Domain language: `CONTEXT.md`.
 
 The English edition under `/en/` is a **native rewrite, not a translation**.
-It has its own audience, its own voice, and its own success event, and a
-future audit must judge it against the rules in this section rather than the
-Thai ones above.
+It has its own audience and its own success event, and a future audit must
+judge it against the rules in this section rather than the Thai ones above.
+
+**Who he is, in English.** A freelance developer based in Bangkok, Thailand,
+who takes remote work and builds business websites and back-office systems
+for customers. Every English page should sound like that person. This is the
+sentence to check copy against.
 
 **Audience.** (a) Foreign owners operating in or around Thailand. (b) Remote
 international clients hiring from abroad. Both are colder traffic than the
-Thai visitor, compare against a global market, and respond to explicit
-persuasion.
+Thai visitor and are comparing against a global market.
 
 **Success event.** An email to `askpurin@pm.me`. Every English CTA drives to
 email. LINE appears on `/en/contact` only, as a secondary option for a reader
 already in Thailand.
 
-**Voice.** Direct, persuasive, conversion-driven, at a grade-5 reading level.
-Identify the pain, hook fast, make the offer concrete, handle the top
-objection, close on one CTA. It must read as though a sharp native English
-copywriter wrote it, never as translated Thai.
+**Voice.** The same warm, honest, plain first-person voice as the Thai
+edition, in grade-5 English. The persuasion lives in the **structure** (a
+clear offer, one objection handled at a time, a single email CTA per page),
+never in the **tone**. Helpful, not closing.
+
+A full persuasion-first register was written, read by the owner, and rejected
+as arrogant. The test that replaced it: **would a modest, competent freelancer
+actually say this sentence out loud to a customer?** If not, rewrite it. The
+patterns that failed that test are recorded as worked examples in
+`docs/site-spec.md`.
 
 ### Rules that differ from the Thai edition
 
@@ -86,26 +98,35 @@ copywriter wrote it, never as translated Thai.
 | --- | --- |
 | "Phone and email must never appear. LINE is the only channel." | **Email is the primary and default channel.** `askpurin@pm.me` appears in the header, the footer, every closing band, the entity paragraph, and JSON-LD. LINE is confined to `/en/contact`. |
 | "Agoda appears at most ONCE site-wide", zero in titles/metas/JSON-LD. | **Scoped to Thai.** English may cite ex-Agoda experience wherever it builds trust, including the meta description and `Person.description`. It is still stated as his own experience, never embellished into a claim about Agoda's size or ranking. |
-| "No technical jargon in visible copy." | **Relaxed.** Technical vocabulary is allowed where it builds trust: naming real systems, "front end" and "back end", "I maintain what I ship". Everything must still be followable by a non-technical owner at grade-5 reading level. |
-| Warm, plain, no hype. | **Full persuasion register.** Strong claims are permitted provided every one of them is true and his own. |
+| "No technical jargon in visible copy." | **Relaxed.** Technical vocabulary is allowed where it builds trust: naming real systems, "front end" and "back end", "back-office systems". Everything must still be followable by a non-technical owner at grade-5 reading level. |
+| Warm, plain, no hype. | **Unchanged. Both editions share this voice** (ADR 0002). English differs from Thai only in the jargon allowance and the contact channel, not in warmth. |
 
 ### Rules unique to the English edition
 
-- **APAC-economics framing** is the core positioning pillar: serious companies
-  already hire senior engineers in this region deliberately, so the buyer gets
-  the same senior quality while their budget reaches further. Framed as value
-  arbitrage and smart buying.
+- **Identity is stated plainly and often.** "Freelance developer based in
+  Bangkok, Thailand" belongs in the hero area, the about page facts, the
+  footer, the entity paragraph, and JSON-LD. It is both what the owner wanted
+  said and the string an answer engine can retrieve and cite.
+- **Name the place.** "This region", "here", and "this part of the world"
+  standing in for Thailand are banned: say Bangkok, Thailand, or Southeast
+  Asia. Vague geography is both unclear to a reader and uncitable by an
+  assistant.
+- **The budget point is made once, and modestly.** That a budget goes further
+  in Bangkok than in London or San Francisco may be said **once on the home
+  page** and at most once more in a budget FAQ answer where the reader asked
+  about money directly. It is never a thesis, never a challenge to the reader,
+  and never repeated across pages. An earlier draft repeated a near-identical
+  version of it on five pages; that repetition was the arrogance.
 - **Banned words, English only:** "cheap", "affordable", "low-cost",
-  "budget-friendly", "inexpensive". He is the smart choice, never the discount
-  one. A headline must lead with what the buyer gets, never with what they do
-  not pay.
-- **No borrowed credibility.** The economics argument is made from his own
-  documented experience. Naming other companies' engineering operations to
-  imply endorsement is an invented-fact violation.
+  "budget-friendly", "inexpensive". He is not selling on price. A headline
+  names what the reader gets, never what they do not pay.
+- **No borrowed credibility.** Any point about engineering in Thailand is made
+  from his own documented experience. Naming other companies' engineering
+  operations to imply endorsement is an invented-fact violation.
 - `/en/budget-factors` follows the Thai magnitude-only approach in English:
-  it explains what drives cost and states no number, rate, or range.
+  it explains what affects cost and states no number, rate, or range.
 - `/en/fix-ai-website` is a one-round inspection and repair offer, framed as
-  "you got most of the way with AI, I get you launched". Never shaming: he
+  "you got most of the way with AI, I can help you finish". Never shaming: he
   uses AI daily himself.
 
 ### Shared plumbing

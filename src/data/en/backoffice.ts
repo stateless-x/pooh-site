@@ -34,8 +34,8 @@ export const enWorkflow: {
 	{
 		icon: "inventory",
 		problem: {
-			title: "The stock count is a work of fiction",
-			body: "The number in the file and the number on the shelf stopped matching days ago, and nobody trusts either one.",
+			title: "The stock number and the shelf disagree",
+			body: "What the file says and what is actually on the shelf stopped matching days ago, and now nobody is quite sure which one to believe.",
 		},
 		answer: {
 			title: "Stock people believe",
@@ -81,8 +81,8 @@ export const enWorkflow: {
 export const enLevels: { icon: string; title: string; body: string }[] = [
 	{
 		icon: "focus",
-		title: "Fix the one thing that keeps costing you",
-		body: "Right for a single job that eats hours or goes wrong often. Taking orders, producing a document, chasing a status. Solve that properly first. You do not need a system to fix one broken habit.",
+		title: "Fix the one thing that keeps costing you time",
+		body: "Good for a single job that eats hours or goes wrong often, like taking orders, producing a document, or chasing a status. Worth solving that properly first. You do not always need a whole system to fix one awkward step.",
 	},
 	{
 		icon: "teamwork",
@@ -111,7 +111,7 @@ export const enEngagements: { icon: string; title: string; body: string }[] = [
 	{
 		icon: "contract",
 		title: "Join your team on contract",
-		body: "Right for a company that already has a team and a clear roadmap and needs a senior engineer alongside them for a defined stretch of time.",
+		body: "Right when you already have a team and a clear plan, and want another experienced developer working alongside them for an agreed stretch of time.",
 	},
 ];
 
@@ -130,10 +130,10 @@ export const enBackofficeFaq: QA[] = [
 	},
 	{
 		q: "Can we add to it later?",
-		a: "Yes, and it is built expecting you will. I keep the pieces separate so a new one can be added without disturbing what already works. You do not have to build everything at once, and you should not.",
+		a: "Yes, and I build expecting that you will. I keep the pieces separate so a new one can be added without disturbing what already works. There is usually no need to build everything at once.",
 	},
 	{
 		q: "I run a business in Thailand but I am not Thai. Does that complicate things?",
-		a: "It makes it easier, not harder. I work in English and Thai, so I can build you an owner's view in English and a staff view in Thai from the same system, and you are not relying on a translator standing between you and your own software. I have built multilingual work before, including a site serving Thai and cross-border customers at once.",
+		a: "Not really, and in some ways it helps. I work in English and Thai, so I can build you an owner's view in English and a staff view in Thai from the same system, and you are not relying on someone to translate between you and your own software. I have built sites and systems that run in more than one language before, including one serving Thai and cross-border customers at the same time.",
 	},
 ];

@@ -21,8 +21,8 @@ export interface QA {
 /** What actually moves the number. Ordered by how much each one moves it. */
 export const enFactors: { title: string; body: string }[] = [
 	{
-		title: "How much the thing has to do",
-		body: "One page and a forty page site are not the same job. Neither is a screen that shows a list and a system that runs your orders. This moves the number more than everything else here put together, which is why it is first.",
+		title: "How much it has to do",
+		body: "One page and a forty page site are not the same job, and neither is a screen that shows a list and a system that runs your orders. This affects the cost more than everything else on this page put together, which is why it comes first.",
 	},
 	{
 		title: "How many people use it, and who sees what",
@@ -30,7 +30,7 @@ export const enFactors: { title: string; body: string }[] = [
 	},
 	{
 		title: "What it has to talk to",
-		body: "Standing alone is quick. Talking to the tools you already run, like your accounting or your sales channels, means building the connection and then testing that both sides agree. Budget for the testing, not just the connecting.",
+		body: "Something that stands on its own is quicker. If it has to talk to tools you already use, like your accounting or your sales channels, we have to build that connection and then test that both sides agree. The testing usually takes longer than the connecting.",
 	},
 	{
 		title: "Whether your words and data are ready",
@@ -38,30 +38,30 @@ export const enFactors: { title: string; body: string }[] = [
 	},
 	{
 		title: "How fast you need it",
-		body: "A normal timeline costs less than a compressed one. Speeding up means reordering other work and running at a higher intensity. If your date can move a little, that flexibility is worth real money to you.",
+		body: "A normal timeline works out lower than a rushed one. Going faster means moving other work around and putting in longer days. If your date has a little room in it, that flexibility is worth quite a lot to you.",
 	},
 	{
 		title: "What happens after launch",
-		body: "Some clients take the keys and run it themselves. Some want me checking in. These are priced differently, and the time to decide is at the start, not the week after you launch.",
+		body: "Some customers take the keys and run it themselves from day one. Others would rather I keep an eye on it. Those work out differently, and it is easier if we decide which one you want at the start rather than the week after launch.",
 	},
 ];
 
 export const enBudgetFaq: QA[] = [
 	{
 		q: "What does a website or a system cost?",
-		a: "There is no single number, and anyone who gives you one before seeing your job is guessing. A small, tightly scoped job is a different order of magnitude from a system your whole company runs on. What I can do is tell you which end of that range your job sits at, usually in one conversation. Email me what you need at askpurin@pm.me and I will tell you straight.",
+		a: "I cannot give you one number honestly, because a small, tightly scoped job and a system your whole company runs on are very different sizes of work. What I can usually do in one conversation is tell you roughly which end of that range your project sits at, and what would make it smaller. Email me at askpurin@pm.me with what you have in mind.",
 	},
 	{
 		q: "Can I keep the budget under control?",
-		a: "Yes, and the method is simple: build the smallest version that actually works, launch it, then add to it once the business tells you what it really needs. This beats one big build almost every time. You spend less, you find out sooner whether you were right, and you are live months earlier.",
+		a: "Yes, and the approach is simple: build the smallest version that actually works, launch it, then add to it once the business has told you what it really needs. In my experience that usually works out better than one big build. You spend less, you find out sooner whether you were right, and you are up and running much earlier.",
 	},
 	{
 		q: "Why do quotes for the same thing differ so much?",
-		a: "Because \"a website\" covers an enormous range of work. One quote may cover the look of it. Another covers where your data lives, how you hand it to your team, a written handover, and support after launch. Before you compare two numbers, make both sides list exactly what is included. Otherwise you are comparing two different things and picking the one that left more out.",
+		a: "Because \"a website\" covers an enormous range of work. One quote might cover the look of it. Another covers where your data lives, how your team gets at it, a written handover, and support after launch. It helps to ask both sides to list exactly what is included before you compare the numbers, otherwise it is hard to tell whether one is better value or simply leaving more out.",
 	},
 	{
-		q: "Why does hiring an engineer in Asia work in my favour?",
-		a: "For the same reason serious engineering has been done in this region for a long time: the talent is here, and the same budget reaches further than it does in London, Sydney, or San Francisco. You are not buying less. You are buying the same standard of engineering without paying for a Western office and a Western sales team on top of it.",
+		q: "Does hiring a developer in Thailand cost less than hiring at home?",
+		a: "Usually, yes. A budget tends to go further in Bangkok than it would in London, Sydney, or San Francisco, and hiring me directly means there is no agency taking a share in the middle. I would not pick a developer on that basis alone though. Look at work they have finished, and at whether they answer your questions clearly. If the answer to both is good, the rest is a bonus.",
 	},
 	{
 		q: "How do payments work?",

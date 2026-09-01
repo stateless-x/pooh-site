@@ -89,7 +89,7 @@ export const works: Work[] = [
 			alt: "Three dimensional illustration of the Pooh mascot presenting the pawjai.co pet platform",
 			label: "Illustration for the pawjai.co project",
 			short: "A pet platform I built, launched, and still run every day.",
-			long: "A pet platform I own end to end. I decided what to build, designed it, shipped it, and I still run it today. It is the clearest proof I do not hand a project over and disappear: when something breaks here, the person who fixes it is me.",
+			long: "A pet platform I own end to end. I decided what to build, designed it, launched it, and I still run it today. It is also the honest test of how I work: when something breaks here, the person who has to fix it is me.",
 		},
 	},
 	{
@@ -183,7 +183,7 @@ export const works: Work[] = [
 			alt: "Three dimensional illustration of the Pooh mascot presenting the pscmceramic.com factory website",
 			label: "Illustration for the pscmceramic.com project",
 			short: "A factory that builds and repairs ceramic machinery, in Thai and English.",
-			long: "A factory that builds and repairs ceramic machinery. Their buyers are not all Thai, so the site runs in Thai and English and says plainly what work they take on and how to reach them. Industrial buyers decide fast when the answer is on the page and walk away when it is not.",
+			long: "A factory that builds and repairs ceramic machinery. Their buyers are not all Thai, so the site runs in Thai and English and says plainly what work they take on and how to reach them. Buyers looking for this kind of work tend to have a specific question in mind, so the answer needed to be easy to find.",
 		},
 	},
 ];

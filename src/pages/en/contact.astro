@@ -16,14 +16,14 @@ const points = [
 	{
 		n: "02",
 		icon: "help",
-		title: "What is going wrong",
-		body: "A new site, an old one that is failing you, or work your team is still doing by hand. Describe the problem, not the solution.",
+		title: "What is getting in the way",
+		body: "A new site, an old one that is not working out, or something your team is still doing by hand. The problem is more useful to me than a solution.",
 	},
 	{
 		n: "03",
 		icon: "clock",
 		title: "Any date you are working to",
-		body: "If something has to be live by a certain day, say so now. It changes what I would recommend.",
+		body: "If something has to be live by a particular day, it helps to know early, because it can change what I would suggest.",
 	},
 ] as const;
 
@@ -33,17 +33,18 @@ const breadcrumb = enBreadcrumb(Astro.site, "Contact", "/en/contact/");
 
 <Layout
 	lang="en"
-	title="Contact Purin Buriwong, Developer in Bangkok | Pooh"
-	description="Email askpurin@pm.me to talk about a website or a business system. No cost to ask and no obligation. A senior engineer in Bangkok who answers every message himself."
+	title="Contact Purin Buriwong, Freelance Developer in Bangkok | Pooh"
+	description="Email askpurin@pm.me to talk about a website or a back-office system. Asking costs nothing and there is no obligation. A freelance developer in Bangkok, Thailand, who answers every message himself."
 	schema={[faqSchema, breadcrumb]}
 >
 	<section class="page-head band-cream">
 		<div class="shell page-head-inner">
 			<p class="label">Contact</p>
-			<h1>Email me. You do not have to have it figured out yet.</h1>
+			<h1>Email me. You do not need to have it all worked out yet.</h1>
 			<p class="lede">
-				Most people who write to me are not sure what they need. That is fine,
-				and working it out is the first part of the job.
+				Most people who write to me are not quite sure what they need, and that
+				is completely fine. Working that out together is the first part of the
+				job.
 			</p>
 		</div>
 	</section>
@@ -60,13 +61,14 @@ const breadcrumb = enBreadcrumb(Astro.site, "Contact", "/en/contact/");
 				</div>
 				<p class="copy-status" role="status" aria-live="polite"></p>
 				<p class="mail-note">
-					This goes straight to me. No inbox shared with a team, no assistant
-					screening it, no automated reply.
+					This comes straight to me. It is not a shared team inbox, and there
+					is nobody screening it before I see it.
 				</p>
 				<MailButton label="Open your email app" />
 				<p class="mail-hint">
-					No cost to ask and no obligation. If I am not the right person for
-					it, I will tell you and say who might be.
+					Asking costs nothing and there is no obligation. If I am not the
+					right person for the job, I will say so, and point you somewhere
+					better if I can.
 				</p>
 			</div>
 
@@ -84,7 +86,7 @@ const breadcrumb = enBreadcrumb(Astro.site, "Contact", "/en/contact/");
 		<div class="shell narrow">
 			<div class="section-head reveal">
 				<p class="label">What to write</p>
-				<h2>Three things, and we can start properly from your first email</h2>
+				<h2>Three things that help me give you a useful first reply</h2>
 			</div>
 
 			<ol class="steps">
@@ -105,13 +107,13 @@ const breadcrumb = enBreadcrumb(Astro.site, "Contact", "/en/contact/");
 			</ol>
 
 			<p class="closing reveal">
-				Do not spend an evening writing a specification. Send me the rough
-				version and I will ask the questions that matter.
+				Please do not spend an evening writing a specification. Send me the
+				rough version and I will ask about anything I need to know.
 			</p>
 
 			<p class="more reveal">
-				Wondering what drives the cost? <a href="/en/budget-factors/"
-					>Here is what actually moves it</a
+				Wondering what a project like yours might cost? <a
+					href="/en/budget-factors/">Here is what affects it</a
 				>.
 			</p>
 		</div>

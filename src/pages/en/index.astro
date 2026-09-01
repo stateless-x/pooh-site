@@ -19,7 +19,7 @@ const offers = [
 	{
 		icon: "flow",
 		tint: "is-clay",
-		title: "Business systems",
+		title: "Back-office systems",
 		body: "Orders, stock, customers, and team work in one place, so nobody is chasing anybody for a number.",
 		href: "/en/backoffice/",
 		linkLabel: "See what I build",
@@ -35,18 +35,18 @@ const offers = [
 	{
 		icon: "help",
 		tint: "is-amber",
-		title: "Fix what AI started",
-		body: "You got most of the way with a tool and stalled. I look at what you have and get it over the line.",
+		title: "Finishing what AI started",
+		body: "You got most of the way with a tool and got stuck. I look at what you have and help you finish it.",
 		href: "/en/fix-ai-website/",
 		linkLabel: "See what I fix",
 	},
 	{
 		icon: "care",
 		tint: "",
-		title: "I maintain what I ship",
-		body: "I still run my own product, so I live with my decisions. After launch I am still here for changes.",
+		title: "Looking after it afterwards",
+		body: "I still run my own product, so I know what it takes. After launch I am here for changes and fixes.",
 		href: "/en/about/",
-		linkLabel: "Why that matters",
+		linkLabel: "A bit about me",
 	},
 ] as const;
 
@@ -54,8 +54,8 @@ const steps = [
 	{
 		n: "01",
 		icon: "listen",
-		title: "Tell me what is broken",
-		body: "I ask about the problem before I talk about a solution.",
+		title: "You tell me what is going wrong",
+		body: "I ask about the problem first, before talking about what to build.",
 	},
 	{
 		n: "02",
@@ -82,31 +82,34 @@ const personSchema = enPerson(Astro.site);
 
 <Layout
 	lang="en"
-	title="Senior Developer in Bangkok for Websites and Business Systems | Pooh"
-	description="Hire a senior software engineer in Bangkok. Ex-Agoda, seven years building software, founder of a live product. Business websites and internal systems for owners in Thailand and clients worldwide. Email to start."
+	title="Business Systems and Websites | Freelance Dev in Bangkok | Pooh"
+	description="I am Pooh, a freelance developer based in Bangkok, Thailand. I build the back-office systems your business runs on and the websites that bring customers to it, for clients here and remotely, and I stay after launch. Email me."
 	schema={personSchema}
 >
 	<section class="hero">
 		<div class="shell hero-inner">
 			<div class="hero-copy reveal reveal-eager">
-				{/* Leads with what the buyer gets, never with what they do not
-				    pay. The economics argument is real and it is made honestly
-				    one line down, in the sub, where it belongs: a headline built
-				    on the discount frame would make him sound like the budget
-				    option rather than the smart choice. */}
-				{/* The space before the highlight span is an explicit expression:
+				{/* The headline names what the reader gets, not who he is: the
+				    systems their business runs on. Identity moved to the sub,
+				    where it is stated plainly and where "Bangkok, Thailand" is
+				    still early enough to answer the first question an overseas
+				    visitor has, and to be quotable by an answer engine.
+
+				    The highlight falls on "runs on", which is the phrase that
+				    carries the weight: these are not decorative sites, they are
+				    the things the business depends on daily.
+
+				    The space before the highlight span is an explicit expression:
 				    Astro collapses the newline between the text and the span, so
-				    written across two lines "who" and "stays" render joined. */}
+				    across two lines the words would render joined. */}
 				<h1>
-					A senior engineer in Bangkok who{" "}<span class="mark"
-						>stays after launch</span
-					>
+					The systems your business{" "}<span class="mark">runs on</span>
 				</h1>
 				<p class="hero-sub">
-					I build business websites and the systems that run behind them. I
-					am in Bangkok, I have shipped software for over seven years, and I
-					still run my own product every day. The work is the same standard
-					you would get at home. Your budget just goes further here.
+					Hi, I am Pooh, a freelance developer based in Bangkok, Thailand. I
+					build the back-office systems that keep a business running day to
+					day, and the websites that bring customers to it. Then I stay around
+					after launch to look after what I built.
 				</p>
 				<div class="actions">
 					<MailButton label="Email me about your project" />
@@ -116,7 +119,8 @@ const personSchema = enPerson(Astro.site);
 					</a>
 				</div>
 				<p class="hero-note">
-					No cost to ask, no obligation. I answer every email myself.
+					Asking costs nothing and you are not committing to anything. I read
+					every email myself.
 				</p>
 			</div>
 
@@ -143,7 +147,7 @@ const personSchema = enPerson(Astro.site);
 					<span class="chip"
 						><Icon name="badge" size={28} loading="eager" fetchpriority="low" /></span
 					>
-					<p>Seven years shipping software, including at Agoda</p>
+					<p>Over seven years building software, including at Agoda</p>
 				</li>
 				<li class="trust-item reveal reveal-d1">
 					<span class="chip is-amber"
@@ -161,45 +165,44 @@ const personSchema = enPerson(Astro.site);
 		</div>
 	</section>
 
-	{/* The positioning pillar. Placed high because it is the argument that
-	    decides whether an international reader keeps reading at all: they
-	    arrived wondering whether hiring here is a compromise. It never touches
-	    a number and never uses a discount word. */}
-	<section class="section band-cream apac">
-		<div class="shell apac-inner">
-			<div class="apac-head reveal">
-				<p class="label">Why here</p>
-				<h2>The companies you compete with have hired here for years</h2>
+	{/* Practical answers for someone hiring across a distance: where he is,
+	    how the hours line up, and what working together looks like. An
+	    earlier draft made this an argument ("The companies you compete with
+	    have hired here for years", a pull-quote thesis, a challenge to the
+	    reader). The owner rejected that tone and ADR 0002 replaced it. The
+	    budget point survives as ONE modest sentence and is not repeated on
+	    any other page. */}
+	<section class="section band-cream remote">
+		<div class="shell remote-inner">
+			<div class="remote-head reveal">
+				<p class="label">Working together from a distance</p>
+				<h2>What it is like to work with me in Bangkok</h2>
 			</div>
-			{/* No borrowed credibility. An earlier draft named other companies'
-			    engineering operations and called Agoda one of the largest in
-			    Asia. Both are claims about someone else that he cannot back, and
-			    the no-invented-facts rule binds both editions. His own time on
-			    that team is a documented fact and does the whole job. */}
-			<div class="apac-body reveal reveal-d1">
+			<div class="remote-body reveal reveal-d1">
 				<p>
-					Companies have hired engineers in this region for years, and not as
-					an experiment. They did it because the engineers are here.
+					I am in Bangkok, Thailand. If you are in Europe, my afternoon is
+					your morning. If you are in Australia or Singapore, we are close
+					enough that it barely matters. If you are in the Americas, we pick
+					one time that suits us both each week and keep it.
 				</p>
 				<p>
-					I was on the developer team at Agoda. That work carried real scale
-					and real consequences, and it set what I still consider normal: you
-					review properly, you plan for the day something breaks, and you
-					assume the person maintaining this in two years might be you.
+					In practice the time difference is rarely the hard part. What
+					actually helps is writing the scope down and showing you the work as
+					it goes, so you are never wondering what is happening. I do that
+					anyway, whether you are around the corner or on the other side of
+					the world.
 				</p>
 				<p>
-					What changes when you hire me directly is what your budget covers.
-					No agency margin, no Western office, no account manager sitting
-					between you and the person writing the code. More of what you spend
-					turns into working software.
-				</p>
-				<p class="apac-pull">
-					You are not buying less engineering. You are paying for less of
-					everything that is not engineering.
+					I also work in Thai. If you run a business in Thailand and your team
+					does not use English, I can give you an owner's view in English and
+					a staff view in Thai from the same system, so nothing gets lost in
+					between.
 				</p>
 				<p>
-					That is the whole argument. If you want it tested, send me something
-					real and judge the answer you get back.
+					One more thing that is fair to mention: hiring me directly means
+					there is no agency in the middle, and a budget tends to go further
+					in Bangkok than it would in London or San Francisco. That is a nice
+					side effect, not the reason to pick me. Look at the work first.
 				</p>
 			</div>
 		</div>
@@ -211,7 +214,8 @@ const personSchema = enPerson(Astro.site);
 				<p class="label">What I do</p>
 				<h2>Four ways I am usually brought in</h2>
 				<p class="lede">
-					From the site your customers see to the system your staff live in.
+					From the site your customers see to the system your team uses every
+					day.
 				</p>
 			</div>
 
@@ -306,15 +310,15 @@ const personSchema = enPerson(Astro.site);
 			<p class="label reveal">About me</p>
 			<div class="about-text reveal reveal-d1">
 				<p>
-					I am Purin Buriwong. Most people call me Pooh. I have been building
-					software professionally for over seven years, which means I started
-					before AI could write code, and I use it now the way an engineer
-					does.
+					I am Purin Buriwong, and most people call me Pooh. I am a freelance
+					developer in Bangkok, Thailand. I have been building software for
+					over seven years, so I started before AI could write code, and I use
+					it now the way a developer does.
 				</p>
 				<p>
-					I run pawjai.co myself, so I know exactly what it costs to still be
-					responsible for something two years after launch.
-					<a href="/en/about/">More about how I work</a>
+					I also run pawjai.co myself, which means I know what it is like to
+					still be looking after something two years after launch.
+					<a href="/en/about/">A bit more about how I work</a>
 				</p>
 				<p>
 					Work is delivered in stages you can see, and everything is yours at
@@ -329,12 +333,12 @@ const personSchema = enPerson(Astro.site);
 			<p class="label">Get in touch</p>
 			<h2>Tell me what you are trying to build</h2>
 			<p class="lede">
-				Even a rough idea is enough to start. Tell me what your business does
-				and what is getting in the way, and I will tell you straight whether I
-				can help and where I would start.
+				A rough idea is enough to start with. Tell me what your business does
+				and what is getting in the way, and I will let you know honestly
+				whether I can help and where I would start.
 			</p>
 			<p class="band-note">
-				I take a limited number of projects at a time so each one gets proper
+				I take on a few projects at a time, so I can give each one proper
 				attention.
 			</p>
 			<div class="actions">
@@ -358,16 +362,16 @@ const personSchema = enPerson(Astro.site);
 				<div class="seo-col">
 					<p>
 						<strong
-							>Purin Buriwong, who goes by Pooh, is a senior software engineer
-							in Bangkok, Thailand.</strong
-						> He has more than seven years of experience, he worked on the developer
-						team at Agoda, and he founded and still runs <a
+							>Purin Buriwong, who goes by Pooh, is a freelance software
+							developer based in Bangkok, Thailand.</strong
+						> He builds business websites and back-office systems for customers,
+						and he takes remote work with clients in Thailand and abroad. He has
+						been building software for more than seven years, he was on the
+						developer team at Agoda, and he founded and still runs <a
 							href="https://pawjai.co"
 							target="_blank"
 							rel="noopener">pawjai.co</a
-						>. He builds business websites and internal work systems for owners
-						operating in and around Thailand and for remote clients abroad. He
-						works in English and Thai. Reach him by email at {EMAIL}.
+						>. He works in English and Thai. Reach him by email at {EMAIL}.
 					</p>
 					<p>
 						<strong>Business systems and internal software.</strong> Orders,
@@ -397,26 +401,25 @@ const personSchema = enPerson(Astro.site);
 						<a href="/en/fix-ai-website/">See the scope</a>
 					</p>
 					<p>
-						<strong>Contract work with an existing team.</strong> For companies
-						that already have a team and a roadmap and need another senior
-						engineer for a defined period. Front end, back end, and the
-						structural work that lets a team keep maintaining it afterwards.
+						<strong>Contract work alongside an existing team.</strong> For
+						companies that already have a team and a plan and want another
+						experienced developer for an agreed period. Front end, back end,
+						and the structural work that lets the team keep maintaining it
+						after he leaves.
 					</p>
 				</div>
 			</div>
 
 			<div class="seo-qa">
 				<div class="seo-qa-item">
-					<h3>Is it worth hiring a developer in Thailand?</h3>
+					<h3>Can I hire a freelance developer in Thailand for remote work?</h3>
 					<p>
-						Yes. Serious engineering has been done in this region for a long
-						time, and the standard is the one you would expect at home. What
-						differs is how much of your budget reaches the actual engineering,
-						because you are not also funding a Western office, an agency
-						margin, and an account manager. Judge it the way you would judge
-						any hire: look at work that shipped and is still running, and at
-						the quality of the answer you get when you ask a hard question.
-						Purin Buriwong was on the developer team at Agoda and now runs his
+						Yes. Purin Buriwong (Pooh) is a freelance software developer based
+						in Bangkok, Thailand, and he takes remote work with clients abroad
+						as well as customers inside Thailand. He builds business websites
+						and back-office systems, works in English and Thai, and can be
+						reached by email at {EMAIL}. He has been building software for more
+						than seven years, was on the developer team at Agoda, and runs his
 						own product, pawjai.co.
 					</p>
 				</div>
@@ -436,15 +439,14 @@ const personSchema = enPerson(Astro.site);
 				</div>
 
 				<div class="seo-qa-item">
-					<h3>Can I work with a developer in another time zone?</h3>
+					<h3>How do time zones work with a developer in Bangkok?</h3>
 					<p>
-						Yes, and it is ordinary now. Bangkok overlaps a working morning in
-						Europe and a working evening in Australia, and for the Americas a
-						fixed weekly window covers it. What actually determines whether
-						remote work succeeds is not the time difference but whether scope
-						is written down and progress is visible. Purin Buriwong agrees
-						scope before starting and delivers in stages you can see, which is
-						what removes the risk.
+						Bangkok is seven hours ahead of London and close to the working day
+						in Australia and Singapore, so an afternoon in Bangkok is a morning
+						in Europe. For clients in the Americas, one agreed time each week
+						usually covers it. In practice the time difference matters less
+						than having the scope written down and being able to see the work
+						as it goes, which is how Purin Buriwong works with every client.
 					</p>
 				</div>
 
@@ -453,10 +455,9 @@ const personSchema = enPerson(Astro.site);
 					<p>
 						You do. Everything built is handed over with a written explanation
 						of how it works, so your own team or a different developer can pick
-						it up without needing the original author. Nothing is held back as
-						leverage and nothing is locked to one person. That is deliberate:
-						you should keep working with an engineer because the work is good,
-						not because leaving would be expensive.
+						it up without needing the original author. Nothing is held back and
+						nothing is tied to one person. If you want to move it elsewhere
+						later, you can.
 						<a href="/en/contact/">See the common questions</a>
 					</p>
 				</div>
@@ -630,73 +631,54 @@ const personSchema = enPerson(Astro.site);
 		}
 	}
 
-	/* ---- the positioning argument ----
+	/* ---- working together remotely ----
 	   Warm cream band with honey edges, the same device the Thai page uses for
-	   its conversion wedge: this is the emotional centre of the English page,
-	   so it gets the same treatment rather than a new one. */
-	.apac {
+	   its conversion wedge, because this is the section an overseas visitor
+	   most needs to read.
+
+	   It deliberately has NO pull-quote. The earlier draft put one here, and a
+	   honey-ruled pull-quote is a "here is my thesis" device: it belongs to
+	   the argument this section used to make, not to the plain answers it
+	   makes now. The paragraphs sit at one weight. */
+	.remote {
 		border-top: 1px solid rgba(243, 178, 26, 0.34);
 		border-bottom: 1px solid rgba(243, 178, 26, 0.34);
 	}
 
-	.apac-inner {
+	.remote-inner {
 		display: grid;
 		gap: 0;
 	}
 
-	.apac-head {
+	.remote-head {
 		display: grid;
 		gap: 0.875rem;
 		max-width: 46rem;
 		margin-bottom: 2.25rem;
 	}
 
-	.apac-head .label {
+	.remote-head .label {
 		color: var(--honey-ink);
 	}
 
-	.apac-head .label::before {
+	.remote-head .label::before {
 		background: var(--honey);
 	}
 
-	.apac-head h2 {
+	.remote-head h2 {
 		font-size: var(--fs-h2-lg);
 		text-wrap: balance;
 	}
 
-	.apac-body {
+	.remote-body {
 		display: grid;
 		gap: 1rem;
 		max-width: 44rem;
 		min-width: 0;
 	}
 
-	/* The pullout is a sibling of these, so it is excluded here rather than
-	   fighting the rule with !important. */
-	.apac-body p:not(.apac-pull) {
+	.remote-body p {
 		color: var(--muted);
-	}
-
-	/* The sentence the section turns on. Body size, weight from the heading
-	   face and the honey rule above it, matching the /fix-ai-website pullout
-	   rather than inventing a new type step. */
-	.apac-pull {
-		display: grid;
-		gap: 0.75rem;
-		margin-block: 0.5rem;
-		color: var(--ink);
-		font-family: var(--font-head);
-		font-weight: 500;
-		line-height: 1.6;
-		max-width: 32rem;
-	}
-
-	.apac-pull::before {
-		content: "";
-		width: 1.5rem;
-		height: 2px;
-		border-radius: 2px;
-		background: var(--honey);
 	}
 
 	/* ---- offers ---- */

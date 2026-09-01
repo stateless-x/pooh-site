@@ -1097,49 +1097,122 @@ lives in `package.json`'s build script, so a new build pipeline must keep it.
 | Success event | A message to personal LINE `bobroach` | An email to `askpurin@pm.me` |
 | Primary channel surface | LINE everywhere | Email everywhere; LINE on `/en/contact` only |
 
-## Voice
+## Voice (rewritten 2026-09-01, ADR 0002)
 
-Direct, persuasive, conversion-driven, at a **grade-5 reading level**. Short
-sentences, one idea each, everyday words, active voice. Each page identifies
-the reader's pain, hooks fast, makes the offer concrete, handles the top
-objection, and closes on one email CTA.
+**The same warm, honest, plain first-person voice as the Thai edition, in
+grade-5 English.** Short sentences, one idea each, everyday words, active
+voice. Persuasion lives in the **structure** and not in the tone: a clear
+offer, one objection handled at a time, a single email CTA per page. Helpful,
+not closing.
 
-It must read as though a sharp native English copywriter wrote it. The
-translation test applies line by line: if a native speaker could plausibly say
-"this reads translated", rewrite it.
+The person the copy has to sound like: **a freelance developer based in
+Bangkok, Thailand, who takes remote work and builds business websites and
+back-office systems for customers.** Write that person, proudly and plainly.
 
-## Positioning: APAC economics
+Two tests, applied line by line:
 
-The core pillar. Serious companies already hire senior engineers in this
-region deliberately, so the buyer gets the same senior quality while their
-budget reaches further. Framed as **value arbitrage and smart buying**.
+1. **The read-aloud test.** Would a modest, competent freelancer actually say
+   this sentence out loud to a customer? If not, rewrite it.
+2. **The translation test.** Could a native speaker plausibly say "this reads
+   translated"? If so, rewrite it.
 
-Hard bans, English only, all four checked by the audit:
+### The rejected draft, kept as worked examples
+
+A full persuasion-first ("wolf") register was written per ADR 0001, read by
+the owner, and rejected as arrogant. **The arrogance was structural, not a
+matter of individual adjectives**, which is why a patch pass would not have
+fixed it. The four patterns, so they are recognisable if they return:
+
+1. **Thesis-hammering.** The near-identical sentence "Serious engineering has
+   been done in this region for a long time" appeared on **five** English
+   pages. That repetition *was* the arrogance: a modest freelancer mentions
+   this once where it is relevant, not as the opening of four pages. This one
+   is mechanically detectable, so the audit now checks it (see below).
+2. **Challenge lines addressed to the reader.** "That is the whole argument.
+   If you want it tested, send me something real and judge the answer you get
+   back." Also "Judge it the way you would judge any hire". Commands and dares
+   to the reader are out entirely.
+3. **Lecture paragraphs about what the reader is buying.** A honey-ruled
+   pull-quote reading "You are not buying less engineering. You are paying for
+   less of everything that is not engineering." The idea can survive as one
+   modest sentence; the lecture and its pull-quote device cannot. A pull-quote
+   is a "here is my thesis" device and does not belong in this voice.
+4. **Smugness.** "and not as charity", "Because the good ones are here and
+   have been for years".
+
+Two earlier fixes still stand as examples of their own:
+
+- A home H1 reading "Senior engineering, without the senior market price"
+  passed the banned-word grep and contained no figure, and was still the
+  discount frame with the banned word removed. **A headline names what the
+  reader gets, never what they do not pay.** The current H1, "The systems your
+  business runs on", is owner-approved and customer-centered; identity moved
+  to the sub-line beneath it.
+- A draft named other companies' engineering operations and called Agoda "one
+  of the largest in Asia". Both are claims about third parties he cannot back.
+  **No borrowed credibility**; the no-invented-facts rule binds both editions.
+
+## Positioning
+
+He is a freelance developer in Bangkok, Thailand who takes remote work. The
+home page answers, plainly, what working with him from another country is
+like: where he is, how the hours line up, that you talk to him rather than an
+account manager, and that he works in Thai as well as English.
+
+**The budget point is made once and modestly.** That a budget goes further in
+Bangkok than in London or San Francisco may appear **once on the home page**,
+and at most once more in a budget FAQ answer where the reader asked about
+money directly. Never as a thesis, never as a challenge, never repeated across
+pages. It is stated as a side effect and is followed by pointing the reader at
+the work instead.
+
+Hard bans, English only, all checked by the audit:
 
 1. The words **cheap, affordable, low-cost, budget-friendly, inexpensive**
    never appear.
 2. **No figure, rate, range, or currency** appears, on any page. This is the
    shared no-pricing rule; `/en/budget-factors` answers the cost question in
    magnitude language the way the Thai page uses หลักพัน / หลักหมื่น / หลักแสน.
-3. **A headline leads with what the buyer gets, never with what they do not
-   pay.** An earlier home H1 read "Senior engineering, without the senior
-   market price": it passed the word grep and contained no figure, and it was
-   still the discount frame with the banned word removed. The economics
-   argument belongs one line down, in a subordinate position.
-4. **No borrowed credibility.** The argument is made from his own documented
-   experience. An earlier draft named other companies' engineering operations
-   and called Agoda "one of the largest in Asia"; both are claims about third
-   parties he cannot back, and the no-invented-facts rule binds both editions.
+3. **Name the place.** "This region", "the region", and "this part of the
+   world" standing in for Thailand are banned. Say **Bangkok**, **Thailand**,
+   or **Southeast Asia**. This is a clarity fix (the owner: "'this region'
+   does not signify APAC or Thailand") and a retrieval fix: an answer engine
+   cannot cite an unnamed place.
+4. **No borrowed credibility**, as above.
+
+## Identity and retrieval (GEO)
+
+Explicit entity naming is what an assistant can retrieve and quote, so the
+English edition states the same facts in the same words across every surface:
+
+- **"Based in Bangkok, Thailand"** appears as a plain identity statement in
+  the hero sub-line, the `/en/about` facts table, and the footer line on every
+  English page.
+- The **entity paragraph** is one self-contained passage naming the person,
+  what he does, the city and country, remote availability, the languages he
+  works in, and the email. It is mirrored **verbatim** in three places:
+  `enPerson().description` in `src/utils/schema-en.ts`, the `/en/about` entity
+  paragraph, and the `/en/` reference zone opener. Edit all three together or
+  the mirror breaks.
+- **FAQ questions are phrased the way someone asks an assistant**, e.g. "Can I
+  hire a freelance developer in Thailand for remote work?" rather than a
+  headline-style fragment.
+- `public/llms.txt` carries a **Key facts for retrieval** block: name, role
+  (freelance, not an agency), city, country, remote availability, services,
+  languages, and email.
 
 ## Relaxations, English only
 
 - Technical vocabulary is allowed where it builds trust: ex-Agoda experience,
-  "I maintain what I ship", naming real systems, "front end" and "back end".
+  naming real systems, "front end" and "back end", "back-office systems".
   Still grade-5 readable by a non-technical owner.
 - Agoda may appear more than once, meta and JSON-LD included. The site-wide
   count assertion is Thai-only.
 - Email is the primary channel, contradicting the Thai "LINE is the only
   channel" rule by design.
+
+**Warmth is not a relaxation.** Both editions share it (ADR 0002). English
+differs from Thai in the jargon allowance and the contact channel only.
 
 ## Rules that still bind both editions
 
@@ -1192,14 +1265,33 @@ and nowhere else; `<html lang>` matches the edition; and no Thai text or Thai
 `alt`/`aria-label` survives on an English page except the switcher's own
 `ไทย` label and the `สายมู.com` project name.
 
+### Three tone-adjacent checks (added 2026-09-01)
+
+A clean audit is **not** evidence the tone is right: the draft the owner
+rejected as arrogant passed every check that existed at the time. Tone is read
+by a human, one page at a time, against the read-aloud test. But three parts
+of the failure were mechanical, so they are checked:
+
+1. **Vague geography** — fail on "this region", "the region", or "this part of
+   the world" in `/en/` visible text.
+2. **Thesis repetition** — fail if any sentence of eight or more words appears
+   on more than two English pages, with header, footer, and nav stripped first
+   since chrome repeats by design. This is the check that would have caught
+   the five-page repeat directly.
+3. **Identity present** — fail if any English page never says "Bangkok,
+   Thailand". It is the owner's requested identity statement and the primary
+   retrieval string, so it must survive future edits.
+
 ---
 
 FRESH before → after: F 3→3 · R 3→3 (domain, crawler policy, entity fields,
-the Agoda relocation, and now the per-edition scoping of the LINE-only, Agoda
-count, and jargon rules all dated and stated as checkable rules) · E 2→3
-(the English edition section records the rejected home H1 and the borrowed
-credibility draft as worked examples, so the bans are demonstrated rather than
-only asserted) · S 3→3 · H 3→3 (the robots.txt manual sync, the alias array
-rationale, the sitemap i18n shape trap, and the Cloudflare 404 limitation are
-all directly actionable)
+the Agoda relocation, and the per-edition scoping of the LINE-only, Agoda
+count, and jargon rules all dated and stated as checkable rules; the voice
+section now carries its own ADR 0002 date so a reader can tell which guidance
+supersedes which) · E 2→3 (the English section records six rejected drafts as
+worked examples with the reason each failed, including the five-page repeated
+sentence, so the bans are demonstrated rather than only asserted) · S 3→3 ·
+H 3→3 (the robots.txt manual sync, the alias array rationale, the sitemap
+i18n shape trap, the verbatim three-way entity mirror, and the three
+tone-adjacent audit checks are all directly actionable)
 Total: 14/15 (A) → 15/15 (A)

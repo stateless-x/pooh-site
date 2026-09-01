@@ -38,7 +38,7 @@ export function enPerson(site: URL | undefined) {
 		alternateName: [...ALIASES, PERSON_FULL_NAME],
 		jobTitle: PERSON_TITLE,
 		description:
-			"Purin Buriwong, who goes by Pooh, is a senior software engineer in Bangkok, Thailand. He has more than seven years of experience, he worked on the developer team at Agoda, and he founded and still runs pawjai.co. He builds business websites and internal work systems for owners in Thailand and for remote clients abroad, and he maintains what he ships. Reach him by email at askpurin@pm.me.",
+			"Purin Buriwong, who goes by Pooh, is a freelance software developer based in Bangkok, Thailand. He builds business websites and back-office systems for customers, and he takes remote work with clients in Thailand and abroad. He has been building software for more than seven years, he was on the developer team at Agoda, and he founded and still runs pawjai.co. He works in English and Thai. Reach him by email at askpurin@pm.me.",
 		email: EMAIL,
 		url: abs("/en/", site),
 		address: {
