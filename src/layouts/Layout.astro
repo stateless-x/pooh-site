@@ -28,7 +28,10 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 // Every absolute URL derives from `site` in astro.config.mjs, which currently
 // holds a placeholder the owner must replace before deploy.
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL("/og.png", Astro.site);
+// 1200x630 crop of the pooh-portfolio illustration, regenerated from
+// src/assets/images/illustrations/pooh-portfolio.webp (see public/og.jpg).
+const ogImage = new URL("/og.jpg", Astro.site);
+const ogImageAlt = `${PERSON_NAME} ${IDENTITY_PHRASE} รับทำเว็บไซต์และระบบสำหรับธุรกิจ`;
 
 const schemaBlocks = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 
@@ -83,12 +86,16 @@ const footNav = [
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical.href} />
-		{/* TODO (owner): add a 1200x630 image at public/og.png. */}
 		<meta property="og:image" content={ogImage.href} />
+		<meta property="og:image:type" content="image/jpeg" />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
-		<meta property="og:image:alt" content={`${PERSON_NAME} ${IDENTITY_PHRASE} รับทำเว็บไซต์และระบบสำหรับธุรกิจ`} />
+		<meta property="og:image:alt" content={ogImageAlt} />
 		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage.href} />
+		<meta name="twitter:image:alt" content={ogImageAlt} />
 		<meta name="generator" content={Astro.generator} />
 		{
 			schemaBlocks.map((block) => (
