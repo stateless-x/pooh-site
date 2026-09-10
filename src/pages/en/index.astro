@@ -4,9 +4,16 @@ import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
 import BrowserFrame from "../../components/BrowserFrame.astro";
 import Icon from "../../components/Icon.astro";
 import MailButton from "../../components/MailButton.astro";
+import PortraitPhoto from "../../components/PortraitPhoto.astro";
 import poohAtWork from "../../assets/images/illustrations/pooh-at-work.webp";
 import { works } from "../../data/works";
 import { enPerson } from "../../utils/schema-en";
+import {
+	aboutParagraphs,
+	aboutLink,
+	aboutQuote,
+	portraitAlt,
+} from "../../data/en/about";
 import { EMAIL, GITHUB_URL } from "../../../site.config.mjs";
 
 // The English teaser has its own rank: the cross-border and multilingual work
@@ -324,25 +331,30 @@ const personSchema = enPerson(Astro.site);
 
 	<section class="section about">
 		<div class="shell about-inner">
-			<p class="label reveal">About me</p>
-			<div class="about-text reveal reveal-d1">
-				<p>
-					I am Purin Buriwong, though most people call me Pooh. I am a
-					freelance developer in Bangkok, Thailand, and I have been building
-					software for over seven years. That means I started before AI could
-					write code, and I use it now the way a developer does rather than as
-					a shortcut around understanding things.
-				</p>
-				<p>
-					I also run pawjai.co myself, so I know what it is like to still be
-					looking after something two years after launch.
-					<a href="/en/about/">A bit more about how I work</a>
-				</p>
-				<p>
-					Work arrives in stages you can see, and everything is yours at the
-					end. If you ever want someone else to take it over, nothing stops
-					you.
-				</p>
+			<figure class="about-portrait reveal">
+				<PortraitPhoto
+					alt={portraitAlt}
+					sizes="(min-width: 64em) 19rem, (min-width: 48em) 30vw, min(13rem, 60vw)"
+				/>
+			</figure>
+			<div class="about-body">
+				<p class="label reveal">About me</p>
+				<div class="about-text reveal reveal-d1">
+					{
+						aboutParagraphs.map((text, i) => (
+							<p>
+								{text}
+								{i === 1 && <> <a href={aboutLink.href}>{aboutLink.label}</a></>}
+							</p>
+						))
+					}
+				</div>
+				<figure class="about-quote reveal reveal-d2">
+					<blockquote>
+						<p>{aboutQuote.text}</p>
+					</blockquote>
+					<figcaption>{aboutQuote.attribution}</figcaption>
+				</figure>
 			</div>
 		</div>
 	</section>
@@ -799,7 +811,13 @@ const personSchema = enPerson(Astro.site);
 
 	.about-inner {
 		display: grid;
+		gap: 1.75rem;
+	}
+
+	.about-body {
+		display: grid;
 		gap: 1rem;
+		align-content: start;
 	}
 
 	.about-text {
@@ -811,10 +829,63 @@ const personSchema = enPerson(Astro.site);
 		font-size: var(--fs-body);
 	}
 
+	/* Capped and centred on a phone: a face at full column width crowds out
+	   the copy that has to do the actual convincing. */
+	.about-portrait {
+		margin: 0;
+		width: min(13rem, 60%);
+	}
+
+	/* The section's one authored moment. Hairline and honey accent rather
+	   than another card, so it reads as an aside in his own voice. */
+	.about-quote {
+		margin: 0.5rem 0 0;
+		padding-left: 1.125rem;
+		border-left: 2px solid var(--honey);
+		max-width: 34rem;
+	}
+
+	.about-quote blockquote {
+		margin: 0;
+	}
+
+	.about-quote p {
+		font-family: var(--font-head);
+		font-weight: 500;
+		/* Below the surrounding headings on purpose: a spoken aside, not a
+		   second headline competing with the h2 above it. */
+		font-size: clamp(1.0625rem, 0.95rem + 0.55vw, 1.3125rem);
+		line-height: 1.5;
+		color: var(--accent);
+		text-wrap: balance;
+	}
+
+	.about-quote figcaption {
+		margin-top: 0.625rem;
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: var(--fs-label);
+		color: var(--muted);
+	}
+
 	@media (min-width: 48em) {
 		.about-inner {
-			grid-template-columns: 12rem 1fr;
-			gap: 2.5rem;
+			/* The portrait takes the column the bare label used to occupy, so
+			   the section gains a face without gaining width. */
+			grid-template-columns: 16rem 1fr;
+			gap: 3rem;
+			align-items: start;
+		}
+
+		.about-portrait {
+			width: 100%;
+		}
+	}
+
+	@media (min-width: 64em) {
+		.about-inner {
+			grid-template-columns: 19rem 1fr;
+			gap: 3.5rem;
 		}
 	}
 

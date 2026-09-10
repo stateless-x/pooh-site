@@ -4,10 +4,17 @@ import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import BrowserFrame from "../components/BrowserFrame.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
+import PortraitPhoto from "../components/PortraitPhoto.astro";
 import poohAtWork from "../assets/images/illustrations/pooh-at-work.webp";
 import { works } from "../data/works";
 import { systemTypes } from "../data/backoffice";
 import { protectThai } from "../utils/thai";
+import {
+	aboutParagraphs,
+	aboutLink,
+	aboutQuote,
+	portraitAlt,
+} from "../data/about";
 import {
 	PERSON_FULL_NAME,
 	ALIASES,
@@ -402,21 +409,30 @@ const personSchema = {
 
 	<section class="section about">
 		<div class="shell about-inner">
-			<p class="label reveal">เกี่ยวกับผม</p>
-			<div class="about-text reveal reveal-d1">
-				<p>
-					ผมภูรินท์ครับ ทำซอฟต์แวร์มากว่า 7 ปี
-					ตอนนี้รับงานอิสระควบคู่กับการดูแล<span class="nb">โปรดักต์</span>ของตัวเอง
-				</p>
-				<p>
-					คุณค่าไม่ได้อยู่ที่เครื่องมือ แต่อยู่ที่การเลือกใช้ให้ถูกจุดจนเกิดผลกับธุรกิจจริง
-					<a href="/about">ดูเรื่องราวของผมเพิ่มเติม</a>
-				</p>
-				<p>
-					งานแบ่งเป็นช่วงให้เห็น<span class="nb">ความคืบหน้า</span>ตลอด และหลังส่งมอบ
-					ของทั้งหมดเป็นของลูกค้า
-					เอาไปให้คนอื่นดูแลต่อได้เสมอครับ
-				</p>
+			<figure class="about-portrait reveal">
+				<PortraitPhoto
+					alt={portraitAlt}
+					sizes="(min-width: 64em) 19rem, (min-width: 48em) 30vw, min(13rem, 60vw)"
+				/>
+			</figure>
+			<div class="about-body">
+				<p class="label reveal">เกี่ยวกับผม</p>
+				<div class="about-text reveal reveal-d1">
+					{
+						aboutParagraphs.map((text, i) => (
+							<p>
+								{protectThai(text)}
+								{i === 1 && <a href={aboutLink.href}>{protectThai(aboutLink.label)}</a>}
+							</p>
+						))
+					}
+				</div>
+				<figure class="about-quote reveal reveal-d2">
+					<blockquote>
+						<p>{protectThai(aboutQuote.text)}</p>
+					</blockquote>
+					<figcaption>{protectThai(aboutQuote.attribution)}</figcaption>
+				</figure>
 			</div>
 		</div>
 	</section>
@@ -1158,7 +1174,13 @@ const personSchema = {
 	/* ---- about ---- */
 	.about-inner {
 		display: grid;
+		gap: 1.75rem;
+	}
+
+	.about-body {
+		display: grid;
 		gap: 1rem;
+		align-content: start;
 	}
 
 	.about-text {
@@ -1169,10 +1191,65 @@ const personSchema = {
 		font-size: var(--fs-body);
 	}
 
+	/* On a phone the portrait is capped and centred rather than run full
+	   bleed: a face at full column width crowds out the copy that has to do
+	   the actual convincing. */
+	.about-portrait {
+		margin: 0;
+		width: min(13rem, 60%);
+	}
+
+	/* The section's one authored moment. It is a quote, so the system's
+	   hairline does the separating and the honey accent marks the opening,
+	   rather than wrapping it in yet another card. */
+	.about-quote {
+		margin: 0.5rem 0 0;
+		padding-left: 1.125rem;
+		border-left: 2px solid var(--honey);
+		max-width: 33rem;
+	}
+
+	.about-quote blockquote {
+		margin: 0;
+	}
+
+	.about-quote p {
+		font-family: var(--font-head);
+		font-weight: 500;
+		/* Deliberately below the section headings around it: this is a spoken
+		   aside, not a second headline competing with the h2 above. */
+		font-size: clamp(1.0625rem, 0.95rem + 0.55vw, 1.3125rem);
+		line-height: 1.55;
+		color: var(--accent);
+		text-wrap: balance;
+	}
+
+	.about-quote figcaption {
+		margin-top: 0.625rem;
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: var(--fs-label);
+		color: var(--muted);
+	}
+
 	@media (min-width: 48em) {
 		.about-inner {
-			grid-template-columns: 12rem 1fr;
-			gap: 2.5rem;
+			/* The portrait takes the column the bare label used to occupy, so
+			   the section gains a face without gaining width. */
+			grid-template-columns: 16rem 1fr;
+			gap: 3rem;
+			align-items: start;
+		}
+
+		.about-portrait {
+			width: 100%;
+		}
+	}
+
+	@media (min-width: 64em) {
+		.about-inner {
+			grid-template-columns: 19rem 1fr;
+			gap: 3.5rem;
 		}
 	}
 </style>

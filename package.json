@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "portrait": "node scripts/build-portrait.mjs",
     "build": "astro build && cp dist/en/404/index.html dist/en/404.html",
     "preview": "astro preview",
     "astro": "astro"
