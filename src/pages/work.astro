@@ -3,8 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import BrowserFrame from "../components/BrowserFrame.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
+import ThaiText from "../components/ThaiText.astro";
 import { works } from "../data/works";
-import { protectThai } from "../utils/thai";
 
 // pawjai.co is the one product he built and owns, so it leads the page as a
 // featured card. The remaining four then run business systems first, for the
@@ -69,7 +69,7 @@ const breadcrumb = {
 				<div class="featured-text">
 					<span class="tag is-amber">โปรดักต์ที่ผมสร้างเอง</span>
 					<h2>{featuredWork.name}</h2>
-					<p>{protectThai(featuredWork.long)}</p>
+					<p><ThaiText text={featuredWork.long} /></p>
 					<a
 						class="work-link"
 						href={featuredWork.url}
@@ -96,9 +96,9 @@ const breadcrumb = {
 								/>
 							</div>
 							<div class="wide-text">
-								<span class:list={["tag", `is-${w.tint}`]}>{protectThai(w.kind)}</span>
+								<span class:list={["tag", `is-${w.tint}`]}><ThaiText text={w.kind} /></span>
 								<h2>{w.name}</h2>
-								<p>{protectThai(w.long)}</p>
+								<p><ThaiText text={w.long} /></p>
 								{w.url ? (
 									<a
 										class="work-link"
@@ -110,7 +110,7 @@ const breadcrumb = {
 										<Icon name="external" size={16} />
 									</a>
 								) : (
-									<p class="work-status">{protectThai(w.status ?? "")}</p>
+									<p class="work-status"><ThaiText text={w.status ?? ""} /></p>
 								)}
 							</div>
 						</article>

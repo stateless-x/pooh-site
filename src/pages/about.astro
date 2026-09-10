@@ -3,8 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
+import ThaiText from "../components/ThaiText.astro";
 import poohAtWork from "../assets/images/illustrations/pooh-at-work.webp";
-import { protectThai } from "../utils/thai";
 import {
 	PERSON_FULL_NAME,
 	ALIASES,
@@ -235,8 +235,8 @@ const services: { label: string; href: string }[] = [
 				{
 					facts.map((f) => (
 						<div class="fact">
-							<dt>{protectThai(f.label)}</dt>
-							<dd>{protectThai(f.value)}</dd>
+							<dt><ThaiText text={f.label} /></dt>
+							<dd><ThaiText text={f.value} /></dd>
 						</div>
 					))
 				}
@@ -248,7 +248,7 @@ const services: { label: string; href: string }[] = [
 					{
 						services.map((sv) => (
 							<li>
-								<a href={sv.href}>{protectThai(sv.label)}</a>
+								<a href={sv.href}><ThaiText text={sv.label} /></a>
 							</li>
 						))
 					}

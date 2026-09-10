@@ -4,7 +4,7 @@
  * A native rewrite, not a translation of src/data/about.ts: the English reader
  * is colder traffic hiring across a distance, and the carve-out in PRODUCT.md
  * allows technical vocabulary where it builds trust. English pages skip
- * protectThai() entirely.
+ * the ThaiText display component entirely.
  */
 
 export const aboutParagraphs = [

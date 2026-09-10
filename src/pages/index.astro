@@ -5,10 +5,10 @@ import BrowserFrame from "../components/BrowserFrame.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
 import PortraitPhoto from "../components/PortraitPhoto.astro";
+import ThaiText from "../components/ThaiText.astro";
 import poohAtWork from "../assets/images/illustrations/pooh-at-work.webp";
 import { works } from "../data/works";
 import { systemTypes } from "../data/backoffice";
-import { protectThai } from "../utils/thai";
 import {
 	aboutParagraphs,
 	aboutLink,
@@ -287,7 +287,7 @@ const personSchema = {
 								<span class:list={["mini-icon", i % 3 === 1 && "is-amber", i % 3 === 2 && "is-clay"]}>
 									<Icon name={item.icon} size={22} />
 								</span>
-								<span>{protectThai(item.title)}</span>
+								<span><ThaiText text={item.title} /></span>
 							</li>
 						))
 					}
@@ -380,9 +380,9 @@ const personSchema = {
 								src={w.image}
 								ratio="16 / 10"
 							/>
-							<span class:list={["tag", `is-${w.tint}`]}>{protectThai(w.kind)}</span>
+							<span class:list={["tag", `is-${w.tint}`]}><ThaiText text={w.kind} /></span>
 							<h3>{w.name}</h3>
-							<p>{protectThai(w.short)}</p>
+							<p><ThaiText text={w.short} /></p>
 							{w.url ? (
 								<a
 									class="work-link"
@@ -394,7 +394,7 @@ const personSchema = {
 									<Icon name="external" size={16} />
 								</a>
 							) : (
-								<p class="work-status">{protectThai(w.status ?? "")}</p>
+								<p class="work-status"><ThaiText text={w.status ?? ""} /></p>
 							)}
 						</article>
 					))
@@ -421,17 +421,17 @@ const personSchema = {
 					{
 						aboutParagraphs.map((text, i) => (
 							<p>
-								{protectThai(text)}
-								{i === 1 && <a href={aboutLink.href}>{protectThai(aboutLink.label)}</a>}
+								<ThaiText text={text} />
+								{i === 1 && <a href={aboutLink.href}><ThaiText text={aboutLink.label} /></a>}
 							</p>
 						))
 					}
 				</div>
 				<figure class="about-quote reveal reveal-d2">
 					<blockquote>
-						<p>{protectThai(aboutQuote.text)}</p>
+						<p><ThaiText text={aboutQuote.text} /></p>
 					</blockquote>
-					<figcaption>{protectThai(aboutQuote.attribution)}</figcaption>
+					<figcaption><ThaiText text={aboutQuote.attribution} /></figcaption>
 				</figure>
 			</div>
 		</div>
@@ -1028,7 +1028,7 @@ const personSchema = {
 
 	   No overflow-wrap: anywhere here. It creates break opportunities inside
 	   words, which is the exact mid-syllable Thai split that .nb and
-	   protectThai() exist to prevent, and it was removed from .ident for the
+	   ThaiText exists to prevent, and it was removed from .ident for the
 	   same reason. Loanwords are wrapped in .nb instead. */
 	.wedge-lead {
 		color: var(--muted);

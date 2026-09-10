@@ -21,7 +21,8 @@ Static Astro site, seven pages, no client framework. Live domain pending
 - `src/pages/` — index, backoffice, budget-factors, fix-ai-website, work,
   contact, 404.
 - `src/data/` — page content (works, FAQs, budget factors) consumed by pages.
-- `src/utils/thai.ts` — Thai loanword line-break protection (U+2060).
+- `src/components/ThaiText.astro` + `src/utils/thai.ts` — whole-word Thai
+  line-break protection without invisible characters.
 - `public/brand/` — Pooh mark, lockup, wordmark, favicon set.
 
 ## Docs

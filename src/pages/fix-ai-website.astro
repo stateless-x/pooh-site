@@ -3,9 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
+import ThaiText from "../components/ThaiText.astro";
 import poohRepair from "../assets/images/illustrations/pooh-repair.webp";
 import { fixAiFaq, repairCategories } from "../data/fix-ai";
-import { protectThai } from "../utils/thai";
 
 const fitItems = [
 	{
@@ -160,8 +160,8 @@ const breadcrumb = {
 									{String(i + 1).padStart(2, "0")}
 								</span>
 								<div class="check-body">
-									<h3>{protectThai(item.title)}</h3>
-									<p>{protectThai(item.body)}</p>
+									<h3><ThaiText text={item.title} /></h3>
+									<p><ThaiText text={item.body} /></p>
 								</div>
 							</li>
 						))
@@ -184,8 +184,8 @@ const breadcrumb = {
 					<ul class="fit-list">
 						{fitItems.map((item) => (
 							<li>
-								<strong>{protectThai(item.title)}</strong>
-								<span>{protectThai(item.body)}</span>
+								<strong><ThaiText text={item.title} /></strong>
+								<span><ThaiText text={item.body} /></span>
 							</li>
 						))}
 					</ul>
@@ -194,7 +194,7 @@ const breadcrumb = {
 				<div class="fit-card is-muted reveal reveal-d1">
 					<p class="fit-kicker">อาจไม่เหมาะเมื่อ</p>
 					<ul class="not-fit-list">
-						{notFitItems.map((item) => <li>{protectThai(item)}</li>)}
+						{notFitItems.map((item) => <li><ThaiText text={item} /></li>)}
 					</ul>
 					<p class="fit-note">
 						ถ้าไม่แน่ใจ ส่งมาให้ดูก่อนได้ครับ การบอกว่าไม่ควรแก้ต่อก็เป็นคำตอบที่ช่วยประหยัดเวลาและงบได้
@@ -216,8 +216,8 @@ const breadcrumb = {
 					<li class:list={["process-item", "reveal", `reveal-d${i % 2}`]}>
 						<span class="process-n">{step.n}</span>
 						<div>
-							<h3>{protectThai(step.title)}</h3>
-							<p>{protectThai(step.body)}</p>
+							<h3><ThaiText text={step.title} /></h3>
+							<p><ThaiText text={step.body} /></p>
 						</div>
 					</li>
 				))}
@@ -301,10 +301,10 @@ const breadcrumb = {
 					fixAiFaq.map((item, i) => (
 						<details class:list={["faq-item", "reveal", `reveal-d${i % 3}`]}>
 							<summary>
-								<span class="faq-q">{protectThai(item.q)}</span>
+								<span class="faq-q"><ThaiText text={item.q} /></span>
 								<span class="faq-sign" aria-hidden="true" />
 							</summary>
-							<p class="faq-a">{protectThai(item.a)}</p>
+							<p class="faq-a"><ThaiText text={item.a} /></p>
 						</details>
 					))
 				}

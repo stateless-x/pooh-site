@@ -8,18 +8,11 @@
  * them affect Thai segmentation, because the browser believes the break is
  * legitimate.
  *
- * U+2060 WORD JOINER is the actual fix: a zero-width character that renders
- * nothing but forbids a break at that position.
- *
- * Apply this ONLY to text that is rendered for a reader. Structured data,
- * meta tags, and alt text must keep the raw string, so nothing invisible ends
- * up in a machine-read field. Hand-written markup can use the `.nb` class
- * instead; this exists for strings that come from the data files, where a
- * span would render as literal text.
+ * Wrap the whole fragile word in the shared `.nb` class. Do not inject
+ * invisible characters between Thai code points: doing that can separate a
+ * consonant from its vowel or tone mark in copied text, accessibility trees,
+ * search indexes, and some renderers.
  */
-// Written as an escape on purpose: a literal invisible character in source is
-// impossible to see and easy to delete by accident.
-const WJ = "\u2060";
 
 /**
  * Words the line-break audit has actually caught splitting, plus the ones
@@ -43,10 +36,21 @@ const LOANWORDS = [
 	"จำนวนจำกัด",
 ];
 
-/** Returns the string with breaks forbidden inside known-fragile loanwords. */
-export function protectThai(input: string): string {
-	return LOANWORDS.reduce(
-		(acc, word) => acc.split(word).join([...word].join(WJ)),
-		input
-	);
+export interface ThaiTextSegment {
+	text: string;
+	noBreak: boolean;
+}
+
+const escapedLoanwords = LOANWORDS.map((word) =>
+	word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+);
+const loanwordPattern = new RegExp(`(${escapedLoanwords.join("|")})`, "g");
+const loanwordSet = new Set<string>(LOANWORDS);
+
+/** Splits reader-facing copy into plain text and whole words to keep together. */
+export function segmentThai(input: string): ThaiTextSegment[] {
+	return input
+		.split(loanwordPattern)
+		.filter(Boolean)
+		.map((text) => ({ text, noBreak: loanwordSet.has(text) }));
 }

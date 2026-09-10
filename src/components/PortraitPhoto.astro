@@ -28,7 +28,7 @@ import me760webp from "../assets/images/portrait/me-760.webp";
 
 interface Props {
 	/** Descriptive alt text in the page's own language. Kept raw, never run
-	    through protectThai, so nothing invisible lands in a machine-read field. */
+	    through ThaiText, so it remains untouched machine-readable text. */
 	alt: string;
 	/** Rendered-width hint. Required: without it the browser assumes 100vw and
 	    picks a larger file than the layout will ever paint. */

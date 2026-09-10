@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
+import ThaiText from "../components/ThaiText.astro";
 import {
 	useCases,
 	systemTypes,
@@ -10,7 +11,6 @@ import {
 	engagementTypes,
 	backofficeFaq,
 } from "../data/backoffice";
-import { protectThai } from "../utils/thai";
 import { PERSON_FULL_NAME, ALIASES } from "../../site.config.mjs";
 
 const faqSchema = {
@@ -109,13 +109,13 @@ const serviceSchema = {
 							</span>
 							<div class="workflow-problem">
 								<span class="flow-label">ตอนนี้</span>
-								<h3>{protectThai(item.title)}</h3>
-								<p>{protectThai(item.body)}</p>
+								<h3><ThaiText text={item.title} /></h3>
+								<p><ThaiText text={item.body} /></p>
 							</div>
 							<div class="workflow-answer">
 								<span class="flow-label">เมื่อจัดให้เป็นระบบ</span>
-								<h3>{protectThai(systemTypes[i].title)}</h3>
-								<p>{protectThai(systemTypes[i].body)}</p>
+								<h3><ThaiText text={systemTypes[i].title} /></h3>
+								<p><ThaiText text={systemTypes[i].body} /></p>
 							</div>
 						</li>
 					))
@@ -140,8 +140,8 @@ const serviceSchema = {
 						<li class="level-item">
 							<span class="chip"><Icon name={item.icon} size={26} /></span>
 							<div>
-								<h3>{protectThai(item.title)}</h3>
-								<p>{protectThai(item.body)}</p>
+								<h3><ThaiText text={item.title} /></h3>
+								<p><ThaiText text={item.body} /></p>
 							</div>
 						</li>
 					))
@@ -167,10 +167,10 @@ const serviceSchema = {
 								<Icon name={item.icon} size={28} />
 							</span>
 							<div class="industry-copy">
-								<h3>{protectThai(item.title)}</h3>
-								<p>{protectThai(item.body)}</p>
+								<h3><ThaiText text={item.title} /></h3>
+								<p><ThaiText text={item.body} /></p>
 								<ul class="industry-examples" aria-label={`ตัวอย่างธุรกิจในกลุ่ม${item.title}`}>
-									{item.examples.map((example) => <li>{protectThai(example)}</li>)}
+									{item.examples.map((example) => <li><ThaiText text={example} /></li>)}
 								</ul>
 							</div>
 						</li>
@@ -202,8 +202,8 @@ const serviceSchema = {
 							<span class:list={["chip", i === 1 && "is-amber", i === 2 && "is-clay"]}>
 								<Icon name={item.icon} size={28} />
 							</span>
-							<h3>{protectThai(item.title)}</h3>
-							<p>{protectThai(item.body)}</p>
+							<h3><ThaiText text={item.title} /></h3>
+							<p><ThaiText text={item.body} /></p>
 						</article>
 					))
 				}
@@ -227,10 +227,10 @@ const serviceSchema = {
 					backofficeFaq.map((item, i) => (
 						<details class:list={["faq-item", "reveal", `reveal-d${i % 3}`]}>
 							<summary>
-								<span class="faq-q">{protectThai(item.q)}</span>
+								<span class="faq-q"><ThaiText text={item.q} /></span>
 								<span class="faq-sign" aria-hidden="true" />
 							</summary>
-							<p class="faq-a">{protectThai(item.a)}</p>
+							<p class="faq-a"><ThaiText text={item.a} /></p>
 						</details>
 					))
 				}

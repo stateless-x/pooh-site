@@ -410,8 +410,8 @@ broke the heading outline by putting sibling h2 questions under the section h2.
 Both pages now render `<details>/<summary>` with questions **out of the heading
 levels entirely**; the outline is h1 → h2 → h3 with no skips.
 
-Visible q/a on both pages pass through `protectThai()`; the FAQPage JSON-LD
-carries raw strings, and the verbatim check normalises U+2060 on both sides.
+Visible q/a on both pages render through `ThaiText.astro`; the component wraps
+whole fragile words in `.nb` spans while FAQPage JSON-LD keeps the raw strings.
 
 ## Featured work card
 
@@ -1067,13 +1067,12 @@ Two mechanisms, by source of the text:
 | Text comes from | Fix |
 | --- | --- |
 | Hand-written markup | `.nb` span (`white-space: nowrap`) |
-| A data file (`works.ts`, `faq.ts`, `fix-ai.ts`) | `protectThai()` from `src/utils/thai.ts`, which interleaves U+2060 WORD JOINER |
+| A data file (`works.ts`, `faq.ts`, `fix-ai.ts`) | `ThaiText.astro`, which uses `segmentThai()` from `src/utils/thai.ts` to wrap each whole fragile word in `.nb` |
 
-`protectThai()` is applied **only where text is rendered for a reader**.
-Structured data, `<title>`, meta descriptions, and `alt` text keep the raw
-string, so nothing invisible reaches a machine-read field. The audit asserts
-zero U+2060 in those fields, and the FAQ verbatim check strips U+2060 from both
-sides before comparing.
+`ThaiText.astro` is applied **only where text is rendered for a reader**.
+It emits ordinary text plus semantic no-wrap spans, with no invisible format
+characters. Structured data, `<title>`, meta descriptions, and `alt` text keep
+the raw string and bypass the display component entirely.
 
 The loanword list is evidence-led: a word is added when the sweep catches it
 splitting, not on suspicion.

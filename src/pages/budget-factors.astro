@@ -3,9 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
+import ThaiText from "../components/ThaiText.astro";
 import poohPlanning from "../assets/images/illustrations/pooh-planning.webp";
 import { factors, budgetFaq } from "../data/budget";
-import { protectThai } from "../utils/thai";
 
 const faqSchema = {
 	"@context": "https://schema.org",
@@ -84,8 +84,8 @@ const breadcrumb = {
 								{String(i + 1).padStart(2, "0")}
 							</span>
 							<div class="factor-body">
-								<h3>{protectThai(item.title)}</h3>
-								<p>{protectThai(item.body)}</p>
+								<h3><ThaiText text={item.title} /></h3>
+								<p><ThaiText text={item.body} /></p>
 							</div>
 						</li>
 					))
@@ -106,10 +106,10 @@ const breadcrumb = {
 					budgetFaq.map((item, i) => (
 						<details class:list={["faq-item", "reveal", `reveal-d${i % 3}`]}>
 							<summary>
-								<span class="faq-q">{protectThai(item.q)}</span>
+								<span class="faq-q"><ThaiText text={item.q} /></span>
 								<span class="faq-sign" aria-hidden="true" />
 							</summary>
-							<p class="faq-a">{protectThai(item.a)}</p>
+							<p class="faq-a"><ThaiText text={item.a} /></p>
 						</details>
 					))
 				}

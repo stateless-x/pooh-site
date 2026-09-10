@@ -1,8 +1,8 @@
 /**
  * Content for the home page "เกี่ยวกับผม" section.
  *
- * Strings render through protectThai(), so loanwords are guarded by the shared
- * word list rather than by hand-written <span class="nb"> markup in the page.
+ * Strings render through ThaiText, so loanwords are guarded by the shared word
+ * list rather than by hand-written <span class="nb"> markup in the page.
  */
 
 export const aboutParagraphs = [
@@ -26,5 +26,5 @@ export const aboutQuote = {
 	attribution: "ภูรินท์ บุรีวงศ์",
 } as const;
 
-/** Alt text stays raw: protectThai() must never touch machine-read fields. */
+/** Alt text stays raw rather than passing through the display-only component. */
 export const portraitAlt = "ภูรินท์ บุรีวงศ์ นั่งอยู่ที่โต๊ะทำงาน";

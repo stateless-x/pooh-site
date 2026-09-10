@@ -77,7 +77,7 @@ cover: ""            # optional, /public path
 draft: false         # true = excluded from build
 ```
 
-Existing site rules that carry over: Thai copy conventions, `protectThai()`
+Existing site rules that carry over: Thai copy conventions, `ThaiText.astro`
 on rendered titles/body where loanwords appear, the no-emoji/no-dash rule,
 and design tokens from `Layout.astro`. Blog pages get `Article` JSON-LD with
 `Person` author pulled from `site.config.mjs`, and posts join `sitemap` and

@@ -1,0 +1,15 @@
+---
+import { segmentThai } from "../utils/thai";
+
+interface Props {
+	text: string;
+}
+
+const { text } = Astro.props;
+---
+
+{
+	segmentThai(text).map((segment) =>
+		segment.noBreak ? <span class="nb">{segment.text}</span> : segment.text
+	)
+}

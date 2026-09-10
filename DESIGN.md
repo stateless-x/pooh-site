@@ -247,7 +247,7 @@ Both load from Google Fonts, Mitr at 500/600 and IBM Plex Sans Thai Looped at 40
 
 **The Thai Leading Rule.** Thai display type wants more leading, not less. Body sits at 1.78 and the display line at 1.4, both looser than a Latin equivalent would be, because stacked vowels and tone marks need vertical room. Never tighten display leading below the body-heading value of 1.35.
 
-**The Word Joiner Rule.** Thai has no spaces and browsers break lines with a dictionary that omits loanwords, splitting words mid-syllable. No CSS property fixes this. Hand-written markup uses a `.nb` span (`white-space: nowrap`); text from data files passes through `protectThai()` in `src/utils/thai.ts`, which interleaves U+2060 WORD JOINER. Apply it only to text rendered for a reader, never to `alt`, `<title>`, meta, or structured data.
+**The Thai No-Break Rule.** Thai has no spaces and browsers break lines with a dictionary that omits loanwords, splitting words mid-syllable. No CSS property fixes this. Hand-written markup uses a `.nb` span (`white-space: nowrap`); text from data files renders through `ThaiText.astro`, which wraps each whole fragile word in the same `.nb` span. Never insert invisible characters between Thai code points: copied text, accessibility text, search indexes, and every machine-read field must remain raw Thai.
 
 ## Layout
 
@@ -350,7 +350,7 @@ One treatment everywhere, keyboard-only via `:focus-visible`: a 2px ring at 3px 
 - **Do** use `#8F6207` for any honey-coloured word and `#A81B24` for any red one. Full-strength `#F3B21A` and `#D92731` are for dashes, tints, borders, sweeps, and focus rings only.
 - **Do** keep every hover lift, tilt, and slide behind both `@media (hover: hover)` and `prefers-reduced-motion: reduce`.
 - **Do** draw any new icon by hand on the same 24px grid at 1.75 stroke with round caps and joins, in `src/components/Icon.astro`.
-- **Do** run any Thai string that comes from a data file through `protectThai()` before rendering it for a reader, and leave `alt`, `<title>`, meta, and JSON-LD strings raw.
+- **Do** render Thai strings from data files through `ThaiText.astro`, and leave `alt`, `<title>`, meta, and JSON-LD strings raw.
 - **Do** keep Thai measures short: roughly 32-34rem for prose, 38rem for step bodies.
 - **Do** use `minmax(0, 1fr)` for any grid track holding Thai text.
 - **Do** give every image slot the placeholder component with real descriptive Thai `alt` text.
