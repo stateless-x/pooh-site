@@ -299,7 +299,7 @@ const personSchema = {
 						และงานเฉพาะทางอื่น ๆ โดยเลือกเฉพาะส่วนที่ตรงกับวิธีทำงานจริง
 					</p>
 					<a class="work-link fit-detail-link" href="/backoffice">
-						ดูตัวอย่างตามประเภทธุรกิจและระดับงาน
+						ดูตัวอย่างตามประเภทธุรกิจและความซับซ้อน
 						<Icon name="arrow" size={16} />
 					</a>
 				</div>
@@ -422,7 +422,7 @@ const personSchema = {
 						aboutParagraphs.map((text, i) => (
 							<p>
 								<ThaiText text={text} />
-								{i === 1 && <a href={aboutLink.href}><ThaiText text={aboutLink.label} /></a>}
+								{i === 1 && <> <a href={aboutLink.href}><ThaiText text={aboutLink.label} /></a></>}
 							</p>
 						))
 					}
@@ -718,6 +718,14 @@ const personSchema = {
 		pointer-events: none;
 	}
 
+	/* Phones: the portrait fills the column, so pull it in by the frame's
+	   offset and let the accent frame, not the photo, meet the right gutter. */
+	@media (max-width: 47.99em) {
+		.photo-frame {
+			margin-right: 0.75rem;
+		}
+	}
+
 	.photo-frame :global(.ph) {
 		position: relative;
 		border-radius: var(--radius);
@@ -837,6 +845,28 @@ const personSchema = {
 	.offer p {
 		color: var(--muted);
 		font-size: var(--fs-body-sm);
+	}
+
+	/* Phones: the chip moves beside the text, the way .step lays out, so
+	   four offers read as a scannable list instead of four tall posters. */
+	@media (max-width: 47.99em) {
+		.offers {
+			gap: 1rem;
+		}
+
+		.offer {
+			grid-template-columns: auto minmax(0, 1fr);
+			gap: 0.375rem 1rem;
+			padding: 1.25rem;
+		}
+
+		.offer .chip {
+			grid-row: 1 / span 3;
+		}
+
+		.offer-link {
+			padding-top: 0.5rem;
+		}
 	}
 
 	/* Four offers divide evenly, so 2x2 at tablet and 2x2 again at desktop:
@@ -1047,6 +1077,23 @@ const personSchema = {
 		font-size: var(--fs-body-sm);
 	}
 
+	@media (max-width: 47.99em) {
+		.wedge-actions {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		.wedge-actions :global(.line-btn) {
+			justify-content: center;
+			text-align: center;
+		}
+
+		.wedge-more {
+			align-self: center;
+			text-align: center;
+		}
+	}
+
 	/* ---- quiet SEO reference zone ----
 	   Deliberately subordinate: smaller type, muted ink, no cards or icons, so
 	   it reads as reference text under the real page. Muted on paper is 5.30:1,
@@ -1195,7 +1242,7 @@ const personSchema = {
 	   bleed: a face at full column width crowds out the copy that has to do
 	   the actual convincing. */
 	.about-portrait {
-		margin: 0;
+		margin: 0 auto;
 		width: min(13rem, 60%);
 	}
 

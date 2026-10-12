@@ -1932,6 +1932,16 @@ const t = isEn
 				gap: 1.25rem;
 			}
 
+			/* Phones: two even columns instead of a ragged wrap that left one
+			   link alone on its last line. */
+			@media (max-width: 47.99em) {
+				.foot-nav ul {
+					display: grid;
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+					gap: 0.25rem 1.25rem;
+				}
+			}
+
 			.foot-nav a {
 				color: rgba(255, 249, 237, 0.86);
 				font-size: var(--fs-body-sm);
@@ -1945,11 +1955,37 @@ const t = isEn
 				border-bottom-color: #fff;
 			}
 
+			/* Phones: the touch rule stretches each link to 44px, which dropped
+			   the border-bottom far under the words. A text underline stays on
+			   the words at any hit-area height. After the base rule so it wins. */
+			@media (max-width: 47.99em) {
+				.foot-nav a {
+					justify-self: start;
+					border-bottom: 0;
+					padding-bottom: 0;
+					text-decoration: underline;
+					text-decoration-color: rgba(255, 249, 237, 0.28);
+					text-decoration-thickness: 1px;
+					text-underline-offset: 0.35em;
+				}
+			}
+
 			.foot-cta {
 				display: grid;
 				gap: 0.875rem;
 				justify-items: start;
 				align-content: start;
+			}
+
+			/* Phones: the footer button matches every other CTA on the page,
+			   full width with a centred label, instead of a small left pill. */
+			@media (max-width: 47.99em) {
+				.foot-cta > .line-btn,
+				.foot-cta > .mail-cta {
+					justify-self: stretch;
+					justify-content: center;
+					min-height: 3.25rem;
+				}
 			}
 
 			.foot-cta-label {
@@ -2061,6 +2097,35 @@ const t = isEn
 				flex-wrap: wrap;
 				align-items: center;
 				gap: 0.75rem;
+			}
+
+			/* Phones: one full-width button per row, LINE first, so the
+			   primary tap target is wide and the pair never wraps ragged.
+			   Full width already makes LINE loud, so the large size trims its
+			   padding to a 56px bar, and the quiet button sits a step lower at
+			   52px so the pair reads as primary then secondary, not two slabs. */
+			@media (max-width: 47.99em) {
+				.actions {
+					flex-direction: column;
+					align-items: stretch;
+					gap: 0.875rem;
+				}
+
+				main .line-btn.is-lg {
+					padding-block: 0.75rem;
+					min-height: 3.5rem;
+				}
+
+				.actions > .line-btn,
+				.actions > .cta-quiet {
+					justify-content: center;
+					text-align: center;
+				}
+
+				.actions > .cta-quiet {
+					min-height: 3.25rem;
+					padding-block: 0.625rem;
+				}
 			}
 
 			/* ---- inner page header ---- */

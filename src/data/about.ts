@@ -14,7 +14,7 @@ export const aboutParagraphs = [
 /** Link that follows the second paragraph. */
 export const aboutLink = {
 	href: "/about",
-	label: "ดูเรื่องราวของผมเพิ่มเติม",
+	label: "รู้จักผมให้มากขึ้น",
 } as const;
 
 /**

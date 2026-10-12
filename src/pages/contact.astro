@@ -253,6 +253,13 @@ const breadcrumb = {
 		align-content: start;
 	}
 
+	@media (max-width: 47.99em) {
+		.line-main :global(.line-btn) {
+			justify-self: stretch;
+			justify-content: center;
+		}
+	}
+
 	.line-id {
 		font-family: var(--font-head);
 		font-weight: 600;
@@ -395,6 +402,13 @@ const breadcrumb = {
 	.qr-hint {
 		color: var(--muted);
 		font-size: var(--fs-label);
+	}
+
+	@media (max-width: 47.99em) {
+		.line-qr {
+			justify-self: center;
+			width: 100%;
+		}
 	}
 
 	@media (min-width: 48em) {

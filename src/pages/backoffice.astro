@@ -180,7 +180,7 @@ const serviceSchema = {
 
 			<div class="industry-cta reveal">
 				<p><strong>ไม่เห็นธุรกิจของคุณก็ยังคุยได้</strong> ผมดูจากวิธีทำงานจริงมากกว่าชื่อประเภทธุรกิจ</p>
-				<LineButton label="เล่าวิธีทำงานของธุรกิจคุณ" />
+				<LineButton label="เล่าว่าตอนนี้ทำงานกันยังไง" />
 			</div>
 		</div>
 	</section>
@@ -254,7 +254,7 @@ const serviceSchema = {
 			<div class="actions">
 				<LineButton size="lg" label="เล่างานที่อยากจัดให้เป็นระบบ" />
 				<a class="cta-quiet" href="/work">
-					ดูผลงานที่ผ่านมา
+					ดูผลงาน
 					<Icon name="arrow" size={18} />
 				</a>
 			</div>
@@ -495,6 +495,11 @@ const serviceSchema = {
 	.industry-cta strong {
 		color: var(--ink);
 		font-weight: 600;
+	}
+
+	.industry-cta :global(.line-btn) {
+		justify-content: center;
+		text-align: center;
 	}
 
 	@media (min-width: 48em) {

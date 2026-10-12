@@ -25,7 +25,7 @@ import poohMark from "../assets/brand/pooh-mark.svg";
 			<p class="label">ไม่พบหน้านี้</p>
 			<h1>หน้าที่หากันอยู่ไม่มีแล้วครับ</h1>
 			<p class="lede">
-				อาจจะย้ายที่ไปแล้วหรือพิมพ์ลิงก์คลาดไปนิดหน่อย
+				หน้านี้อาจย้ายไปแล้ว หรือลิงก์พิมพ์ผิดไปนิดหน่อย
 				กลับไปหน้าแรกได้เลย หรือถ้าอยากถามอะไรก็ทักมาได้ครับ
 			</p>
 			<div class="actions">
@@ -70,6 +70,12 @@ import poohMark from "../assets/brand/pooh-mark.svg";
 
 	.nf .actions {
 		margin-top: 0.5rem;
+	}
+
+	@media (max-width: 47.99em) {
+		.nf .actions {
+			justify-self: stretch;
+		}
 	}
 
 	.nf-links {
