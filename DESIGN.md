@@ -158,6 +158,12 @@ components:
     typography: "{typography.body-small}"
   nav-link-active:
     textColor: "{colors.accent}"
+  button-dance:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.pill}"
+    padding: "0 1.25rem"
+    height: "48px"
   drawer-link:
     textColor: "{colors.ink}"
     rounded: "{rounded.control}"
@@ -178,7 +184,7 @@ This is a craftsman's shop with the lights on and the door open. Every colour in
 
 The density is generous and unhurried. Text sits on a short Thai measure, body copy breathes at a 1.78 line-height that most Latin-first systems would consider loose, and sections separate with a lot of vertical air rather than with lines and boxes. Depth is almost entirely absent at rest: cards are flat, held together by hairline borders and the faintest shadow, and lift only when a pointer that can hover actually hovers. Nothing shouts. The one loud object on any page is the LINE button, and it is loud on purpose because it is the only thing the site is asking anyone to do.
 
-The aesthetic rejects the two easy defaults for this category. There is no cool grey-and-blue SaaS surface, and there is no dark-mode developer aesthetic; this site is warm-light only. It also rejects decorative shortcuts that would cheapen a hand-built impression: no gradients anywhere, no GIFs, no stock icon set. Every icon in the system was drawn by hand on a 24px grid, and the highlighter sweep behind the hero headline is a flat tint that scales in, never a gradient wash.
+The aesthetic rejects the two easy defaults for this category. There is no cool grey-and-blue SaaS surface, and there is no dark-mode developer aesthetic; this site is warm-light only, and the 67 dance's temporary dark veil is the one exception. It also rejects decorative shortcuts that would cheapen a hand-built impression: no gradients anywhere, no GIFs, no stock icon set. Every icon in the system was drawn by hand on a 24px grid, and the highlighter sweep behind the hero headline is a flat tint that scales in, never a gradient wash.
 
 **Key Characteristics:**
 - Warm honey-on-cream light surface, cocoa as the only dark ground
@@ -302,7 +308,7 @@ The recurring silhouette is a soft rectangle on cream with a hairline and almost
 - **LINE hover / active:** Background deepens to `#037A37`, the button rises 2px and its glow expands; `:active` returns it to rest. Under reduced motion, neither transform runs.
 - **Quiet button (secondary):** Paper ground, cocoa label, hairline border, same 12px and padding as the LINE button. On hover the border goes full cocoa and the button lifts 2px into the resting shadow. Inside a cocoa band it inverts: transparent ground, white label, `rgba(255, 249, 237, 0.42)` border, hovering to a white border over an 8% white wash.
 
-**The One Loud Button Rule.** The LINE button is the only filled, coloured control in the system. Every other action is a quiet outline or a text link, so the single thing the site wants a visitor to do is never competing with a second thing that looks equally urgent.
+**The One Loud Button Rule.** The LINE button is the only filled, coloured control in the system. The one other filled control is the cocoa 67 key on the Mascot Stage, a toy rather than an action, and it stays neutral so it never reads as a second call to action. Every other action is a quiet outline or a text link, so the single thing the site wants a visitor to do is never competing with a second thing that looks equally urgent.
 
 ### Chips
 - **Icon chip:** A 3.25rem rounded square (14px) holding a 24px hand-drawn icon, in three variants: default honey tint at 18% with cocoa strokes, amber (`tint-honey` with `#8F6207`), and clay (`tint-scarf` with `#A81B24`). The `-ink` colours are used rather than the decorative tones because at a 1.75 stroke the lighter amber read washed out; the variants measure 5.58:1, 6.20:1, and 7.85:1 against their own tints.
@@ -337,9 +343,25 @@ Every image slot on the site uses `ImagePlaceholder.astro` with real descriptive
 A signature component wrapping portfolio screenshots in browser chrome so work reads as a shipped site rather than a grey box: a 14px frame with a cream title bar, three 0.5rem dots at 16% cocoa, and a 999px URL pill in muted 0.75rem that ellipsises rather than forcing the row wider than 320px. The whole bar is `aria-hidden`, because the domain is already in the card heading and the link.
 
 ### Motion
-CSS and SVG only, never GIFs. The system's signature easing is `cubic-bezier(0.22, 0.61, 0.36, 1)`, used for the scroll reveal (620ms), the drawer slide (280ms), the chip tilt (260ms), and the hero highlight sweep (720ms, delayed 240ms). Plain `ease` at 180-260ms covers hover lifts, the nav underline, and the FAQ sign. Grid children stagger via `.reveal-d1` / `-d2` / `-d3` at 90 / 180 / 270ms.
+CSS and SVG only, never GIFs, with one exception: the home hero's three.js Mascot Stage, described below. The system's signature easing is `cubic-bezier(0.22, 0.61, 0.36, 1)`, used for the scroll reveal (620ms), the drawer slide (280ms), the chip tilt (260ms), and the hero highlight sweep (720ms, delayed 240ms). Plain `ease` at 180-260ms covers hover lifts, the nav underline, and the FAQ sign. Grid children stagger via `.reveal-d1` / `-d2` / `-d3` at 90 / 180 / 270ms.
 
 The scroll reveal is double-gated: the hidden start state applies only when JS is present and the visitor has not asked for reduced motion, so without JS or with reduced motion, content is simply visible. Only opacity and transform ever animate, never `display` or `visibility`.
+
+### Mascot Stage
+The home hero's interactive 3D bear (`src/components/PoohStage.astro`, `src/lib/pooh-stage/`), and the only place a canvas or three.js may appear. Decision and rollback: `docs/adr/0003-three-js-mascot-stage-in-the-home-hero.md`.
+
+- **Poster first:** a still render with the same camera, lights, and shadow as the live scene. It stays the fallback for reduced motion, data saver, no WebGL2, and no JS. Visitors on the fallback never see the 67 key, the dark veil, or any sound.
+- **Materials:** flat colours with no textures; the shading comes from three.js lights, so the Flat Colour Rule still binds every CSS surface. All 3D parts have soft edges, with no hard corners.
+- **Moving on its own:** the stage's idle animation is the one permitted autoplaying animation, and its loop stops when it is off screen or the tab is hidden.
+- **Click moods:** a poke plays one of six moods from a shuffled bag (boing, love, sparkle, bloop, sing, poof), each with its own motion, particles, and synthesized voice. Particles spawn clear of the glasses.
+- **The 67 key:** a chunky cocoa pill labelled only `67`, 48px tall, with its thickness built from stacked solid box-shadows (edge `#1F150E`), never a gradient. It pulses (honey ring plus a knock every 3s) until first clicked, for that page view only.
+- **The 67 dance:** lasts 6.7s. A `#120C08` veil at 94% covers the page, including the header; the stage sits above it. The numeral sits behind the bear and props at all times, fits inside the viewport, and bursts at 5.85s. Scene-only colours: lamp blue `#4C6FFF`, which never appears outside the canvas.
+- **Sound:** synthesized with the Web Audio API, no audio files, and only ever after a click on the stage.
+
+**The No Strobe Rule.** The veil never pulses, lights sweep continuously, and floor and numeral colours cross-fade at most 2.5 times per second, however fast the hands go. Full-screen flashing can trigger seizures, and no effect is worth that.
+
+### Update Notice
+A slim Honey Wash strip above the sticky header on every page (`src/components/NowNotice.astro`), Mitr 500 at the label size with a static honey dot and an arrow, 36px tall and 44px under a coarse pointer. It scrolls away with the page. It opens a native `<dialog>` holding the dated update: paper ground, 14px corners, the drawer's backdrop, and a close button that stays outside the scroller so it remains reachable on short screens. Titles are not heading elements because the strip precedes the page's `h1`. It only shows once `html.js` is set, because opening it needs JS. Content lives in `src/data/now.ts` and `src/data/en/now.ts`.
 
 ### Focus System
 One treatment everywhere, keyboard-only via `:focus-visible`: a 2px ring at 3px offset with a 4px radius. Cocoa on light surfaces and honey inside the footer and CTA band, both clearing the 3:1 non-text floor (cocoa on cream 14.22:1, honey on cocoa 7.95:1, and the ring against the LINE button's own green 3.31:1). The LINE button's ring takes a 12px radius to match its own corner.
@@ -364,6 +386,7 @@ One treatment everywhere, keyboard-only via `:focus-visible`: a 2px ring at 3px 
 - **Don't** add positive tracking to small Thai labels or negative tracking to headings. `letter-spacing: 0`, except on Latin-only strings.
 - **Don't** introduce an icon library, an icon font, or a generic icon set.
 - **Don't** put emoji, em dashes, or en dashes in visible copy.
-- **Don't** put technical vocabulary in visible copy. Outcomes go in plain Thai; the two narrow exceptions are recorded in the site spec.
-- **Don't** add a GIF, an autoplaying animation, or motion that gates content visibility without JS.
+- **Don't** put technical vocabulary in visible copy. Outcomes go in plain Thai; the narrow exceptions are recorded in the site spec.
+- **Don't** add a GIF, an autoplaying animation outside the Mascot Stage, or motion that gates content visibility without JS.
+- **Don't** use three.js or a canvas anywhere except the Mascot Stage, and don't add strobing to it.
 - **Don't** use `100vw` for a full-bleed band. Let the section's own background bleed and nest the shell inside.

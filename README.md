@@ -1,8 +1,9 @@
 # pooh-site
 
 Thai-language freelance site for ภูรินท์ (Pooh), Business Technology Engineer.
-Static Astro site, seven pages, no client framework. Live domain pending
-(pooh.fyi vs pooh.me) — set once in `site.config.mjs` and `public/robots.txt`.
+Static Astro site in two editions (Thai at the root, English under `/en/`), no
+client framework. three.js loads lazily in the home hero only. Live at pooh.fyi;
+the domain is set in `site.config.mjs` and `public/robots.txt`.
 
 ## Commands
 
@@ -10,16 +11,22 @@ Static Astro site, seven pages, no client framework. Live domain pending
 | :---------------- | :---------------------------------------- |
 | `npm install`     | Install dependencies                      |
 | `npm run dev`     | Dev server at `localhost:4321`            |
-| `npm run build`   | Build to `./dist/` (7 pages + sitemap)    |
+| `npm run build`   | Build to `./dist/` (19 pages + sitemap)   |
 | `npm run preview` | Preview the production build              |
+| `npm run model`   | Rebuild the 3D bear and its poster (Blender) |
+| `npm run portrait` | Regenerate the portrait image set        |
 
 ## Structure
 
 - `site.config.mjs` — single source of truth for site name, URL, LINE ID,
   GitHub, person identity. Edit here; propagates to canonical/OG/schema/
   sitemap/llms.txt on build. `public/robots.txt` is the one manual mirror.
-- `src/pages/` — index, backoffice, budget-factors, fix-ai-website, work,
-  contact, 404.
+- `src/pages/` — index, about, backoffice, budget-factors, fix-ai-website, work,
+  contact, philosophy, blog, 404, each mirrored under `en/` except blog.
+- `src/components/PoohStage.astro` + `src/lib/pooh-stage/` — the home hero's 3D
+  bear; `scripts/build-pooh-model.py` is its editable master.
+- `src/data/now.ts` + `src/data/en/now.ts` — the dated update notice at the top
+  of every page. Edit these when the month changes.
 - `src/data/` — page content (works, FAQs, budget factors) consumed by pages.
 - `src/components/ThaiText.astro` + `src/utils/thai.ts` — whole-word Thai
   line-break protection without invisible characters.
@@ -35,6 +42,8 @@ Static Astro site, seven pages, no client framework. Live domain pending
 - [docs/site-spec.md](docs/site-spec.md) — the living spec: hard content
   rules, brand system (v3), page inventory, verification assertions. Read
   before changing copy or design.
+- [docs/adr/](docs/adr/) — decisions: the English edition's voice (0001, 0002)
+  and the lazy three.js hero (0003).
 - [docs/blog-plan.md](docs/blog-plan.md) — planned blog architecture
   (/blog vs subdomain, Obsidian workflow, CMS options). Not built yet.
 - [docs/visitor-scoring-rubric.md](docs/visitor-scoring-rubric.md) — rubric

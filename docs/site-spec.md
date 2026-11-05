@@ -651,16 +651,19 @@ enterprise-jargon title.
 
 ### Vocabulary amendment (supersedes the v1 no-jargon rule, narrowly)
 
-Two exceptions are now permitted in visible copy:
+Three exceptions are now permitted in visible copy:
 
 | Term | Allowance | Why |
 | --- | --- | --- |
 | `AI` | Anywhere it reads naturally | Thai SME owners use this word themselves; it is not developer jargon to them. |
 | `Vibe Coding` | **Exactly once**, in the conversion section | It is the recognisable hook for the audience segment being addressed. A second use would make it a tic. |
+| `UX`, `RNG`, `React Native`, `Roblox` | **Only** in the dated update notice, `src/data/now.ts` (added 2026-11-05) | The owner wrote them and chose to keep them after being shown the plain alternative. The notice is a personal update, not sales copy. |
 
 Every other jargon ban stands: no API, CRUD, database, deploy, framework,
 responsive, stack, SaaS in visible copy. The audit greps are updated to allow
-these two and to assert the "Vibe Coding" count is exactly one.
+these and to assert the "Vibe Coding" count is exactly one. The notice's terms
+sit inside a closed dialog in every Thai page's HTML, so a jargon grep over
+`dist/` must exclude `.now-dialog`.
 
 > **Thai edition only** (scoped 2026-09-01). The English edition relaxes the
 > jargon ban: technical vocabulary is allowed where it builds trust, because
@@ -841,8 +844,9 @@ that are otherwise too short: header nav, footer nav, work links, FAQ summaries,
 
 ## Animation
 
-No GIFs. CSS and SVG only, on top of the IntersectionObserver reveals. Signature
-touches:
+No GIFs. CSS and SVG only, on top of the IntersectionObserver reveals, except
+for the home hero's mascot stage (see "Mascot stage and update notice" at the end
+of this file). Signature touches:
 
 - **Highlight draw-in**: a pseudo-element scales in from the left
   (`transform: scaleX(0)` to `1`). Not animated `background-size`, which cannot
@@ -1418,3 +1422,63 @@ H 3→3 (the robots.txt manual sync, the alias array rationale, the sitemap
 i18n shape trap, the verbatim three-way entity mirror, and the three
 tone-adjacent audit checks are all directly actionable)
 Total: 14/15 (A) → 15/15 (A)
+
+# Mascot stage and update notice (2026-11-05)
+
+Binds both editions. Visual rules are in `DESIGN.md` (Mascot Stage, Update
+Notice), the decision and rollback in
+`docs/adr/0003-three-js-mascot-stage-in-the-home-hero.md`, and terms in
+`CONTEXT.md`. This section holds only what those do not: where things live, the
+contracts, and how to check them.
+
+## Files
+
+| Path | Owns |
+| --- | --- |
+| `scripts/build-pooh-model.py` | Editable master of the bear and poster. `npm run model` writes `src/assets/models/pooh.glb` and `pooh-stage-poster.webp`. |
+| `src/components/PoohStage.astro` | Poster, 67 key, and the 2 KB bootstrap that decides whether to load the scene. |
+| `src/lib/pooh-stage/` | All three.js code: `index` (scene, input), `bear`, `props`, `gaze`, `dance`, `numeral`, `burst`, `moods`, `sound`. |
+| `src/components/NowNotice.astro` | The strip and modal, rendered by `Layout.astro` on every page. |
+| `src/data/now.ts`, `src/data/en/now.ts` | The update's date and items. Edit `strip`, `when`, and the items when the month changes. |
+| `src/data/philosophy.ts`, `src/data/en/philosophy.ts` | Content of `/philosophy` and `/en/philosophy/`, linked from the notice and absent from the nav. |
+
+## Contracts
+
+- **Poster and scene:** `STAGE_CAMERA`, `STAGE_TARGET`, `STAGE_FOV`, `STAGE_SUN`,
+  and `STAGE_SHADOW` in the build script must match the camera, lights, and shadow
+  in `src/lib/pooh-stage/index.ts`. Change one, change both, and rebuild the poster.
+- **Model nodes:** `bear.ts` addresses `Pooh`, `Head`, `ArmL`, `ArmR`,
+  `ScarfTailA`, and `ScarfTailB` by name, each with its pivot at the joint. The
+  arms are modelled leaning 35 degrees forward, which is why the dance pose cancels
+  that lean in the arm's own frame.
+- **Loading:** `three` must never appear in a page's first load. Each home page
+  loads exactly one script, the bootstrap, with no `modulepreload`. Other pages
+  load none.
+- **Dance timing:** the dance runs on the wall clock: last pop 5.65s, burst 5.85s,
+  finale 6.7s. Burst chunks must be gone before the finale, because the veil clears
+  right after it.
+
+## How to verify
+
+Run `npm run build`, then check the script tags in `dist/index.html` and
+`dist/en/index.html`. The chunk size warning limit in `astro.config.mjs` is set
+just above the lazy chunk, so a warning means it grew.
+
+A hidden Browser pane gives a page almost no rendering turns, so the stage may
+never go live and `requestAnimationFrame` will not run. To test it there, install a
+`setTimeout` based `requestAnimationFrame` shim right after navigating, and take a
+screenshot to pump the on-screen check. A background tab does not paint CSS
+transitions, so test in the front tab. To check for cropping, call
+`gl.readPixels` in the same task as the frame and measure where lit pixels reach.
+
+Sound cannot be checked by an agent. The owner judges it by ear.
+
+## Known limits
+
+- The dev server can answer `504 Outdated Optimize Dep` when new code imports a
+  three.js module, which leaves an open page on the poster until a reload. It is
+  dev only: the production build bundles three.js ahead of time.
+- One cold run at 1280x800 showed the numeral touching the left edge for 10 of
+  112 samples. Two repeat runs did not, and the cause is unknown.
+- Wall bounces on all four edges of a dash, real touch input, and real frame rate
+  on a phone were not measured.

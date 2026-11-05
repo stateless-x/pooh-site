@@ -48,13 +48,13 @@ Audit each edition against its own rules.
 Hard rules from `docs/site-spec.md` (violations fail the audit):
 
 - No pricing, package names, or baht amounts anywhere ( `/budget-factors` uses magnitude words only). **Binds both editions.**
-- No technical jargon in visible copy (no stack names, API, database, deploy, responsive…). Outcomes in plain Thai. Code itself may be technical. **Thai edition only.**
+- No technical jargon in visible copy (no stack names, API, database, deploy, responsive…). Outcomes in plain Thai. Code itself may be technical. **Thai edition only.** Owner-approved exception (2026-11-05): `UX`, `RNG`, `React Native`, and `Roblox` may appear in the dated update notice (`src/data/now.ts`) only.
 - No emoji. No em dashes or en dashes in copy. **Binds both editions.**
 - No icon libraries or generic icon sets — only the hand-drawn line icons in `src/components/Icon.astro`. **Binds both editions.**
-- Every image slot is `ImagePlaceholder.astro` with real descriptive `alt` in that page's own language; owner swaps in real images at launch. Do not replace placeholders with stock or generated imagery. **Binds both editions.**
+- Every image slot is `ImagePlaceholder.astro` with real descriptive `alt` in that page's own language; owner swaps in real images at launch. Do not replace placeholders with stock or generated imagery. **Binds both editions.** The home hero is no longer a slot: it is the Mascot Stage, with its own poster and alt text.
 - No invented facts: no client counts, testimonials, star ratings, or metrics beyond the true facts in the spec. **Binds both editions**, and it also forbids borrowing a third party's credibility (naming other companies' engineering operations, or calling a former employer "one of the largest").
 
-Stack (incumbent): Astro 7 static, plain CSS (no Tailwind, no client framework), deps limited to `astro` + `@astrojs/sitemap`. Astro's built-in i18n with `defaultLocale: 'th'` and `prefixDefaultLocale: false`, so Thai holds the root URLs and English lives under `/en/`. Thai copy is `lang="th"` with loanword line-breaking via `src/utils/thai.ts`; English pages are `lang="en"` and skip that utility.
+Stack (incumbent): Astro 7 static, plain CSS (no Tailwind, no client framework), runtime deps limited to `astro`, `@astrojs/sitemap`, and `three`. `three` loads only behind a dynamic import in the home hero (`docs/adr/0003-three-js-mascot-stage-in-the-home-hero.md`) and must never reach a page's first load. Astro's built-in i18n with `defaultLocale: 'th'` and `prefixDefaultLocale: false`, so Thai holds the root URLs and English lives under `/en/`. Thai copy is `lang="th"` with loanword line-breaking via `src/utils/thai.ts`; English pages are `lang="en"` and skip that utility.
 
 ## English edition carve-out
 
@@ -180,6 +180,7 @@ Undecided: blog (`docs/blog-plan.md` — planned, not built, owner decision pend
   - สายมู.com — client site: online fortune-telling combining Thai astrology, Chinese Bazi, and a personality test. (Ownership unconfirmed by the owner; kept as client work per the original data.)
   - valasauna.com — client site for a Hat Yai sauna, multilingual because it serves Thai and cross-border visitors.
   - forgio.co, pscmceramic.com — client factory/manufacturing work; the clearest B2B proof, so they lead the non-featured cards on `/work` and the home teaser.
+- Current work, as the owner stated it on 2026-11-05: `src/data/now.ts`. It names สายมู.com without calling it his own or a client's, because that ownership is still unconfirmed (see above). The Roblox game is Summon a Ghost Army.
 - True credentials only: ex-Agoda, founder of pawjai.co, 7+ years software development (as stated in current site copy).
 - No testimonials, client counts, or metrics exist — future work must state absences, never fabricate.
 - Payment terms are stated on the site as staged by milestone with no full amount up front (owner-confirmed). Amounts and percentages stay unstated, per the no-pricing rule.
