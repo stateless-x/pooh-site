@@ -1,11 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import ImagePlaceholder from "../../components/ImagePlaceholder.astro";
+import PoohStage from "../../components/PoohStage.astro";
 import BrowserFrame from "../../components/BrowserFrame.astro";
 import Icon from "../../components/Icon.astro";
 import MailButton from "../../components/MailButton.astro";
 import PortraitPhoto from "../../components/PortraitPhoto.astro";
-import poohAtWork from "../../assets/images/illustrations/pooh-at-work.webp";
 import { works } from "../../data/works";
 import { enPerson } from "../../utils/schema-en";
 import {
@@ -133,17 +132,11 @@ const personSchema = enPerson(Astro.site);
 			</div>
 
 			<div class="hero-photo reveal reveal-d1 reveal-eager">
-				<div class="photo-frame">
-					<ImagePlaceholder
-						src={poohAtWork}
-						alt="Three dimensional illustration of the Pooh mascot working at a desk"
-						label="Pooh mascot at work"
-						ratio="4 / 5"
-						loading="eager"
-						fetchpriority="high"
-						sizes="(min-width: 68rem) 24rem, (min-width: 48rem) 36vw, calc(100vw - 2.75rem)"
-					/>
-				</div>
+				<PoohStage
+					alt="Three dimensional Pooh bear mascot with round glasses and a red scarf"
+					attention=".hero .mail-cta"
+					danceLabel="Make the bear do the 67 dance"
+				/>
 			</div>
 		</div>
 	</section>
@@ -516,14 +509,6 @@ const personSchema = enPerson(Astro.site);
 		padding-block: 1.5rem 2.25rem;
 	}
 
-	@media (max-width: 47.99em) {
-		.photo-frame :global(.ph img) {
-			aspect-ratio: 3 / 2;
-			max-height: 38vh;
-			object-fit: cover;
-		}
-	}
-
 	.hero-copy {
 		display: grid;
 		gap: 1rem;
@@ -585,40 +570,12 @@ const personSchema = enPerson(Astro.site);
 		font-size: var(--fs-body-sm);
 	}
 
-	.photo-frame {
-		position: relative;
-		max-width: 22rem;
-	}
-
-	.photo-frame::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		transform: translate(0.75rem, 0.75rem);
-		border: 1.5px solid var(--accent);
-		border-radius: var(--radius);
-		opacity: 0.32;
-		pointer-events: none;
-	}
-
-	.photo-frame :global(.ph) {
-		position: relative;
-		border-radius: var(--radius);
-		overflow: hidden;
-		box-shadow: var(--shadow-md);
-	}
-
 	@media (min-width: 48em) {
 		.hero-inner {
 			grid-template-columns: 1.15fr 0.85fr;
 			gap: 3.5rem;
 			align-items: center;
 			padding-block: 4rem 4.5rem;
-		}
-
-		.photo-frame {
-			max-width: none;
-			margin-left: auto;
 		}
 	}
 

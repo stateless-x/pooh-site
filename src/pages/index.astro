@@ -1,12 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import ImagePlaceholder from "../components/ImagePlaceholder.astro";
+import PoohStage from "../components/PoohStage.astro";
 import BrowserFrame from "../components/BrowserFrame.astro";
 import Icon from "../components/Icon.astro";
 import LineButton from "../components/LineButton.astro";
 import PortraitPhoto from "../components/PortraitPhoto.astro";
 import ThaiText from "../components/ThaiText.astro";
-import poohAtWork from "../assets/images/illustrations/pooh-at-work.webp";
 import { works } from "../data/works";
 import { systemTypes } from "../data/backoffice";
 import {
@@ -203,17 +202,11 @@ const personSchema = {
 			</div>
 
 			<div class="hero-photo reveal reveal-d1 reveal-eager">
-				<div class="photo-frame">
-					<ImagePlaceholder
-						src={poohAtWork}
-						alt="มาสคอตหมี Pooh สามมิติกำลังทำงานที่โต๊ะ"
-						label="มาสคอต Pooh กำลังทำงาน"
-						ratio="4 / 5"
-						loading="eager"
-						fetchpriority="high"
-						sizes="(min-width: 68rem) 24rem, (min-width: 48rem) 36vw, calc(100vw - 2.75rem)"
-					/>
-				</div>
+				<PoohStage
+					alt="มาสคอตหมี Pooh สามมิติ ใส่แว่นกลมและผ้าพันคอสีแดง"
+					attention=".hero .line-btn"
+					danceLabel="ให้หมีเต้น 67"
+				/>
 			</div>
 		</div>
 	</section>
@@ -626,16 +619,6 @@ const personSchema = {
 	   sits under the argument it supports; on the two-column tablet layout it
 	   returns to the reader's right where there is room for both at once. */
 
-	@media (max-width: 47.99em) {
-		.photo-frame :global(.ph img) {
-			aspect-ratio: 3 / 2;
-			/* Below the fold now, so the crop can be a little taller than the
-			   40vh it needed when it led the page. */
-			max-height: 38vh;
-			object-fit: cover;
-		}
-	}
-
 	.hero-copy {
 		display: grid;
 		gap: 1rem;
@@ -701,38 +684,6 @@ const personSchema = {
 		margin-top: 0.5rem;
 	}
 
-	.photo-frame {
-		position: relative;
-		max-width: 22rem;
-	}
-
-	/* Offset accent border sitting behind the portrait. */
-	.photo-frame::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		transform: translate(0.75rem, 0.75rem);
-		border: 1.5px solid var(--accent);
-		border-radius: var(--radius);
-		opacity: 0.32;
-		pointer-events: none;
-	}
-
-	/* Phones: the portrait fills the column, so pull it in by the frame's
-	   offset and let the accent frame, not the photo, meet the right gutter. */
-	@media (max-width: 47.99em) {
-		.photo-frame {
-			margin-right: 0.75rem;
-		}
-	}
-
-	.photo-frame :global(.ph) {
-		position: relative;
-		border-radius: var(--radius);
-		overflow: hidden;
-		box-shadow: var(--shadow-md);
-	}
-
 	@media (min-width: 48em) {
 		.hero-inner {
 			grid-template-columns: 1.15fr 0.85fr;
@@ -740,12 +691,6 @@ const personSchema = {
 			align-items: center;
 			padding-block: 4rem 4.5rem;
 		}
-
-		.photo-frame {
-			max-width: none;
-			margin-left: auto;
-		}
-
 	}
 
 	/* ---- trust strip ---- */

@@ -1,0 +1,341 @@
+---
+import AssetImage from "./AssetImage.astro";
+import poster from "../assets/images/illustrations/pooh-stage-poster.webp";
+
+interface Props {
+	/** Alt text for the poster. It stays in the DOM after the live scene takes over. */
+	alt: string;
+	/** CSS selector of the element the bear pays attention to (the hero call to action). */
+	attention: string;
+	/** Accessible name for the 67 button, whose visible label is just "67". */
+	danceLabel: string;
+}
+
+const { alt, attention, danceLabel } = Astro.props;
+---
+
+{/*
+	The poster is the first paint and the fallback. It was rendered with the exact
+	camera, light and shadow of the live scene, so when the canvas fades in over it
+	nothing moves. three.js is never in this page's own script: the bootstrap below
+	only decides whether to load it.
+*/}
+<div class="pooh-stage" data-pooh-stage data-attention={attention}>
+	<div class="poster">
+		<AssetImage src={poster} alt={alt} loading="eager" fetchpriority="high" />
+	</div>
+	<div class="mount" data-pooh-mount aria-hidden="true"></div>
+	<button type="button" class="dance" data-pooh-dance aria-label={danceLabel} aria-pressed="false">67</button>
+</div>
+
+<style>
+	.pooh-stage {
+		position: relative;
+		width: 100%;
+		max-width: 20rem;
+		margin-inline: auto;
+		aspect-ratio: 1;
+	}
+
+	@media (min-width: 48em) {
+		.pooh-stage {
+			max-width: 26rem;
+			margin-left: auto;
+			margin-right: 0;
+		}
+	}
+
+	.poster,
+	.mount {
+		position: absolute;
+		inset: 0;
+		transition: opacity 300ms ease;
+	}
+
+	.poster :global(img) {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	/* three.js makes the canvas at run time, so it never carries this component's scope
+	   attribute: the interaction rules live on the mount, and the canvas is sized through it. */
+	.mount {
+		opacity: 0;
+		/* Not interactive until live, so the poster is just an image. */
+		pointer-events: none;
+		/* Vertical swipes still scroll the page; sideways drags belong to the bear. */
+		touch-action: pan-y;
+		-webkit-tap-highlight-color: transparent;
+		user-select: none;
+	}
+
+	.mount :global(canvas) {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	/* The poster stays in the DOM, only hidden, so its alt text survives. */
+	.pooh-stage:global(.is-live) .mount {
+		opacity: 1;
+		pointer-events: auto;
+		cursor: grab;
+	}
+
+	.pooh-stage:global(.is-live) .poster {
+		opacity: 0;
+	}
+
+	.pooh-stage:global(.is-live) .mount:global(.is-dragging) {
+		cursor: grabbing;
+	}
+
+	/* The 67 button belongs to the live stage: until the canvas is up it is neither visible
+	   nor focusable (visibility, not just opacity, takes it out of the tab order), so a visitor
+	   who only ever gets the poster never meets a control that does nothing.
+	   It is drawn as a chunky clay key, in solid colours only: a darker cocoa edge straight
+	   below the face gives it thickness, a light line along the top of the face and a soft
+	   shade along the bottom round it, and a soft shadow sits under the whole key. */
+	.dance {
+		position: absolute;
+		right: 0.25rem;
+		/* Room for the key's edge and shadow so the stage never clips them. */
+		bottom: 0.75rem;
+		min-width: 56px;
+		min-height: 48px;
+		padding: 0 1.25rem;
+		border: 0;
+		border-radius: 999px;
+		background: var(--accent);
+		color: var(--paper);
+		font-family: var(--font-head);
+		font-weight: 600;
+		font-size: 1.25rem;
+		line-height: 1;
+		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+		box-shadow:
+			inset 0 2px 0 rgba(255, 249, 237, 0.2),
+			inset 0 -4px 6px rgba(0, 0, 0, 0.22),
+			0 5px 0 #1f150e,
+			0 10px 14px rgba(42, 33, 26, 0.3);
+		opacity: 0;
+		visibility: hidden;
+		transition:
+			opacity 300ms ease,
+			visibility 0s linear 300ms,
+			transform 120ms ease,
+			box-shadow 120ms ease;
+	}
+
+	.pooh-stage:global(.is-live) .dance {
+		opacity: 1;
+		visibility: visible;
+		transition-delay: 0s;
+	}
+
+	/* A pressed key: the face has dropped by the height of the edge, which shrinks to a line. */
+	.dance:active:not(:disabled),
+	.dance:disabled {
+		transform: translateY(4px);
+		box-shadow:
+			inset 0 2px 0 rgba(255, 249, 237, 0.2),
+			inset 0 -4px 6px rgba(0, 0, 0, 0.22),
+			0 1px 0 #1f150e,
+			0 3px 6px rgba(42, 33, 26, 0.3);
+	}
+
+	.dance:disabled {
+		cursor: default;
+	}
+
+	/* The ring has to clear the key's edge, not sit on it. */
+	.dance:focus-visible {
+		outline: 2px solid var(--cocoa);
+		outline-offset: 8px;
+	}
+
+	@media (hover: hover) {
+		.pooh-stage:global(.is-live) .dance:hover:not(:disabled):not(:active) {
+			transform: translateY(-2px);
+			box-shadow:
+				inset 0 2px 0 rgba(255, 249, 237, 0.2),
+				inset 0 -4px 6px rgba(0, 0, 0, 0.22),
+				0 7px 0 #1f150e,
+				0 14px 18px rgba(42, 33, 26, 0.3);
+		}
+	}
+
+	/* Until it is first clicked the button asks for attention: a ring that spreads and fades,
+	   and a short knock every three seconds. Only transform and opacity animate, in flat
+	   colour. `is-calling` is added when the stage goes live and removed by the first click
+	   for good, so nothing animates before the stage is live or after the visitor has
+	   found the button. */
+	@media (prefers-reduced-motion: no-preference) {
+		.dance:global(.is-calling) {
+			animation: dance-knock 3s infinite;
+		}
+
+		.dance:global(.is-calling)::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			border: 1.5px solid #f3b21a;
+			border-radius: 999px;
+			pointer-events: none;
+			animation: dance-ring 1.6s ease-out infinite;
+		}
+
+		/* Hover and keyboard focus take over: the ring holds still and the knock stops so the
+		   hover lift is not overridden by the animation's transform. */
+		.dance:global(.is-calling):hover,
+		.dance:global(.is-calling):active,
+		.dance:global(.is-calling):focus-visible {
+			animation: none;
+		}
+
+		.dance:global(.is-calling):hover::after,
+		.dance:global(.is-calling):focus-visible::after {
+			animation-play-state: paused;
+		}
+	}
+
+	@keyframes dance-ring {
+		from {
+			transform: scale(1);
+			opacity: 0.55;
+		}
+
+		to {
+			transform: scale(1.7);
+			opacity: 0;
+		}
+	}
+
+	/* Rest for 60 percent of the cycle, wiggle, then settle on the site's easing. */
+	@keyframes dance-knock {
+		0%,
+		60% {
+			transform: none;
+		}
+
+		65% {
+			transform: scale(1.1) rotate(-6deg);
+		}
+
+		70% {
+			transform: scale(1.1) rotate(6deg);
+		}
+
+		75% {
+			transform: scale(1.08) rotate(-4deg);
+		}
+
+		80% {
+			transform: scale(1.05) rotate(3deg);
+			animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+		}
+
+		88%,
+		100% {
+			transform: none;
+		}
+	}
+
+	/* Reduced motion keeps the shadow change (the key still reads as pressed) but not the movement. */
+	@media (prefers-reduced-motion: reduce) {
+		.dance {
+			transition: none;
+		}
+
+		.dance:active:not(:disabled),
+		.dance:disabled,
+		.pooh-stage:global(.is-live) .dance:hover:not(:disabled):not(:active) {
+			transform: none;
+		}
+	}
+
+	/* While the bear dances the page goes dark. The stage is lifted above the veil (and the
+	   sticky header and drawer, which top out at 50) so only the bear stays lit. The veil is
+	   created by the scene script and exists only during a dance. */
+	.pooh-stage:global(.is-dancing) {
+		z-index: 101;
+	}
+
+	/* While the numeral is up the canvas covers the whole viewport, fixed in place, so it can
+	   fill the screen. It still takes clicks: a hit on the numeral sends it dashing, empty
+	   space ends the dance. */
+	.mount:global(.is-full) {
+		position: fixed;
+		inset: 0;
+		cursor: pointer;
+	}
+
+	:global(.pooh-dance-veil) {
+		position: fixed;
+		inset: 0;
+		z-index: 100;
+		background: #120c08;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 400ms ease;
+	}
+
+	:global(.pooh-dance-veil.is-on) {
+		opacity: 0.94;
+		pointer-events: auto;
+		transition-duration: 350ms;
+	}
+</style>
+
+<script>
+	// The only code on the page's initial bundle. It decides whether to load the
+	// scene at all; everything three.js lives behind the dynamic import.
+	const stage = document.querySelector<HTMLElement>("[data-pooh-stage]");
+
+	const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+
+	function canRunWebGL(): boolean {
+		// Throwaway context, released at once so it does not count against the browser's limit.
+		const probe = document.createElement("canvas");
+		const gl = probe.getContext("webgl2");
+		gl?.getExtension("WEBGL_lose_context")?.loseContext();
+		return gl !== null;
+	}
+
+	function whenIdle(callback: () => void): void {
+		if (typeof window.requestIdleCallback === "function") {
+			window.requestIdleCallback(callback, { timeout: 2000 });
+		} else {
+			// Safari has no requestIdleCallback.
+			setTimeout(callback, 200);
+		}
+	}
+
+	async function load(target: HTMLElement): Promise<void> {
+		try {
+			const { mountPoohStage } = await import("../lib/pooh-stage");
+			await mountPoohStage(target, { attention: target.dataset.attention ?? "" });
+		} catch (error) {
+			// The poster stays; the failure must still be visible to whoever debugs it.
+			console.error("Pooh stage could not start, showing the poster instead.", error);
+		}
+	}
+
+	const wantsStillImage =
+		matchMedia("(prefers-reduced-motion: reduce)").matches || connection?.saveData === true;
+
+	if (stage && !wantsStillImage && canRunWebGL()) {
+		const watcher = new IntersectionObserver(
+			(entries) => {
+				if (!entries.some((entry) => entry.isIntersecting)) return;
+				watcher.disconnect();
+				whenIdle(() => void load(stage));
+			},
+			{ rootMargin: "200px" },
+		);
+		watcher.observe(stage);
+	}
+</script>

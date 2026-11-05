@@ -25,6 +25,16 @@ export default defineConfig({
   image: {
     service: passthroughImageService(),
   },
+  vite: {
+    build: {
+      // The home hero loads three.js with a dynamic import, so its ~700 kB
+      // chunk is never part of a page's first paint. The default 500 kB limit
+      // exists to flag bundles that block a page, which this one does not,
+      // and three's renderer alone is more than that. Anything that grows past
+      // this limit is no longer just three.js and deserves the warning.
+      chunkSizeWarningLimit: 800,
+    },
+  },
   // The sitemap integration takes its locales as a MAP of path segment to
   // language tag, which is a different shape from the string array above.
   // With it, @astrojs/sitemap emits xhtml:link alternates for each URL so a

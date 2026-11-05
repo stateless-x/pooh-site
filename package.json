@@ -8,15 +8,20 @@
   "scripts": {
     "dev": "astro dev",
     "portrait": "node scripts/build-portrait.mjs",
+    "model": "/Applications/Blender.app/Contents/MacOS/Blender --background --python scripts/build-pooh-model.py",
     "build": "astro build && cp dist/en/404/index.html dist/en/404.html",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.2.9"
+    "astro": "^7.2.9",
+    "three": "^0.187.0"
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@types/three": "^0.187.0"
   }
 }
