@@ -68,7 +68,8 @@ import poohMark from "../../assets/brand/pooh-mark.svg";
 
 	/* The one playful moment on the site. Sits on the plain cream page, never
 	   on a honey-tinted surface. */
-	.nf-bear {
+	/* The image renders inside AssetImage, so a scoped selector would never reach it. */
+	.nf :global(.nf-bear) {
 		display: block;
 		width: 5.5rem;
 		height: 5.5rem;

@@ -231,6 +231,8 @@ const services: { label: string; href: string }[] = [
 				<h2>รายละเอียดสำหรับคนที่อยากรู้จักให้ครบ</h2>
 			</div>
 
+			<details class="phone-fold" open data-phone-closed>
+<summary>ดูรายละเอียดทั้งหมด<span class="faq-sign" aria-hidden="true"></span></summary>
 			<dl class="facts reveal">
 				{
 					facts.map((f) => (
@@ -288,6 +290,7 @@ const services: { label: string; href: string }[] = [
 					reach him is LINE. He can also be reached by email at {EMAIL}.
 				</p>
 			</div>
+			</details>
 		</div>
 	</section>
 

@@ -87,7 +87,7 @@ spacing:
   gutter-desktop: "2.5rem"
   card-mobile: "1.25rem"
   card-desktop: "1.75rem"
-  section-mobile: "3.5rem"
+  section-mobile: "2.5rem"
   section-desktop: "5.5rem"
 components:
   button-line:
@@ -263,9 +263,17 @@ Two breakpoints carry the entire system so tiers never disagree: `48em` (tablet)
 
 Below 48em every call-to-action row stacks: the LINE button first, full width with a centred label, and any quiet button beneath it one step lower (56px LINE, 52px quiet), so a pair never wraps ragged. Grid behaviour by tier: offer cards run 1 column on mobile with the chip beside the text, the way process steps lay out, and 2x2 from 48em upward (four across was rejected because it squeezes each card under ~240px and crushes the Thai body line); work cards run 1 / 2 / 3; process steps run 1 / 2; the trust strip runs stacked then 3 across from 48em. On mobile the hero leads with the Mascot Stage (`order: -1`), then the headline and CTA, and splits into `1.15fr 0.85fr` from 48em. An earlier portrait in this spot was retired because at full size it pushed the CTA past the mobile fold, so the stage is held to `min(13rem, 28svh)` with the empty space above the ears pulled up. Check the CTA position against short phones whenever hero copy grows.
 
-Vertical rhythm: sections are `3.5rem` of block padding on mobile and `5.5rem` from 48em. Inner page heads run `3rem/3.5rem` then `4.5rem/5rem`. The footer is flush against whatever precedes it with no top margin, because a cream gap between a dark contact band and the dark footer read as two disconnected slabs.
+Vertical rhythm: sections are `2.5rem` of block padding on phones and `5.5rem` from 48em. Inner page heads run `3rem/3.5rem` then `4.5rem/5rem`. The footer is flush against whatever precedes it with no top margin, because a cream gap between a dark contact band and the dark footer read as two disconnected slabs.
 
 Touch density is handled by pointer type, not by width: under `@media (pointer: coarse)` header nav, footer nav, work links, and other short text links take a 44px minimum height without changing the visual design. Drawer links are 48px, and icon buttons are a literal 44x44.
+
+**The Phone Layout.** Below 48em the site is laid out by `src/styles/mobile.css`, one file that can never touch desktop. A phone visitor asks whether he can do something like their business, whether to trust him, and how to reach him, in that order, so:
+- The home page runs hero, trust, work, offers, systems, steps, the AI wedge (Thai) or remote section (English), about, contact band, reference zone. Proof comes before explanation.
+- Rows divided by hairlines replace stacks of cards, and a framed work picture never sits inside a card. Home work is a swipe rail with the next card showing at the edge.
+- Section kickers are hidden, because the heading already carries the section.
+- Long reference text folds behind a quiet `phone-fold` row. It ships open, and a script closes it on a phone, so it is open without JS and on wider screens.
+- A fixed bar holds the LINE or email button whenever no other message button is on screen, except on the contact page.
+- The contact card leads with the button and drops the QR code, which cannot be scanned on the phone showing it.
 
 **The Shrinkable Column Rule.** Any grid track holding Thai text uses `minmax(0, 1fr)`, never a bare `1fr`. A bare `1fr` floors at min-content width, and one unbreakable Thai run then pushes the whole card past the viewport.
 
@@ -353,7 +361,7 @@ The home hero's interactive 3D bear (`src/components/PoohStage.astro`, `src/lib/
 - **Poster first:** a still render with the same camera, lights, and shadow as the live scene. It stays the fallback for reduced motion, data saver, no WebGL2, and no JS. Visitors on the fallback never see the 67 key, the dark veil, or any sound.
 - **Materials:** flat colours with no textures; the shading comes from three.js lights, so the Flat Colour Rule still binds every CSS surface. All 3D parts have soft edges, with no hard corners.
 - **Moving on its own:** the stage's idle animation is the one permitted autoplaying animation, and its loop stops when it is off screen or the tab is hidden.
-- **Touch hint:** on a coarse pointer only, the bear waves every 5s and a paper speech bubble says `จิ้มผมสิ` / `Poke me!` until the first touch. Tapping the bubble counts as a poke. A mouse gets no hint, because the cursor already changes over the bear.
+- **Touch hint:** on a coarse pointer only, the bear waves every 5s and a paper speech bubble says `จิ้มพุงผมสิ` / `Poke me!` until the first touch. Tapping the bubble counts as a poke. A mouse gets no hint, because the cursor already changes over the bear.
 - **Click moods:** a poke plays one of six moods from a shuffled bag (boing, love, sparkle, bloop, sing, poof), each with its own motion, particles, and synthesized voice. Particles spawn clear of the glasses.
 - **The 67 key:** a chunky cocoa pill labelled only `67`, 48px tall, with its thickness built from stacked solid box-shadows (edge `#1F150E`), never a gradient. It pulses (honey ring plus a knock every 3s) until first clicked, for that page view only, and hides for the length of the dance.
 - **The 67 dance:** lasts 6.7s. A `#120C08` veil at 94% covers the page, including the header; the stage sits above it. The bear and everything around it grow 30% with the numeral and return to their exact size afterwards. The numeral sits behind the bear and props at all times, fits inside the viewport, and bursts at 6.7s, on the last hand beat as the bear throws both arms up. The page stays dark for 0.9s more while the chunks fall. Scene-only colours: lamp blue `#4C6FFF`, which never appears outside the canvas.

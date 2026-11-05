@@ -174,7 +174,7 @@ const personSchema = enPerson(Astro.site);
 	    reader). The owner rejected that tone and ADR 0002 replaced it. The
 	    budget point survives as ONE modest sentence and is not repeated on
 	    any other page. */}
-	<section class="section band-cream remote">
+	<section class="section band-cream remote home-remote">
 		<div class="shell remote-inner">
 			<div class="remote-head reveal">
 				<p class="label">Working together from a distance</p>
@@ -187,6 +187,9 @@ const personSchema = enPerson(Astro.site);
 					it barely registers. For clients in the Americas, we agree on one
 					slot each week that genuinely works for both of us, and we keep it.
 				</p>
+				<details class="phone-fold" open data-phone-closed>
+<summary>How the rest of it works<span class="faq-sign" aria-hidden="true"></span></summary>
+
 				{/* The owner's working-style promise, integrated with the existing
 				    scope-and-visibility material rather than bolted on as its own
 				    paragraph: he keeps his own Bangkok hours, but the updates
@@ -222,11 +225,12 @@ const personSchema = enPerson(Astro.site);
 					treat all of that as a useful side effect rather than a reason to
 					hire anyone. Judge the work first.
 				</p>
+				</details>
 			</div>
 		</div>
 	</section>
 
-	<section class="section band-tint">
+	<section class="section band-tint home-offers">
 		<div class="shell">
 			<div class="section-head reveal">
 				<p class="label">What I do</p>
@@ -257,7 +261,7 @@ const personSchema = enPerson(Astro.site);
 		</div>
 	</section>
 
-	<section class="section">
+	<section class="section home-steps">
 		<div class="shell">
 			<div class="section-head reveal">
 				<p class="label">How it goes</p>
@@ -283,7 +287,7 @@ const personSchema = enPerson(Astro.site);
 		</div>
 	</section>
 
-	<section class="section band-tint">
+	<section class="section band-tint home-work">
 		<div class="shell">
 			<div class="section-head reveal">
 				<p class="label">Selected work</p>
@@ -383,6 +387,8 @@ const personSchema = enPerson(Astro.site);
 	<section class="seo-zone" aria-labelledby="seo-zone-heading">
 		<div class="shell seo-inner">
 			<h2 class="label" id="seo-zone-heading">About the service</h2>
+<details class="phone-fold" open data-phone-closed>
+<summary>Read the full details<span class="faq-sign" aria-hidden="true"></span></summary>
 			<div class="seo-cols">
 				<div class="seo-col">
 					<p>
@@ -497,6 +503,7 @@ const personSchema = enPerson(Astro.site);
 					rel="noopener">GitHub</a
 				>. Read this far and still have a question? Email {EMAIL} and ask it.
 			</p>
+			</details>
 		</div>
 	</section>
 </Layout>

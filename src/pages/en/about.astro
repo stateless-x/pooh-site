@@ -186,6 +186,8 @@ const services: { label: string; href: string }[] = [
 				<h2>Everything on one page</h2>
 			</div>
 
+			<details class="phone-fold" open data-phone-closed>
+<summary>See the full details<span class="faq-sign" aria-hidden="true"></span></summary>
 			<dl class="facts reveal">
 				{
 					facts.map((f) => (
@@ -228,6 +230,7 @@ const services: { label: string; href: string }[] = [
 					</li>
 				</ul>
 			</div>
+			</details>
 		</div>
 	</section>
 

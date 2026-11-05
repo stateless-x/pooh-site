@@ -189,7 +189,7 @@ const personSchema = {
 				    recognised themselves in a job title. */}
 				<p class="hero-sub">
 					ออเดอร์เข้ามาหลายทาง สต๊อกไม่ตรง งานในทีมต้องไล่ถาม
-					ผมช่วยรวบให้อยู่ที่เดียวและใช้งานได้จริง เริ่มจากงานเล็ก ๆ ก่อนก็ได้
+					ผมช่วยรวบไว้ที่เดียว เริ่มจากงานเล็ก ๆ ก่อนก็ได้
 					คุยก่อนไม่มีค่าใช้จ่าย
 				</p>
 				<div class="actions">
@@ -206,7 +206,7 @@ const personSchema = {
 					alt="มาสคอตหมี Pooh สามมิติ ใส่แว่นกลมและผ้าพันคอสีแดง"
 					attention=".hero .line-btn"
 					danceLabel="ให้หมีเต้น 67"
-					pokeHint="จิ้มผมสิ"
+					pokeHint="จิ้มพุงผมสิ"
 				/>
 			</div>
 		</div>
@@ -231,7 +231,7 @@ const personSchema = {
 		</div>
 	</section>
 
-	<section class="section band-tint">
+	<section class="section band-tint home-offers">
 		<div class="shell">
 			<div class="section-head reveal">
 				<p class="label">สิ่งที่รับทำ</p>
@@ -330,7 +330,7 @@ const personSchema = {
 		</div>
 	</section>
 
-	<section class="section">
+	<section class="section home-steps">
 		<div class="shell">
 			<div class="section-head reveal">
 				<p class="label">วิธีทำงาน</p>
@@ -356,7 +356,7 @@ const personSchema = {
 		</div>
 	</section>
 
-	<section class="section band-tint">
+	<section class="section band-tint home-work">
 		<div class="shell">
 			<div class="section-head reveal">
 				<p class="label">ผลงานบางส่วน</p>
@@ -461,6 +461,8 @@ const personSchema = {
 	<section class="seo-zone" aria-labelledby="seo-zone-heading">
 		<div class="shell seo-inner">
 			<h2 class="label" id="seo-zone-heading">เกี่ยวกับบริการ</h2>
+<details class="phone-fold" open data-phone-closed>
+<summary>อ่านรายละเอียดบริการทั้งหมด<span class="faq-sign" aria-hidden="true"></span></summary>
 			<div class="seo-cols">
 				<div class="seo-col">
 					<p>
@@ -597,6 +599,7 @@ const personSchema = {
 				    the CTA reads identically wherever it appears. */}
 				<a href={LINE_URL}>ทักไลน์: {LINE_ID}</a>
 			</p>
+			</details>
 		</div>
 	</section>
 </Layout>

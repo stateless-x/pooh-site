@@ -19,6 +19,7 @@ import {
 	GITHUB_URL,
 } from "../../site.config.mjs";
 import { alternates, normalize, switchTarget, type Lang } from "../utils/locale";
+import "../styles/mobile.css";
 
 interface Props {
 	title: string;
@@ -626,6 +627,16 @@ const t = isEn
 			</div>
 		</footer>
 
+		{/* On a phone the way to message stays one tap away on long pages. The contact page is
+		    already nothing but that. */}
+		{
+			normalize(Astro.url.pathname) !== (isEn ? "/en/contact" : "/contact") && (
+				<div class="phone-cta" data-phone-cta>
+					{isEn ? <MailButton label="Email me" size="md" /> : <LineButton />}
+				</div>
+			)
+		}
+
 		<button class="back-to-top" type="button" aria-label={t.backToTop} data-back-to-top>
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
 				<path d="M12 19V5" />
@@ -730,6 +741,39 @@ const t = isEn
 						}
 					});
 				}
+			})();
+		</script>
+
+		<script is:inline>
+			(function () {
+				// Long reference text folds away on a phone. It ships open and closes here, so
+				// without JS, and on a wider screen, it is simply there.
+				var folds = document.querySelectorAll("[data-phone-closed]");
+				var phone = window.matchMedia("(max-width: 47.99em)");
+				function setFolds() {
+					for (var i = 0; i < folds.length; i++) folds[i].open = !phone.matches;
+				}
+				setFolds();
+				phone.addEventListener("change", setFolds);
+
+				// The phone button shows only while no other way to message is on screen, so two
+				// loud buttons never sit in view together.
+				var bar = document.querySelector("[data-phone-cta]");
+				if (!bar || !("IntersectionObserver" in window)) return;
+				var seen = [];
+				var watcher = new IntersectionObserver(function (entries) {
+					entries.forEach(function (entry) {
+						var at = seen.indexOf(entry.target);
+						if (entry.isIntersecting && at < 0) seen.push(entry.target);
+						if (!entry.isIntersecting && at >= 0) seen.splice(at, 1);
+					});
+					var on = seen.length === 0;
+					bar.classList.toggle("is-on", on);
+					document.documentElement.classList.toggle("has-phone-cta", on);
+				});
+				document.querySelectorAll("main .line-btn, main .mail-cta, .site-foot").forEach(function (el) {
+					watcher.observe(el);
+				});
 			})();
 		</script>
 
@@ -2408,6 +2452,7 @@ const t = isEn
 
 			/* Coloured kind tag, one tint per project. */
 			.tag {
+				justify-self: start;
 				display: inline-flex;
 				align-items: center;
 				align-self: start;

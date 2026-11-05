@@ -1,0 +1,556 @@
+/*
+ * The phone layout of the whole site, in one file so that it can never touch
+ * desktop: every layout rule sits inside the 48em query.
+ *
+ * Why a separate pass rather than rules beside each component: a phone visitor
+ * reads differently. They ask whether he can do something like their business,
+ * whether to trust him, and how to reach him, in that order, on a small screen,
+ * with one thumb. Stacking the desktop layout gave them 14 screens of boxes inside
+ * boxes, with the proof on screen 6.
+ *
+ * `html:not(#_)` raises each rule above the page's scoped styles, whose attribute
+ * selectors would otherwise win or depend on stylesheet order.
+ */
+
+/* The fold and the phone call to action exist in the markup at every width. */
+.phone-fold > summary {
+	display: none;
+}
+
+.phone-cta {
+	display: none;
+}
+
+/* A fold's children are no longer items of the parent's grid, so they lose its gap and
+   their own margins collapse instead. These restore the same spacing at every width. */
+.seo-inner > .phone-fold > .seo-qa {
+	margin-top: 3.25rem;
+}
+
+.seo-inner > .phone-fold > .seo-close {
+	margin-top: 3rem;
+}
+
+.remote-body > .phone-fold > :not(summary) + :not(summary) {
+	padding-top: 1rem;
+}
+
+@media (max-width: 47.99em) {
+	/* ---- the frame around every page ---- */
+
+	/* The sticky header stays on screen the whole visit, so it gets as little of the
+	   screen as the 44px logo allows. */
+	html:not(#_) .head-inner {
+		padding-block: 0.5rem;
+	}
+
+	html:not(#_) .section {
+		padding-block: 2.5rem;
+	}
+
+	html:not(#_) .band-inner {
+		padding-block: 2.25rem;
+	}
+
+	html:not(#_) .page-head-inner {
+		gap: 0.625rem;
+		padding-block: 1.5rem 1.75rem;
+	}
+
+	html:not(#_) .section-head {
+		margin-bottom: 1.25rem;
+	}
+
+	/* Headings carry these sections on a small screen; a kicker above each one is one more
+	   line to scroll past before the point. */
+	html:not(#_) .section-head > .label,
+	html:not(#_) .page-head-inner > .label,
+	html:not(#_) .band-inner > .label,
+	html:not(#_) .fit-intro > .label,
+	html:not(#_) .wedge-head > .label,
+	html:not(#_) .remote-head > .label {
+		display: none;
+	}
+
+	/* ---- always one tap from a message ---- */
+
+	.phone-cta {
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 8;
+		display: block;
+		padding: 0.5rem max(1.375rem, env(safe-area-inset-right))
+			max(0.5rem, env(safe-area-inset-bottom)) max(1.375rem, env(safe-area-inset-left));
+		border-top: 1px solid var(--rule);
+		background: var(--paper);
+		box-shadow: 0 -4px 16px rgba(42, 33, 26, 0.08);
+		visibility: hidden;
+		transform: translateY(100%);
+		transition:
+			transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+			visibility 0s linear 220ms;
+	}
+
+	.phone-cta.is-on {
+		visibility: visible;
+		transform: none;
+		transition-delay: 0s;
+	}
+
+	html:not(#_) .phone-cta > a {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		min-height: 3rem;
+		padding-block: 0.625rem;
+	}
+
+	html.has-phone-cta:not(#_) .back-to-top {
+		bottom: calc(4.5rem + env(safe-area-inset-bottom));
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.phone-cta {
+			transition: none;
+		}
+	}
+
+	/* ---- long reference text folds away ---- */
+
+	.phone-fold > summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		min-height: 3rem;
+		padding: 0.75rem 1rem;
+		border: 1px solid var(--rule);
+		border-radius: var(--radius);
+		background: var(--paper);
+		color: var(--accent);
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: var(--fs-body-sm);
+		line-height: 1.4;
+		list-style: none;
+		cursor: pointer;
+	}
+
+	.phone-fold > summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.phone-fold[open] > summary {
+		margin-bottom: 1.25rem;
+	}
+
+	/* ---- the home hero ---- */
+
+	html:not(#_) .hero-inner {
+		gap: 0.75rem;
+		padding-block: 1.25rem 1.5rem;
+	}
+
+	html:not(#_) .hero-copy {
+		gap: 0.625rem;
+	}
+
+	html:not(#_) .hero .actions {
+		margin-top: 0.25rem;
+	}
+
+	html:not(#_) .hero .mail-cta {
+		padding-inline: 1rem;
+		font-size: var(--fs-body);
+	}
+
+	/* ---- the home page order: proof first, then what he does, then how ---- */
+
+	html:not(#_) main:has(> .home-work) {
+		display: flex;
+		flex-direction: column;
+	}
+
+	html:not(#_) .hero {
+		order: 1;
+	}
+
+	html:not(#_) .trust {
+		order: 2;
+		padding-bottom: 0;
+	}
+
+	html:not(#_) .home-work {
+		order: 3;
+		background: transparent;
+	}
+
+	html:not(#_) .home-offers {
+		order: 4;
+	}
+
+	html:not(#_) .business-fit {
+		order: 5;
+		background: transparent;
+	}
+
+	html:not(#_) .home-remote {
+		order: 7;
+	}
+
+	html:not(#_) .home-steps {
+		order: 6;
+		background: var(--tint);
+	}
+
+	html:not(#_) .wedge {
+		order: 7;
+	}
+
+	html:not(#_) .about {
+		order: 8;
+	}
+
+	html:not(#_) main > .band {
+		order: 9;
+	}
+
+	html:not(#_) .seo-zone {
+		order: 10;
+	}
+
+	/* ---- the trust strip: three plain rows, not a card ---- */
+
+	html:not(#_) .trust-list {
+		gap: 0.75rem;
+		padding: 1rem 0;
+		border: 0;
+		border-block: 1px solid var(--rule-soft);
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	html:not(#_) .trust-item {
+		gap: 0.75rem;
+	}
+
+
+	/* ---- rows instead of a stack of cards ---- */
+
+	html:not(#_) .offers {
+		gap: 0;
+		border-top: 1px solid var(--rule);
+	}
+
+	html:not(#_) .offer {
+		gap: 0 0.875rem;
+		padding: 1rem 0;
+		border: 0;
+		border-bottom: 1px solid var(--rule);
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	html:not(#_) main .chip {
+		width: 2.75rem;
+		height: 2.75rem;
+		border-radius: 10px;
+	}
+
+	/* The icon sits beside its row on both editions, so every line starts at the same edge. */
+	html:not(#_) .offer {
+		display: grid;
+		grid-template-columns: 2.75rem minmax(0, 1fr);
+		align-content: start;
+	}
+
+	html:not(#_) .offer > .chip {
+		grid-row: 1 / span 3;
+	}
+
+	html:not(#_) .offer > :not(.chip) {
+		grid-column: 2;
+	}
+
+	/* A row is taller than its chip, so the chip must not stretch with it, and the 3D icon
+	   scales down with the chip rather than being cropped by it. */
+	html:not(#_) .chip {
+		flex: none;
+		align-self: start;
+		aspect-ratio: 1;
+	}
+
+	html:not(#_) .chip > :is(img, svg) {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	html:not(#_) .offer h3 {
+		margin-bottom: 0.125rem;
+	}
+
+	html:not(#_) .steps {
+		gap: 0;
+	}
+
+	html:not(#_) .step {
+		gap: 0 0.875rem;
+		padding: 1rem 0;
+		border: 0;
+		border-bottom: 1px solid var(--rule-soft);
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	html:not(#_) .step:last-child {
+		border-bottom: 0;
+	}
+
+	/* ---- the systems list: a two-column index, the detail lives on /backoffice ---- */
+
+	html:not(#_) .fit-layout,
+	html:not(#_) .fit-content,
+	html:not(#_) .fit-intro {
+		gap: 0.75rem;
+	}
+
+	html:not(#_) .system-preview {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.25rem 0.75rem;
+		border: 0;
+	}
+
+	html:not(#_) .system-preview li {
+		grid-template-columns: 2.25rem minmax(0, 1fr);
+		gap: 0.5rem;
+		align-items: center;
+		min-height: 3.25rem;
+		padding: 0.25rem 0;
+		border: 0;
+	}
+
+	html:not(#_) .system-preview .chip {
+		align-self: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: 8px;
+	}
+
+	html:not(#_) .system-preview li > * {
+		font-size: 0.875rem;
+		line-height: 1.35;
+	}
+
+	/* ---- work: no card around a framed picture ---- */
+
+	html:not(#_) .work-list {
+		gap: 2rem;
+	}
+
+	html:not(#_) .work-item {
+		gap: 0.625rem;
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	html:not(#_) .work-item + .work-item {
+		padding-top: 2rem;
+		border-top: 1px solid var(--rule);
+	}
+
+	html:not(#_) .work-item .tag {
+		margin-top: 0.25rem;
+	}
+
+	/* On the home page the work is a rail you swipe: the next card shows at the edge, so a
+	   visitor sees proof straight away without five screens of it. The rail reaches the screen
+	   edges through its own negative margin; never 100vw, which would count the scrollbar. */
+	html:not(#_) .work-list.teaser {
+		display: flex;
+		gap: 0.875rem;
+		margin-inline: -1.375rem;
+		padding-inline: 1.375rem;
+		padding-bottom: 0.25rem;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-padding-inline: 1.375rem;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+	}
+
+	html:not(#_) .work-list.teaser::-webkit-scrollbar {
+		display: none;
+	}
+
+	html:not(#_) .work-list.teaser .work-item {
+		flex: 0 0 82%;
+		min-width: 0;
+		padding: 0;
+		border: 0;
+		scroll-snap-align: start;
+	}
+
+	/* A card off to the side never scrolls into the observer, so it must not wait to reveal. */
+	html:not(#_) .work-list.teaser .reveal {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+
+	html:not(#_) .more {
+		margin-top: 1rem;
+	}
+
+	/* ---- home: the AI repair wedge and the about strip ---- */
+
+	html:not(#_) .wedge-inner,
+	html:not(#_) .wedge-body {
+		gap: 0.875rem;
+	}
+
+	html:not(#_) .about-inner {
+		gap: 1.25rem;
+	}
+
+	html:not(#_) .remote-inner {
+		gap: 0.75rem;
+	}
+
+	/* ---- the reference zone ---- */
+
+	html:not(#_) .seo-zone {
+		padding-block: 2rem;
+	}
+
+	/* ---- /backoffice ---- */
+
+	html:not(#_) .workflow-list {
+		gap: 0;
+	}
+
+	html:not(#_) .workflow-item {
+		gap: 0.5rem 0.875rem;
+		padding-block: 1rem;
+	}
+
+	html:not(#_) .workflow-answer {
+		margin-top: 0.25rem;
+		padding-left: 0;
+	}
+
+	/* Industry examples are recognition cues, so they read as a plain list, not as boxes
+	   nested inside a box. */
+	html:not(#_) .industry-examples {
+		gap: 0.125rem;
+		margin-top: 0.5rem;
+	}
+
+	html:not(#_) .industry-examples li {
+		padding: 0.125rem 0 0.125rem 0.875rem;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+	}
+
+	html:not(#_) .industry-examples li::before {
+		top: 0.6875rem;
+		left: 0;
+	}
+
+	/* ---- /about: the picture supports the story, it should not fill the screen ---- */
+
+	html:not(#_) .photo-frame::before {
+		display: none;
+	}
+
+	html:not(#_) .photo-frame .ph img {
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
+		object-position: 60% 70%;
+	}
+
+	/* ---- /contact: the button first, and no QR code ---- */
+
+	/* A visitor cannot scan a code on the phone they are holding. */
+	html:not(#_) .line-qr {
+		display: none;
+	}
+
+	html:not(#_) .card-wrap {
+		padding-top: 1.25rem;
+	}
+
+	html:not(#_) .line-card {
+		gap: 1rem;
+		padding: 1.25rem;
+	}
+
+	html:not(#_) .line-main {
+		display: grid;
+		gap: 0.625rem;
+	}
+
+	html:not(#_) .line-main > .line-btn {
+		order: -2;
+		justify-content: center;
+		width: 100%;
+	}
+
+	html:not(#_) .line-main > .line-note {
+		order: -1;
+		margin-bottom: 0.5rem;
+	}
+
+	html:not(#_) .mail-card {
+		display: grid;
+		gap: 0.625rem;
+		padding: 1.25rem;
+	}
+
+	html:not(#_) .mail-card > .mail-cta {
+		order: -2;
+		justify-content: center;
+		width: 100%;
+	}
+
+	html:not(#_) .mail-card > .mail-note {
+		order: -1;
+		margin-bottom: 0.5rem;
+	}
+
+	/* ---- pages with one job ---- */
+
+	html:not(#_) .blog-soon {
+		min-height: 0;
+		padding-block: 1.75rem 2.5rem;
+	}
+
+	html:not(#_) .blog-soon-inner {
+		gap: 1.25rem;
+	}
+
+	html:not(#_) .nf-inner {
+		gap: 0.875rem;
+		padding-block: 1.75rem 2.5rem;
+	}
+
+	/* ---- FAQ ---- */
+
+	html:not(#_) .faq {
+		gap: 0.5rem;
+	}
+
+	html:not(#_) .faq-item summary {
+		padding: 0.75rem 1rem;
+	}
+}

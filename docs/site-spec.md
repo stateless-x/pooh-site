@@ -360,6 +360,12 @@ lift one sentence and still be correct:
 All three are **visible text at the zone's own size and colour**. No
 `display: none`, no `sr-only`, no white-on-white: hidden text is cloaking.
 
+On a phone the whole zone sits in a native `<details>` that a visitor opens with one
+tap (added 2026-11-05, because it was 2,835px of grey text after the last call to
+action). That is not cloaking: it is the same text in the DOM, available to every
+reader. It ships `open`, and a script closes it only below 48em, so crawlers without
+JS and wider screens get it open.
+
 ## Site constants
 
 `site.config.mjs` at the repo root is the single source of truth, imported by
@@ -830,6 +836,10 @@ survives. Two breakpoints only, used everywhere so tiers never disagree:
 | Tablet | 768-1023 | `min-width: 48em` |
 | Desktop | 1024+ | `min-width: 64em` |
 
+- **Phones**: all phone layout lives in `src/styles/mobile.css`, and its rules are in
+  `DESIGN.md` under The Phone Layout. Check any change at 320, 375 and 430 with
+  `scrollWidth`, sampled through the 67 key's pulse: its ring once caused a sideways
+  scroll that a reading before the pulse started did not show.
 - **Hero**: mobile stacks with the **mascot stage above the copy** (`order: -1`),
   held compact so the CTA stays as high as it can. Two columns from 48em.
 - **Offers**: 1 column mobile, 2 at 48em with the third spanning the full row so
