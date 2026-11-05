@@ -33,6 +33,10 @@ const SHADOW_FULL_LIFT = 0.35;
 /** The full-screen canvas never draws more pixels than this, so a big retina screen keeps its frame rate. */
 const MAX_PIXELS = 3_200_000;
 
+/** On a touch screen, when the bear first asks to be touched, and how often it waves after that, in seconds on screen. */
+const HINT_AFTER = 1.5;
+const HINT_EVERY = 5;
+
 /** The page-level veil takes this long to clear once the dance is over. */
 const VEIL_FADE_OUT = 400;
 
@@ -58,6 +62,8 @@ export async function mountPoohStage(
 	if (!mount) throw new Error("Pooh stage has no [data-pooh-mount] element");
 	const danceButton = stage.querySelector<HTMLButtonElement>("[data-pooh-dance]");
 	if (!danceButton) throw new Error("Pooh stage has no [data-pooh-dance] button");
+	const hint = stage.querySelector<HTMLElement>("[data-pooh-hint]");
+	if (!hint) throw new Error("Pooh stage has no [data-pooh-hint] bubble");
 	const attention = document.querySelector<HTMLElement>(options.attention);
 	if (!attention) throw new Error(`Pooh stage attention element not found: ${options.attention}`);
 
@@ -233,9 +239,23 @@ export async function mountPoohStage(
 		return camera.position.y + floorRay.y * ((z - camera.position.z) / floorRay.z);
 	};
 
+	// Nothing on a phone says the bear can be touched, so it asks: a bubble and a wave, until
+	// the first touch. A mouse does not need this, its cursor already changes over the bear.
+	let hinting = matchMedia("(pointer: coarse)").matches;
+	let nextWave = HINT_AFTER;
+	const endHint = () => {
+		hinting = false;
+		hint.classList.remove("is-showing");
+	};
+
 	let elapsed = 0;
 	const advance = (dt: number) => {
 		elapsed += dt;
+		if (hinting && elapsed >= nextWave) {
+			hint.classList.add("is-showing");
+			bear.wave();
+			nextWave = elapsed + HINT_EVERY;
+		}
 		// The dance runs on the wall clock, so it lasts 6.7 s however many frames are dropped.
 		const danceState = dance.update(dt, performance.now() / 1000);
 		bear.update(dt, elapsed, danceState.active ? FACING_FRONT : gaze.update(elapsed), danceState);
@@ -304,6 +324,23 @@ export async function mountPoohStage(
 		mount.classList.remove("is-dragging");
 	};
 
+	// Each poke is a different mood: its own motion, particles and voice. This must run inside
+	// the click, because that is what lets the browser play audio.
+	const pokeBear = (point: Vector3) => {
+		const mood = moods.next();
+		bear.poke(mood);
+		props.scatter();
+		burst.spawn(point, mood);
+		burst.pulse(mood);
+		voice.play(mood);
+	};
+
+	// A bubble that says "poke me" has to do something when it is the thing that gets poked.
+	hint.addEventListener("click", () => {
+		endHint();
+		pokeBear(new Vector3(0, 1.1, 0.45));
+	});
+
 	mount.addEventListener("pointerdown", (event) => {
 		if (event.pointerType === "mouse" && event.button !== 0) return;
 		if (dance.running) {
@@ -313,6 +350,7 @@ export async function mountPoohStage(
 			return;
 		}
 		press = pick(event);
+		if (press) endHint();
 		// Missing everything leaves the press to the page, so touch scrolling is untouched.
 		if (press?.kind === "bear") mount.setPointerCapture(event.pointerId);
 	});
@@ -335,14 +373,7 @@ export async function mountPoohStage(
 		release();
 		if (!finished) return;
 		if (finished.kind === "bear" && !finished.spinning) {
-			// Each poke is a different mood: its own motion, particles and voice. The voice is
-			// started here, inside the click, because that is what lets the browser play audio.
-			const mood = moods.next();
-			bear.poke(mood);
-			props.scatter();
-			burst.spawn(finished.point, mood);
-			burst.pulse(mood);
-			voice.play(mood);
+			pokeBear(finished.point);
 		} else if (finished.kind === "prop" && Math.abs(event.clientX - finished.x) <= DRAG_THRESHOLD) {
 			props.spinProp(finished.index);
 			burst.spawn(finished.point, "boing");
@@ -361,6 +392,7 @@ export async function mountPoohStage(
 		refocusButton = document.activeElement === danceButton;
 		// First click: the call-to-action pulse is done for this page view.
 		danceButton.classList.remove("is-calling");
+		endHint();
 		// The dance owns the sound from here: let any click voice go.
 		voice.stop();
 		dance.start(performance.now() / 1000);

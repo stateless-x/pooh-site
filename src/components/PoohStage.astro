@@ -9,9 +9,11 @@ interface Props {
 	attention: string;
 	/** Accessible name for the 67 button, whose visible label is just "67". */
 	danceLabel: string;
+	/** What the bear says on a touch screen, to show that it can be touched. */
+	pokeHint: string;
 }
 
-const { alt, attention, danceLabel } = Astro.props;
+const { alt, attention, danceLabel, pokeHint } = Astro.props;
 ---
 
 {/*
@@ -25,6 +27,7 @@ const { alt, attention, danceLabel } = Astro.props;
 		<AssetImage src={poster} alt={alt} loading="eager" fetchpriority="high" />
 	</div>
 	<div class="mount" data-pooh-mount aria-hidden="true"></div>
+	<p class="poke-hint" data-pooh-hint aria-hidden="true">{pokeHint}</p>
 	<button type="button" class="dance" data-pooh-dance aria-label={danceLabel} aria-pressed="false">67</button>
 </div>
 
@@ -209,7 +212,7 @@ const { alt, attention, danceLabel } = Astro.props;
 		}
 
 		to {
-			transform: scale(1.7);
+			transform: scale(var(--ring-spread, 1.7));
 			opacity: 0;
 		}
 	}
@@ -278,6 +281,80 @@ const { alt, attention, danceLabel } = Astro.props;
 		.dance {
 			right: -2.75rem;
 			bottom: 0.25rem;
+			/* Out here the key is close to the screen edge, so its ring must spread less
+			   or it would give the page a sideways scroll. */
+			--ring-spread: 1.3;
+		}
+
+		@media (max-width: 22.4em) {
+			.dance {
+				right: -2.25rem;
+			}
+		}
+	}
+
+	/* The bear's speech bubble, shown only on a touch screen until the first touch. It sits off
+	   the bear's shoulder, by the ear, so it never covers the glasses. Hidden from assistive tech
+	   because it only describes a toy, and the page says everything it needs to without it. */
+	.poke-hint {
+		position: absolute;
+		/* Low enough to clear the sticky header, since a phone pulls the stage up under it. */
+		top: 13%;
+		left: -0.75rem;
+		margin: 0;
+		padding: 0.4375rem 0.8125rem;
+		border: 1.5px solid var(--rule);
+		border-radius: var(--radius);
+		background: var(--paper);
+		color: var(--accent);
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: 0.9375rem;
+		line-height: 1.4;
+		white-space: nowrap;
+		box-shadow: var(--shadow-md);
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+		transform-origin: 80% 100%;
+		opacity: 0;
+		visibility: hidden;
+		transform: scale(0.7);
+		transition:
+			opacity 220ms ease,
+			transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1),
+			visibility 0s linear 220ms;
+	}
+
+	/* The tail, pointing at the bear. */
+	.poke-hint::after {
+		content: "";
+		position: absolute;
+		right: 1.125rem;
+		bottom: -0.3125rem;
+		width: 0.5625rem;
+		height: 0.5625rem;
+		border-right: 1.5px solid var(--rule);
+		border-bottom: 1.5px solid var(--rule);
+		background: var(--paper);
+		transform: rotate(45deg);
+	}
+
+	.poke-hint:global(.is-showing) {
+		opacity: 1;
+		visibility: visible;
+		transform: none;
+		transition-delay: 0s;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.poke-hint:global(.is-showing) {
+			animation: poke-bob 2.4s ease-in-out infinite;
+		}
+	}
+
+	@keyframes poke-bob {
+		50% {
+			translate: 0 -3px;
 		}
 	}
 

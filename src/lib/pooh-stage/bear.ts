@@ -75,6 +75,8 @@ export class Bear {
 	private nextExcitedHop = 0;
 	private dragging = false;
 	private reaction: Reaction | null = null;
+	/** The current wave is a hello rather than a reaction to a poke, so it faces the visitor. */
+	private greeting = false;
 	private reactionAge = 0;
 	private launched = false;
 	private previousYaw = 0;
@@ -123,8 +125,9 @@ export class Bear {
 		const reaction = this.reaction;
 		const age = this.reactionAge;
 
-		this.headYaw.target = gaze.yaw;
-		this.headPitch.target = gaze.pitch;
+		if (reaction !== "wave") this.greeting = false;
+		this.headYaw.target = this.greeting ? 0 : gaze.yaw;
+		this.headPitch.target = this.greeting ? 0 : gaze.pitch;
 		this.follow.target = gaze.yaw * 0.25;
 
 		// Arm targets, in rising priority: rest, point, wave, cheer.
@@ -232,7 +235,17 @@ export class Bear {
 	}
 
 	/** Squash and stretch, then the reaction that belongs to the click mood. */
+	/** A hello: the same wave as a poke but with no squash, inviting the visitor to touch. */
+	wave(): void {
+		if (this.reaction) return;
+		this.reaction = "wave";
+		this.reactionAge = 0;
+		this.launched = false;
+		this.greeting = true;
+	}
+
 	poke(mood: Mood): void {
+		this.greeting = false;
 		const reaction = MOOD_REACTION[mood];
 		// The two jumps crouch harder first; the launch itself comes a moment later.
 		this.squash.velocity = reaction === "poof" ? -7 : reaction === "boing" ? -5 : -4;

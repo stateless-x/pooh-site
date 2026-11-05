@@ -1451,10 +1451,14 @@ contracts, and how to check them.
   `ScarfTailA`, and `ScarfTailB` by name, each with its pivot at the joint. The
   arms are modelled leaning 35 degrees forward, which is why the dance pose cancels
   that lean in the arm's own frame.
-- **Numeral position:** on a phone (below `STACKED_BELOW`, 768px) the numeral floats
-  above the bear's head with a clear gap, and the bear slides down as it grows to make
-  the room. The owner asked for it above the head, not touching it. On wider screens
-  it takes whichever side of the bear has more room.
+- **Numeral position:** on a phone (below `STACKED_BELOW`, 768px) the bear goes to the
+  bottom of the screen when the dance starts, and the numeral expands from just above
+  its head to the top, never touching it, as the owner asked. It is already at full
+  width long before it reaches the top, so the digits stretch taller as they grow, up
+  to `MAX_STRETCH`. On wider screens it takes whichever side of the bear has more room.
+- **Touch hint:** the bubble text is the `pokeHint` prop on `PoohStage`, set per page.
+  It ends for that page view at the first touch of the bear, a prop, the bubble or the
+  67 key, and returns on the next load, with no storage.
 - **Bear growth:** `BEAR_GROW` draws the whole frame 30% larger through the camera's
   view offset, so the bear, props, floor and chunks scale together with no pose
   changes. `EARS_AT` and `FEET_AT` in `numeral.ts` describe the bear in that frame.
