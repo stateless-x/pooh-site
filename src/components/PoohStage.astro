@@ -257,6 +257,29 @@ const { alt, attention, danceLabel } = Astro.props;
 		}
 	}
 
+	/* On phones the stage sits above the headline, so it stays compact and shrinks on short
+	   screens: the call to action below it has to stay as high as it can. The square frame
+	   is about 14 percent empty above the ears, so that much is pulled up into the hero's
+	   padding, and the 67 key moves out beside the bear so it does not cover the feet. */
+	@media (max-width: 47.99em) {
+		.pooh-stage {
+			--stage-size: 13rem;
+			width: var(--stage-size);
+			margin-top: calc(var(--stage-size) * -0.14);
+		}
+
+		@supports (height: 1svh) {
+			.pooh-stage {
+				--stage-size: min(13rem, 28svh);
+			}
+		}
+
+		.dance {
+			right: -2.75rem;
+			bottom: 0.25rem;
+		}
+	}
+
 	/* While the bear dances the page goes dark. The stage is lifted above the veil (and the
 	   sticky header and drawer, which top out at 50) so only the bear stays lit. The veil is
 	   created by the scene script and exists only during a dance. */

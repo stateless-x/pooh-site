@@ -223,9 +223,10 @@ export class Numeral {
 			this.width.velocity = 0;
 		}
 
-		// Where the numeral lives on screen: it starts as wide as the bear's head, sitting
-		// on top of it, and grows to fill the viewport, drifting to the top of the screen
-		// and away from the bear's side so the digits stay readable.
+		// Where the numeral lives on screen: it starts as wide as the bear's head, next to it,
+		// and grows to fill the viewport, drifting away from the bear so the digits stay
+		// readable. It takes whichever side has more room. On a phone the bear sits at the top
+		// of the page, so the numeral goes below it; above would put it right behind the bear.
 		const startWidth = START_WIDTH * view.stageSize;
 		const aspect = HEIGHT / WIDTH;
 		// The numeral is a little tilted by its sway, and more while it spins in a dash, so its
@@ -241,11 +242,19 @@ export class Numeral {
 		const startHeight = startWidth * aspect;
 		const stageCentre = view.stageLeft + view.stageSize / 2;
 		const startX = stageCentre;
-		const startY = view.stageTop + 0.15 * view.stageSize - startHeight / 2;
+		const stageBottom = view.stageTop + view.stageSize;
+		const roomBelow = view.height - stageBottom;
+		const below = roomBelow > view.stageTop;
+		const startY = below
+			? stageBottom + startHeight / 2
+			: view.stageTop + 0.15 * view.stageSize - startHeight / 2;
 		const reach = (view.width - finalWidth * restBoxWidth) / 2;
 		const awayFromBear = Math.max(-reach, Math.min(reach, view.width / 2 - stageCentre));
 		const finalX = view.width / 2 + awayFromBear;
-		const finalY = 0.02 * view.height + (finalWidth * restBoxHeight) / 2;
+		const finalHeight = finalWidth * restBoxHeight;
+		const finalY = below
+			? Math.min(stageBottom + roomBelow / 2, 0.98 * view.height - finalHeight / 2)
+			: 0.02 * view.height + finalHeight / 2;
 
 		if (dance.numeral) {
 			this.width.target = startWidth + (finalWidth - startWidth) * dance.growth;

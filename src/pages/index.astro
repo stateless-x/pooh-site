@@ -609,15 +609,17 @@ const personSchema = {
 		padding-block: 1.5rem 2.25rem;
 	}
 
-	/* Mobile source order IS the reading order: greeting, credential, headline,
-	   the one-line claim, then the LINE button, and only then the portrait.
-	   The portrait used to be lifted above the copy with order: -1, which spent
-	   the entire first phone screen before the page had made a single claim and
-	   left the only CTA 85px past the fold at 375x812 (and ~195px past a real
-	   phone's usable fold after browser chrome). A Thai SME owner deciding in
-	   one visit was being asked to scroll on faith. The portrait stays, it just
-	   sits under the argument it supports; on the two-column tablet layout it
+	/* Phones lead with the mascot, at the owner's request, so a visitor meets it
+	   without scrolling. An earlier full-size portrait in this spot spent the
+	   whole first screen and left the only CTA 85px past the fold at 375x812, so
+	   PoohStage keeps the bear compact on phones and shrinks it on short screens
+	   to hold the CTA as high as it can. On the two-column tablet layout it
 	   returns to the reader's right where there is room for both at once. */
+	@media (max-width: 47.99em) {
+		.hero-photo {
+			order: -1;
+		}
+	}
 
 	.hero-copy {
 		display: grid;

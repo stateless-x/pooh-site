@@ -509,6 +509,14 @@ const personSchema = enPerson(Astro.site);
 		padding-block: 1.5rem 2.25rem;
 	}
 
+	/* Phones lead with the mascot, the same as the Thai page. PoohStage keeps it
+	   compact there so the email button stays as high as it can. */
+	@media (max-width: 47.99em) {
+		.hero-photo {
+			order: -1;
+		}
+	}
+
 	.hero-copy {
 		display: grid;
 		gap: 1rem;

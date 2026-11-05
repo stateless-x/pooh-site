@@ -830,8 +830,8 @@ survives. Two breakpoints only, used everywhere so tiers never disagree:
 | Tablet | 768-1023 | `min-width: 48em` |
 | Desktop | 1024+ | `min-width: 64em` |
 
-- **Hero**: mobile stacks with the **portrait above the copy** (`order: -1`), so
-  a face is the first thing seen. Two columns from 48em.
+- **Hero**: mobile stacks with the **mascot stage above the copy** (`order: -1`),
+  held compact so the CTA stays as high as it can. Two columns from 48em.
 - **Offers**: 1 column mobile, 2 at 48em with the third spanning the full row so
   no gap is left, 3 at 64em.
 - **Work cards**: 1 / 2 / 3 across the same tiers. `/work` cards go side by side
@@ -1451,6 +1451,8 @@ contracts, and how to check them.
   `ScarfTailA`, and `ScarfTailB` by name, each with its pivot at the joint. The
   arms are modelled leaning 35 degrees forward, which is why the dance pose cancels
   that lean in the arm's own frame.
+- **Numeral side:** during the dance the numeral takes whichever side of the bear has
+  more room, so on a phone it sits below the bear rather than hidden behind it.
 - **Loading:** `three` must never appear in a page's first load. Each home page
   loads exactly one script, the bootstrap, with no `modulepreload`. Other pages
   load none.
