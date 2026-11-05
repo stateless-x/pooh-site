@@ -1454,9 +1454,11 @@ contracts, and how to check them.
 - **Loading:** `three` must never appear in a page's first load. Each home page
   loads exactly one script, the bootstrap, with no `modulepreload`. Other pages
   load none.
-- **Dance timing:** the dance runs on the wall clock: last pop 5.65s, burst 5.85s,
-  finale 6.7s. Burst chunks must be gone before the finale, because the veil clears
-  right after it.
+- **Dance timing:** the dance runs on the wall clock: last pop 6.5s, then burst and
+  finale together at 6.7s, so the burst lands on the bear's peak. `FINALE_HOLD` keeps
+  the page dark for 0.9s and must outlast `BLAST_LIFE`, or chunks are cleared in mid
+  air. The owner rejected an earlier burst at 5.85s because the hands were still
+  speeding up after the numeral had gone.
 
 ## How to verify
 

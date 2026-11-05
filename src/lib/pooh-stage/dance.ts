@@ -27,18 +27,22 @@ const DIM_HEMISPHERE = 0.35;
 const DIM_SUN = 0.4;
 /** Point lights are in candela with inverse-square falloff, so they need far more than the sun. */
 const LIGHT_INTENSITY = 11;
-/** How long both arms stay up after the last cycle before they settle back to rest. */
-const FINALE_HOLD = 0.4;
+/**
+ * How long both arms stay up after the last cycle before they settle back to rest. The
+ * page stays dark for all of it, so this must outlast the blast chunks (BLAST_LIFE in
+ * burst.ts) or the last of them would be cleared in mid air.
+ */
+const FINALE_HOLD = 0.9;
 /** The floor disc crossfades between colours at this many per second, never above 3. */
 const FLOOR_RATE_START = 1;
 const FLOOR_RATE_END = 2.5;
 /**
  * The numeral reaches full size with one last pop here, glows briefly, and bursts at
- * BLAST_AT. The blast comes early enough that its chunks, which live under a second,
- * are gone before the finale begins and the page lightens.
+ * BLAST_AT. The burst is the climax: it lands on the last hand beat, the same frame the
+ * bear throws both arms up, so the hands are never left going after the numeral is gone.
  */
-const LAST_POP_AT = 5.65;
-const BLAST_AT = 5.85;
+const LAST_POP_AT = 6.5;
+const BLAST_AT = DURATION;
 
 export interface DanceState {
 	/** The sequencer is mid-dance or in its finale: input and gaze are suspended. */
@@ -283,9 +287,9 @@ export class Dance {
 				this.raise.target = 1;
 				// The sound keeps its reference so an early exit during the tail can still silence it.
 				this.sound?.finish();
-				this.release();
 			}
 		} else if (now - this.finaleAt >= FINALE_HOLD) {
+			this.release();
 			this.beginEasing();
 		}
 	}

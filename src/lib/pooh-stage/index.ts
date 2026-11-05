@@ -130,6 +130,8 @@ export async function mountPoohStage(
 
 	const dance = new Dance(scene, hemisphere, sun, {
 		onRelease: () => {
+			// The page is about to lighten: no blast chunk may still be on it.
+			burst.clearBlast();
 			veil?.classList.remove("is-on");
 			veilTimer = window.setTimeout(() => {
 				veil?.remove();
@@ -234,8 +236,6 @@ export async function mountPoohStage(
 		if (danceState.blast) {
 			burst.explode(numeral.centre, numeral.lastScale, danceState.colour, floorAt(numeral.centre.z));
 		}
-		// The page lightens at the finale: no blast chunk may still be on it.
-		if (danceState.finaleEdge) burst.clearBlast();
 		burst.update(dt);
 		const lift = clamp(bear.lift / SHADOW_FULL_LIFT, 0, 1);
 		shadow.scale.set(0.62 * (1 - 0.25 * lift), 0.5 * (1 - 0.25 * lift), 1);

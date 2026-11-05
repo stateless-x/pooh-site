@@ -79,7 +79,7 @@ interface Particle {
 	bounces: number;
 	/** Height of the floor this particle bounces on: 0 for the stage floor, the viewport's bottom edge for a blast. */
 	floor: number;
-	/** A chunk of the numeral's blast: bright, and cleared when the dance's finale begins. */
+	/** A chunk of the numeral's blast: bright, and cleared when the page starts to lighten. */
 	blast: boolean;
 	restitution: number;
 	/** Puffs start small and swell. */
@@ -322,7 +322,7 @@ export class Burst {
 	 * colour) fly out from its body, spin, fall to the bottom edge of the viewport, bounce
 	 * there and shrink away. `floorY` is the world height of that edge at the numeral's
 	 * depth. Gravity is strong and the life short, so they are all gone before the page
-	 * lightens at the end of the dance.
+	 * lightens after the finale.
 	 */
 	explode(centre: Vector3, scale: number, colour: Color, floorY: number): void {
 		const tint = this.glowMaterials[TINT_AT];

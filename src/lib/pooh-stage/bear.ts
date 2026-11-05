@@ -116,11 +116,8 @@ export class Bear {
 		// A poke reaction in flight would fight the dance for the arms.
 		if (dance.active) this.reaction = null;
 		if (dance.finaleEdge) this.hop(0.3);
-		// The numeral bursting makes the bear flinch and hop.
-		if (dance.blast) {
-			this.squash.velocity = -5;
-			this.hop(0.2);
-		}
+		// The numeral bursts on the same frame as the finale, whose hop is already under way.
+		if (dance.blast) this.squash.velocity = -5;
 		this.stepHop(dt, elapsed, gaze.excited);
 		this.stepReaction(dt);
 		const reaction = this.reaction;
