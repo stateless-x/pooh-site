@@ -148,6 +148,11 @@ const GAP = 0.015;
 const MARGIN = 0.02;
 /** How far a beat's pop may overshoot on a phone, where its room above the bear is reserved in advance. */
 const POP_ROOM = 1.12;
+/**
+ * A phone is much taller than the numeral is at full width, so the digits stretch upward
+ * as they grow to reach the top of the screen. This keeps them looking like digits.
+ */
+const MAX_STRETCH = 1.8;
 
 /** What the numeral needs to know about the screen, in CSS pixels of the canvas. */
 export interface NumeralView {
@@ -167,8 +172,8 @@ export class Numeral {
 	/** Where the numeral's centre is right now, in world units. */
 	readonly centre = new Vector3();
 	/**
-	 * On a phone, where the tips of the ears need to be for the numeral to fit above them,
-	 * in client pixels. Null when the bear can stay where it is.
+	 * On a phone, where the tips of the ears go during the dance, in client pixels: low
+	 * enough that the bear stands at the bottom of the screen. Null when it can stay put.
 	 */
 	earTop: number | null = null;
 	/** Its world scale on the last frame it was showing, for the blast. */
@@ -246,8 +251,8 @@ export class Numeral {
 
 		// Where the numeral lives on screen: it starts as wide as the bear's head, next to it,
 		// and grows to fill the viewport, drifting away from the bear so the digits stay
-		// readable. It takes whichever side has more room. On a phone it floats above the
-		// bear's head instead, and earTop asks for the bear to slide down to make the room.
+		// readable. It takes whichever side has more room. On a phone the bear goes to the
+		// bottom of the screen (earTop) and the numeral expands from above its head to the top.
 		const startWidth = START_WIDTH * view.stageSize;
 		const aspect = HEIGHT / WIDTH;
 		// The numeral is a little tilted by its sway, and more while it spins in a dash, so its
@@ -265,15 +270,13 @@ export class Numeral {
 		const roomAbove = view.height - 2 * margin - gap - bearHeight;
 		let fitWidth = Math.min((FILL * view.width) / boxWidth, (FILL * view.height) / boxHeight);
 		let finalWidth = Math.min((FILL * view.width) / restBoxWidth, (FILL * view.height) / restBoxHeight);
+		let fullStretch = 1;
 		if (stacked) {
 			finalWidth = Math.max(START_WIDTH * view.stageSize, Math.min(finalWidth, roomAbove / restBoxHeight / POP_ROOM));
 			const planned = startWidth + (finalWidth - startWidth) * dance.growth;
 			fitWidth = Math.min(fitWidth, planned * POP_ROOM);
-			const ears = view.stageTop + EARS_AT * view.stageSize;
-			this.earTop = Math.min(
-				Math.max(ears, margin + planned * restBoxHeight * POP_ROOM + gap),
-				view.height - margin - (FEET_AT - EARS_AT) * view.drawSize,
-			);
+			fullStretch = Math.min(roomAbove / (finalWidth * restBoxHeight), MAX_STRETCH);
+			this.earTop = view.height - margin - (FEET_AT - EARS_AT) * view.drawSize;
 		} else {
 			this.earTop = null;
 		}
@@ -309,8 +312,11 @@ export class Numeral {
 			return;
 		}
 		const boxWidthPx = widthPx * boxWidth;
-		const boxHeightPx = widthPx * boxHeight;
 		const growth = Math.max(0, Math.min((widthPx - startWidth) / Math.max(finalWidth - startWidth, 1), 1));
+		// A pop widens the digits, so on a phone it gives up some stretch to keep the height.
+		const wanted = 1 + (Math.max(fullStretch, 1) - 1) * growth;
+		const stretch = stacked ? Math.min(wanted, Math.max(roomAbove / (widthPx * boxHeight), 1)) : wanted;
+		const boxHeightPx = widthPx * boxHeight * stretch;
 		const homeX = stacked ? stageCentre : startX + (finalX - startX) * growth;
 		const homeY = stacked
 			? view.drawTop + EARS_AT * view.drawSize - gap - boxHeightPx / 2
@@ -350,7 +356,7 @@ export class Numeral {
 		const squashX = Math.max(-0.25, Math.min(0.25, this.squashX.update(dt)));
 		const squashY = Math.max(-0.25, Math.min(0.25, this.squashY.update(dt)));
 		// The depth stays modest however big the numeral gets.
-		this.group.scale.set(scale * (1 + squashX), scale * (1 + squashY), depthScale);
+		this.group.scale.set(scale * (1 + squashX), scale * stretch * (1 + squashY), depthScale);
 		this.group.position.copy(this.centre);
 		// Always facing the camera, with a gentle sway and a spin for a dash.
 		this.wobble.set(
