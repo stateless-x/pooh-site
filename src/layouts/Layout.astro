@@ -2,6 +2,7 @@
 import AssetImage from "../components/AssetImage.astro";
 import LineButton from "../components/LineButton.astro";
 import MailButton from "../components/MailButton.astro";
+import NowNotice from "../components/NowNotice.astro";
 import poohLockup from "../assets/brand/pooh-lockup-horizontal.svg";
 import poohMark from "../assets/brand/pooh-mark.svg";
 import poohWordmark from "../assets/brand/pooh-wordmark.svg";
@@ -281,6 +282,10 @@ const t = isEn
 	</head>
 	<body>
 		<a class="skip" href="#main">{t.skip}</a>
+
+		{/* In the flow above the sticky header, so it scrolls away and the header
+		    alone stays pinned. */}
+		<NowNotice lang={lang} />
 
 		<header class="site-head">
 			<div class="shell head-inner">

@@ -24,6 +24,7 @@ const TH_TO_EN: Record<string, string> = {
 	"/backoffice": "/en/backoffice/",
 	"/fix-ai-website": "/en/fix-ai-website/",
 	"/budget-factors": "/en/budget-factors/",
+	"/philosophy": "/en/philosophy/",
 	// Both 404s are noindex; they are paired so the switcher still works if a
 	// visitor lands on one, and so the alternates stay symmetric.
 	"/404": "/en/404/",

@@ -1,0 +1,41 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { philosophy } from "../../data/en/philosophy";
+---
+
+<Layout
+	lang="en"
+	title="Life and Philosophy | Pooh"
+	description="What Purin Buriwong (Pooh) is learning about life and philosophy: seeing through Atta, coming back to Anatta, and using short mental notes in daily life and meditation."
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<h1>{philosophy.title}</h1>
+			<p class="lede">{philosophy.lede}</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell practice">
+			<h2>{philosophy.practice.title}</h2>
+			{philosophy.practice.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+		</div>
+	</section>
+</Layout>
+
+<style>
+	/* The same centred column as .page-head-inner, so the h1 and h2 share an edge. */
+	.practice {
+		display: grid;
+		gap: 1rem;
+		max-width: 44rem;
+	}
+
+	.practice h2 {
+		font-size: var(--fs-h2);
+	}
+
+	.practice p {
+		max-width: 34rem;
+	}
+</style>

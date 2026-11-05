@@ -1,0 +1,304 @@
+---
+/**
+ * The quiet strip above the header that opens ภูรินท์'s dated update: what he
+ * is making and learning. Content lives in src/data/now.ts and
+ * src/data/en/now.ts.
+ *
+ * Built on the native <dialog>, so focus trapping, Escape, and the top layer
+ * come from the browser. Opening it needs JavaScript, so the strip only shows
+ * once the document is marked `html.js`: a visitor without JS loses a personal
+ * note, never navigation or a call to action.
+ *
+ * The title and group names are not heading elements on purpose. This sits
+ * before the page's h1 in the source, and the site keeps its outline h1 to h2
+ * to h3 with no skips.
+ */
+import Icon from "./Icon.astro";
+import ThaiText from "./ThaiText.astro";
+import { now as thaiNow } from "../data/now";
+import { now as enNow } from "../data/en/now";
+import type { Lang } from "../utils/locale";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const isEn = lang === "en";
+const now = isEn ? enNow : thaiNow;
+---
+
+<div class="now-strip">
+	<button class="now-open" type="button" aria-haspopup="dialog" data-now-open>
+		<span class="now-dot" aria-hidden="true"></span>
+		<span>{isEn ? now.strip : <ThaiText text={now.strip} />}</span>
+		<Icon name="arrow" size={14} />
+	</button>
+</div>
+
+<dialog class="now-dialog" aria-labelledby="now-title" data-now-dialog>
+	<button class="now-close" type="button" aria-label={now.close} data-now-close>
+		<svg
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="1.75"
+			stroke-linecap="round"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path d="M6 6l12 12"></path>
+			<path d="M18 6L6 18"></path>
+		</svg>
+	</button>
+
+	<div class="now-body">
+		<div class="now-heading">
+			<p class="now-title" id="now-title">{now.title}</p>
+			<p class="now-when">{now.when}</p>
+		</div>
+
+		{
+			now.groups.map((group) => (
+				<>
+					<p class="label">{group.label}</p>
+					<ul class="now-list">
+						{group.items.map((item) => (
+							<li>
+								{item.url ? (
+									<a
+										class="now-name"
+										href={item.url}
+										target={item.url.startsWith("http") ? "_blank" : undefined}
+										rel={item.url.startsWith("http") ? "noopener" : undefined}
+									>
+										{item.name}
+									</a>
+								) : (
+									<span class="now-name">{item.name}</span>
+								)}
+								{item.note && (
+									<span class="now-note">
+										{isEn ? item.note : <ThaiText text={item.note} />}
+									</span>
+								)}
+							</li>
+						))}
+					</ul>
+				</>
+			))
+		}
+	</div>
+</dialog>
+
+<script is:inline>
+	(function () {
+		var dialog = document.querySelector("[data-now-dialog]");
+		var open = document.querySelector("[data-now-open]");
+		if (!dialog || !open) return;
+
+		open.addEventListener("click", function () {
+			dialog.showModal();
+		});
+
+		// The dialog has no padding of its own, so a click whose target is the
+		// dialog itself can only have landed on the backdrop.
+		dialog.addEventListener("click", function (event) {
+			if (event.target === dialog || event.target.closest("[data-now-close]")) dialog.close();
+		});
+	})();
+</script>
+
+<style>
+	.now-strip {
+		display: none;
+		background: var(--warm);
+		border-bottom: 1px solid var(--rule-soft);
+	}
+
+	:global(html.js) .now-strip {
+		display: block;
+	}
+
+	.now-open {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		width: 100%;
+		min-height: 2.25rem;
+		padding: 0.25rem 1.375rem;
+		border: 0;
+		background: transparent;
+		color: var(--accent);
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: var(--fs-label);
+		line-height: 1.5;
+		cursor: pointer;
+	}
+
+	@media (pointer: coarse) {
+		.now-open {
+			min-height: 2.75rem;
+		}
+	}
+
+	.now-dot {
+		flex: none;
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 50%;
+		background: var(--honey);
+	}
+
+	.now-open :global(svg) {
+		flex: none;
+		transition: transform 180ms ease;
+	}
+
+	@media (hover: hover) {
+		.now-open:hover :global(svg) {
+			transform: translateX(3px);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.now-open :global(svg) {
+			transition: none;
+		}
+
+		.now-open:hover :global(svg) {
+			transform: none;
+		}
+	}
+
+	.now-dialog {
+		width: min(32rem, calc(100vw - 2.75rem));
+		max-height: calc(100dvh - 2.75rem);
+		padding: 0;
+		border: 1px solid var(--rule-soft);
+		border-radius: var(--radius);
+		/* The body scrolls, not the dialog, so its scrollbar stays inside the corners. */
+		overflow: hidden;
+		background: var(--paper);
+		color: var(--ink);
+		box-shadow: var(--shadow-md);
+	}
+
+	.now-dialog::backdrop {
+		background: rgba(42, 33, 26, 0.45);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.now-dialog[open] {
+			animation: now-rise 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+		}
+
+		.now-dialog[open]::backdrop {
+			animation: now-fade 260ms ease-out;
+		}
+	}
+
+	@keyframes now-rise {
+		from {
+			opacity: 0;
+			transform: translateY(0.5rem);
+		}
+	}
+
+	@keyframes now-fade {
+		from {
+			opacity: 0;
+		}
+	}
+
+	/* The scroller is this inner box, not the dialog, so a click on its
+	   scrollbar can never be mistaken for a click on the backdrop. */
+	.now-body {
+		display: grid;
+		gap: 0.875rem;
+		/* The dialog's limit minus its two 1px borders. */
+		max-height: calc(100dvh - 2.75rem - 2px);
+		padding: 1.5rem 1.25rem;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+
+	@media (min-width: 48em) {
+		.now-body {
+			padding: 1.75rem;
+		}
+	}
+
+	/* Outside the scroller so it stays reachable on a short phone screen, with
+	   the paper ground so text scrolling beneath it stays out of the way. */
+	.now-close {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		z-index: 1;
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		padding: 0.625rem;
+		border: 0;
+		border-radius: 10px;
+		background: var(--paper);
+		color: var(--accent);
+		cursor: pointer;
+	}
+
+	/* Clears the close button, which sits over this line. */
+	.now-title {
+		padding-right: 2.5rem;
+		font-family: var(--font-head);
+		font-weight: 600;
+		font-size: var(--fs-h3);
+		line-height: 1.35;
+	}
+
+	.now-heading {
+		display: grid;
+		gap: 0.125rem;
+	}
+
+	.now-when {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		line-height: 1.5;
+	}
+
+	.now-list {
+		display: grid;
+		gap: 0.875rem;
+		margin: 0 0 0.5rem;
+		padding: 0;
+		list-style: none;
+	}
+
+	.now-list li {
+		display: grid;
+		gap: 0.25rem;
+		min-width: 0;
+	}
+
+	.now-name {
+		justify-self: start;
+		font-family: var(--font-head);
+		font-weight: 500;
+		font-size: var(--fs-body);
+		line-height: 1.5;
+	}
+
+	a.now-name {
+		color: var(--accent);
+	}
+
+	.now-note {
+		color: var(--muted);
+		font-size: var(--fs-body-sm);
+		line-height: 1.78;
+	}
+</style>

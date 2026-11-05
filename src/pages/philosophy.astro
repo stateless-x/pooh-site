@@ -1,0 +1,41 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ThaiText from "../components/ThaiText.astro";
+import { philosophy } from "../data/philosophy";
+---
+
+<Layout
+	title="ชีวิตและปรัชญา | Pooh"
+	description="เรื่องชีวิตและปรัชญาที่ภูรินท์กำลังเรียนรู้ อัตตาและอนัตตา และการฝึกด้วยคำกำหนดในใจสั้น ๆ ทั้งในชีวิตประจำวันและตอนนั่งสมาธิ"
+>
+	<section class="page-head band-cream">
+		<div class="shell page-head-inner">
+			<h1>{philosophy.title}</h1>
+			<p class="lede"><ThaiText text={philosophy.lede} /></p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell practice">
+			<h2>{philosophy.practice.title}</h2>
+			{philosophy.practice.paragraphs.map((paragraph) => <p><ThaiText text={paragraph} /></p>)}
+		</div>
+	</section>
+</Layout>
+
+<style>
+	/* The same centred column as .page-head-inner, so the h1 and h2 share an edge. */
+	.practice {
+		display: grid;
+		gap: 1rem;
+		max-width: 44rem;
+	}
+
+	.practice h2 {
+		font-size: var(--fs-h2);
+	}
+
+	.practice p {
+		max-width: 34rem;
+	}
+</style>
