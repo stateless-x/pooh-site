@@ -136,6 +136,19 @@ function solid(outline: Shape): BufferGeometry {
 	return welded;
 }
 
+/** How much bigger the whole scene is drawn at the peak of the dance. */
+export const BEAR_GROW = 0.3;
+/** Where the tips of the ears and the edge of the floor disc sit in the square frame, from its top. */
+export const EARS_AT = 0.14;
+export const FEET_AT = 0.95;
+/** Below this width the hero stacks, the same as the 48em breakpoint in the pages. */
+export const STACKED_BELOW = 768;
+/** The clear space kept between the numeral and the ears when it floats above the bear, as a share of the screen. */
+const GAP = 0.015;
+const MARGIN = 0.02;
+/** How far a beat's pop may overshoot on a phone, where its room above the bear is reserved in advance. */
+const POP_ROOM = 1.12;
+
 /** What the numeral needs to know about the screen, in CSS pixels of the canvas. */
 export interface NumeralView {
 	width: number;
@@ -143,6 +156,9 @@ export interface NumeralView {
 	stageLeft: number;
 	stageTop: number;
 	stageSize: number;
+	/** The frame as it is drawn right now: larger than the stage while the bear has grown. */
+	drawTop: number;
+	drawSize: number;
 }
 
 export class Numeral {
@@ -150,6 +166,11 @@ export class Numeral {
 	readonly meshes: Mesh[] = [];
 	/** Where the numeral's centre is right now, in world units. */
 	readonly centre = new Vector3();
+	/**
+	 * On a phone, where the tips of the ears need to be for the numeral to fit above them,
+	 * in client pixels. Null when the bear can stay where it is.
+	 */
+	earTop: number | null = null;
 	/** Its world scale on the last frame it was showing, for the blast. */
 	lastScale = 1;
 	/** Called on every wall bounce of a dash; `high` alternates so the blips ping-pong. */
@@ -225,8 +246,8 @@ export class Numeral {
 
 		// Where the numeral lives on screen: it starts as wide as the bear's head, next to it,
 		// and grows to fill the viewport, drifting away from the bear so the digits stay
-		// readable. It takes whichever side has more room. On a phone the bear sits at the top
-		// of the page, so the numeral goes below it; above would put it right behind the bear.
+		// readable. It takes whichever side has more room. On a phone it floats above the
+		// bear's head instead, and earTop asks for the bear to slide down to make the room.
 		const startWidth = START_WIDTH * view.stageSize;
 		const aspect = HEIGHT / WIDTH;
 		// The numeral is a little tilted by its sway, and more while it spins in a dash, so its
@@ -237,8 +258,25 @@ export class Numeral {
 		const boxHeight = aspect * Math.cos(tilt) + Math.sin(tilt);
 		const restBoxWidth = Math.cos(0.05) + aspect * Math.sin(0.05);
 		const restBoxHeight = aspect * Math.cos(0.05) + Math.sin(0.05);
-		const fitWidth = Math.min((FILL * view.width) / boxWidth, (FILL * view.height) / boxHeight);
-		const finalWidth = Math.min((FILL * view.width) / restBoxWidth, (FILL * view.height) / restBoxHeight);
+		const stacked = view.width < STACKED_BELOW;
+		const gap = GAP * view.height;
+		const margin = MARGIN * view.height;
+		const bearHeight = (FEET_AT - EARS_AT) * view.stageSize * (1 + BEAR_GROW);
+		const roomAbove = view.height - 2 * margin - gap - bearHeight;
+		let fitWidth = Math.min((FILL * view.width) / boxWidth, (FILL * view.height) / boxHeight);
+		let finalWidth = Math.min((FILL * view.width) / restBoxWidth, (FILL * view.height) / restBoxHeight);
+		if (stacked) {
+			finalWidth = Math.max(START_WIDTH * view.stageSize, Math.min(finalWidth, roomAbove / restBoxHeight / POP_ROOM));
+			const planned = startWidth + (finalWidth - startWidth) * dance.growth;
+			fitWidth = Math.min(fitWidth, planned * POP_ROOM);
+			const ears = view.stageTop + EARS_AT * view.stageSize;
+			this.earTop = Math.min(
+				Math.max(ears, margin + planned * restBoxHeight * POP_ROOM + gap),
+				view.height - margin - (FEET_AT - EARS_AT) * view.drawSize,
+			);
+		} else {
+			this.earTop = null;
+		}
 		const startHeight = startWidth * aspect;
 		const stageCentre = view.stageLeft + view.stageSize / 2;
 		const startX = stageCentre;
@@ -273,8 +311,10 @@ export class Numeral {
 		const boxWidthPx = widthPx * boxWidth;
 		const boxHeightPx = widthPx * boxHeight;
 		const growth = Math.max(0, Math.min((widthPx - startWidth) / Math.max(finalWidth - startWidth, 1), 1));
-		const homeX = startX + (finalX - startX) * growth;
-		const homeY = startY + (finalY - startY) * growth;
+		const homeX = stacked ? stageCentre : startX + (finalX - startX) * growth;
+		const homeY = stacked
+			? view.drawTop + EARS_AT * view.drawSize - gap - boxHeightPx / 2
+			: startY + (finalY - startY) * growth;
 		if (!this.placed) {
 			// First frame: start at home, not in a corner.
 			this.x.value = homeX;
@@ -300,10 +340,10 @@ export class Numeral {
 		// Measure pixels per unit at the front face, which is the closest part and so the
 		// largest on screen, not at the origin behind it.
 		const halfFov = Math.tan((camera.fov * Math.PI) / 360);
-		const roughScale = widthPx / (WIDTH * (view.stageSize / (2 * -this.local.z * halfFov)));
+		const roughScale = widthPx / (WIDTH * (view.drawSize / (2 * -this.local.z * halfFov)));
 		const depthScale = Math.min(roughScale, MAX_DEPTH_SCALE);
 		const frontDepth = -this.local.z - FRONT * depthScale;
-		const scale = widthPx / (WIDTH * (view.stageSize / (2 * frontDepth * halfFov)));
+		const scale = widthPx / (WIDTH * (view.drawSize / (2 * frontDepth * halfFov)));
 		this.lastScale = scale;
 
 		// A squash is a small bulge, never more than a quarter either way.
@@ -402,6 +442,7 @@ export class Numeral {
 		this.y.damping = 16;
 		this.dashLeft = 0;
 		this.placed = false;
+		this.earTop = null;
 		this.group.visible = false;
 		this.group.scale.setScalar(0);
 		this.material.color.set(HONEY);

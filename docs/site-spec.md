@@ -1451,8 +1451,15 @@ contracts, and how to check them.
   `ScarfTailA`, and `ScarfTailB` by name, each with its pivot at the joint. The
   arms are modelled leaning 35 degrees forward, which is why the dance pose cancels
   that lean in the arm's own frame.
-- **Numeral side:** during the dance the numeral takes whichever side of the bear has
-  more room, so on a phone it sits below the bear rather than hidden behind it.
+- **Numeral position:** on a phone (below `STACKED_BELOW`, 768px) the numeral floats
+  above the bear's head with a clear gap, and the bear slides down as it grows to make
+  the room. The owner asked for it above the head, not touching it. On wider screens
+  it takes whichever side of the bear has more room.
+- **Bear growth:** `BEAR_GROW` draws the whole frame 30% larger through the camera's
+  view offset, so the bear, props, floor and chunks scale together with no pose
+  changes. `EARS_AT` and `FEET_AT` in `numeral.ts` describe the bear in that frame.
+  The numeral must measure pixels per unit from `drawSize`, not `stageSize`, or it
+  renders 30% too large.
 - **Loading:** `three` must never appear in a page's first load. Each home page
   loads exactly one script, the bootstrap, with no `modulepreload`. Other pages
   load none.

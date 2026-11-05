@@ -257,20 +257,21 @@ const { alt, attention, danceLabel } = Astro.props;
 		}
 	}
 
-	/* On phones the stage sits above the headline, so it stays compact and shrinks on short
-	   screens: the call to action below it has to stay as high as it can. The square frame
-	   is about 14 percent empty above the ears, so that much is pulled up into the hero's
-	   padding, and the 67 key moves out beside the bear so it does not cover the feet. */
+	/* On phones the stage sits above the headline, so it shrinks on short screens: the call
+	   to action below it still has to reach the first screen. The square frame is about 14
+	   percent empty above the ears, so that much is pulled up into the hero's padding, and
+	   the 67 key moves out beside the bear so it does not cover the feet. The width limit
+	   leaves room for that key on a narrow screen, or it would cause a sideways scroll. */
 	@media (max-width: 47.99em) {
 		.pooh-stage {
-			--stage-size: 13rem;
+			--stage-size: min(16rem, 100vw - 7rem);
 			width: var(--stage-size);
 			margin-top: calc(var(--stage-size) * -0.14);
 		}
 
 		@supports (height: 1svh) {
 			.pooh-stage {
-				--stage-size: min(13rem, 28svh);
+				--stage-size: min(16rem, 100vw - 7rem, 32svh);
 			}
 		}
 
@@ -285,6 +286,14 @@ const { alt, attention, danceLabel } = Astro.props;
 	   created by the scene script and exists only during a dance. */
 	.pooh-stage:global(.is-dancing) {
 		z-index: 101;
+	}
+
+	/* The key steps aside for the show and comes back when it is over. Hidden with visibility
+	   as well, so it cannot be reached while it is out of sight. */
+	.pooh-stage:global(.is-live.is-dancing) .dance {
+		opacity: 0;
+		visibility: hidden;
+		transition: none;
 	}
 
 	/* While the numeral is up the canvas covers the whole viewport, fixed in place, so it can

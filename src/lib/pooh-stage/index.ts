@@ -17,11 +17,11 @@ import { Bear } from "./bear";
 import { Burst } from "./burst";
 import { Dance } from "./dance";
 import { MoodBag } from "./moods";
-import { Numeral, type NumeralView } from "./numeral";
+import { BEAR_GROW, EARS_AT, FEET_AT, Numeral, STACKED_BELOW, type NumeralView } from "./numeral";
 import { Gaze, type GazeState } from "./gaze";
 import { Props } from "./props";
 import { MoodVoice } from "./sound";
-import { clamp } from "./spring";
+import { Spring, clamp } from "./spring";
 
 /** Longest frame step the simulation accepts, so a stalled tab does not fling the springs. */
 const MAX_DT = 1 / 30;
@@ -146,6 +146,8 @@ export async function mountPoohStage(
 			// Everything the dance added to the canvas goes back: the numeral, its chunks, the extra room.
 			numeral.reset();
 			burst.clear();
+			growth.value = growth.velocity = growth.target = 0;
+			slide.value = slide.velocity = slide.target = 0;
 			setFull(false);
 			danceButton.disabled = false;
 			danceButton.setAttribute("aria-pressed", "false");
@@ -156,11 +158,16 @@ export async function mountPoohStage(
 
 	// Size comes from the stage box, never the window, so the canvas follows the layout.
 	// While the dance runs the canvas instead covers the whole viewport (so the numeral can
-	// fill the screen) and the camera's view offset keeps the stage's own frame on exactly
-	// the same pixels, so the bear never moves.
+	// fill the screen) and the camera's view offset places the stage's frame on it. That
+	// offset is also how the bear grows: drawing the whole frame larger scales the bear, the
+	// props, the floor and the chunks together, and easing back restores the same size. On a
+	// phone it also slides the bear down to make room for the numeral above its head.
 	let full = false;
-	const view: NumeralView = { width: 0, height: 0, stageLeft: 0, stageTop: 0, stageSize: 0 };
-	const applied = { ratio: 0, width: 0, height: 0, left: 0, top: 0, size: 0 };
+	const view: NumeralView = { width: 0, height: 0, stageLeft: 0, stageTop: 0, stageSize: 0, drawTop: 0, drawSize: 0 };
+	const applied = { ratio: 0, width: 0, height: 0 };
+	const growth = new Spring(0, 60, 14);
+	const slide = new Spring(0, 160, 24);
+	let bearScale = 1;
 
 	const layout = () => {
 		const { clientWidth: size, clientHeight: height } = stage;
@@ -181,19 +188,22 @@ export async function mountPoohStage(
 			view.stageLeft = box.left;
 			view.stageTop = box.top;
 			view.stageSize = size;
-			// Only touch the canvas when something moved: resizing clears it.
-			if (
-				ratio !== applied.ratio ||
-				width !== applied.width ||
-				tall !== applied.height ||
-				box.left !== applied.left ||
-				box.top !== applied.top ||
-				size !== applied.size
-			) {
-				Object.assign(applied, { ratio, width, height: tall, left: box.left, top: box.top, size });
+			const drawSize = size * bearScale;
+			const drawLeft = box.left + size / 2 - drawSize / 2;
+			// A phone hangs the frame from the ears, wherever the numeral needs them. A wider
+			// screen grows the bear up from its feet, and keeps the ears on the screen.
+			const drawTop =
+				width < STACKED_BELOW
+					? box.top + EARS_AT * size + slide.value - EARS_AT * drawSize
+					: Math.max(box.top + FEET_AT * (size - drawSize), 0.02 * tall - EARS_AT * drawSize);
+			view.drawTop = drawTop;
+			view.drawSize = drawSize;
+			camera.setViewOffset(drawSize, drawSize, -drawLeft, -drawTop, width, tall);
+			// Only resize when the canvas itself changed: resizing clears it.
+			if (ratio !== applied.ratio || width !== applied.width || tall !== applied.height) {
+				Object.assign(applied, { ratio, width, height: tall });
 				renderer.setPixelRatio(ratio);
 				renderer.setSize(width, tall, false);
-				camera.setViewOffset(size, height, -box.left, -box.top, width, tall);
 				renderer.render(scene, camera);
 			}
 		}
@@ -230,8 +240,16 @@ export async function mountPoohStage(
 		const danceState = dance.update(dt, performance.now() / 1000);
 		bear.update(dt, elapsed, danceState.active ? FACING_FRONT : gaze.update(elapsed), danceState);
 		props.update(dt, elapsed, camera.quaternion, danceState);
-		// The canvas follows the stage as the page scrolls or the window changes.
-		if (full) layout();
+		if (full) {
+			// The bear grows with the numeral and shrinks back as the dance lets go.
+			growth.target = danceState.growth;
+			bearScale = 1 + BEAR_GROW * clamp(growth.update(dt), 0, 1) * danceState.weight;
+			const ears = stage.getBoundingClientRect().top + EARS_AT * stage.clientHeight;
+			slide.target = numeral.earTop === null ? 0 : (numeral.earTop - ears) * danceState.weight;
+			slide.update(dt);
+			// The canvas follows the stage as the page scrolls or the window changes.
+			layout();
+		}
 		numeral.update(dt, elapsed, camera, danceState, view);
 		if (danceState.blast) {
 			burst.explode(numeral.centre, numeral.lastScale, danceState.colour, floorAt(numeral.centre.z));
