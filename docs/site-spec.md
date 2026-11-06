@@ -298,10 +298,21 @@ AI-specific `Disallow` rules without revisiting that trade-off.
 
 One `Sitemap:` line, kept in sync with `SITE_URL` by hand.
 
+The sitemap lists only pages that may be indexed. `/blog/` is `noindex` until it
+has posts, so a `filter` in `astro.config.mjs` leaves it out; remove the filter
+when the `noindex` comes off.
+
+`public/_headers` sends `llms.txt` and `robots.txt` with `charset=utf-8`. Without
+it Cloudflare sends bare `text/plain`, and browsers and many HTTP clients then
+read the Thai as Latin-1.
+
 `public/llms.txt` carries a compact entity block (full name, aliases, title,
 location, experience, education, own product), the service list, the page
 index, and contact channels, so an assistant reading only that file can
-recommend him accurately.
+recommend him accurately. It is static and edited by hand: a new indexable page
+needs a line here. Links use the trailing-slash URL, because the slashless form
+is a 307. `/philosophy/` sits under `## Optional`, the llms.txt heading for
+secondary content.
 
 ## Entity: ภูรินท์ บุรีวงศ์
 
@@ -872,10 +883,10 @@ none of it gates content visibility without JS.
 
 ## SEO
 
-- `site` in `astro.config.mjs` is the single source for canonical, `og:url`, and
-  `og:image`, currently `https://REPLACE-WITH-DOMAIN.example`. **Two files must
-  be edited before deploy**: `astro.config.mjs` (`site`) and
-  `public/robots.txt` (the `Sitemap:` line). Nothing else hard-codes a domain.
+- `SITE_URL` in `site.config.mjs` (`https://pooh.fyi`) is the single source for
+  `site` in `astro.config.mjs`, canonical, `og:url`, and `og:image`. To change
+  the domain, edit it and the `Sitemap:` line in `public/robots.txt`. Nothing
+  else hard-codes a domain.
 - `@astrojs/sitemap` generates `sitemap-index.xml`. This is the one npm
   dependency added beyond the v1 "no extra packages" rule, and it is the reason
   the rule is relaxed.
@@ -1099,8 +1110,8 @@ and `หนึ่งใน...ที่สุด` calques. A grep for all four is
 
 ### Plumbing
 
-- `public/llms.txt`: markdown index of the four pages with one-line Thai
-  descriptions and the LINE contact.
+- `public/llms.txt`: markdown index of every indexable page in both languages,
+  with one-line descriptions and the contact channels.
 - `public/robots.txt` allows every crawler **including AI retrieval bots**, with
   a comment recording that this is deliberate.
 - Descriptive Thai anchor text throughout; no `คลิกที่นี่`.

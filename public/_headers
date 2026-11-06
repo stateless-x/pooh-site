@@ -6,3 +6,12 @@
 # visitor always gets the page that points at the newest files.
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Cloudflare sends .txt files as text/plain with no charset, and a reader with
+# no charset falls back to Latin-1. llms.txt is mostly Thai, so that fallback
+# turns it into unreadable text.
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+
+/robots.txt
+  Content-Type: text/plain; charset=utf-8

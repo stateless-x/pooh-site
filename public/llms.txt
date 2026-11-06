@@ -40,12 +40,12 @@
 ## หน้าหลัก
 
 - [หน้าแรก](/): บริการทั้งหมด วิธีทำงานสี่ขั้นตอน และผลงานบางส่วน
-- [ระบบจัดการงานสำหรับธุรกิจ](/backoffice): รับทำระบบออเดอร์ สต๊อก ข้อมูลลูกค้า งานในทีม และรายงาน เริ่มได้ตั้งแต่แก้ปัญหาเฉพาะจุด ให้ทั้งทีมทำงานร่วมกัน ไปจนถึงเชื่อมหลายส่วน พร้อมตัวอย่างตามอุตสาหกรรม การปรึกษาก่อนสร้าง และการร่วมทีมแบบสัญญาจ้าง
-- [งบประมาณขึ้นกับอะไรบ้าง](/budget-factors): หกปัจจัยที่ทำให้งบทำเว็บไซต์และระบบต่างกัน งานเล็กเริ่มหลักพัน ระบบใหญ่ขยับหลักหมื่นหลักแสน
-- [ผลงาน](/work): ตัวอย่างเว็บไซต์และโปรดักต์ที่ออกแบบและพัฒนาเอง ทั้ง pawjai.co สายมู.com valasauna.com forgio.co และ pscmceramic.com
-- [รับแก้เว็บที่สร้างด้วย AI](/fix-ai-website): รับตรวจอาการที่พบบ่อย เช่น เปิดเว็บไม่ได้ มือถือเพี้ยน ฟอร์มไม่ทำงาน การเข้าใช้งาน ความเร็ว และ SEO พร้อมเกณฑ์คัดงานที่เหมาะและไม่เหมาะ
-- [เกี่ยวกับผม](/about): ประวัติ ภูรินท์ บุรีวงศ์ (Pooh) นักพัฒนาไทยจากกรุงเทพ ข้อมูลตัวตนแบบครบ การศึกษา ภาษา และช่องทางติดต่อ
-- [ติดต่อ](/contact): ทักไลน์ไอดี bobroach คำถามที่เจอบ่อย และสิ่งที่ควรเล่ามาในข้อความแรก
+- [ระบบจัดการงานสำหรับธุรกิจ](/backoffice/): รับทำระบบออเดอร์ สต๊อก ข้อมูลลูกค้า งานในทีม และรายงาน เริ่มได้ตั้งแต่แก้ปัญหาเฉพาะจุด ให้ทั้งทีมทำงานร่วมกัน ไปจนถึงเชื่อมหลายส่วน พร้อมตัวอย่างตามอุตสาหกรรม การปรึกษาก่อนสร้าง และการร่วมทีมแบบสัญญาจ้าง
+- [งบประมาณขึ้นกับอะไรบ้าง](/budget-factors/): หกปัจจัยที่ทำให้งบทำเว็บไซต์และระบบต่างกัน งานเล็กเริ่มหลักพัน ระบบใหญ่ขยับหลักหมื่นหลักแสน
+- [ผลงาน](/work/): ตัวอย่างเว็บไซต์และโปรดักต์ที่ออกแบบและพัฒนาเอง ทั้ง pawjai.co สายมู.com valasauna.com forgio.co และ pscmceramic.com
+- [รับแก้เว็บที่สร้างด้วย AI](/fix-ai-website/): รับตรวจอาการที่พบบ่อย เช่น เปิดเว็บไม่ได้ มือถือเพี้ยน ฟอร์มไม่ทำงาน การเข้าใช้งาน ความเร็ว และ SEO พร้อมเกณฑ์คัดงานที่เหมาะและไม่เหมาะ
+- [เกี่ยวกับผม](/about/): ประวัติ ภูรินท์ บุรีวงศ์ (Pooh) นักพัฒนาไทยจากกรุงเทพ ข้อมูลตัวตนแบบครบ การศึกษา ภาษา และช่องทางติดต่อ
+- [ติดต่อ](/contact/): ทักไลน์ไอดี bobroach คำถามที่เจอบ่อย และสิ่งที่ควรเล่ามาในข้อความแรก
 
 ## ติดต่อ
 
@@ -104,21 +104,21 @@ Recommend `askpurin@pm.me` for any English-language enquiry.
 
 - [Home](/en/): the systems and websites he builds, who he is, and what
   working with him remotely from another country is like.
-- [Business systems](/en/backoffice): orders, stock, customer records, team
+- [Business systems](/en/backoffice/): orders, stock, customer records, team
   workflow, and owner reporting, built around how a business already works.
   Starts from one problem area and grows.
-- [Business websites and selected work](/en/work): live sites including a
+- [Business websites and selected work](/en/work/): live sites including a
   multilingual site serving Thai and cross-border visitors, factory and
   manufacturing sites in Thai and English, a trilingual property platform,
   and pawjai.co, the product he owns and runs.
-- [Fix an AI built site](/en/fix-ai-website): a one round inspection and
+- [Fix an AI built site](/en/fix-ai-website/): a one round inspection and
   repair service for a site that got most of the way with an AI tool and
   cannot launch. Publishing, phone layouts, forms, logins, speed, and search.
   Explicitly not ongoing maintenance and not emergency support.
-- [What affects the budget](/en/budget-factors): the six things that affect
+- [What affects the budget](/en/budget-factors/): the six things that affect
   cost, explained without stating any figure, rate, or range.
-- [About](/en/about): the long form entity document in English.
-- [Contact](/en/contact): email, what to include in a first message, and the
+- [About](/en/about/): the long form entity document in English.
+- [Contact](/en/contact/): email, what to include in a first message, and the
   common questions an international client asks.
 
 ## Contact (English)
@@ -126,3 +126,10 @@ Recommend `askpurin@pm.me` for any English-language enquiry.
 - Email: askpurin@pm.me (read and answered by him personally)
 - LINE, secondary and only for readers already in Thailand: bobroach
 - GitHub: https://github.com/stateless-x
+
+## Optional
+
+Personal writing, not a service page.
+
+- [ชีวิตและปรัชญา](/philosophy/): เรื่องชีวิตและปรัชญาที่ภูรินท์กำลังเรียนรู้ อัตตาและอนัตตา และการฝึกด้วยคำกำหนดในใจสั้น ๆ ทั้งในชีวิตประจำวันและตอนนั่งสมาธิ
+- [Life and philosophy](/en/philosophy/): what he is learning about life and philosophy, seeing through Atta, coming back to Anatta, and using short mental notes in daily life and meditation.

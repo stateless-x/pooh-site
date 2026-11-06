@@ -41,6 +41,10 @@ export default defineConfig({
   // crawler sees the Thai and English versions as one page in two languages.
   integrations: [
     sitemap({
+      // /blog/ is noindex until it has posts. Listing it here would show up in
+      // Search Console as "Submitted URL marked noindex". Drop this filter when
+      // the noindex comes off blog.astro.
+      filter: (page) => new URL(page).pathname !== '/blog/',
       i18n: {
         defaultLocale: 'th',
         locales: { th: 'th-TH', en: 'en-US' },

@@ -20,7 +20,8 @@ the domain is set in `site.config.mjs` and `public/robots.txt`.
 
 - `site.config.mjs` — single source of truth for site name, URL, LINE ID,
   GitHub, person identity. Edit here; propagates to canonical/OG/schema/
-  sitemap/llms.txt on build. `public/robots.txt` is the one manual mirror.
+  sitemap on build. `public/robots.txt` and `public/llms.txt` are static files
+  and are edited by hand.
 - `src/pages/` — index, about, backoffice, budget-factors, fix-ai-website, work,
   contact, philosophy, blog, 404, each mirrored under `en/` except blog.
 - `src/components/PoohStage.astro` + `src/lib/pooh-stage/` — the home hero's 3D
