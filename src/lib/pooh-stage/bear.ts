@@ -70,6 +70,10 @@ export class Bear {
 	private readonly tailAz = new Spring(0, 70, 5);
 	private readonly tailBz = new Spring(0, 70, 5);
 
+	/** 0 to 1: how much of the falling flail is blended in. */
+	private readonly fall = new Spring(0, 260, 26);
+	/** Seconds since the fall began; it keeps running while the flail fades out after landing. */
+	private flailTime = 0;
 	private hopY = 0;
 	private hopVy = 0;
 	private nextExcitedHop = 0;
@@ -166,7 +170,11 @@ export class Bear {
 		const step = yaw - this.previousYaw;
 		const yawVelocity = dt > 0 ? (step - TAU * Math.round(step / TAU)) / dt : 0;
 		this.previousYaw = yaw;
-		const dancing = dance.weight;
+		// Falling takes the body over from the dance until the bear has landed.
+		const flail = clamp(this.fall.update(dt), 0, 1);
+		this.flailTime += dt;
+		const ft = this.flailTime;
+		const dancing = dance.weight * (1 - flail);
 		// Singing: a gentle sway with nods in time, fading in and out so nothing snaps.
 		const singing =
 			reaction === "sing" ? ramp(age / 0.3) * ramp((REACTION_LENGTH.sing - age) / 0.3) : 0;
@@ -175,7 +183,8 @@ export class Bear {
 		// leans the body toward whichever hand is up (negative roll tips the top toward +X).
 		this.root.position.y =
 			this.hopY + dancing * 0.04 * Math.abs(Math.sin(dance.phase * TAU)) + singing * 0.015 * Math.abs(Math.sin(age * 4.5));
-		this.root.rotation.z = -0.07 * dance.swing * dancing + singing * 0.1 * Math.sin(age * 4.5);
+		this.root.rotation.z =
+			-0.07 * dance.swing * dancing + singing * 0.1 * Math.sin(age * 4.5) + flail * 0.22 * Math.sin(ft * 10);
 
 		const squash = this.squash.update(dt);
 		const breath = 0.012 * Math.sin(elapsed * 1.6);
@@ -186,8 +195,13 @@ export class Bear {
 		const shake = reaction === "shake" ? Math.sin(age * 18) * 0.55 * ramp(age * 10) * (1 - age / SHAKE_LENGTH) : 0;
 		this.head.rotation.y = this.headYaw.update(dt) + shake;
 		this.head.rotation.x =
-			this.headPitch.update(dt) + (reaction === "shake" ? 0.1 * Math.abs(shake) : 0) + singing * 0.16 * Math.sin(age * 9);
-		this.head.rotation.z = 0.12 * dance.swing * dancing - singing * 0.1 * Math.sin(age * 4.5);
+			this.headPitch.update(dt) +
+			(reaction === "shake" ? 0.1 * Math.abs(shake) : 0) +
+			singing * 0.16 * Math.sin(age * 9) -
+			// Woah: the head snaps back to look up at where it fell from.
+			flail * 0.3;
+		this.head.rotation.z =
+			0.12 * dance.swing * dancing - singing * 0.1 * Math.sin(age * 4.5) - flail * 0.15 * Math.sin(ft * 10);
 
 		const waving =
 			reaction === "wave" ? Math.sin(age * 11) * 0.4 * ramp((age - 0.25) / 0.25) * ramp((WAVE_LENGTH - age) / 0.15) : 0;
@@ -198,10 +212,11 @@ export class Bear {
 		// Both hands out to the sides like a pair of scales: one up while the other is down.
 		const leftDance = lerp(1.45 + 0.6 * dance.swing, 2.7, dance.raise);
 		const rightDance = lerp(-1.45 + 0.6 * dance.swing, -2.7, dance.raise);
-		const leftX = this.armLx.update(dt);
-		const rightX = this.armRx.update(dt);
-		const leftZ = this.armLz.update(dt) + waving;
-		const rightZ = this.armRz.update(dt);
+		// The flail windmills both arms high and out of step, faster than a spring could follow.
+		const leftX = lerp(this.armLx.update(dt), -0.4 + 0.5 * Math.sin(ft * 13), flail);
+		const rightX = lerp(this.armRx.update(dt), -0.4 - 0.5 * Math.sin(ft * 13), flail);
+		const leftZ = lerp(this.armLz.update(dt) + waving, 2.3 + 0.6 * Math.sin(ft * 16), flail);
+		const rightZ = lerp(this.armRz.update(dt), -2.3 + 0.6 * Math.sin(ft * 16), flail);
 		this.poseArm(this.armL, leftX, leftZ, leftDance, dancing);
 		this.poseArm(this.armR, rightX, rightZ, rightDance, dancing);
 		// The arms are short, so the dance enlarges them enough to read as a gesture.
@@ -256,6 +271,35 @@ export class Bear {
 			this.hop(0.35);
 			this.hopSpin.target = TAU;
 		}
+	}
+
+	/** Gathering for a jump the stage is about to move it through. */
+	crouch(): void {
+		this.squash.velocity -= 3;
+	}
+
+	/** Takeoff for that jump: a stretch up out of the crouch. */
+	leap(): void {
+		this.squash.velocity += 4;
+	}
+
+	/** The stage has dropped the bear: arms windmill and the body wobbles until it lands. */
+	startFall(): void {
+		this.flailTime = 0;
+		this.fall.target = 1;
+		// A startled stretch on the way up, before the drop.
+		this.squash.velocity += 3;
+	}
+
+	/** Touchdown after a drop the stage moved it through: the harder it lands, the deeper it squashes. */
+	land(speed: number): void {
+		this.endFall();
+		this.squash.velocity -= Math.min(speed * 1.6, 4.5);
+	}
+
+	/** The fall is over without a landing (the dance was stopped mid-air): just stop flailing. */
+	endFall(): void {
+		this.fall.target = 0;
 	}
 
 	beginSpin(): void {

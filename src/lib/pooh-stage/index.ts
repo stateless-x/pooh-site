@@ -37,6 +37,22 @@ const MAX_PIXELS = 3_200_000;
 const HINT_AFTER = 1.5;
 const HINT_EVERY = 5;
 
+/** On a phone the bear drops to the bottom of the screen for the 67, under this gravity in viewport heights per second squared. */
+const DROP_GRAVITY = 5;
+/** The drop opens with a startled pop upward, in viewport heights per second, so it reads as a fall and not a slide. */
+const DROP_POP = 0.85;
+
+/** On a wider screen the bear instead jumps to the bottom-left corner: a short crouch, then an arc this long, in seconds. */
+const LEAP_CROUCH = 0.12;
+const LEAP_TIME = 0.55;
+/** How high the arc rises above a straight line, as a share of the drawn frame. */
+const LEAP_ARC = 0.35;
+/** The left edge of what the bear holds (the clipboard), as a share of the frame from its left, measured. */
+const CONTENT_LEFT_AT = 0.05;
+/** Clear space the landing keeps from the left edge, and from the bottom (where the dance floor glow spreads past the feet), as a share of the screen. */
+const CORNER_INSET_X = 0.05;
+const CORNER_INSET_Y = 0.06;
+
 /** The page-level veil takes this long to clear once the dance is over. */
 const VEIL_FADE_OUT = 400;
 
@@ -154,6 +170,7 @@ export async function mountPoohStage(
 			burst.clear();
 			growth.value = growth.velocity = growth.target = 0;
 			slide.value = slide.velocity = slide.target = 0;
+			corner.amount = corner.arc = leapProgress = 0;
 			setFull(false);
 			danceButton.disabled = false;
 			danceButton.setAttribute("aria-pressed", "false");
@@ -173,6 +190,15 @@ export async function mountPoohStage(
 	const applied = { ratio: 0, width: 0, height: 0 };
 	const growth = new Spring(0, 60, 14);
 	const slide = new Spring(0, 160, 24);
+	// True from the 67 click until the bear touches down at the bottom of a phone screen.
+	let dropping = false;
+	// The drop only begins once the numeral asks for the room, which never happens on a wide screen.
+	let fallen = false;
+	// The wide-screen leap: when it began on the stage clock, how far through it is, and the
+	// share of the way to the corner the frame is drawn at (it eases back with the dance).
+	let leapStart: number | null = null;
+	let leapProgress = 0;
+	const corner = { amount: 0, arc: 0 };
 	let bearScale = 1;
 
 	const layout = () => {
@@ -195,13 +221,24 @@ export async function mountPoohStage(
 			view.stageTop = box.top;
 			view.stageSize = size;
 			const drawSize = size * bearScale;
-			const drawLeft = box.left + size / 2 - drawSize / 2;
+			let drawLeft = box.left + size / 2 - drawSize / 2;
 			// A phone hangs the frame from the ears, wherever the numeral needs them. A wider
-			// screen grows the bear up from its feet, and keeps the ears on the screen.
-			const drawTop =
-				width < STACKED_BELOW
-					? box.top + EARS_AT * size + slide.value - EARS_AT * drawSize
-					: Math.max(box.top + FEET_AT * (size - drawSize), 0.02 * tall - EARS_AT * drawSize);
+			// screen grows the bear up from its feet, keeps the ears on the screen, and leaps
+			// along an arc to the bottom-left corner.
+			let drawTop: number;
+			if (width < STACKED_BELOW) {
+				drawTop = box.top + EARS_AT * size + slide.value - EARS_AT * drawSize;
+			} else {
+				const homeTop = Math.max(box.top + FEET_AT * (size - drawSize), 0.02 * tall - EARS_AT * drawSize);
+				const cornerLeft = CORNER_INSET_X * width - CONTENT_LEFT_AT * drawSize;
+				const cornerTop = tall - CORNER_INSET_Y * tall - FEET_AT * drawSize;
+				drawLeft += (cornerLeft - drawLeft) * corner.amount;
+				drawTop = homeTop + (cornerTop - homeTop) * corner.amount - corner.arc * drawSize;
+				// The numeral keeps its distance from where the bear is drawn, not where the hero
+				// left a hole: the same box, moved with the frame and standing on the same feet.
+				view.stageLeft = drawLeft + drawSize / 2 - size / 2;
+				view.stageTop = drawTop + FEET_AT * (drawSize - size);
+			}
 			view.drawTop = drawTop;
 			view.drawSize = drawSize;
 			camera.setViewOffset(drawSize, drawSize, -drawLeft, -drawTop, width, tall);
@@ -264,9 +301,49 @@ export async function mountPoohStage(
 			// The bear grows with the numeral and shrinks back as the dance lets go.
 			growth.target = danceState.growth;
 			bearScale = 1 + BEAR_GROW * clamp(growth.update(dt), 0, 1) * danceState.weight;
+			if (view.width >= STACKED_BELOW) {
+				if (danceState.active) {
+					// Crouch, then a parabola: straight line in time, plus an arc that peaks halfway.
+					leapStart ??= elapsed;
+					const before = leapProgress;
+					leapProgress = clamp((elapsed - leapStart - LEAP_CROUCH) / LEAP_TIME, 0, 1);
+					if (before === 0 && leapProgress > 0) bear.leap();
+					if (before < 1 && leapProgress === 1) bear.land(2.5);
+					corner.amount = leapProgress;
+					corner.arc = LEAP_ARC * 4 * leapProgress * (1 - leapProgress);
+				} else {
+					// The way home eases out with the dance, from wherever the leap had got to.
+					corner.amount = leapProgress * danceState.weight;
+					corner.arc = 0;
+				}
+			}
 			const ears = stage.getBoundingClientRect().top + EARS_AT * stage.clientHeight;
-			slide.target = numeral.earTop === null ? 0 : (numeral.earTop - ears) * danceState.weight;
-			slide.update(dt);
+			const floor = numeral.earTop === null ? 0 : numeral.earTop - ears;
+			if (dropping && danceState.active) {
+				// The way down is a fall, not a glide: it speeds up until it lands, then squashes.
+				// earTop is still null on the click frame, so the drop waits for it.
+				if (floor > slide.value) {
+					if (!fallen) {
+						fallen = true;
+						slide.velocity = -DROP_POP * view.height;
+						bear.startFall();
+					}
+					slide.velocity += DROP_GRAVITY * view.height * dt;
+					slide.value = Math.min(slide.value + slide.velocity * dt, floor);
+					if (slide.value === floor) {
+						bear.land(slide.velocity / view.height);
+						slide.velocity = 0;
+						dropping = false;
+					}
+				}
+			} else {
+				// Stopped mid-air (Escape, a click on the veil): no landing, just stop flailing.
+				if (dropping) bear.endFall();
+				dropping = false;
+				// Landed, the spring keeps the feet on the floor as the bear grows; the way back up eases out with the dance.
+				slide.target = floor * (danceState.active ? 1 : danceState.weight);
+				slide.update(dt);
+			}
 			// The canvas follows the stage as the page scrolls or the window changes.
 			layout();
 		}
@@ -396,6 +473,11 @@ export async function mountPoohStage(
 		// The dance owns the sound from here: let any click voice go.
 		voice.stop();
 		dance.start(performance.now() / 1000);
+		dropping = true;
+		fallen = false;
+		leapStart = null;
+		leapProgress = 0;
+		bear.crouch();
 		// The canvas takes the whole screen for the numeral, drawn in the same tick so it
 		// never shows a blank frame.
 		setFull(true);
