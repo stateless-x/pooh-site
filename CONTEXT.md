@@ -20,7 +20,7 @@ The native English rewrite of the site under `/en/`, written from scratch for th
 The English edition's reader: either a foreign owner operating in or around Thailand, or a remote international client evaluating an engineer from abroad. Both are driven to email.
 
 ### Language switcher
-The visible TH/EN control in the navigation bar and hamburger menu. A visitor's explicit choice always wins over browser-language detection and is remembered.
+The visible TH/EN control in the navigation bar and hamburger menu. A visitor's explicit choice is remembered; the site never guesses a language from browser settings.
 
 ### Mascot stage
 The interactive three.js bear in the home hero of both editions, which loads behind a still poster.

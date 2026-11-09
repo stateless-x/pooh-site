@@ -55,7 +55,7 @@ export const now: Now = {
 		},
 		{
 			label: "กำลังเรียนรู้",
-			items: [{ name: "ชีวิตและปรัชญา", url: "/philosophy" }],
+			items: [{ name: "ชีวิตและปรัชญา", url: "/philosophy/" }],
 		},
 	],
 };

@@ -1390,12 +1390,16 @@ language.
   still holds. Measured at 320 with the `js` class removed, on both editions:
   no horizontal scroll, and the switcher adds zero height because it shares a
   wrapped row with the header CTA.
-- **Browser-language detection**, Thai pages only, a few dependency-free
-  inline lines. An explicit stored choice (`lang`) always wins. A first-visit
-  flag (`langseen`) is set whether or not a redirect happens, so a visitor who
-  switches back to Thai is never bounced again. It can only ever send someone
-  to that page's own English counterpart, computed server-side from the map.
-  Thai is the fallback whenever it cannot decide.
+- **Remembered language choice**, Thai pages only, a few dependency-free
+  inline lines. A visitor who picked English in the switcher (`lang` in
+  localStorage) is sent to that page's own English counterpart, computed
+  server-side from the map. There is **no guessing from the browser
+  language**: it was removed on 2026-11-09 because Googlebot renders with an
+  English locale and no stored state, so every Thai page redirected to `/en/`
+  during rendering and Search Console reported the English pages as
+  "Duplicate, Google chose different canonical than user". It also sent Thai
+  visitors with English-language phones to the wrong edition. hreflang routes
+  search traffic; the switcher covers everyone else.
 
 ## Audit pipeline additions
 

@@ -69,10 +69,9 @@ const hreflangs: { hreflang: string; href: string }[] = [
 // the one path map. Undefined on a page with no counterpart, which renders
 // the other language as plain text instead of a broken link.
 const switchHref = switchTarget(Astro.url.pathname, isEn ? "th" : "en");
-// The same map decides where a first-time English-preferring visitor is sent.
-// Computing it here rather than in the browser keeps the detection script to
-// a few dependency-free lines and stops the map being duplicated in JS.
-const detectHref = isEn ? undefined : pair.en;
+// The same map decides where a visitor who chose English in the switcher is
+// sent from a Thai page. Computing it here keeps the map out of client JS.
+const rememberedHref = isEn ? undefined : pair.en;
 
 const schemaBlocks = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 
@@ -85,11 +84,11 @@ const schemaBlocks = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 // link the logo already provides. The logo carries aria-label "Pooh หน้าแรก",
 // so home stays reachable and named for assistive tech.
 const navTh = [
-	{ href: "/backoffice", label: "ระบบธุรกิจ" },
-	{ href: "/budget-factors", label: "งบประมาณ" },
-	{ href: "/work", label: "ผลงาน" },
-	{ href: "/blog", label: "บทความ" },
-	{ href: "/contact", label: "ติดต่อ" },
+	{ href: "/backoffice/", label: "ระบบธุรกิจ" },
+	{ href: "/budget-factors/", label: "งบประมาณ" },
+	{ href: "/work/", label: "ผลงาน" },
+	{ href: "/blog/", label: "บทความ" },
+	{ href: "/contact/", label: "ติดต่อ" },
 ];
 
 // The English nav has no blog: the blog is Thai-only, so listing it here
@@ -115,8 +114,8 @@ const footNav = isEn
 	: [
 			{ href: "/", label: "หน้าแรก" },
 			...navTh,
-			{ href: "/about", label: "เกี่ยวกับผม" },
-			{ href: "/fix-ai-website", label: "รับแก้เว็บที่สร้างด้วย AI" },
+			{ href: "/about/", label: "เกี่ยวกับผม" },
+			{ href: "/fix-ai-website/", label: "รับแก้เว็บที่สร้างด้วย AI" },
 		];
 
 // Every string of chrome the layout renders, in both editions. The English
@@ -236,47 +235,30 @@ const t = isEn
 		<script is:inline>
 			document.documentElement.classList.add("js");
 		</script>
-		{/* Browser-language detection. Thai pages only, and only for a visitor
-		    who has neither chosen a language nor been offered this redirect
-		    before. Thai is always the fallback: nothing here can send a
-		    visitor anywhere except to this page's own English counterpart,
-		    and only when English clearly outranks Thai in their preferences.
+		{/* Remembered language choice. Thai pages only: a visitor who picked
+		    English in the switcher is sent to this page's English counterpart.
 
-		    Two separate guards stop the flash-loop. `lang` is the explicit
-		    choice from the switcher and always wins. `langseen` is set on the
-		    first visit whether or not a redirect happened, so a visitor who
-		    switches back to Thai is never bounced again.
+		    Do NOT bring back guessing from navigator.languages. Googlebot
+		    renders with an English locale and no stored state, so a guess
+		    redirected every Thai page to /en/ during rendering, and Google
+		    folded the English pages into the Thai ones ("Duplicate, Google
+		    chose different canonical than user"). It also sent Thai visitors
+		    with English-language phones to the wrong edition. Search traffic
+		    is routed by hreflang; everyone else has the visible switcher.
+		    A stored choice is safe because a crawler never clicks it.
 
 		    The destination is interpolated from the same path map the
 		    hreflang tags use, so it can never point at a page that does not
 		    exist. Pages with no English counterpart render no script. */}
 		{
-			detectHref && (
-				<script is:inline define:vars={{ detectHref }}>
-					(function () {
-						try {
-							var chosen = localStorage.getItem("lang");
-							if (chosen === "en") {
-								location.replace(detectHref);
-								return;
-							}
-							if (chosen || localStorage.getItem("langseen")) return;
-							localStorage.setItem("langseen", "1");
-							var langs = navigator.languages || [navigator.language || ""];
-							for (var i = 0; i < langs.length; i++) {
-								var l = String(langs[i]).toLowerCase();
-								// First hit wins: Thai ahead of English means stay.
-								if (l.indexOf("th") === 0) return;
-								if (l.indexOf("en") === 0) {
-									location.replace(detectHref);
-									return;
-								}
-							}
-						} catch (e) {
-							// Private mode can throw on localStorage. Thai is the
-							// fallback, so doing nothing is the correct outcome.
-						}
-					})();
+			rememberedHref && (
+				<script is:inline define:vars={{ rememberedHref }}>
+					try {
+						if (localStorage.getItem("lang") === "en") location.replace(rememberedHref);
+					} catch (e) {
+						// Private mode can throw on localStorage. Staying on the
+						// Thai page is the correct outcome.
+					}
 				</script>
 			)
 		}
@@ -722,11 +704,8 @@ const t = isEn
 			})();
 		</script>
 
-		{/* Records the visitor's explicit language choice. This is the value
-		    the detection script above checks first, so once someone picks a
-		    language the browser's preference never overrides them again.
-		    `langseen` is set alongside it so a visitor who switches back to
-		    Thai is not bounced to English by a later first-visit check. */}
+		{/* Records the visitor's explicit language choice, which the
+		    remembered-choice script in the head reads on Thai pages. */}
 		<script is:inline>
 			(function () {
 				var picks = document.querySelectorAll("[data-lang-pick]");
@@ -734,7 +713,6 @@ const t = isEn
 					picks[i].addEventListener("click", function () {
 						try {
 							localStorage.setItem("lang", this.getAttribute("data-lang-pick"));
-							localStorage.setItem("langseen", "1");
 						} catch (e) {
 							// Storage refused: the click still navigates, the
 							// choice simply is not remembered for next time.

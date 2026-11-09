@@ -155,14 +155,14 @@ review still fails: structure sells, and the person stays modest.
   alternates, with x-default pointing at Thai because Thai is the fallback.
   `/blog` is Thai-only and correctly emits no `en` alternate.
 - `src/utils/locale.ts` is the single path map. hreflang, the switcher, the
-  detection script, and nav `aria-current` all read it, so an alternate can
+  remembered-choice script, and nav `aria-current` all read it, so an alternate can
   never point at a page that does not exist.
 - A TH/EN switcher appears in the desktop header and the mobile drawer on
-  every page of both editions. An explicit choice is stored and always beats
-  browser detection.
-- Browser-language detection runs on Thai pages only, once per visitor, and
-  can only ever send someone to that page's own English counterpart. Thai is
-  the fallback whenever it cannot decide.
+  every page of both editions. An explicit choice is stored, and a visitor
+  who chose English is sent from a Thai page to its English counterpart.
+- No redirect is ever guessed from the browser language: Googlebot renders
+  with an English locale, so a guess folded the English pages into the Thai
+  ones in Google's index (see `docs/site-spec.md`). Thai is the default.
 
 Undecided: blog (`docs/blog-plan.md` — planned, not built, owner decision pending).
 

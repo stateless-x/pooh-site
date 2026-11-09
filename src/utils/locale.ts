@@ -2,14 +2,14 @@
  * The one place that knows which Thai page pairs with which English page.
  *
  * Four consumers read this map and they must never disagree: the hreflang
- * alternate tags, the visible TH/EN switcher href, the browser-language
- * detection script in the Thai head, and the nav's aria-current matching.
+ * alternate tags, the visible TH/EN switcher href, the remembered-choice
+ * script in the Thai head, and the nav's aria-current matching.
  * Duplicating the pairing in any of them is how an hreflang ends up pointing
  * at a page that does not exist.
  *
  * The pairing is EXPLICIT, never a string prefix. `/blog` is Thai-only, so
  * "/en" + pathname would emit an alternate pointing at a 404 and would bounce
- * a detected English reader into nothing. A path absent from this map simply
+ * an English reader into nothing. A path absent from this map simply
  * has no counterpart, which every consumer handles by omitting the alternate
  * and hiding the switch.
  */

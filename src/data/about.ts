@@ -13,7 +13,7 @@ export const aboutParagraphs = [
 
 /** Link that follows the second paragraph. */
 export const aboutLink = {
-	href: "/about",
+	href: "/about/",
 	label: "รู้จักผมให้มากขึ้น",
 } as const;
 
