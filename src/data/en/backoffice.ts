@@ -134,6 +134,6 @@ export const enBackofficeFaq: QA[] = [
 	},
 	{
 		q: "I run a business in Thailand but I am not Thai. Does that complicate things?",
-		a: "Not really, and in some ways it helps. I work in English and Thai, so I can build you an owner's view in English and a staff view in Thai from the same system, and you are not relying on someone to translate between you and your own software. I have built sites and systems that run in more than one language before, including one serving Thai and cross-border customers at the same time.",
+		a: "Not really, and in some ways it helps. I work in English and Thai, so I can build you an owner's view in English and a staff view in Thai from the same system, and you are not relying on someone to translate between you and your own software. I have built sites and systems that run in more than one language before, including one serving Thai and cross border customers at the same time.",
 	},
 ];

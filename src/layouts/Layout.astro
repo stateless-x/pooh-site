@@ -50,7 +50,7 @@ const canonical = new URL(isEn ? (pair.en ?? path) : (pair.th ?? path), Astro.si
 // src/assets/images/illustrations/pooh-portfolio.webp (see public/og.jpg).
 const ogImage = new URL("/og.jpg", Astro.site);
 const ogImageAlt = isEn
-	? "Purin Buriwong (Pooh), freelance software developer in Bangkok, Thailand, who builds business websites and back-office systems"
+	? "Purin Buriwong (Pooh), freelance software developer in Bangkok, Thailand, who builds business websites and back office systems"
 	: `${PERSON_NAME} ${IDENTITY_PHRASE} รับทำเว็บไซต์และระบบสำหรับธุรกิจ`;
 
 // hreflang. x-default points at Thai because Thai is the fallback language:
@@ -143,7 +143,7 @@ const t = isEn
 			// English page. Names the city and the country outright: it is what
 			// the reader wants to know and what an answer engine can quote.
 			footNote:
-				"Purin Buriwong (Pooh), freelance software developer based in Bangkok, Thailand. Business websites and back-office systems, for customers here and remote.",
+				"Purin Buriwong (Pooh), freelance software developer based in Bangkok, Thailand. Business websites and back office systems, for customers here and remote.",
 			footCtaLabel: "Happy to hear about your project",
 			footCtaButton: "Email me",
 			footCtaNote: "I read and answer every message myself.",

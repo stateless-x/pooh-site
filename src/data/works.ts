@@ -66,7 +66,7 @@ export interface Work {
 	/**
 	 * Position in the English home teaser. Deliberately its own rank: the
 	 * English buyer is a foreign owner or a remote client, so the multilingual
-	 * and cross-border work leads instead of the Thai factory systems.
+	 * and cross border work leads instead of the Thai factory systems.
 	 */
 	teaserEn?: 1 | 2 | 3;
 }
@@ -126,7 +126,7 @@ export const works: Work[] = [
 			alt: "Three dimensional illustration of the Pooh mascot presenting an online fortune telling site",
 			label: "Illustration for the fortune telling site project",
 			short: "An online fortune telling site that gives every visitor a different answer.",
-			long: "An online fortune telling site I designed and built for a client. It blends Thai astrology, Chinese Bazi, and a personality test, then gives each visitor an answer based on their own details. It also carries a plain-language glossary and a question page, so a first-time visitor never has to guess what a term means.",
+			long: "An online fortune telling site I designed and built for a client. It blends Thai astrology, Chinese Bazi, and a personality test, then gives each visitor an answer based on their own details. It also carries a plain language glossary and a question page, so a new visitor never has to guess what a term means.",
 		},
 	},
 	{

@@ -9,7 +9,7 @@ export const philosophy = {
 	practice: {
 		title: "Atta and Anatta",
 		paragraphs: [
-			"I am practising how to keep seeing through the illusion of Atta (self) and come back to the reality of Anatta (non-self).",
+			"I am practising how to keep seeing through the illusion of Atta (self) and come back to the reality of Anatta (not self).",
 			"It takes no magic phrase and no prayer. It takes short mental notes, used in daily life and in meditation, that interrupt the ego's habits as they start.",
 			"In Buddhism this practice is called Yonisomanasikara (analytical reflection) or Vipassana (insight noting).",
 		],
